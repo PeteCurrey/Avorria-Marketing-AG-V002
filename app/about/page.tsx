@@ -13,19 +13,19 @@ export const metadata: Metadata = generatePageMetadata({
 
 const disciplines = [
   {
-    title: 'Web Development',
-    description: 'High-performance websites and web applications — from marketing platforms to complex SaaS products.',
-    href: '/services/web-development',
+    title: '01 // Build',
+    description: 'High-performance digital flagships, bespoke web software, and interactive platforms engineered with surgical typography and instant LCP.',
+    href: '/services/build',
   },
   {
-    title: 'AI Development',
-    description: 'AI built to solve real business problems. Integrations, agents, workflows and AI-native product functionality.',
-    href: '/services/ai-development',
+    title: '02 // Search',
+    description: 'Enterprise technical search architecture, high-risk migration safeguards, semantic entity graphs, and organic market dominance.',
+    href: '/services/search',
   },
   {
-    title: 'Digital Systems',
-    description: 'Data, APIs, automation and connected business platforms that make digital infrastructure genuinely useful.',
-    href: '/services/digital-systems',
+    title: '03 // Systems',
+    description: 'Commercial data infrastructure, Stripe billing pipelines, autonomous scout engines, and real-time operational telemetry.',
+    href: '/services/systems',
   },
 ]
 

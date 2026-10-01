@@ -77,7 +77,7 @@ export function ChapterRenderer({
             caption={chapter.media.caption}
             spec={chapter.media.spec}
           >
-            <div className="w-full h-full flex flex-col justify-between p-8 md:p-12 bg-gradient-to-br from-[#1A1916] to-[#252320] text-[var(--color-ivory)]">
+            <div className="w-full h-full flex flex-col justify-between p-8 md:p-12 bg-[#141311] text-[var(--color-ivory)] border border-white/5">
               <div className="flex items-center justify-between text-[11px] font-mono text-[var(--color-graphite-muted)] uppercase">
                 <span>INTERVENTION CAPTURE // {projectSlug}</span>
                 <span>TYPE: {chapter.media.type}</span>

@@ -37,10 +37,15 @@ export async function createTestUser(opts: {
   role: 'CLIENT' | 'TEAM' | 'ADMIN'
   organisationId?: string
 }): Promise<{ userId: string; cleanup: () => Promise<void> }> {
-  const admin = adminClient()
+  // Use service role with explicit auth admin API URL
+  const client = createClient<Database>(SUPABASE_URL, SERVICE_ROLE_KEY, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  })
 
-  // Create user
-  const { data, error } = await admin.auth.admin.createUser({
+  const { data, error } = await client.auth.admin.createUser({
     email: opts.email,
     password: opts.password,
     email_confirm: true,
@@ -50,13 +55,22 @@ export async function createTestUser(opts: {
     },
   })
 
-  if (error || !data.user) throw new Error(`createTestUser failed: ${error?.message}`)
+  if (error || !data.user) {
+    throw new Error(
+      `createTestUser failed: ${error?.message ?? 'no user returned'}\n` +
+      `Ensure SUPABASE_SERVICE_ROLE_KEY is set and the project allows auth admin API.`
+    )
+  }
   const userId = data.user.id
 
   return {
     userId,
     cleanup: async () => {
-      await admin.auth.admin.deleteUser(userId)
+      try {
+        await client.auth.admin.deleteUser(userId)
+      } catch {
+        // Best effort cleanup
+      }
     },
   }
 }

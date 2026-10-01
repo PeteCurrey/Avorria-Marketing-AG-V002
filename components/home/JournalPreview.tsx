@@ -2,10 +2,10 @@ import Link from 'next/link'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { Button } from '@/components/ui/Button'
-import { getLobbyArticles } from '@/content/lobby'
+import { getAllArticles } from '@/lib/lobby'
 
-export function JournalPreview() {
-  const articles = getLobbyArticles().slice(0, 3)
+export async function JournalPreview() {
+  const articles = (await getAllArticles()).slice(0, 3)
 
   return (
     <section
@@ -44,19 +44,19 @@ export function JournalPreview() {
                 >
                   <div className="grid grid-cols-1 md:grid-cols-[140px_1fr_auto] gap-4 md:gap-8 items-center">
                     <p className="text-label-upper font-mono text-[var(--color-accent)]">
-                      [{article.category}]
+                      [{article.categoryLabel}]
                     </p>
                     <div>
                       <h3 className="text-[var(--text-heading)] font-display font-light text-[var(--color-graphite)] group-hover:text-[var(--color-accent)] transition-colors duration-[var(--duration-base)] mb-1 uppercase">
                         {article.title}
                       </h3>
                       <p className="text-[var(--text-small)] text-secondary line-clamp-1 font-light">
-                        {article.synopsis}
+                        {article.dek}
                       </p>
                     </div>
                     <div className="hidden md:flex items-center gap-4">
                       <span className="text-label-upper text-muted font-mono">
-                        {article.readTime}
+                        {article.readTimeMinutes} MIN READ
                       </span>
                       <span
                         className="text-muted group-hover:text-[var(--color-accent)] group-hover:translate-x-1 transition-all duration-[var(--duration-base)]"

@@ -31,11 +31,11 @@ export default function PricingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="border border-[var(--color-border)] divide-y lg:divide-y-0 lg:divide-x divide-[var(--color-border)] grid grid-cols-1 lg:grid-cols-3 bg-[var(--color-ivory-dark)]">
             {PRICING_MODELS.map((model) => (
               <div
                 key={model.id}
-                className="border border-[var(--color-border)] p-8 bg-[var(--color-ivory-dark)] flex flex-col justify-between"
+                className="p-8 md:p-10 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-4 mb-6">
