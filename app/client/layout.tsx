@@ -23,7 +23,7 @@ export default async function ClientLayout({ children }: ClientLayoutProps) {
   const session = await getSession()
 
   if (!session) {
-    redirect('/client/login')
+    return <>{children}</>
   }
 
   // ADMIN and TEAM users should use the admin portal

@@ -36,7 +36,7 @@ export function TechStack() {
                     key={tech.name}
                     className="border-l border-t border-[var(--color-border)] p-6 last-of-type:border-r"
                   >
-                    <p className="text-label-upper text-[var(--color-graphite-muted)] mb-2">
+                    <p className="text-label-upper text-[var(--color-graphite-mid)] mb-2">
                       {tech.category}
                     </p>
                     <p className="text-[var(--text-small)] font-light text-[var(--color-graphite)]">

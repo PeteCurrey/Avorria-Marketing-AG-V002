@@ -347,7 +347,7 @@
     font-weight: 300;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--color-graphite-muted);
+    color: var(--color-graphite-mid);
   }
 
   .text-body-l {
@@ -513,20 +513,28 @@
     to   { transform: translateY(0); }
   }
 
-  /* Hero stagger delays */
-  .js .hero-eyebrow  { opacity: 0; animation: hero-fade-up var(--duration-reveal) var(--ease-out) 0ms    both; }
-  .js .hero-line-1   .line-inner { animation-delay: 80ms; }
-  .js .hero-line-2   .line-inner { animation-delay: 160ms; }
-  .js .hero-line-3   .line-inner { animation-delay: 240ms; }
-  .js .hero-para     { opacity: 0; animation: hero-fade-up var(--duration-reveal) var(--ease-out) 360ms  both; }
-  .js .hero-ctas     { opacity: 0; animation: hero-fade-up var(--duration-reveal) var(--ease-out) 440ms  both; }
-  .js .hero-scroll   { opacity: 0; animation: hero-fade-up var(--duration-reveal) var(--ease-out) 800ms  both; }
+  /* Hero stagger delays — translateY reveal only (no opacity:0 start = Axe safe, LCP safe)
+     Visual reveal achieved via transform clip — elements are always opacity:1 */
+  .js .hero-eyebrow { animation: hero-rise var(--duration-reveal) var(--ease-out) 0ms    both; }
+  .js .hero-line-1 .line-inner { animation-delay: 80ms; }
+  .js .hero-line-2 .line-inner { animation-delay: 160ms; }
+  .js .hero-line-3 .line-inner { animation-delay: 240ms; }
+  .js .hero-para    { animation: hero-rise var(--duration-reveal) var(--ease-out) 360ms  both; }
+  .js .hero-ctas    { animation: hero-rise var(--duration-reveal) var(--ease-out) 440ms  both; }
+  .js .hero-scroll  { animation: hero-rise var(--duration-reveal) var(--ease-out) 800ms  both; }
 
   /* Hero image: starts fully visible, slow scale 1.04 → 1 */
   .js .hero-image-wrap {
     animation: hero-image-scale 1400ms var(--ease-out) both;
   }
 
+  /* hero-rise: transform-only reveal — opacity always 1, Axe safe */
+  @keyframes hero-rise {
+    from { transform: translateY(14px); }
+    to   { transform: translateY(0); }
+  }
+
+  /* hero-fade-up: kept for any non-hero usage; not used on hero elements any more */
   @keyframes hero-fade-up {
     from { opacity: 0; transform: translateY(14px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -599,8 +607,9 @@
     .js .hero-scroll,
     .js [data-reveal],
     .js [data-reveal-stagger] > [data-child] {
-      animation: rm-fade 150ms ease both !important;
+      animation: none !important;
       transform: none !important;
+      opacity: 1 !important;
     }
 
     @keyframes rm-fade {

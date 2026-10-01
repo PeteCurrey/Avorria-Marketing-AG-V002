@@ -93,7 +93,7 @@ export function Footer() {
                     className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] hover:text-[var(--color-accent)] transition-colors duration-[var(--duration-base)] flex items-center gap-1.5"
                   >
                     <span>Client Portal</span>
-                    <span className="text-[0.625rem] border border-[var(--color-border)] px-1 py-0.2 text-muted">SECURE</span>
+                    <span className="text-[var(--text-label)] border border-[var(--color-border)] px-1 text-[var(--color-graphite-mid)]">SECURE</span>
                   </Link>
                 </li>
               </ul>

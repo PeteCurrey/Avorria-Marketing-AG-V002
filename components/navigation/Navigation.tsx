@@ -263,7 +263,7 @@ function AvorriaMark() {
         AVORRIA
       </span>
       <span
-        className="hidden md:block text-[0.5625rem] tracking-[0.2em] font-light text-[var(--color-graphite-muted)] uppercase leading-none mt-0.5"
+        className="hidden md:block text-[0.5625rem] tracking-[0.2em] font-light text-[var(--color-graphite-mid)] uppercase leading-none mt-0.5"
         aria-hidden="true"
       >
         DIGITAL STUDIO
