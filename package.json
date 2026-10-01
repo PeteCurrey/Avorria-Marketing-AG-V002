@@ -7,7 +7,9 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:fonts": "! grep -rn --include='*.tsx' --include='*.ts' --include='*.css' 'font-bold\\|font-semibold\\|font-medium\\|font-weight.*[56789][0-9][0-9]\\|fontWeight.*[56789][0-9][0-9]' . --exclude-dir=node_modules --exclude-dir=.next && echo 'Font weight check passed — no violations found.'",
+    "check:all": "pnpm run typecheck && pnpm run check:fonts"
   },
   "dependencies": {
     "next": "16.3.8",

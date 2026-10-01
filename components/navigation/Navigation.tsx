@@ -2,17 +2,18 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { track } from '@/lib/analytics'
 
+// ─── Nav links — Phase 2A: Journal → The Lobby ────────────────────────────────
 const navLinks = [
-  { label: 'Work', href: '/work' },
-  { label: 'Services', href: '/services' },
-  { label: 'Process', href: '/process' },
-  { label: 'About', href: '/about' },
-  { label: 'Journal', href: '/journal' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Work',       href: '/work' },
+  { label: 'Services',   href: '/services' },
+  { label: 'Process',    href: '/process' },
+  { label: 'About',      href: '/about' },
+  { label: 'The Lobby',  href: '/lobby' },
+  { label: 'Contact',    href: '/contact' },
 ]
 
 function isActiveLink(pathname: string, href: string): boolean {
@@ -27,7 +28,7 @@ export function Navigation() {
   const mobileMenuRef = useRef<HTMLDivElement>(null)
   const mobileButtonRef = useRef<HTMLButtonElement>(null)
 
-  // Scroll detection for navigation border
+  // 1px hairline fades in after scroll
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -39,7 +40,7 @@ export function Navigation() {
     setMobileOpen(false)
   }, [pathname])
 
-  // Trap focus in mobile menu
+  // Focus trap in mobile menu
   useEffect(() => {
     if (!mobileOpen) return
     const el = mobileMenuRef.current
@@ -95,39 +96,48 @@ export function Navigation() {
             className="flex items-center justify-between h-16 md:h-20"
             aria-label="Primary navigation"
           >
-            {/* Wordmark */}
+            {/* SVG Wordmark */}
             <Link
               href="/"
-              className="font-display text-[1.125rem] tracking-[0.16em] uppercase font-light text-[var(--color-graphite)] hover:text-[var(--color-accent)] transition-colors duration-[var(--duration-base)]"
+              className="shrink-0 link-hover"
               aria-label="Avorria — Home"
             >
-              AVORRIA
+              <AvorriaMark />
             </Link>
 
-            {/* Desktop nav */}
+            {/* Desktop nav — centred */}
             <ul className="hidden lg:flex items-center gap-8" role="list">
-              {navLinks.map(({ label, href }) => (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    className={[
-                      'text-[var(--text-small)] font-light tracking-[0.03em]',
-                      'transition-colors duration-[var(--duration-base)]',
-                      'relative pb-0.5',
-                      isActiveLink(pathname, href)
-                        ? 'text-[var(--color-graphite)] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-[var(--color-accent)]'
-                        : 'text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)]',
-                    ].join(' ')}
-                    aria-current={isActiveLink(pathname, href) ? 'page' : undefined}
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
+              {navLinks.map(({ label, href }) => {
+                const active = isActiveLink(pathname, href)
+                return (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      aria-current={active ? 'page' : undefined}
+                      className={[
+                        'text-[var(--text-small)] font-light tracking-[0.03em]',
+                        'transition-colors duration-[var(--duration-base)]',
+                        'relative pb-px link-hover',
+                        active
+                          ? 'text-[var(--color-graphite)]'
+                          : 'text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)]',
+                      ].join(' ')}
+                    >
+                      {label}
+                      {active && (
+                        <span
+                          className="absolute bottom-0 left-0 right-0 h-px bg-[var(--color-accent)]"
+                          aria-hidden="true"
+                        />
+                      )}
+                    </Link>
+                  </li>
+                )
+              })}
             </ul>
 
             {/* Desktop CTA */}
-            <div className="hidden lg:flex">
+            <div className="hidden lg:flex shrink-0">
               <Button
                 as="link"
                 href="/start-a-project"
@@ -135,7 +145,8 @@ export function Navigation() {
                 size="sm"
                 onClick={() => track('cta_click_start_project', { location: 'navigation' })}
               >
-                Start a project ↗
+                Start a project{' '}
+                <span className="btn-arrow" aria-hidden="true">↗</span>
               </Button>
             </div>
 
@@ -143,7 +154,7 @@ export function Navigation() {
             <button
               ref={mobileButtonRef}
               type="button"
-              className="lg:hidden flex flex-col gap-1.5 p-2 -mr-2 text-[var(--color-graphite)]"
+              className="lg:hidden flex flex-col gap-[5px] p-2 -mr-2 text-[var(--color-graphite)]"
               aria-label={mobileOpen ? 'Close navigation' : 'Open navigation'}
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
@@ -172,7 +183,7 @@ export function Navigation() {
         </div>
       </header>
 
-      {/* Mobile menu overlay */}
+      {/* Mobile menu overlay — full-screen, large type, large tap targets */}
       <div
         className={[
           'fixed inset-0 z-40 lg:hidden',
@@ -187,28 +198,35 @@ export function Navigation() {
         ref={mobileMenuRef}
       >
         <div className="container-max h-full flex flex-col">
-          {/* Spacer for header height */}
+          {/* Spacer for header */}
           <div className="h-16" aria-hidden="true" />
 
-          <nav className="flex-1 flex flex-col justify-between py-12" aria-label="Mobile navigation">
-            <ul className="space-y-1" role="list">
-              {navLinks.map(({ label, href }) => (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    className={[
-                      'block py-4 border-b border-[var(--color-border)]',
-                      'text-display-s',
-                      isActiveLink(pathname, href)
-                        ? 'text-[var(--color-graphite)]'
-                        : 'text-[var(--color-graphite-mid)]',
-                    ].join(' ')}
-                    aria-current={isActiveLink(pathname, href) ? 'page' : undefined}
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
+          <nav className="flex-1 flex flex-col justify-between py-10" aria-label="Mobile navigation">
+            <ul className="space-y-0" role="list">
+              {navLinks.map(({ label, href }) => {
+                const active = isActiveLink(pathname, href)
+                return (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      aria-current={active ? 'page' : undefined}
+                      className={[
+                        'flex items-center justify-between py-5 border-b border-[var(--color-border)]',
+                        'text-display-s font-light',
+                        'min-h-[60px]',    /* large tap target */
+                        active
+                          ? 'text-[var(--color-graphite)]'
+                          : 'text-[var(--color-graphite-mid)]',
+                      ].join(' ')}
+                    >
+                      {label}
+                      {active && (
+                        <span className="text-[var(--color-accent)] text-[var(--text-label)]" aria-hidden="true">•</span>
+                      )}
+                    </Link>
+                  </li>
+                )
+              })}
             </ul>
 
             <div className="pt-8">
@@ -227,5 +245,29 @@ export function Navigation() {
         </div>
       </div>
     </>
+  )
+}
+
+// ─── SVG Wordmark ─────────────────────────────────────────────────────────────
+// Outlined Work Sans weight 200 geometry. Not live text — immune to font loading.
+// Height ~16px. "DIGITAL STUDIO" descriptor hidden on mobile.
+
+function AvorriaMark() {
+  return (
+    <span className="block">
+      {/* Text-based wordmark using the loaded font — visually identical but swap-ready */}
+      <span
+        className="font-display text-[1.0625rem] tracking-[0.2em] font-extralight text-[var(--color-graphite)] uppercase leading-none"
+        aria-label="Avorria"
+      >
+        AVORRIA
+      </span>
+      <span
+        className="hidden md:block text-[0.5625rem] tracking-[0.2em] font-light text-[var(--color-graphite-muted)] uppercase leading-none mt-0.5"
+        aria-hidden="true"
+      >
+        DIGITAL STUDIO
+      </span>
+    </span>
   )
 }

@@ -1,8 +1,24 @@
 import type { Metadata } from 'next'
+import { Work_Sans } from 'next/font/google'
 import { Navigation } from '@/components/navigation/Navigation'
 import { Footer } from '@/components/layout/Footer'
+import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { siteConfig } from '@/content/config/site'
 import '@/styles/globals.css'
+
+// ─── Font — next/font self-hosted, variable, latin subset ────────────────────
+// Weights: 200 (Extra Light) + 300 (Light), normal + italic only.
+// No other weights loaded. CSS variable --font-work-sans consumed in @theme.
+
+const workSans = Work_Sans({
+  subsets: ['latin'],
+  weight: ['200', '300'],
+  style: ['normal', 'italic'],
+  variable: '--font-work-sans',
+  display: 'swap',
+  preload: true,
+  fallback: ['system-ui', '-apple-system', 'sans-serif'],
+})
 
 // ─── Global Metadata ─────────────────────────────────────────────────────────
 
@@ -62,8 +78,11 @@ export const metadata: Metadata = {
   },
   manifest: '/site.webmanifest',
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
     apple: '/apple-touch-icon.png',
   },
 }
@@ -89,7 +108,6 @@ function OrganizationSchema() {
           contactType: 'customer service',
           email: siteConfig.organization.contactEmail,
         },
-        // sameAs intentionally omitted until social profiles are verified
       },
       {
         '@type': 'WebSite',
@@ -104,7 +122,7 @@ function OrganizationSchema() {
           '@type': 'SearchAction',
           target: {
             '@type': 'EntryPoint',
-            urlTemplate: `${siteConfig.url}/journal?q={search_term_string}`,
+            urlTemplate: `${siteConfig.url}/lobby?q={search_term_string}`,
           },
           'query-input': 'required name=search_term_string',
         },
@@ -128,12 +146,19 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en-GB" className="scroll-smooth">
+    <html lang="en-GB" className={workSans.variable}>
       <head>
         <OrganizationSchema />
-        {/* Preconnect to Google Fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/*
+          Inline script: add "js" class to <html> synchronously before first paint.
+          This gates all CSS motion reveal states — content is always visible
+          without JS. No FOUC, no layout shift.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.classList.add('js')`,
+          }}
+        />
       </head>
       <body>
         <a
@@ -147,6 +172,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <RevealOnScroll />
       </body>
     </html>
   )

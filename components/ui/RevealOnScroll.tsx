@@ -1,66 +1,115 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-
 /**
- * RevealOnScroll — applies .in-view class when element enters viewport.
- * Works as the JavaScript fallback for browsers without scroll-driven animations.
- * In browsers WITH scroll-driven animation support, CSS handles it natively
- * and the IntersectionObserver is a no-op (class never triggers CSS transitions).
+ * RevealOnScroll — Phase 2A
  *
- * Respects prefers-reduced-motion: no animation applied when user prefers no motion.
+ * Dual-mode component:
+ * 1. Used as a wrapper: <RevealOnScroll delay={80}>...</RevealOnScroll>
+ *    → renders a div with data-reveal (+ delay via CSS var)
+ * 2. Used standalone in layout: <RevealOnScroll />
+ *    → registers the shared IntersectionObserver for all data-reveal elements
+ *
+ * The CSS animation system in globals.css handles the actual transitions.
+ * This component provides the data-reveal attributes and the IO registration.
+ *
+ * @supports (animation-timeline: view()) skips the IO entirely in modern browsers.
+ *
+ * Content is always visible without JS (`.js` class gates all initial hidden states).
  */
 
-interface RevealProps {
-  children: React.ReactNode
-  className?: string
-  stagger?: boolean
-  threshold?: number
+import React, { useEffect, useRef, type ReactNode } from 'react'
+
+// ─── Shared singleton observer ────────────────────────────────────────────────
+
+let sharedObserver: IntersectionObserver | null = null
+
+function getObserver(): IntersectionObserver {
+  if (sharedObserver) return sharedObserver
+  sharedObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view')
+          sharedObserver?.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.08, rootMargin: '0px 0px -40px 0px' },
+  )
+  return sharedObserver
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
+interface RevealOnScrollProps {
+  children?: ReactNode
   delay?: number
+  stagger?: boolean
+  image?: boolean
+  className?: string
+  as?: React.ElementType
 }
 
 export function RevealOnScroll({
   children,
-  className = '',
-  stagger = false,
-  threshold = 0.15,
   delay = 0,
-}: RevealProps) {
-  const ref = useRef<HTMLDivElement>(null)
+  stagger = false,
+  image = false,
+  className = '',
+  as: Tag = 'div',
+}: RevealOnScrollProps) {
+  const ref = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    // Skip if browser supports scroll-driven animations natively
-    if (CSS.supports('animation-timeline', 'view()')) return
-
-    // Skip if user prefers reduced motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
     const el = ref.current
     if (!el) return
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            if (delay > 0) {
-              setTimeout(() => entry.target.classList.add('in-view'), delay)
-            } else {
-              entry.target.classList.add('in-view')
-            }
-            observer.unobserve(entry.target)
-          }
-        }
-      },
-      { threshold },
-    )
+    // Skip if CSS animation-timeline: view() is supported
+    if (typeof CSS !== 'undefined' && CSS.supports('animation-timeline', 'view()')) return
 
+    const observer = getObserver()
     observer.observe(el)
-    return () => observer.disconnect()
-  }, [threshold, delay])
+
+    return () => {
+      observer.unobserve(el)
+    }
+  }, [])
+
+  const dataAttr = image ? 'data-reveal-image' : stagger ? 'data-reveal-stagger' : 'data-reveal'
+  const style = delay > 0 ? { '--reveal-delay': `${delay}ms` } as React.CSSProperties : undefined
+
+  if (!children) {
+    // Standalone mode — register global observer only (used in layout)
+    return <GlobalObserverRegister />
+  }
 
   return (
-    <div ref={ref} className={`${stagger ? 'reveal-stagger' : 'reveal'} ${className}`}>
+    <Tag
+      ref={ref}
+      {...{ [dataAttr]: '' }}
+      style={style}
+      className={className || undefined}
+    >
       {children}
-    </div>
+    </Tag>
   )
+}
+
+// ─── Global observer registration (standalone mode) ───────────────────────────
+
+function GlobalObserverRegister() {
+  useEffect(() => {
+    if (typeof CSS !== 'undefined' && CSS.supports('animation-timeline', 'view()')) return
+
+    const observer = getObserver()
+    const selector = '[data-reveal], [data-reveal-stagger], [data-reveal-image]'
+    const elements = document.querySelectorAll<HTMLElement>(selector)
+    elements.forEach((el) => observer.observe(el))
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el))
+    }
+  }, [])
+
+  return null
 }

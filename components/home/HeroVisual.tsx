@@ -1,183 +1,156 @@
 /**
- * Avorria Hero — Art-directed architectural composition
+ * HeroVisual — Phase 2A placeholder
  *
- * Visual concept: A precision-engineered grid of connected vertical and
- * horizontal lines with deliberate nodes — suggesting a schematic or
- * structural plan. Not a network diagram. Not AI imagery.
- * Reads as architectural drawing / technical blueprint.
+ * A restrained geometric composition of stone/graphite planes, fine structural
+ * rules, and a single rose hairline highlight. Architectural, physical, precise.
  *
- * Rendered entirely in SVG/CSS. No images, no external dependencies.
- * Subtle CSS animation on nodes and connectors.
- * Respects prefers-reduced-motion.
+ * Built as a next/image-compatible component with a clear swap interface:
+ * When the final art-directed photograph is supplied to /public/images/hero/,
+ * replace the SVG placeholder with the <picture> block below (currently commented).
+ *
+ * NO: spheres, blobs, networks, nodes, neural nets, particle effects, dashboards.
+ * NO: font-weight > 300 in SVG text.
+ * NO: Inter or any font other than Work Sans in SVG inline styles.
  */
+
+// Uncomment this block and remove the SVG placeholder when final image is ready:
+// import Image from 'next/image'
+// export function HeroVisual() {
+//   return (
+//     <picture className="block w-full h-full">
+//       {/* Desktop: 3:2 crop */}
+//       <source
+//         media="(min-width: 1024px)"
+//         srcSet="/images/hero/hero-desktop.avif 1800w, /images/hero/hero-desktop.webp 1800w"
+//         type="image/avif"
+//       />
+//       {/* Tablet + mobile: 4:5 crop */}
+//       <source
+//         srcSet="/images/hero/hero-mobile.avif 900w, /images/hero/hero-mobile.webp 900w"
+//         type="image/avif"
+//       />
+//       <Image
+//         src="/images/hero/hero-desktop.webp"
+//         alt=""
+//         fill
+//         priority
+//         fetchPriority="high"
+//         placeholder="blur"
+//         blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRg..." // replace with real blur hash
+//         sizes="(min-width: 1024px) 55vw, 100vw"
+//         className="object-cover object-center"
+//         aria-hidden="true"
+//       />
+//     </picture>
+//   )
+// }
+
 export function HeroVisual({ className = '' }: { className?: string }) {
   return (
     <div
-      className={`relative w-full h-full select-none ${className}`}
-      aria-hidden="true"
+      className={`relative w-full h-full overflow-hidden bg-[var(--color-ivory-dark)] ${className}`}
       role="presentation"
+      aria-hidden="true"
     >
       <svg
-        viewBox="0 0 600 500"
+        viewBox="0 0 800 900"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full hero-visual"
-        preserveAspectRatio="xMidYMid meet"
+        className="w-full h-full"
+        preserveAspectRatio="xMidYMid slice"
       >
-        <style>{`
-          .hero-visual .grid-line {
-            stroke: #C8C4BE;
-            stroke-width: 0.5;
-            opacity: 0;
-            animation: line-draw 0.8s var(--ease-out) forwards;
-          }
-          .hero-visual .node {
-            opacity: 0;
-            animation: node-appear 0.4s var(--ease-out) forwards;
-          }
-          .hero-visual .node-fill {
-            fill: #F7F5F0;
-            stroke: #4A4845;
-            stroke-width: 1;
-          }
-          .hero-visual .node-accent {
-            fill: #B5616A;
-            stroke: none;
-          }
-          .hero-visual .connector {
-            stroke: #4A4845;
-            stroke-width: 0.75;
-            opacity: 0;
-            animation: line-draw 1s var(--ease-out) forwards;
-          }
-          .hero-visual .label {
-            fill: #8A8784;
-            font-family: 'Inter', sans-serif;
-            font-size: 7px;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            opacity: 0;
-            animation: node-appear 0.5s var(--ease-out) forwards;
-          }
-          .hero-visual .dimension-line {
-            stroke: #C8C4BE;
-            stroke-width: 0.4;
-            stroke-dasharray: 3 2;
-            opacity: 0;
-            animation: line-draw 1.2s var(--ease-out) forwards;
-          }
+        {/* ── Background plane — warm ivory-dark ── */}
+        <rect width="800" height="900" fill="#EFECE6" />
 
-          @keyframes line-draw {
-            from { opacity: 0; stroke-dashoffset: 200; }
-            to   { opacity: 1; stroke-dashoffset: 0; }
-          }
-          @keyframes node-appear {
-            from { opacity: 0; transform: scale(0.6); }
-            to   { opacity: 1; transform: scale(1); }
-          }
+        {/* ── Large structural plane — upper left quadrant, graphite ── */}
+        <rect x="0" y="0" width="520" height="540" fill="#1A1916" />
 
-          @media (prefers-reduced-motion: reduce) {
-            .hero-visual * {
-              animation: none !important;
-              opacity: 1 !important;
-            }
-          }
+        {/* ── Inset plane — warm mid-tone ── */}
+        <rect x="60" y="60" width="400" height="360" fill="#2A2724" />
 
-          /* Stagger delays */
-          .hero-visual .d1 { animation-delay: 0.1s; }
-          .hero-visual .d2 { animation-delay: 0.2s; }
-          .hero-visual .d3 { animation-delay: 0.35s; }
-          .hero-visual .d4 { animation-delay: 0.5s; }
-          .hero-visual .d5 { animation-delay: 0.65s; }
-          .hero-visual .d6 { animation-delay: 0.8s; }
-          .hero-visual .d7 { animation-delay: 0.95s; }
-          .hero-visual .d8 { animation-delay: 1.1s; }
-          .hero-visual .d9 { animation-delay: 1.3s; }
-          .hero-visual .d10 { animation-delay: 1.5s; }
-        `}</style>
+        {/* ── Floating plane — lower right ── */}
+        <rect x="380" y="480" width="420" height="420" fill="#F7F5F0" />
 
-        {/* Background subtle grid */}
-        <line className="grid-line d1" x1="100" y1="40" x2="100" y2="460" strokeDasharray="200" />
-        <line className="grid-line d1" x1="200" y1="40" x2="200" y2="460" strokeDasharray="200" />
-        <line className="grid-line d1" x1="300" y1="40" x2="300" y2="460" strokeDasharray="200" />
-        <line className="grid-line d1" x1="400" y1="40" x2="400" y2="460" strokeDasharray="200" />
-        <line className="grid-line d1" x1="500" y1="40" x2="500" y2="460" strokeDasharray="200" />
-        <line className="grid-line d2" x1="60" y1="120" x2="540" y2="120" strokeDasharray="500" />
-        <line className="grid-line d2" x1="60" y1="240" x2="540" y2="240" strokeDasharray="500" />
-        <line className="grid-line d2" x1="60" y1="360" x2="540" y2="360" strokeDasharray="500" />
+        {/* ── Small accent plane — lower left ── */}
+        <rect x="0" y="620" width="320" height="280" fill="#EFECE6" />
 
-        {/* Primary structural connectors */}
-        <line className="connector d3" x1="100" y1="120" x2="300" y2="120" strokeDasharray="300" />
-        <line className="connector d3" x1="300" y1="120" x2="500" y2="240" strokeDasharray="300" />
-        <line className="connector d4" x1="100" y1="240" x2="300" y2="240" strokeDasharray="300" />
-        <line className="connector d4" x1="300" y1="240" x2="400" y2="360" strokeDasharray="300" />
-        <line className="connector d5" x1="100" y1="120" x2="100" y2="360" strokeDasharray="300" />
-        <line className="connector d5" x1="200" y1="120" x2="200" y2="360" strokeDasharray="300" />
-        <line className="connector d6" x1="400" y1="120" x2="400" y2="360" strokeDasharray="300" />
-        <line className="connector d7" x1="200" y1="240" x2="400" y2="240" strokeDasharray="300" />
+        {/* ── Fine structural rules — 1px, precise ── */}
+        {/* Horizontal divisions on dark plane */}
+        <line x1="60" y1="200" x2="460" y2="200" stroke="#4A4845" strokeWidth="0.5" />
+        <line x1="60" y1="320" x2="460" y2="320" stroke="#4A4845" strokeWidth="0.5" />
 
-        {/* Dimension lines */}
-        <line className="dimension-line d8" x1="60" y1="120" x2="60" y2="360" strokeDasharray="300" />
-        <line className="dimension-line d8" x1="55" y1="120" x2="65" y2="120" />
-        <line className="dimension-line d8" x1="55" y1="360" x2="65" y2="360" />
-        <line className="dimension-line d8" x1="100" y1="90" x2="500" y2="90" strokeDasharray="500" />
-        <line className="dimension-line d8" x1="100" y1="85" x2="100" y2="95" />
-        <line className="dimension-line d8" x1="500" y1="85" x2="500" y2="95" />
+        {/* Vertical divisions */}
+        <line x1="200" y1="60" x2="200" y2="420" stroke="#4A4845" strokeWidth="0.5" />
+        <line x1="340" y1="60" x2="340" y2="420" stroke="#4A4845" strokeWidth="0.5" />
 
-        {/* Nodes — primary intersections */}
-        <g className="node node-fill d4" transform="translate(100,120)">
-          <rect x="-5" y="-5" width="10" height="10" className="node-fill" />
-        </g>
-        <g className="node node-fill d4" transform="translate(300,120)">
-          <rect x="-5" y="-5" width="10" height="10" className="node-fill" />
-        </g>
-        <g className="node node-fill d4" transform="translate(500,240)">
-          <rect x="-5" y="-5" width="10" height="10" className="node-fill" />
-        </g>
-        <g className="node node-fill d5" transform="translate(100,240)">
-          <rect x="-5" y="-5" width="10" height="10" className="node-fill" />
-        </g>
-        <g className="node node-fill d5" transform="translate(200,120)">
-          <rect x="-5" y="-5" width="10" height="10" className="node-fill" />
-        </g>
-        <g className="node node-fill d5" transform="translate(200,240)">
-          <rect x="-5" y="-5" width="10" height="10" className="node-fill" />
-        </g>
-        <g className="node node-fill d6" transform="translate(400,120)">
-          <rect x="-5" y="-5" width="10" height="10" className="node-fill" />
-        </g>
-        <g className="node node-fill d6" transform="translate(400,240)">
-          <rect x="-5" y="-5" width="10" height="10" className="node-fill" />
-        </g>
-        <g className="node node-fill d6" transform="translate(300,240)">
-          <rect x="-5" y="-5" width="10" height="10" className="node-fill" />
-        </g>
-        <g className="node node-fill d7" transform="translate(400,360)">
-          <rect x="-5" y="-5" width="10" height="10" className="node-fill" />
-        </g>
-        <g className="node node-fill d7" transform="translate(100,360)">
-          <rect x="-5" y="-5" width="10" height="10" className="node-fill" />
-        </g>
-        <g className="node node-fill d7" transform="translate(200,360)">
-          <rect x="-5" y="-5" width="10" height="10" className="node-fill" />
-        </g>
+        {/* Boundary rule between planes */}
+        <line x1="520" y1="0" x2="520" y2="540" stroke="#C8C4BE" strokeWidth="1" />
+        <line x1="0" y1="540" x2="800" y2="540" stroke="#C8C4BE" strokeWidth="1" />
 
-        {/* Accent nodes — key points */}
-        <circle className="node node-accent d8" cx="300" cy="240" r="5" />
-        <circle className="node node-accent d9" cx="500" cy="120" r="3.5" />
-        <circle className="node node-accent d9" cx="100" cy="120" r="3.5" />
+        {/* Grid overlay on light plane */}
+        <line x1="380" y1="560" x2="800" y2="560" stroke="#E2DED8" strokeWidth="0.5" />
+        <line x1="380" y1="640" x2="800" y2="640" stroke="#E2DED8" strokeWidth="0.5" />
+        <line x1="380" y1="720" x2="800" y2="720" stroke="#E2DED8" strokeWidth="0.5" />
+        <line x1="380" y1="800" x2="800" y2="800" stroke="#E2DED8" strokeWidth="0.5" />
+        <line x1="500" y1="480" x2="500" y2="900" stroke="#E2DED8" strokeWidth="0.5" />
+        <line x1="640" y1="480" x2="640" y2="900" stroke="#E2DED8" strokeWidth="0.5" />
 
-        {/* Technical labels */}
-        <text className="label d9" x="306" y="244">01</text>
-        <text className="label d10" x="108" y="114">A</text>
-        <text className="label d10" x="208" y="114">B</text>
-        <text className="label d10" x="308" y="114">C</text>
-        <text className="label d10" x="408" y="114">D</text>
-        <text className="label d10" x="508" y="244">E</text>
+        {/* ── Rose hairline — single accent ── */}
+        <line x1="60" y1="420" x2="460" y2="420" stroke="#B5616A" strokeWidth="1.5" />
 
-        {/* Corner marks */}
-        <path className="connector d9" d="M540 40 L560 40 L560 60" stroke="#C8C4BE" strokeWidth="0.5" strokeDasharray="50" />
-        <path className="connector d9" d="M40 460 L40 440 L60 440" stroke="#C8C4BE" strokeWidth="0.5" strokeDasharray="50" />
+        {/* ── Corner marks — architectural registration ── */}
+        {/* Top-left of dark inset */}
+        <path d="M60 80 L60 60 L80 60" stroke="#8A8784" strokeWidth="0.75" />
+        {/* Bottom-right of dark inset */}
+        <path d="M440 400 L460 400 L460 420" stroke="#8A8784" strokeWidth="0.75" />
+        {/* Top-left of light plane */}
+        <path d="M400 500 L380 500 L380 480" stroke="#C8C4BE" strokeWidth="0.75" />
+        {/* Bottom-right of canvas */}
+        <path d="M760 880 L800 880 L800 900" stroke="#C8C4BE" strokeWidth="0.75" />
+
+        {/* ── Dimension ticks ── */}
+        <line x1="60" y1="454" x2="60" y2="470" stroke="#8A8784" strokeWidth="0.5" />
+        <line x1="200" y1="454" x2="200" y2="470" stroke="#8A8784" strokeWidth="0.5" />
+        <line x1="340" y1="454" x2="340" y2="470" stroke="#8A8784" strokeWidth="0.5" />
+        <line x1="460" y1="454" x2="460" y2="470" stroke="#8A8784" strokeWidth="0.5" />
+
+        {/* ── Technical labels — Work Sans 300, small ── */}
+        <text
+          x="66"
+          y="193"
+          fontFamily="var(--font-work-sans, 'Work Sans', system-ui, sans-serif)"
+          fontSize="7"
+          fontWeight="300"
+          letterSpacing="0.1em"
+          fill="#8A8784"
+          textAnchor="start"
+        >
+          01
+        </text>
+        <text
+          x="66"
+          y="313"
+          fontFamily="var(--font-work-sans, 'Work Sans', system-ui, sans-serif)"
+          fontSize="7"
+          fontWeight="300"
+          letterSpacing="0.1em"
+          fill="#8A8784"
+          textAnchor="start"
+        >
+          02
+        </text>
+        <text
+          x="390"
+          y="555"
+          fontFamily="var(--font-work-sans, 'Work Sans', system-ui, sans-serif)"
+          fontSize="7"
+          fontWeight="300"
+          letterSpacing="0.1em"
+          fill="#4A4845"
+          textAnchor="start"
+        >
+          03
+        </text>
       </svg>
     </div>
   )

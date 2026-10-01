@@ -8,11 +8,11 @@ const footerNav = {
     { label: 'Digital Systems', href: '/services/digital-systems' },
   ],
   company: [
-    { label: 'Work', href: '/work' },
-    { label: 'Process', href: '/process' },
-    { label: 'About', href: '/about' },
-    { label: 'Journal', href: '/journal' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Work',       href: '/work' },
+    { label: 'Process',    href: '/process' },
+    { label: 'About',      href: '/about' },
+    { label: 'The Lobby',  href: '/lobby' },
+    { label: 'Contact',    href: '/contact' },
   ],
   legal: [
     { label: 'Privacy Policy', href: '/privacy' },

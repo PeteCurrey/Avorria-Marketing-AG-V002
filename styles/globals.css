@@ -1,18 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400&display=swap');
 @import "tailwindcss";
 
 /* ─── Typography System ──────────────────────────────────────────────────────
-   Strict requirement:
-   - Work Sans throughout the entire platform (public site, client & admin dashboards)
-   - H1 & major display: Work Sans Extra Light (200)
+   ABSOLUTE RULES — enforced globally, never overridden:
+   - Work Sans only, via next/font, self-hosted, variable, latin subset
+   - H1 + major display: Work Sans Extra Light (200)
    - Everything else: Work Sans Light (300)
-   - Absolutely NO bold typography (no 600, no 700)
-   - Hierarchy driven strictly by scale, whitespace, tracking, rules, and contrast
+   - NO weight above 300 anywhere — no 400 normal, no 500, no 600, no 700
+   - font-synthesis: none — prevents synthetic bold/italic
+   - Hierarchy from scale, tracking, line-height, rules, spacing, colour ONLY
    ─────────────────────────────────────────────────────────────────────────── */
 
 /* ─── Design Tokens ─────────────────────────────────────────────────────────
-   All tokens defined as CSS custom properties.
-   Tailwind v4: referenced via @theme.
+   CSS-first Tailwind v4 @theme — no tailwind.config.ts.
+   All tokens exposed as custom properties.
    ─────────────────────────────────────────────────────────────────────────── */
 
 @theme {
@@ -22,37 +22,41 @@
   --color-ivory-border:   #E2DED8;
   --color-graphite:       #1A1916;
   --color-graphite-mid:   #4A4845;
-  --color-graphite-muted: #8A8784;
+  --color-graphite-muted: #8A8784;    /* metadata/decorative only — fails AA on small text */
   --color-border:         #E2DED8;
   --color-border-strong:  #C8C4BE;
-  --color-accent:         #B5616A;
+  --color-accent:         #B5616A;    /* fills, hairlines, focus rings, large text only */
   --color-accent-light:   #E8D4D6;
+  --color-rose-text:      #9A4A53;    /* small rose text — verified ≥4.5:1 on ivory */
   --color-white:          #FFFFFF;
 
-  /* Single canonical typeface: Work Sans */
-  --font-display: 'Work Sans', system-ui, -apple-system, sans-serif;
-  --font-sans:    'Work Sans', system-ui, -apple-system, sans-serif;
+  /* Single canonical typeface: Work Sans (loaded via next/font, self-hosted) */
+  --font-display: var(--font-work-sans), 'Work Sans', system-ui, -apple-system, sans-serif;
+  --font-sans:    var(--font-work-sans), 'Work Sans', system-ui, -apple-system, sans-serif;
 
-  /* Type scale — fluid sizing via clamp() */
-  --text-display-xl: clamp(3.75rem, 8.5vw, 7.5rem);
-  --text-display-l:  clamp(2.75rem, 5.5vw, 4.75rem);
+  /* Type scale — fluid via clamp()
+     H1: ~3rem mobile → ~7.5rem desktop
+     All at weight 200 (display) or 300 (body/ui) */
+  --text-display-xl: clamp(3rem, 8vw, 7.5rem);
+  --text-display-l:  clamp(2.625rem, 5.25vw, 4.75rem);
   --text-display-m:  clamp(2rem, 4vw, 3.25rem);
   --text-display-s:  clamp(1.5rem, 2.5vw, 2.15rem);
   --text-heading:    1.375rem;
-  --text-body-l:     1.125rem;
-  --text-body:       1rem;
-  --text-small:      0.875rem;
-  --text-label:      0.6875rem;
+  --text-body-l:     1.125rem;    /* 18px — above 17px minimum */
+  --text-body:       1.0625rem;   /* 17px — minimum body size per Phase 2A */
+  --text-small:      0.9375rem;   /* 15px — minimum for UI elements */
+  --text-label:      0.75rem;     /* 12px — minimum for labels, uppercase + tracked */
 
   /* Line heights */
-  --leading-display: 1.05;
+  --leading-display: 1.03;
   --leading-heading: 1.2;
   --leading-body:    1.65;
 
   /* Letter spacing */
-  --tracking-display:  -0.02em;
-  --tracking-label:     0.12em;
-  --tracking-heading:  -0.01em;
+  --tracking-display:  -0.03em;
+  --tracking-label:     0.14em;
+  --tracking-heading:  -0.015em;
+  --tracking-wide:      0.06em;
 
   /* Spacing scale */
   --space-1:   0.25rem;
@@ -91,21 +95,24 @@
   --border-default: 1px solid var(--color-border);
   --border-strong:  1px solid var(--color-border-strong);
 
-  /* Border radius — architectural, not rounded */
-  --radius-sm:  2px;
-  --radius-md:  4px;
-  --radius-lg:  6px;
+  /* Border radius — architectural, max 2px on controls */
+  --radius-control: 2px;
+  --radius-sm:      2px;
+  --radius-md:      4px;
+  --radius-lg:      6px;
 
-  /* Shadows — restrained */
+  /* Shadows — restrained; hairline-soft elevation for menus only */
+  --shadow-menu:   0 4px 12px 0 rgb(26 25 22 / 0.08), 0 0 0 1px rgb(26 25 22 / 0.04);
   --shadow-subtle: 0 1px 3px 0 rgb(26 25 22 / 0.06);
-  --shadow-card:   0 4px 16px 0 rgb(26 25 22 / 0.08);
 
-  /* Animation */
-  --duration-fast:   150ms;
+  /* Animation — Phase 2A spec */
+  --duration-micro:  200ms;
+  --duration-fast:   200ms;
   --duration-base:   250ms;
   --duration-slow:   400ms;
-  --duration-reveal: 600ms;
-  --ease-out:        cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-reveal: 700ms;
+  --duration-image:  1100ms;
+  --ease-out:        cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out:     cubic-bezier(0.45, 0, 0.55, 1);
 }
 
@@ -123,8 +130,10 @@
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    /* Prevent layout shift from scrollbar appearance */
     scrollbar-gutter: stable;
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -149,29 +158,23 @@
     font-size: var(--text-body);
     line-height: var(--leading-body);
     font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
 
-  /* Strict global prohibition of heavy bold weights */
-  strong, b, th, dt, h1, h2, h3, h4, h5, h6, button, input, textarea, select {
+  /* ── Global font-weight enforcement ──────────────────────────────────────
+     NEVER bold. Covers all elements that browser or component defaults might
+     apply bold/semibold to. font-synthesis:none prevents synthetic bold.
+  */
+  h1, h2, h3, h4, h5, h6,
+  strong, b, th, dt,
+  button, input, select, textarea,
+  legend, summary,
+  ::placeholder {
     font-weight: 300;
+    font-synthesis: none;
   }
 
-  /* Focus visible — keyboard nav */
-  :focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 3px;
-    border-radius: var(--radius-sm);
-  }
-
-  /* Remove focus ring from mouse/touch interaction */
-  :focus:not(:focus-visible) {
-    outline: none;
-  }
-
-  /* Headings: H1 Extra Light (200), others Light (300) */
+  /* H1 override: Extra Light */
   h1 {
     font-family: var(--font-display);
     font-weight: 200;
@@ -194,6 +197,17 @@
     line-height: var(--leading-heading);
     letter-spacing: -0.015em;
     text-wrap: balance;
+  }
+
+  /* Focus visible — keyboard nav */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
   }
 
   /* Links */
@@ -221,6 +235,7 @@
     font-family: inherit;
     font-size: inherit;
     font-weight: 300;
+    font-synthesis: none;
   }
 
   /* Selection colour */
@@ -288,7 +303,7 @@
     }
   }
 
-  /* ── Typography utilities: Work Sans Extra Light (200) & Light (300) ── */
+  /* ── Typography utilities ── */
   .font-display      { font-family: var(--font-display); }
   .font-sans-avorria { font-family: var(--font-sans); }
   .font-extralight   { font-weight: 200; }
@@ -356,8 +371,8 @@
   }
 
   /* ── Border utilities ── */
-  .border-default { border: var(--border-default); }
-  .border-strong  { border: var(--border-strong); }
+  .border-default   { border: var(--border-default); }
+  .border-strong    { border: var(--border-strong); }
   .border-t-default { border-top: var(--border-default); }
   .border-b-default { border-bottom: var(--border-default); }
 
@@ -368,62 +383,242 @@
     margin: 0;
   }
 
-  /* ── Scroll reveal animation ── */
-  .reveal {
+  /* ═══════════════════════════════════════════════════════════════════════════
+     MOTION SYSTEM — Phase 2A
+     ───────────────────────────────────────────────────────────────────────────
+     Architecture:
+     - The "js" class is added to <html> by an inline script in layout
+     - Reveal initial states ONLY apply when .js class is present
+       → content is always visible without JS or animation support
+     - CSS animation-timeline:view() for @supports browsers (compositor-thread)
+     - IntersectionObserver fallback for non-supporting browsers
+     - prefers-reduced-motion: strip all transform/clip, keep 150ms opacity max
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  /* ── Link hover: underline draws from left ── */
+  .link-hover {
+    position: relative;
+    display: inline-block;
+  }
+
+  .link-hover::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  .link-hover:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* ── Scroll reveal: data-reveal attribute system ── */
+
+  /* Only hide initially if JS loaded */
+  .js [data-reveal] {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(16px);
     transition:
       opacity var(--duration-reveal) var(--ease-out),
       transform var(--duration-reveal) var(--ease-out);
   }
 
-  .reveal.in-view {
+  .js [data-reveal].in-view {
     opacity: 1;
     transform: translateY(0);
   }
 
-  /* Stagger children */
-  .reveal-stagger > * {
+  /* Stagger delays for child elements */
+  .js [data-reveal-stagger] > [data-child] {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px);
     transition:
       opacity var(--duration-reveal) var(--ease-out),
       transform var(--duration-reveal) var(--ease-out);
   }
 
-  .reveal-stagger.in-view > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0ms; }
-  .reveal-stagger.in-view > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 80ms; }
-  .reveal-stagger.in-view > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 160ms; }
-  .reveal-stagger.in-view > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 240ms; }
-  .reveal-stagger.in-view > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 320ms; }
-  .reveal-stagger.in-view > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 400ms; }
-  .reveal-stagger.in-view > *:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 480ms; }
+  .js [data-reveal-stagger].in-view > [data-child]:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0ms; }
+  .js [data-reveal-stagger].in-view > [data-child]:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 60ms; }
+  .js [data-reveal-stagger].in-view > [data-child]:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 120ms; }
+  .js [data-reveal-stagger].in-view > [data-child]:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 180ms; }
+  .js [data-reveal-stagger].in-view > [data-child]:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 240ms; }
+  .js [data-reveal-stagger].in-view > [data-child]:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 300ms; }
+  .js [data-reveal-stagger].in-view > [data-child]:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 360ms; }
+  .js [data-reveal-stagger].in-view > [data-child]:nth-child(8) { opacity: 1; transform: translateY(0); transition-delay: 420ms; }
 
-  /* Scroll-driven animation — native CSS, compositor-thread */
+  /* Image clip-path reveal */
+  .js [data-reveal-image] {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path var(--duration-image) var(--ease-out);
+  }
+
+  .js [data-reveal-image].in-view {
+    clip-path: inset(0 0% 0 0);
+  }
+
+  /* CSS scroll-driven animation — @supports progressive enhancement */
   @supports (animation-timeline: view()) {
-    .reveal {
-      animation: reveal-fade linear both;
+    .js [data-reveal] {
+      animation: reveal-rise linear both;
       animation-timeline: view();
-      animation-range: entry 0% entry 25%;
-      /* Remove JS-driven classes when CSS handles it */
+      animation-range: entry 0% entry 30%;
+      /* Revert transition-based approach when CSS handles it */
       opacity: revert;
       transform: revert;
       transition: none;
     }
-  }
 
-  @keyframes reveal-fade {
-    from {
-      opacity: 0;
-      transform: translateY(24px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+    .js [data-reveal-image] {
+      animation: reveal-clip linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+      clip-path: revert;
+      transition: none;
     }
   }
 
-  /* Line reveal (used for decorative horizontal rules) */
+  @keyframes reveal-rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes reveal-clip {
+    from { clip-path: inset(0 100% 0 0); }
+    to   { clip-path: inset(0 0% 0 0); }
+  }
+
+  /* ── Hero load animation — H1 mask reveal ── */
+
+  /* Line-by-line mask: each line wrapped in .line-mask (overflow-hidden)
+     containing a .line-inner that starts at translateY(100%) */
+  .js .line-mask {
+    overflow: hidden;
+    display: block;
+  }
+
+  .js .line-inner {
+    display: block;
+    transform: translateY(100%);
+    animation: line-reveal var(--duration-reveal) var(--ease-out) both;
+  }
+
+  @keyframes line-reveal {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+
+  /* Hero stagger delays */
+  .js .hero-eyebrow  { opacity: 0; animation: hero-fade-up var(--duration-reveal) var(--ease-out) 0ms    both; }
+  .js .hero-line-1   .line-inner { animation-delay: 80ms; }
+  .js .hero-line-2   .line-inner { animation-delay: 160ms; }
+  .js .hero-line-3   .line-inner { animation-delay: 240ms; }
+  .js .hero-para     { opacity: 0; animation: hero-fade-up var(--duration-reveal) var(--ease-out) 360ms  both; }
+  .js .hero-ctas     { opacity: 0; animation: hero-fade-up var(--duration-reveal) var(--ease-out) 440ms  both; }
+  .js .hero-scroll   { opacity: 0; animation: hero-fade-up var(--duration-reveal) var(--ease-out) 800ms  both; }
+
+  /* Hero image: starts fully visible, slow scale 1.04 → 1 */
+  .js .hero-image-wrap {
+    animation: hero-image-scale 1400ms var(--ease-out) both;
+  }
+
+  @keyframes hero-fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes hero-image-scale {
+    from { transform: scale(1.04); }
+    to   { transform: scale(1); }
+  }
+
+  /* ── Button hover: arrow shifts 3px diagonally ── */
+  .btn-arrow {
+    display: inline-block;
+    transition: transform var(--duration-micro) var(--ease-out);
+  }
+
+  .group:hover .btn-arrow,
+  button:hover .btn-arrow,
+  a:hover .btn-arrow {
+    transform: translate(2px, -2px);
+  }
+
+  /* ── Project tile hover ── */
+  .project-tile-image {
+    transition: transform var(--duration-image) var(--ease-out);
+  }
+
+  .project-tile:hover .project-tile-image {
+    transform: scale(1.03);
+  }
+
+  .project-tile-meta {
+    transform: translateY(8px);
+    opacity: 0;
+    transition:
+      transform var(--duration-base) var(--ease-out),
+      opacity var(--duration-base) var(--ease-out);
+  }
+
+  .project-tile:hover .project-tile-meta {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .project-tile-rule {
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 600ms var(--ease-out);
+  }
+
+  .project-tile:hover .project-tile-rule {
+    transform: scaleX(1);
+  }
+
+  /* ── Reduced motion overrides ── */
+  @media (prefers-reduced-motion: reduce) {
+    /* Strip all transforms and clips. Allow only brief opacity fade. */
+    .js .line-inner,
+    .js .hero-image-wrap,
+    .js [data-reveal-image] {
+      animation: none !important;
+      transform: none !important;
+      clip-path: none !important;
+      opacity: 1 !important;
+    }
+
+    .js .hero-eyebrow,
+    .js .hero-para,
+    .js .hero-ctas,
+    .js .hero-scroll,
+    .js [data-reveal],
+    .js [data-reveal-stagger] > [data-child] {
+      animation: rm-fade 150ms ease both !important;
+      transform: none !important;
+    }
+
+    @keyframes rm-fade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .link-hover::after,
+    .btn-arrow,
+    .project-tile-image,
+    .project-tile-meta,
+    .project-tile-rule {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+
+  /* ── Line reveal (decorative horizontal rules) ── */
   .line-reveal {
     transform-origin: left;
     transform: scaleX(0);
@@ -434,7 +629,9 @@
     transform: scaleX(1);
   }
 
-  /* ── Prose Typography for Journal & Editorial content ── */
+  /* ─────────────────────────────────────────────────────────────────────────
+     PROSE TYPOGRAPHY — Journal / Editorial content
+  ───────────────────────────────────────────────────────────────────────── */
   .prose-avorria {
     color: var(--color-graphite-mid);
     line-height: var(--leading-body);
@@ -550,7 +747,7 @@
     margin-block: 2em;
   }
 
-  /* Screen reader only utility */
+  /* ── Screen reader utilities ── */
   .sr-only {
     position: absolute;
     width: 1px;
