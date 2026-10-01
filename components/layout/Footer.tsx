@@ -3,12 +3,21 @@ import { siteConfig } from '@/content/config/site'
 
 const footerNav = {
   services: [
-    { label: 'Web Development', href: '/services/web-development' },
-    { label: 'AI Development', href: '/services/ai-development' },
-    { label: 'Digital Systems', href: '/services/digital-systems' },
+    { label: '01 // Build',   href: '/services/build' },
+    { label: '02 // Search',  href: '/services/search' },
+    { label: '03 // Systems', href: '/services/systems' },
+    { label: 'Commercial Pricing', href: '/pricing' },
+  ],
+  diagnostic: [
+    { label: 'Website Health Check', href: '/audit' },
+    { label: 'The Agency Teardown', href: '/teardown' },
+    { label: 'Project & Digital Audit', href: '/digital-audit' },
+    { label: 'Websites We Would Fire', href: '/lobby/websites-we-would-fire' },
   ],
   company: [
     { label: 'Work',       href: '/work' },
+    { label: 'Services',   href: '/services' },
+    { label: 'Pricing',    href: '/pricing' },
     { label: 'Process',    href: '/process' },
     { label: 'About',      href: '/about' },
     { label: 'The Lobby',  href: '/lobby' },
@@ -33,7 +42,7 @@ export function Footer() {
         <div className="container-content">
 
           {/* Upper footer */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 py-16 lg:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 py-16 lg:py-20">
 
             {/* Brand column */}
             <div className="lg:col-span-1">
@@ -61,6 +70,23 @@ export function Footer() {
               <p className="text-label-upper mb-5">Services</p>
               <ul className="space-y-3" role="list">
                 {footerNav.services.map(({ label, href }) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)] transition-colors duration-[var(--duration-base)]"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Diagnostics */}
+            <div>
+              <p className="text-label-upper mb-5">Diagnostics</p>
+              <ul className="space-y-3" role="list">
+                {footerNav.diagnostic.map(({ label, href }) => (
                   <li key={href}>
                     <Link
                       href={href}

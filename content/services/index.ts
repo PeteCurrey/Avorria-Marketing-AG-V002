@@ -1,147 +1,151 @@
 /**
- * Avorria — Services Content
- * Verified capability descriptions only. No invented outcomes or statistics.
+ * Avorria — Canonical Service & Capability Taxonomy
+ *
+ * 3 Core Technical Disciplines:
+ * 01. BUILD — High-performance web applications, digital flagships, bespoke digital products
+ * 02. SEARCH — Enterprise technical search architecture, complex migrations, organic dominance
+ * 03. SYSTEMS — Commercial data infrastructure, revenue attribution, autonomous workflows, payments
  */
 
 import type { Service } from '@/types/content'
 
 export const services: Service[] = [
   {
-    slug: 'web-development',
+    slug: 'build',
     status: 'published',
-    title: 'Web Development',
-    headline: 'High-performance websites and web applications.',
+    title: '01 // Build',
+    headline: 'Digital flagships, bespoke web applications and interactive software.',
     description:
-      'We design and engineer websites and web applications that perform, convert and scale. From marketing sites to complex web applications, we build with precision and purpose.',
+      'We engineer digital flagships and bespoke web software for organisations requiring uncompromising performance, surgical typography, and resilient modern architecture.',
     capabilities: [
       {
-        title: 'High-Performance Websites',
+        title: 'High-Performance Web Flagships',
         description:
-          'Marketing sites, corporate platforms and editorial experiences engineered for speed, conversion and long-term maintainability.',
+          'Corporate platforms, architectural monographs, and editorial presentations engineered on Next.js 16 with instant LCP and zero layout shift.',
       },
       {
-        title: 'Web Applications',
+        title: 'Bespoke Web Applications',
         description:
-          'Complex interactive applications — dashboards, portals, SaaS products and internal tools — built for reliability and scale.',
+          'Complex interactive platforms, client dashboards, and secure portals built with strict TypeScript and server-first App Router architecture.',
       },
       {
-        title: 'Ecommerce',
+        title: 'Selective WebGL & 3D Engineering',
         description:
-          'Commerce platforms built for performance and conversion, from bespoke storefronts to complex multi-channel operations.',
+          'Controlled vanilla Three.js visualization stages deployed for bespoke product configuration and technical showcase moments.',
       },
       {
-        title: 'Headless Architecture',
+        title: 'Headless Architecture & CMS',
         description:
-          'Decoupled frontend and backend systems that allow content, commerce and experience to evolve independently.',
+          'Decoupled content infrastructure allowing editorial autonomy without sacrificing code hygiene or frontend speed.',
       },
       {
-        title: 'CMS Implementation',
+        title: 'Conversion-Engineered UX',
         description:
-          'Content management systems configured for editorial teams, with structured content models that support growth.',
+          'User journeys and interaction mechanics designed around commercial qualification, replacing generic card clutter with editorial pacing.',
       },
       {
-        title: 'API Integration',
+        title: 'API & Microservice Integration',
         description:
-          'Clean integration with third-party services, internal systems and data sources.',
+          'Clean, resilient service contracts connecting web surfaces directly to internal databases and enterprise software.',
       },
     ],
-    technology: ['Next.js', 'React', 'TypeScript', 'Vercel', 'PostgreSQL'],
+    technology: ['Next.js App Router', 'React 19', 'TypeScript', 'Tailwind CSS v4', 'Vanilla Three.js', 'PostgreSQL'],
     seo: {
-      title: 'Web Development Agency — Avorria',
+      title: 'Digital Flagships & Web Application Engineering — Avorria',
       description:
-        'Avorria builds high-performance websites and web applications. From marketing sites to complex web applications — engineered for performance, conversion and scale.',
+        'Avorria engineers bespoke web flagships and complex interactive applications. Precision typography, instant performance, and architectural restraint.',
     },
   },
   {
-    slug: 'ai-development',
+    slug: 'search',
     status: 'published',
-    title: 'AI Development',
-    headline: 'AI built to solve real business problems.',
+    title: '02 // Search',
+    headline: 'Technical search architecture, migration risk mitigation, and structural visibility.',
     description:
-      'We implement AI where it creates genuine business value — integrating AI into products, building intelligent workflows, and creating AI-native functionality that actually works.',
+      'We treat search engine visibility as an engineering discipline. We build search architectures that compound in value, protect revenue during migrations, and capture high-intent commercial demand.',
     capabilities: [
       {
-        title: 'AI Integration',
+        title: 'Enterprise Technical Architecture',
         description:
-          'Connect your existing systems and products to AI models and APIs in a controlled, evaluated way.',
+          'Crawl budget engineering, semantic graph hierarchies, and rendering optimization ensuring complete index comprehension.',
       },
       {
-        title: 'AI Agents',
+        title: 'High-Risk Migration Engineering',
         description:
-          'Purpose-built autonomous agents that handle specific, well-defined business tasks with appropriate human oversight.',
+          'Rigorous 301 redirect mapping, canonical preservation, and URL authority safeguarding during major corporate platform rebuilds.',
       },
       {
-        title: 'AI Workflows & Automation',
+        title: 'Commercial Intent Hierarchy',
         description:
-          'Intelligent automation of business processes — document processing, data extraction, classification, routing and decision support.',
+          'Systematic keyword mapping targeting high-value commercial transactions and enterprise buyer intent rather than vanity search volume.',
       },
       {
-        title: 'Knowledge Systems',
+        title: 'Structured Data & Entity Graphs',
         description:
-          'AI-powered knowledge bases, documentation systems and information retrieval built on your proprietary data.',
+          'Comprehensive Schema.org semantic graphs engineered to establish unmistakable brand authority across search engines and AI models.',
       },
       {
-        title: 'AI Product Development',
+        title: 'Core Web Vitals Remediation',
         description:
-          'AI-native product features — from intelligent search to personalisation to generative interfaces — built into your product.',
+          'Root-cause architectural diagnostics to achieve 100/100 performance scores across mobile and desktop environments.',
       },
       {
-        title: 'Evaluation & Governance',
+        title: 'Audit & Retainer Teardowns',
         description:
-          'Structured evaluation frameworks for AI system quality, reliability, safety and business impact.',
+          'Blunt, independent audits of existing agency SEO retainers—revealing what is productive work, what is filler, and where crawl leaks exist.',
       },
     ],
-    technology: ['OpenAI', 'Anthropic', 'TypeScript', 'Python', 'PostgreSQL', 'Supabase'],
+    technology: ['Google Search Console API', 'Lighthouse', 'Schema.org', 'Next.js Metadata', 'Edge Rewriting'],
     seo: {
-      title: 'AI Development Agency — Avorria',
+      title: 'Technical Search Architecture & SEO Engineering — Avorria',
       description:
-        'Avorria builds AI integrations, agents and intelligent workflows that solve real business problems. AI implementation without the hype.',
+        'Avorria provides enterprise technical search architecture and migration risk mitigation. Search engine visibility engineered for compounding commercial value.',
     },
   },
   {
-    slug: 'digital-systems',
+    slug: 'systems',
     status: 'published',
-    title: 'Digital Systems',
-    headline: 'Business systems that connect your digital operations.',
+    title: '03 // Systems',
+    headline: 'Commercial data infrastructure, revenue attribution, and intelligent automations.',
     description:
-      'A website is sometimes only the beginning. We design and build the data, automation, integrations and platforms that make your digital infrastructure genuinely useful.',
+      'A website is only as valuable as the business machinery behind it. We design and deploy the data pipelines, autonomous workflows, and payment infrastructure that power digital operations.',
     capabilities: [
       {
-        title: 'Business Platforms',
+        title: 'Server-Side Attribution & Tracking',
         description:
-          'Custom platforms built around your specific business processes — not configured around somebody else\'s assumptions.',
+          'Resilient server-to-server tracking (CAPI, custom webhooks, PostgreSQL logs) eliminating browser ad-blocker drop-offs and reconciling true CAC.',
       },
       {
-        title: 'CRM Integration',
+        title: 'Autonomous Workflow & Scout Engines',
         description:
-          'Connect your website, applications and data systems with your CRM to create a coherent customer view.',
+          'Purpose-built automated processing pipelines for lead qualification, data extraction, competitor inspection, and operational routing.',
       },
       {
-        title: 'Data Systems',
+        title: 'Commercial Payment & Stripe Infrastructure',
         description:
-          'Data pipelines, warehouses, transformation layers and analytics infrastructure built to be reliable and maintainable.',
+          'Secure deposit collection, recurring billing, signed proposal token redemption, and automated accounting reconciliation.',
       },
       {
-        title: 'APIs',
+        title: 'Transactional Email & Dispatch',
         description:
-          'Internal and external APIs designed for clarity, performance and long-term evolution.',
+          'Dedicated domain authentication, rate-limited dispatch queues, and high-deliverability notification workflows via Resend.',
       },
       {
-        title: 'Automation',
+        title: 'Internal Dashboards & Executive Portals',
         description:
-          'Business process automation that removes manual work and keeps your operations moving without you.',
+          'High-density data interfaces that provide leadership with real-time pipeline telemetry, cashflow modeling, and operating metrics.',
       },
       {
-        title: 'Internal Tools',
+        title: 'CRM & ERP Synchronization',
         description:
-          'Custom internal applications — dashboards, reporting tools, admin systems — built for the people who actually use them.',
+          'Bi-directional synchronization bridges between front-facing web funnels and back-office enterprise management systems.',
       },
     ],
-    technology: ['PostgreSQL', 'Supabase', 'TypeScript', 'Next.js', 'APIs'],
+    technology: ['PostgreSQL', 'Supabase', 'Stripe', 'Resend', 'TypeScript', 'Server Actions'],
     seo: {
-      title: 'Digital Systems — Avorria',
+      title: 'Commercial Data Infrastructure & Systems Engineering — Avorria',
       description:
-        'Avorria builds the data, automation, APIs and platforms that make your digital infrastructure genuinely useful. Business systems without unnecessary complexity.',
+        'Avorria engineers commercial systems, server-side attribution, Stripe payment infrastructure, and intelligent workflow automation.',
     },
   },
 ]

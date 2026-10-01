@@ -1,129 +1,95 @@
 /**
  * lib/auth.ts
  * ─────────────────────────────────────────────────────────────────────────────
- * Authentication and authorisation utilities.
+ * Authentication and authorisation — Supabase Auth implementation.
  *
  * Architecture:
- * - Session is stored in an HttpOnly secure cookie (no localStorage)
- * - All role checks are performed server-side
- * - Client components never receive raw session tokens
- * - Authorization is always re-validated on every server action / route handler
- *
- * Current implementation: cookie-based session with in-memory store (suitable
- * for single-instance development). For production, replace the session store
- * with a persistent backend (e.g. Supabase Auth, next-auth with adapter, etc.)
- *
- * The interface of this module is designed so that switching the underlying
- * auth provider requires only changing this file — not the route or component
- * layer.
+ * - Session stored in httpOnly Supabase Auth cookies (managed by @supabase/ssr)
+ * - Role stored in auth.users.app_metadata (set by service-role only)
+ * - All role checks server-side — client never receives raw tokens
+ * - MFA: ADMIN and TEAM require aal2 (TOTP) enforced server-side
+ * - Every route/action re-validates — proxy.ts is coarse-only
  * ─────────────────────────────────────────────────────────────────────────────
  */
-
-import { cookies } from 'next/headers'
+import 'server-only'
 import { redirect } from 'next/navigation'
+import { createClient } from '@/lib/supabase/server'
 import type { User, UserRole, Session } from '@/types/platform'
 
-// ─── Session Cookie Configuration ─────────────────────────────────────────────
+// ─── Internal: map Supabase user → platform User ─────────────────────────────
 
-export const SESSION_COOKIE = 'avorria_session'
-
-const SESSION_MAX_AGE = 60 * 60 * 24 * 7 // 7 days
-
-// ─── In-Memory Session Store ──────────────────────────────────────────────────
-// ⚠ Development only. Replace with Redis / database sessions in production.
-// Keyed by opaque session token.
-
-type SessionStore = Map<string, { user: User; expiresAt: Date }>
-const sessionStore: SessionStore = new Map()
-
-// ─── Demo / Seed Users ────────────────────────────────────────────────────────
-// Placeholder users for local development. Remove before connecting real auth.
-// These users are never exposed to the browser.
-
-const DEMO_USERS: User[] = [
-  {
-    id: 'user_admin_01',
-    email: 'admin@avorria.com',
-    name: 'Avorria Admin',
-    role: 'ADMIN',
-    organisationId: null,
-    createdAt: '2026-01-01T00:00:00Z',
-    lastSignInAt: null,
-  },
-  {
-    id: 'user_team_01',
-    email: 'team@avorria.com',
-    name: 'Avorria Team',
-    role: 'TEAM',
-    organisationId: null,
-    createdAt: '2026-01-01T00:00:00Z',
-    lastSignInAt: null,
-  },
-  {
-    id: 'user_client_01',
-    email: 'client@example.com',
-    name: 'Client User',
-    role: 'CLIENT',
-    organisationId: 'org_01',
-    createdAt: '2026-01-01T00:00:00Z',
-    lastSignInAt: null,
-  },
-]
-
-// Credentials for demo login (development only)
-// In production: hash + salt passwords, never store in code
-const DEMO_CREDENTIALS: Record<string, string> = {
-  'admin@avorria.com':   'admin-dev-2026',
-  'team@avorria.com':    'team-dev-2026',
-  'client@example.com':  'client-dev-2026',
+function mapSupabaseUser(supabaseUser: {
+  id: string
+  email?: string
+  app_metadata?: Record<string, unknown>
+  user_metadata?: Record<string, unknown>
+  created_at?: string
+  last_sign_in_at?: string | null
+}): User {
+  return {
+    id: supabaseUser.id,
+    email: supabaseUser.email ?? '',
+    name: (supabaseUser.user_metadata?.full_name as string | undefined) ?? supabaseUser.email ?? '',
+    role: ((supabaseUser.app_metadata?.role as string | undefined) ?? 'CLIENT') as UserRole,
+    organisationId: (supabaseUser.app_metadata?.organisation_id as string | undefined) ?? null,
+    createdAt: supabaseUser.created_at ?? new Date().toISOString(),
+    lastSignInAt: supabaseUser.last_sign_in_at ?? null,
+  }
 }
 
-// ─── Token Generation ─────────────────────────────────────────────────────────
-
-function generateToken(): string {
-  const array = new Uint8Array(32)
-  crypto.getRandomValues(array)
-  return Array.from(array).map((b) => b.toString(16).padStart(2, '0')).join('')
-}
-
-// ─── Session Retrieval ────────────────────────────────────────────────────────
+// ─── Session retrieval ────────────────────────────────────────────────────────
 
 /**
- * Returns the current session from the HttpOnly cookie, or null if not
- * authenticated / session expired.
+ * Returns the current authenticated session, or null.
+ * Validates the Supabase JWT server-side — never trusts client claims.
  */
 export async function getSession(): Promise<Session | null> {
-  const cookieStore = await cookies()
-  const token = cookieStore.get(SESSION_COOKIE)?.value
-  if (!token) return null
+  const supabase = await createClient()
+  const { data: { user }, error } = await supabase.auth.getUser()
 
-  const entry = sessionStore.get(token)
-  if (!entry) return null
+  if (error || !user) return null
 
-  if (entry.expiresAt < new Date()) {
-    sessionStore.delete(token)
-    return null
-  }
+  // Get session for expiry
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session) return null
 
   return {
-    user: entry.user,
-    expiresAt: entry.expiresAt.toISOString(),
+    user: mapSupabaseUser(user),
+    expiresAt: new Date(session.expires_at! * 1000).toISOString(),
   }
 }
 
 /**
- * Returns the current user, or null if not authenticated.
+ * Returns the current authenticated user, or null.
  */
 export async function getCurrentUser(): Promise<User | null> {
   const session = await getSession()
   return session?.user ?? null
 }
 
-// ─── Authorization Guards ─────────────────────────────────────────────────────
+// ─── MFA check ───────────────────────────────────────────────────────────────
+
+/**
+ * Checks if the current session satisfies aal2 (MFA).
+ * ADMIN and TEAM always require aal2.
+ */
+export async function checkMfa(): Promise<{ satisfied: boolean; currentLevel: string }> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel()
+
+  if (error || !data) return { satisfied: false, currentLevel: 'aal1' }
+
+  return {
+    satisfied: data.currentLevel === 'aal2',
+    currentLevel: data.currentLevel ?? 'aal1',
+  }
+}
+
+// ─── Authorization guards ─────────────────────────────────────────────────────
 
 /**
  * Requires an authenticated session.
- * Redirects to the login page if not authenticated.
+ * Redirects to loginPath if not authenticated.
  */
 export async function requireAuth(loginPath = '/client/login'): Promise<User> {
   const user = await getCurrentUser()
@@ -132,7 +98,7 @@ export async function requireAuth(loginPath = '/client/login'): Promise<User> {
 }
 
 /**
- * Requires a specific role (or higher).
+ * Requires a role >= requiredRole.
  * Role hierarchy: CLIENT < TEAM < ADMIN
  */
 export async function requireRole(
@@ -145,10 +111,23 @@ export async function requireRole(
 }
 
 /**
- * Requires ADMIN role specifically.
+ * Requires ADMIN role + aal2 MFA.
  */
 export async function requireAdmin(): Promise<User> {
-  return requireRole('ADMIN', '/admin/login')
+  const user = await requireRole('ADMIN', '/admin/login')
+  const mfa = await checkMfa()
+  if (!mfa.satisfied) redirect('/admin/mfa')
+  return user
+}
+
+/**
+ * Requires TEAM or ADMIN role + aal2 MFA.
+ */
+export async function requireTeam(): Promise<User> {
+  const user = await requireRole('TEAM', '/admin/login')
+  const mfa = await checkMfa()
+  if (!mfa.satisfied) redirect('/admin/mfa')
+  return user
 }
 
 /**
@@ -156,77 +135,92 @@ export async function requireAdmin(): Promise<User> {
  */
 export function hasRole(user: User, required: UserRole): boolean {
   const hierarchy: UserRole[] = ['CLIENT', 'TEAM', 'ADMIN']
-  const userLevel = hierarchy.indexOf(user.role)
-  const requiredLevel = hierarchy.indexOf(required)
-  return userLevel >= requiredLevel
+  return hierarchy.indexOf(user.role) >= hierarchy.indexOf(required)
 }
 
 /**
- * Returns true if a CLIENT user owns a resource (i.e. it belongs to their org).
- * TEAM and ADMIN users always pass this check.
+ * Returns true if a CLIENT user can access an organisation's data.
+ * TEAM and ADMIN users always pass.
  */
 export function canAccessOrganisation(user: User, organisationId: string): boolean {
   if (hasRole(user, 'TEAM')) return true
   return user.organisationId === organisationId
 }
 
-// ─── Sign In ──────────────────────────────────────────────────────────────────
+// ─── Sign in ─────────────────────────────────────────────────────────────────
 
 export interface SignInResult {
   success: boolean
   error?: string
   redirectTo?: string
+  mfaRequired?: boolean
 }
 
 /**
- * Validates credentials and creates a session.
- * In production: replace credential lookup with database + bcrypt comparison.
+ * Signs in with email + password via Supabase Auth.
+ * Returns redirect path based on role.
+ * ADMIN/TEAM are redirected to MFA challenge if not already aal2.
  */
 export async function signIn(email: string, password: string): Promise<SignInResult> {
-  // Normalise email
-  const normalisedEmail = email.trim().toLowerCase()
+  const supabase = await createClient()
 
-  // Lookup user
-  const user = DEMO_USERS.find((u) => u.email === normalisedEmail)
-  if (!user) {
-    // Use a consistent error message — don't reveal whether email exists
-    return { success: false, error: 'Invalid email or password.' }
-  }
-
-  // Validate credentials
-  const expectedPassword = DEMO_CREDENTIALS[normalisedEmail]
-  if (!expectedPassword || password !== expectedPassword) {
-    return { success: false, error: 'Invalid email or password.' }
-  }
-
-  // Create session
-  const token = generateToken()
-  const expiresAt = new Date(Date.now() + SESSION_MAX_AGE * 1000)
-  sessionStore.set(token, { user: { ...user, lastSignInAt: new Date().toISOString() }, expiresAt })
-
-  // Set cookie
-  const cookieStore = await cookies()
-  cookieStore.set(SESSION_COOKIE, token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: SESSION_MAX_AGE,
-    path: '/',
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email.trim().toLowerCase(),
+    password,
   })
 
-  // Determine redirect based on role
-  const redirectTo = user.role === 'ADMIN' || user.role === 'TEAM'
-    ? '/admin/dashboard'
-    : '/client/dashboard'
+  if (error || !data.user) {
+    return { success: false, error: 'Invalid email or password.' }
+  }
 
-  return { success: true, redirectTo }
+  const user = mapSupabaseUser(data.user)
+  const isStaff = user.role === 'ADMIN' || user.role === 'TEAM'
+
+  if (isStaff) {
+    // Check MFA assurance level
+    const mfa = await checkMfa()
+    if (!mfa.satisfied) {
+      return {
+        success: true,
+        mfaRequired: true,
+        redirectTo: '/admin/mfa',
+      }
+    }
+    return { success: true, redirectTo: '/admin/dashboard' }
+  }
+
+  return { success: true, redirectTo: '/client/dashboard' }
 }
 
-// ─── Sign Out ─────────────────────────────────────────────────────────────────
+// ─── Sign out ─────────────────────────────────────────────────────────────────
 
+/**
+ * Signs out from all sessions (global scope).
+ */
 export async function signOut(): Promise<void> {
-  const cookieStore = await cookies()
-  const token = cookieStore.get(SESSION_COOKIE)?.value
-  if (token) sessionStore.delete(token)
-  cookieStore.delete(SESSION_COOKIE)
+  const supabase = await createClient()
+  await supabase.auth.signOut({ scope: 'global' })
+}
+
+// ─── Password reset ───────────────────────────────────────────────────────────
+
+/**
+ * Sends a password reset email.
+ */
+export async function sendPasswordReset(email: string): Promise<{ error?: string }> {
+  const supabase = await createClient()
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://avorria.com'
+
+  const { error } = await supabase.auth.resetPasswordForEmail(
+    email.trim().toLowerCase(),
+    { redirectTo: `${siteUrl}/client/reset-password` }
+  )
+
+  if (error) {
+    // Don't reveal whether the email exists
+    console.error('[Auth] Password reset error:', error.message)
+  }
+
+  // Always return success to prevent email enumeration
+  return {}
 }

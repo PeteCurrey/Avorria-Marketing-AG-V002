@@ -5,27 +5,27 @@ import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 const capabilities = [
   {
     index: '01',
-    label: 'WEB',
-    title: 'Web Development',
+    label: 'BUILD',
+    title: 'Digital Flagships & Web Applications',
     description:
-      'Websites and web applications built for performance, conversion and scale. From marketing platforms to complex SaaS products.',
-    href: '/services/web-development',
+      'High-performance web platforms, bespoke web software, and selective WebGL configurations engineered with surgical typography and instant LCP.',
+    href: '/services/build',
   },
   {
     index: '02',
-    label: 'AI',
-    title: 'AI Development',
+    label: 'SEARCH',
+    title: 'Technical Search & Migration Architecture',
     description:
-      'AI integrations, intelligent workflows, agents and AI-native product functionality — built to solve real business problems.',
-    href: '/services/ai-development',
+      'Enterprise crawl budget engineering, high-risk migration safeguards, semantic entity graphs, and commercial keyword dominance.',
+    href: '/services/search',
   },
   {
     index: '03',
     label: 'SYSTEMS',
-    title: 'Digital Systems',
+    title: 'Commercial Systems & Data Pipelines',
     description:
-      'Data, APIs, automation, CRM, platforms and connected business systems that make your digital infrastructure genuinely useful.',
-    href: '/services/digital-systems',
+      'Server-side attribution, Stripe payment infrastructure, autonomous scout engines, and real-time operational telemetry.',
+    href: '/services/systems',
   },
 ]
 

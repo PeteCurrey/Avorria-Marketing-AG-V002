@@ -1,3 +1,5 @@
+// Validate environment variables at server startup — throws descriptively if missing
+import '@/lib/env'
 import type { Metadata } from 'next'
 import { Work_Sans } from 'next/font/google'
 import { Navigation } from '@/components/navigation/Navigation'

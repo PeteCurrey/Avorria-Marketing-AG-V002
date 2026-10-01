@@ -6,10 +6,12 @@ import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { track } from '@/lib/analytics'
 
-// ─── Nav links — Phase 2A: Journal → The Lobby ────────────────────────────────
+// ─── Nav links — Canonical Architecture ──────────────────────────────────────
 const navLinks = [
   { label: 'Work',       href: '/work' },
   { label: 'Services',   href: '/services' },
+  { label: 'Pricing',    href: '/pricing' },
+  { label: 'Audit',      href: '/audit' },
   { label: 'Process',    href: '/process' },
   { label: 'About',      href: '/about' },
   { label: 'The Lobby',  href: '/lobby' },

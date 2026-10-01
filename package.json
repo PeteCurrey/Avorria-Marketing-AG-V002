@@ -9,20 +9,38 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "check:fonts": "! grep -rn --include='*.tsx' --include='*.ts' --include='*.css' 'font-bold\\|font-semibold\\|font-medium\\|font-weight.*[56789][0-9][0-9]\\|fontWeight.*[56789][0-9][0-9]' . --exclude-dir=node_modules --exclude-dir=.next && echo 'Font weight check passed — no violations found.'",
-    "check:all": "pnpm run typecheck && pnpm run check:fonts"
+    "check:all": "pnpm run typecheck && pnpm run check:fonts",
+    "test:unit": "vitest run --exclude 'tests/rls/**'",
+    "test:rls": "vitest run tests/rls",
+    "test:e2e": "playwright test",
+    "ci": "pnpm run typecheck && pnpm run lint && pnpm run test:unit && pnpm run build",
+    "ci:full": "pnpm run ci && pnpm run test:rls",
+    "seed": "npx tsx scripts/seed.ts",
+    "db:migrate": "npx tsx scripts/apply-migrations.ts"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.117.2",
+    "lenis": "^1.3.26",
     "next": "16.3.8",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
+    "server-only": "^0.0.1",
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^22.0.0",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@vitest/coverage-v8": "^5.0.3",
+    "dotenv": "^16.0.0",
+    "pg": "^8.23.1",
     "tailwindcss": "^4.3.3",
-    "typescript": "^5.8.0"
+    "tsx": "^4.0.0",
+    "typescript": "^5.8.0",
+    "vitest": "^5.0.3"
   }
 }

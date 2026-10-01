@@ -11,15 +11,15 @@ interface AdminNavProps {
 }
 
 const adminLinks = [
-  { label: 'Overview',     href: '/admin/dashboard',     icon: '○' },
-  { label: 'Clients',      href: '/admin/clients',        icon: '◫' },
-  { label: 'Projects',     href: '/admin/projects',       icon: '⬡' },
-  { label: 'Enquiries',    href: '/admin/enquiries',      icon: '◻' },
-  { label: 'Messages',     href: '/admin/messages',       icon: '□' },
-  { label: 'Documents',    href: '/admin/documents',      icon: '⊡' },
-  { label: 'Deliverables', href: '/admin/deliverables',   icon: '↗' },
-  { label: 'Activity',     href: '/admin/activity',       icon: '≡' },
-  { label: 'Settings',     href: '/admin/settings',       icon: '⊘' },
+  { label: 'Overview',      href: '/admin/dashboard',     icon: '○' },
+  { label: 'The Lobby',     href: '/admin/lobby',         icon: '✎' },
+  { label: 'Scout Engine',  href: '/admin/scout',         icon: '⌖' },
+  { label: 'Outreach',      href: '/admin/outreach',      icon: '✉' },
+  { label: 'Proposals',     href: '/admin/proposals',     icon: '◫' },
+  { label: 'Projects',      href: '/admin/projects',       icon: '⬡' },
+  { label: 'Enquiries',     href: '/admin/enquiries',      icon: '◻' },
+  { label: 'Finance',       href: '/admin/finance',        icon: '£' },
+  { label: 'System Health', href: '/admin/system-health',  icon: '≡' },
 ]
 
 export function AdminNav({ user }: AdminNavProps) {
