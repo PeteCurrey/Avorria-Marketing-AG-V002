@@ -2,14 +2,17 @@
 
 import React, { useEffect, useRef } from 'react'
 import Lenis from 'lenis'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 interface SmoothScrollProviderProps {
   children: React.ReactNode
 }
 
 /**
- * Avorria Smooth Scroll Provider
- * Manages Lenis instance with strict reduced-motion adherence and RAF synchronization.
+ * Avorria Smooth Scroll & Motion Provider
+ * Harmonizes Lenis smooth scrolling with GSAP ScrollTrigger ticker.
+ * Strict prefers-reduced-motion adherence.
  */
 export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
   const lenisRef = useRef<Lenis | null>(null)
@@ -21,29 +24,34 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
       return
     }
 
+    gsap.registerPlugin(ScrollTrigger)
+
     const lenis = new Lenis({
       duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Clean decelerated exponential curve
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      touchMultiplier: 1.5,
+      touchMultiplier: 1.4,
     })
 
     lenisRef.current = lenis
 
-    let rafId: number
-    function raf(time: number) {
-      lenis.raf(time)
-      rafId = requestAnimationFrame(raf)
-    }
+    // Sync Lenis scroll events with ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update)
 
-    rafId = requestAnimationFrame(raf)
+    // Drive Lenis via GSAP ticker for unified frame execution
+    const tickerUpdate = (time: number) => {
+      lenis.raf(time * 1000)
+    }
+    gsap.ticker.add(tickerUpdate)
+    gsap.ticker.lagSmoothing(0)
 
     return () => {
-      cancelAnimationFrame(rafId)
+      gsap.ticker.remove(tickerUpdate)
       lenis.destroy()
       lenisRef.current = null
+      ScrollTrigger.getAll().forEach((t) => t.kill())
     }
   }, [])
 

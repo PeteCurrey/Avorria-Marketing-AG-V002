@@ -1,83 +1,116 @@
 import Link from 'next/link'
-import { Eyebrow } from '@/components/ui/Eyebrow'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { Button } from '@/components/ui/Button'
 import { getAllArticles } from '@/lib/lobby'
+
+/**
+ * LobbyPreview — Chapter 07
+ *
+ * Requirements:
+ * - Chapter 07: Warm Ivory ground
+ * - Oversized section numeral: 07 (Work Sans 200)
+ * - Thin full-width rule
+ * - Scale contrast: monumental display statement vs small tracked labels
+ * - Truthful editorial intelligence dispatch listing with reserved visual aperture
+ */
 
 export async function LobbyPreview() {
   const articles = (await getAllArticles()).slice(0, 3)
 
   return (
     <section
-      className="section-y-large border-b border-[var(--color-border)] bg-[var(--color-ivory-dark)]"
+      className="relative section-y-large border-t border-[var(--color-border)] bg-[var(--color-ivory)] overflow-hidden"
       aria-labelledby="lobby-heading"
     >
-      <div className="container-max">
-        <div className="container-content">
+      {/* ── Background Architectural Numeral ─────────────────────────────────── */}
+      <div
+        className="absolute top-8 right-[7vw] pointer-events-none select-none text-[clamp(6rem,16vw,14rem)] font-extralight text-[var(--color-graphite)] opacity-[0.04] leading-none"
+        aria-hidden="true"
+      >
+        07
+      </div>
 
-          <div className="flex items-end justify-between mb-16 gap-8">
-            <RevealOnScroll>
-              <Eyebrow>06 — The Lobby</Eyebrow>
-              <h2 id="lobby-heading" className="text-display-l">
-                What changed. What matters.
-              </h2>
-            </RevealOnScroll>
-            <RevealOnScroll>
+      <div className="w-full px-6 md:px-10 lg:px-[7vw]">
+        {/* Section Header */}
+        <div className="max-w-[1200px] mb-16 lg:mb-20">
+          <RevealOnScroll>
+            <div className="flex items-center gap-4 mb-8">
+              <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-mid)]">
+                07 // THE LOBBY · EDITORIAL INTELLIGENCE
+              </span>
+              <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
+            </div>
+
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+              <div>
+                <h2
+                  id="lobby-heading"
+                  className="font-extralight text-[var(--color-graphite)] leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.5vw,5.75rem)]"
+                >
+                  What changed.{' '}
+                  <em className="not-italic italic font-extralight" style={{ color: 'var(--color-rose-text)' }}>
+                    What matters.
+                  </em>
+                </h2>
+                <p className="mt-4 text-sm md:text-base font-light text-[var(--color-graphite-mid)] max-w-[42ch]">
+                  Critical dispatches on search algorithms, platform changes, and digital infrastructure for ambitious operators.
+                </p>
+              </div>
+
               <Button
                 as="link"
                 href="/lobby"
-                variant="ghost"
+                variant="secondary"
                 size="sm"
                 className="hidden md:inline-flex shrink-0"
               >
-                All dispatches →
+                Enter The Lobby ↗
               </Button>
-            </RevealOnScroll>
-          </div>
+            </div>
+          </RevealOnScroll>
+        </div>
 
-          <div className="space-y-0">
-            {articles.map((article, i) => (
-              <RevealOnScroll key={article.slug} delay={i * 80}>
-                <Link
-                  href={`/lobby/${article.slug}`}
-                  className="group block border-t border-[var(--color-border)] py-8 hover:border-[var(--color-border-strong)] transition-colors duration-[var(--duration-base)]"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-[140px_1fr_auto] gap-4 md:gap-8 items-center">
-                    <p className="text-label-upper text-[var(--color-graphite-muted)]">
+        {/* ── Editorial Dispatches List ───────────────────────────────────────── */}
+        <div className="border-t border-[var(--color-border)] divide-y divide-[var(--color-border)]">
+          {articles.map((article, i) => (
+            <RevealOnScroll key={article.slug} delay={i * 80}>
+              <Link
+                href={`/lobby/${article.slug}`}
+                className="group block py-8 md:py-10 hover:bg-black/[0.012] transition-colors"
+              >
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-baseline">
+                  <div className="lg:col-span-3">
+                    <span className="text-[10px] tracking-[0.2em] font-light text-[var(--color-rose-text)] uppercase block mb-1">
                       {article.categoryName ?? article.categoryLabel ?? article.category}
-                    </p>
-                    <div>
-                      <h3 className="text-[var(--text-heading)] font-light text-[var(--color-graphite)] group-hover:text-[var(--color-accent)] transition-colors duration-[var(--duration-base)] mb-1">
-                        {article.title}
-                      </h3>
-                      <p className="text-[var(--text-small)] text-secondary line-clamp-1 font-light">
-                        {article.excerpt ?? article.dek}
-                      </p>
-                    </div>
-                    <div className="hidden md:flex items-center gap-4">
-                      <span className="text-label-upper text-muted">
-                        {article.readingTimeMinutes ?? article.readTimeMinutes ?? 5} MIN READ
-                      </span>
-                      <span
-                        className="text-muted group-hover:text-[var(--color-accent)] group-hover:translate-x-1 transition-all duration-[var(--duration-base)]"
-                        aria-hidden="true"
-                      >
-                        →
-                      </span>
-                    </div>
+                    </span>
+                    <span className="text-[10px] tracking-[0.16em] uppercase text-[var(--color-graphite-muted)] font-light">
+                      DISPATCH #{i + 1} · {article.readingTimeMinutes ?? article.readTimeMinutes ?? 5} MIN READ
+                    </span>
                   </div>
-                </Link>
-              </RevealOnScroll>
-            ))}
-            <div className="border-t border-[var(--color-border)]" aria-hidden="true" />
-          </div>
 
-          <div className="mt-8 md:hidden">
-            <Button as="link" href="/lobby" variant="ghost" size="sm">
-              All dispatches →
-            </Button>
-          </div>
+                  <div className="lg:col-span-8">
+                    <h3 className="text-xl md:text-2xl font-extralight text-[var(--color-graphite)] group-hover:text-[var(--color-rose-text)] transition-colors mb-2 tracking-[-0.01em]">
+                      {article.title}
+                    </h3>
+                    <p className="text-sm font-light text-[var(--color-graphite-mid)] leading-relaxed line-clamp-2">
+                      {article.excerpt ?? article.dek}
+                    </p>
+                  </div>
 
+                  <div className="lg:col-span-1 hidden lg:flex justify-end text-[var(--color-graphite-mid)] group-hover:text-[var(--color-rose-text)] group-hover:translate-x-1 transition-all">
+                    <span>↗</span>
+                  </div>
+                </div>
+              </Link>
+            </RevealOnScroll>
+          ))}
+        </div>
+
+        {/* Mobile Link */}
+        <div className="mt-8 md:hidden">
+          <Button as="link" href="/lobby" variant="secondary" size="sm">
+            Enter The Lobby ↗
+          </Button>
         </div>
       </div>
     </section>

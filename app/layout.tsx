@@ -142,6 +142,9 @@ function OrganizationSchema() {
 
 // ─── Root Layout ─────────────────────────────────────────────────────────────
 
+import { WordmarkCurtain } from '@/components/curtain/WordmarkCurtain'
+import { SmoothScrollProvider } from '@/components/motion/SmoothScrollProvider'
+
 export default function RootLayout({
   children,
 }: {
@@ -163,18 +166,21 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <WordmarkCurtain />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--color-graphite)] focus:text-[var(--color-ivory)] focus:rounded-[var(--radius-sm)]"
         >
           Skip to main content
         </a>
-        <Navigation />
-        <main id="main-content" className="pt-16 md:pt-20">
-          {children}
-        </main>
-        <Footer />
-        <RevealOnScroll />
+        <SmoothScrollProvider>
+          <Navigation />
+          <main id="main-content" className="pt-16 md:pt-20">
+            {children}
+          </main>
+          <Footer />
+          <RevealOnScroll />
+        </SmoothScrollProvider>
       </body>
     </html>
   )

@@ -29,6 +29,18 @@ export const projects: Project[] = [
       'Deployed a production digital flagship operating at zero layout shift with custom geometry specification pipelines.',
     featured: true,
     homepageLayout: 'horizontal',
+    thumbnail: {
+      src: '/images/projects/alkota-bikes/thumbnail.webp',
+      alt: 'Alkota Bikes titanium frame geometry interface',
+      width: 1200,
+      height: 900,
+    },
+    heroImage: {
+      src: '/images/projects/alkota-bikes/hero.webp',
+      alt: 'Alkota Bikes digital flagship view',
+      width: 1600,
+      height: 900,
+    },
     seo: {
       title: 'Alkota Bikes — Bespoke Titanium Platform | Avorria Case Study',
       description: 'Digital flagship and custom frame architecture for bespoke titanium bicycles.',
@@ -54,6 +66,18 @@ export const projects: Project[] = [
       'Sub-millisecond data stream visualization with real-time risk parameter calculation and automated position sizing.',
     featured: true,
     homepageLayout: 'dark-split',
+    thumbnail: {
+      src: '/images/projects/drawdown/thumbnail.webp',
+      alt: 'Drawdown.Trading low-latency execution interface',
+      width: 1200,
+      height: 900,
+    },
+    heroImage: {
+      src: '/images/projects/drawdown/hero.webp',
+      alt: 'Drawdown.Trading quantitative risk terminal',
+      width: 1600,
+      height: 900,
+    },
     seo: {
       title: 'Drawdown.Trading — Quantitative Risk Platform | Avorria Case Study',
       description: 'High-frequency analytics dashboard and quantitative risk management architecture.',
@@ -79,6 +103,18 @@ export const projects: Project[] = [
       'Automated skill-gap diagnostics and structural career laddering deployed across enterprise client cohorts.',
     featured: true,
     homepageLayout: 'asymmetric',
+    thumbnail: {
+      src: '/images/projects/careeros/thumbnail.webp',
+      alt: 'CareerOS AI skill taxonomy graph interface',
+      width: 1200,
+      height: 900,
+    },
+    heroImage: {
+      src: '/images/projects/careeros/hero.webp',
+      alt: 'CareerOS career orchestration platform view',
+      width: 1600,
+      height: 900,
+    },
     seo: {
       title: 'CareerOS — AI Talent Systems | Avorria Case Study',
       description: 'Enterprise career orchestration platform and intelligent workflow systems.',
@@ -104,6 +140,18 @@ export const projects: Project[] = [
       'Sub-second query response across nationwide property boundary records and algorithmic valuation indices.',
     featured: true,
     homepageLayout: 'full-width',
+    thumbnail: {
+      src: '/images/projects/nestiq/thumbnail.webp',
+      alt: 'NestIQ cadastral polygon vector tile inspection interface',
+      width: 1200,
+      height: 900,
+    },
+    heroImage: {
+      src: '/images/projects/nestiq/hero.webp',
+      alt: 'NestIQ spatial property intelligence platform',
+      width: 1600,
+      height: 900,
+    },
     seo: {
       title: 'NestIQ — Property Intelligence Platform | Avorria Case Study',
       description: 'Spatial data layers and valuation modeling platform for institutional real estate.',
@@ -129,6 +177,18 @@ export const projects: Project[] = [
       'Consolidated multi-region service dispatch, establishing verified commercial search authority across nationwide service sectors.',
     featured: true,
     homepageLayout: 'side-by-side',
+    thumbnail: {
+      src: '/images/projects/entirefm/thumbnail.webp',
+      alt: 'EntireFM unified facilities dispatch platform view',
+      width: 1200,
+      height: 900,
+    },
+    heroImage: {
+      src: '/images/projects/entirefm/hero.webp',
+      alt: 'EntireFM nationwide operations interface',
+      width: 1600,
+      height: 900,
+    },
     seo: {
       title: 'EntireFM — Facilities Management Systems | Avorria Case Study',
       description: 'Commercial facilities management digital operations platform and organic search architecture.',
@@ -154,6 +214,18 @@ export const projects: Project[] = [
       'Rapid-loading architectural showcase with interactive leasing floorplate diagrams and direct commercial enquiry capture.',
     featured: true,
     homepageLayout: 'text-led',
+    thumbnail: {
+      src: '/images/projects/one-great-northern/thumbnail.webp',
+      alt: 'One Great Northern architectural digital showcase view',
+      width: 1200,
+      height: 900,
+    },
+    heroImage: {
+      src: '/images/projects/one-great-northern/hero.webp',
+      alt: 'One Great Northern interactive floorplate interface',
+      width: 1600,
+      height: 900,
+    },
     seo: {
       title: 'One Great Northern — Commercial Property Showcase | Avorria Case Study',
       description: 'Immersive architectural showcase for landmark commercial development.',

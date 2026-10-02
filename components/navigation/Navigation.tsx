@@ -10,8 +10,6 @@ import { track } from '@/lib/analytics'
 const navLinks = [
   { label: 'Work',       href: '/work' },
   { label: 'Services',   href: '/services' },
-  { label: 'Pricing',    href: '/pricing' },
-  { label: 'Audit',      href: '/audit' },
   { label: 'Process',    href: '/process' },
   { label: 'About',      href: '/about' },
   { label: 'The Lobby',  href: '/lobby' },
@@ -87,13 +85,14 @@ export function Navigation() {
       <header
         className={[
           'fixed top-0 left-0 right-0 z-50',
-          'bg-[var(--color-ivory)]/95 backdrop-blur-sm',
-          'transition-shadow duration-[var(--duration-base)]',
-          scrolled ? 'shadow-[0_1px_0_0_var(--color-border)]' : '',
+          scrolled
+            ? 'bg-[var(--color-ivory)]/95 backdrop-blur-sm shadow-[0_1px_0_0_var(--color-border)]'
+            : 'bg-transparent',
+          'transition-all duration-[var(--duration-base)]',
         ].join(' ')}
         role="banner"
       >
-        <div className="container-max">
+        <div className="w-full px-6 md:px-10 lg:px-[7vw]">
           <nav
             className="flex items-center justify-between h-16 md:h-20"
             aria-label="Primary navigation"
