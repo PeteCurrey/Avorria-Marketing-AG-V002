@@ -36,10 +36,10 @@ export const projects: Project[] = [
       height: 900,
     },
     heroImage: {
-      src: '/images/projects/alkota-bikes/hero.webp',
-      alt: 'Alkota Bikes digital flagship view',
-      width: 1600,
-      height: 900,
+      src: '/images/projects/alkota-bikes/hero-screenshot.png',
+      alt: 'Alkota Bikes — Engineered to Go Further hero screen',
+      width: 1024,
+      height: 578,
     },
     seo: {
       title: 'Alkota Bikes — Bespoke Titanium Platform | Avorria Case Study',
