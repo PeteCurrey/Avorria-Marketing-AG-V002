@@ -26,13 +26,77 @@ export type ChapterType =
 
 export interface CaseStudyMedia {
   id: string
-  type: 'IMAGE' | 'INTERFACE' | 'SCHEMATIC' | 'DIAGRAM'
+  type: 'IMAGE' | 'INTERFACE' | 'SCHEMATIC' | 'DIAGRAM' | 'VIDEO'
+  /** Absolute path under /public — e.g. /images/projects/alkota-bikes/gallery-01.webp */
   src?: string
+  /** AVIF variant (preferred). If present, used in <picture> srcset. */
+  srcAvif?: string
+  /** Poster frame for video media, or blur placeholder for images */
+  poster?: string
+  /** Intrinsic width in px (required when not using fill layout) */
+  width?: number
+  /** Intrinsic height in px (required when not using fill layout) */
+  height?: number
   alt: string
   caption?: string
   aspectRatio?: '21/9' | '16/9' | '4/3' | '1/1' | '16/5'
   figureNumber?: string
   spec?: string
+}
+
+/**
+ * Bespoke media composition for a case study.
+ * Every field is optional — each project can have a different media set.
+ * Never fabricate: only add verified assets.
+ */
+export interface CaseStudyMediaCollection {
+  /** Primary hero visual — displayed large at top of case study */
+  hero_image?: {
+    src: string
+    srcAvif?: string
+    alt: string
+    blurDataURL?: string
+    width?: number
+    height?: number
+  }
+  /** Hero video — replaces hero_image when supplied */
+  hero_video?: {
+    src: string
+    poster: string
+    alt: string
+  }
+  /** Card thumbnail — used on homepage Work showcase and /work listing */
+  thumbnail?: {
+    src: string
+    srcAvif?: string
+    alt: string
+    blurDataURL?: string
+    width?: number
+    height?: number
+  }
+  /** Project gallery — multiple full-quality editorial images */
+  gallery?: CaseStudyMedia[]
+  /** Specific interface/UI crops */
+  interface_images?: CaseStudyMedia[]
+  /** Mobile viewport captures */
+  mobile_images?: CaseStudyMedia[]
+  /** Full desktop captures — may render full-bleed */
+  desktop_images?: CaseStudyMedia[]
+  /** Short screen recordings / interactions */
+  video_clips?: Array<{
+    src: string
+    poster: string
+    caption?: string
+    alt: string
+    /** Seconds — short clips only. Target: under 30s. */
+    duration?: number
+  }>
+  /** Process / system architecture visuals */
+  process_images?: CaseStudyMedia[]
+  /** Outcome / result visuals */
+  outcome_images?: CaseStudyMedia[]
+  /** Custom render order for gallery — array of CaseStudyMedia.id values */
+  media_order?: string[]
 }
 
 export interface QualitativeEvidence {
@@ -86,8 +150,20 @@ export interface DetailedCaseStudy {
   technologyStack: string[]
   chapters: CaseStudyChapter[]
   qualitativeEvidence: QualitativeEvidence[]
+  /**
+   * Bespoke media composition — all fields optional.
+   * Add only verified assets. Never fabricate.
+   */
+  mediaCollection?: CaseStudyMediaCollection
+  /**
+   * Homepage Selected Work layout variant.
+   * Controls which editorial treatment is applied to this project's showcase card.
+   * Defaults to 'horizontal' if omitted.
+   */
+  homepageLayout?: 'horizontal' | 'dark-split' | 'asymmetric' | 'full-width' | 'side-by-side' | 'text-led'
   seo: {
     title: string
     description: string
   }
 }
+

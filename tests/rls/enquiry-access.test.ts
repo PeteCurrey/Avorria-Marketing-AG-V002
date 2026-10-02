@@ -59,7 +59,7 @@ describe('RLS: Enquiry table — client/anon zero access', () => {
     if (setupFailed || !clientEmail) return
     const client = await signedInClient(clientEmail, 'TestPass123!').catch(() => null)
     if (!client) return
-    const { error } = await client.from('enquiries').insert({
+    const { error } = await (client.from('enquiries') as any).insert({
       name: 'Hacked',
       email: 'hacker@test.com',
       what_building: 'Test',
@@ -70,7 +70,7 @@ describe('RLS: Enquiry table — client/anon zero access', () => {
 
   it('Unauthenticated cannot INSERT into enquiries', async () => {
     const anon = anonClient()
-    const { error } = await anon.from('enquiries').insert({
+    const { error } = await (anon.from('enquiries') as any).insert({
       name: 'Hacked',
       email: 'hacker@test.com',
       what_building: 'Test',

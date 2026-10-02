@@ -28,6 +28,7 @@ export const projects: Project[] = [
     outcome:
       'Deployed a production digital flagship operating at zero layout shift with custom geometry specification pipelines.',
     featured: true,
+    homepageLayout: 'horizontal',
     seo: {
       title: 'Alkota Bikes — Bespoke Titanium Platform | Avorria Case Study',
       description: 'Digital flagship and custom frame architecture for bespoke titanium bicycles.',
@@ -52,6 +53,7 @@ export const projects: Project[] = [
     outcome:
       'Sub-millisecond data stream visualization with real-time risk parameter calculation and automated position sizing.',
     featured: true,
+    homepageLayout: 'dark-split',
     seo: {
       title: 'Drawdown.Trading — Quantitative Risk Platform | Avorria Case Study',
       description: 'High-frequency analytics dashboard and quantitative risk management architecture.',
@@ -76,6 +78,7 @@ export const projects: Project[] = [
     outcome:
       'Automated skill-gap diagnostics and structural career laddering deployed across enterprise client cohorts.',
     featured: true,
+    homepageLayout: 'asymmetric',
     seo: {
       title: 'CareerOS — AI Talent Systems | Avorria Case Study',
       description: 'Enterprise career orchestration platform and intelligent workflow systems.',
@@ -100,6 +103,7 @@ export const projects: Project[] = [
     outcome:
       'Sub-second query response across nationwide property boundary records and algorithmic valuation indices.',
     featured: true,
+    homepageLayout: 'full-width',
     seo: {
       title: 'NestIQ — Property Intelligence Platform | Avorria Case Study',
       description: 'Spatial data layers and valuation modeling platform for institutional real estate.',
@@ -124,6 +128,7 @@ export const projects: Project[] = [
     outcome:
       'Consolidated multi-region service dispatch, establishing verified commercial search authority across nationwide service sectors.',
     featured: true,
+    homepageLayout: 'side-by-side',
     seo: {
       title: 'EntireFM — Facilities Management Systems | Avorria Case Study',
       description: 'Commercial facilities management digital operations platform and organic search architecture.',
@@ -148,6 +153,7 @@ export const projects: Project[] = [
     outcome:
       'Rapid-loading architectural showcase with interactive leasing floorplate diagrams and direct commercial enquiry capture.',
     featured: true,
+    homepageLayout: 'text-led',
     seo: {
       title: 'One Great Northern — Commercial Property Showcase | Avorria Case Study',
       description: 'Immersive architectural showcase for landmark commercial development.',

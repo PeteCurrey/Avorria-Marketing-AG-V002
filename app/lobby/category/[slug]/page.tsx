@@ -5,7 +5,6 @@ import { getCategoryBySlug, getAllCategories, getArticlesByCategory, getAllArtic
 import { LobbyBroadsheetMasthead } from '@/components/lobby/LobbyBroadsheetMasthead'
 import { LobbyWireStory } from '@/components/lobby/LobbyWireStory'
 import { generatePageMetadata } from '@/lib/metadata'
-import type { LobbyCategorySlug } from '@/types/lobby'
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>
@@ -30,9 +29,12 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     })
   }
 
+  const title = category.seoTitle || `${category.name || (category as any).label} // The Lobby`
+  const description = category.seoDescription || category.description || (category as any).longDescription
+
   return generatePageMetadata({
-    title: `${category.label} // The Lobby`,
-    description: category.longDescription,
+    title,
+    description,
     path: `/lobby/category/${category.slug}`,
   })
 }
@@ -47,9 +49,12 @@ export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
 
   const [categories, articles, allArticles] = await Promise.all([
     getAllCategories(),
-    getArticlesByCategory(category.slug as LobbyCategorySlug),
+    getArticlesByCategory(category.slug),
     getAllArticles(),
   ])
+
+  const displayName = category.name || (category as any).label
+  const displayDescription = (category as any).longDescription || category.description
 
   return (
     <div className="min-h-screen bg-[var(--color-ivory)] dark:bg-[#080808] text-neutral-900 dark:text-white pt-28 pb-24 px-6 sm:px-8 md:px-12">
@@ -70,11 +75,13 @@ export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
             <span>{category.slug}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extralight tracking-tight text-neutral-900 dark:text-white">
-            {category.label}
+            {displayName}
           </h2>
-          <p className="text-sm sm:text-base font-light text-neutral-600 dark:text-neutral-300 max-w-3xl leading-relaxed">
-            {category.longDescription}
-          </p>
+          {displayDescription && (
+            <p className="text-sm sm:text-base font-light text-neutral-600 dark:text-neutral-300 max-w-3xl leading-relaxed">
+              {displayDescription}
+            </p>
+          )}
           <div className="pt-2 text-[10px] font-mono text-neutral-400">
             Indexed dispatches: {articles.length}
           </div>
@@ -84,7 +91,7 @@ export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
         <section aria-label="Category Dispatches" className="space-y-6">
           <div className="flex items-baseline justify-between border-b border-black/10 dark:border-white/10 pb-4">
             <span className="text-xs font-mono uppercase tracking-[0.15em] text-neutral-400">
-              Dispatches in {category.label}
+              Dispatches in {displayName}
             </span>
             <span className="text-[10px] font-mono text-neutral-400">
               Chronological sequence

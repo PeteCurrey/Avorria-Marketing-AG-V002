@@ -45,7 +45,7 @@ const AUDIT_MODULES = [
 
 export default function DigitalAuditPage() {
   return (
-    <div className="section-y-large">
+    <div className="bg-[#080808] text-white min-h-screen section-y-large">
       <div className="container-max">
         <div className="container-content space-y-24">
           

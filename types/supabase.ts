@@ -202,6 +202,25 @@ export interface Database {
         Insert: Omit<Database['public']['Tables']['deliverables']['Row'], 'id' | 'created_at'>
         Update: Partial<Database['public']['Tables']['deliverables']['Insert']>
       }
+      milestones: {
+        Row: {
+          id: string
+          project_id: string
+          title: string
+          due_date: string | null
+          completed: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['milestones']['Row'], 'id' | 'created_at' | 'updated_at'> & {
+          id?: string
+          due_date?: string | null
+          completed?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['milestones']['Insert']>
+      }
       activity: {
         Row: {
           id: string
@@ -253,6 +272,124 @@ export interface Database {
         }
         Insert: Database['public']['Tables']['rate_limit_log']['Row']
         Update: Partial<Database['public']['Tables']['rate_limit_log']['Row']>
+      }
+      lobby_categories: {
+        Row: {
+          id: string
+          name: string
+          slug: string
+          description: string | null
+          display_order: number
+          is_active: boolean
+          seo_title: string | null
+          seo_description: string | null
+          og_image: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['lobby_categories']['Row'], 'id' | 'created_at' | 'updated_at'> & {
+          id?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['lobby_categories']['Insert']>
+      }
+      lobby_tags: {
+        Row: {
+          id: string
+          name: string
+          slug: string
+          description: string | null
+          is_active: boolean
+          created_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['lobby_tags']['Row'], 'id' | 'created_at'> & {
+          id?: string
+          created_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['lobby_tags']['Insert']>
+      }
+      lobby_authors: {
+        Row: {
+          id: string
+          name: string
+          role: string
+          bio: string | null
+          profile_image: string | null
+          slug: string
+          social_links: Json
+          is_active: boolean
+          created_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['lobby_authors']['Row'], 'id' | 'created_at'> & {
+          id?: string
+          created_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['lobby_authors']['Insert']>
+      }
+      lobby_articles: {
+        Row: {
+          id: string
+          title: string
+          slug: string
+          issue_number: string | null
+          excerpt: string
+          body_blocks: Json
+          content_type: string
+          category_id: string | null
+          author_id: string | null
+          hero_media: Json | null
+          thumbnail_media: Json | null
+          published_at: string | null
+          updated_at: string
+          status: string
+          featured: boolean
+          editorial_status: string
+          provenance_rationale: string | null
+          source_references: Json
+          reading_time_minutes: number
+          seo_title: string | null
+          seo_description: string | null
+          canonical_url: string | null
+          og_title: string | null
+          og_description: string | null
+          og_image: string | null
+          no_index: boolean
+          no_follow: boolean
+          cta_type: string | null
+          internal_links: Json
+          created_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['lobby_articles']['Row'], 'id' | 'created_at' | 'updated_at'> & {
+          id?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['lobby_articles']['Insert']>
+      }
+      lobby_article_tags: {
+        Row: {
+          article_id: string
+          tag_id: string
+        }
+        Insert: Database['public']['Tables']['lobby_article_tags']['Row']
+        Update: Partial<Database['public']['Tables']['lobby_article_tags']['Row']>
+      }
+      lobby_analytics: {
+        Row: {
+          id: string
+          article_id: string
+          views_count: number
+          reads_count: number
+          avg_time_seconds: number
+          cta_clicks_count: number
+          updated_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['lobby_analytics']['Row'], 'id' | 'updated_at'> & {
+          id?: string
+          updated_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['lobby_analytics']['Insert']>
       }
     }
     Functions: {

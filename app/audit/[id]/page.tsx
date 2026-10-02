@@ -80,7 +80,7 @@ export default async function AuditReportPage({ params }: PageProps) {
   const sortedFindings = [...findings].sort((a, b) => severityOrder[a.severity] - severityOrder[b.severity])
 
   return (
-    <div className="section-y-large print:section-y-none print:py-8">
+    <div className="bg-[#080808] text-white min-h-screen section-y-large print:section-y-none print:py-8">
       <div className="container-max">
         <div className="container-content space-y-16 print:space-y-8">
           

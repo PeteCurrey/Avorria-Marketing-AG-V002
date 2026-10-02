@@ -3,6 +3,7 @@ import type { CaseStudyChapter } from '@/types/case-study'
 import { ArchitecturalAperture } from '@/components/creative/ArchitecturalAperture'
 import { AnalyticalLedger } from '@/components/creative/AnalyticalLedger'
 import { TechnicalAnnotation } from '@/components/creative/TechnicalAnnotation'
+import { ProjectMedia } from '@/components/ui/ProjectMedia'
 
 interface ChapterRendererProps {
   chapter: CaseStudyChapter
@@ -77,24 +78,33 @@ export function ChapterRenderer({
             caption={chapter.media.caption}
             spec={chapter.media.spec}
           >
-            <div className="w-full h-full flex flex-col justify-between p-8 md:p-12 bg-[#141311] text-[var(--color-ivory)] border border-white/5">
-              <div className="flex items-center justify-between text-[11px] font-mono text-[var(--color-graphite-muted)] uppercase">
-                <span>INTERVENTION CAPTURE // {projectSlug}</span>
-                <span>TYPE: {chapter.media.type}</span>
+            {chapter.media.src ? (
+              <ProjectMedia
+                src={chapter.media.src}
+                alt={chapter.media.alt}
+                fill
+                sizes="(min-width: 1200px) 1200px, 100vw"
+              />
+            ) : (
+              <div className="w-full h-full flex flex-col justify-between p-8 md:p-12 bg-[#141311] text-[var(--color-ivory)] border border-white/5">
+                <div className="flex items-center justify-between text-[11px] font-mono text-[var(--color-graphite-muted)] uppercase">
+                  <span>INTERVENTION CAPTURE // {projectSlug}</span>
+                  <span>TYPE: {chapter.media.type}</span>
+                </div>
+                <div className="max-w-xl">
+                  <p className="text-[var(--text-label)] font-mono text-[var(--color-accent-light)] uppercase mb-2">
+                    PRODUCTION SYSTEM SPECIFICATION
+                  </p>
+                  <p className="font-display text-[1.25rem] md:text-[1.5rem] font-light uppercase text-[var(--color-ivory)]">
+                    {chapter.media.alt}
+                  </p>
+                </div>
+                <div className="flex items-center justify-between text-[10px] font-mono text-[var(--color-graphite-muted)] border-t border-[var(--color-graphite-mid)] pt-2">
+                  <span>VERIFIABLE ARCHITECTURAL ARTIFACT</span>
+                  <span>ZERO SIMULATION</span>
+                </div>
               </div>
-              <div className="max-w-xl">
-                <p className="text-[var(--text-label)] font-mono text-[var(--color-accent-light)] uppercase mb-2">
-                  PRODUCTION SYSTEM SPECIFICATION
-                </p>
-                <p className="font-display text-[1.25rem] md:text-[1.5rem] font-light uppercase text-[var(--color-ivory)]">
-                  {chapter.media.alt}
-                </p>
-              </div>
-              <div className="flex items-center justify-between text-[10px] font-mono text-[var(--color-graphite-muted)] border-t border-[var(--color-graphite-mid)] pt-2">
-                <span>VERIFIABLE ARCHITECTURAL ARTIFACT</span>
-                <span>ZERO SIMULATION</span>
-              </div>
-            </div>
+            )}
           </ArchitecturalAperture>
         </div>
       )}

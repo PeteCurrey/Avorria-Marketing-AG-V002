@@ -101,7 +101,7 @@ const AUDIT_DIMENSIONS = [
 
 export default function AuditPage() {
   return (
-    <div className="section-y-large">
+    <div className="bg-[#080808] text-white min-h-screen section-y-large">
       <div className="container-max">
         <div className="container-content space-y-24">
           {/* Header */}

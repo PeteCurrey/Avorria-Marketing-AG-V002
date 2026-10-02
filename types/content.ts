@@ -24,6 +24,15 @@ export type ProjectService =
   | 'ecommerce'
   | 'web-application'
 
+export interface ProjectMediaAsset {
+  src: string
+  srcAvif?: string
+  alt: string
+  blurDataURL?: string
+  width?: number
+  height?: number
+}
+
 export interface Project {
   slug: string
   status: ContentStatus
@@ -39,15 +48,35 @@ export interface Project {
   technology?: string[]
   // Outcome: only factual, verified information. NO invented metrics.
   outcome?: string
+  /** Card thumbnail — used on homepage Work showcase (approx 800×600) */
+  thumbnail?: ProjectMediaAsset
+  /** Legacy field — alias for thumbnail.src in older components */
   coverImage?: {
     src: string
     alt: string
     width: number
     height: number
   }
+  /** Case study page hero image (approx 1600×900) */
+  heroImage?: ProjectMediaAsset
+  /** Case study page hero video — replaces heroImage when supplied */
+  heroVideo?: {
+    src: string
+    poster: string
+    alt: string
+  }
+  /** Additional editorial gallery images */
+  gallery?: ProjectMediaAsset[]
+  /**
+   * Homepage Selected Work layout variant.
+   * Controls which editorial treatment is applied in SelectedWork.tsx.
+   * Defaults to 'horizontal' when omitted.
+   */
+  homepageLayout?: 'horizontal' | 'dark-split' | 'asymmetric' | 'full-width' | 'side-by-side' | 'text-led'
   featured: boolean
   seo: SEOMeta
 }
+
 
 // ─── Services ────────────────────────────────────────────────────────────────
 

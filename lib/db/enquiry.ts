@@ -7,6 +7,7 @@
  */
 import 'server-only'
 import { createAdminClient } from '@/lib/supabase/server-admin'
+import { writeAuditEvent } from '@/lib/db/audit'
 import type { Database } from '@/types/supabase'
 
 type EnquiryRow = Database['public']['Tables']['enquiries']['Row']
@@ -69,4 +70,96 @@ export async function listEnquiries(
   const { data, error } = await query
   if (error) throw new Error(`listEnquiries failed: ${error.message}`)
   return data ?? []
+}
+
+/**
+ * Gets a single enquiry by ID — admin only.
+ */
+export async function getEnquiry(id: string): Promise<EnquiryRow | null> {
+  const admin = createAdminClient()
+  const { data, error } = await admin
+    .from('enquiries')
+    .select('*')
+    .eq('id', id)
+    .single()
+  if (error) return null
+  return data
+}
+
+/**
+ * Updates enquiry status and writes audit event.
+ */
+export async function updateEnquiryStatus(
+  id: string,
+  status: string,
+  actorId: string
+): Promise<void> {
+  const admin = createAdminClient()
+  const { error } = await admin
+    .from('enquiries')
+    .update({ status: status as any, updated_at: new Date().toISOString() })
+    .eq('id', id)
+  if (error) throw new Error(`updateEnquiryStatus: ${error.message}`)
+
+  // Record in audit log
+  await writeAuditEvent({
+    actorId,
+    action: 'enquiry.status_update',
+    resourceType: 'enquiry',
+    resourceId: id,
+    metadata: { status },
+  })
+}
+
+/**
+ * Adds an internal note to an enquiry. Notes are stored in metadata JSONB.
+ */
+export async function addEnquiryNote(
+  id: string,
+  note: string,
+  actorId: string
+): Promise<void> {
+  const admin = createAdminClient()
+  // Fetch existing metadata
+  const { data } = await admin.from('enquiries').select('metadata').eq('id', id).single()
+  const existing = (data?.metadata as any) ?? {}
+  const notes: any[] = existing.notes ?? []
+  notes.push({ note, actorId, createdAt: new Date().toISOString() })
+  const { error } = await admin
+    .from('enquiries')
+    .update({ metadata: { ...existing, notes } as any })
+    .eq('id', id)
+  if (error) throw new Error(`addEnquiryNote: ${error.message}`)
+}
+
+/**
+ * Converts an enquiry to a client organisation.
+ * Returns the new organisation ID.
+ */
+export async function convertEnquiryToOrg(
+  enquiryId: string,
+  orgName: string,
+  orgSlug: string,
+  actorId: string
+): Promise<string> {
+  const admin = createAdminClient()
+
+  // Get enquiry for email
+  const { data: enq } = await admin.from('enquiries').select('email').eq('id', enquiryId).single()
+
+  // Create org
+  const { data: org, error: orgErr } = await admin
+    .from('organisations')
+    .insert({ name: orgName, slug: orgSlug, primary_email: enq?.email ?? null, status: 'ACTIVE' })
+    .select('id')
+    .single()
+  if (orgErr || !org) throw new Error(`convertEnquiryToOrg: ${orgErr?.message}`)
+
+  // Mark enquiry as QUALIFIED and link org
+  await admin
+    .from('enquiries')
+    .update({ status: 'QUALIFIED' as any, metadata: { converted_org_id: org.id } as any })
+    .eq('id', enquiryId)
+
+  return org.id
 }

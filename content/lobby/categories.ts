@@ -2,59 +2,102 @@ import type { LobbyCategory } from '@/types/lobby'
 
 export const LOBBY_CATEGORIES: LobbyCategory[] = [
   {
+    id: 'cat-marketing',
+    name: 'Marketing Intelligence',
+    slug: 'marketing',
+    description: 'Practical marketing, growth intelligence, conversion funnels, and customer acquisition mechanics.',
+    displayOrder: 1,
+    isActive: true,
+    seoTitle: 'Marketing Intelligence — The Lobby | Avorria',
+    seoDescription: 'Empirical marketing intelligence and growth mechanics for modern business leaders.',
+  },
+  {
+    id: 'cat-google-search',
+    name: 'Google & Search',
+    slug: 'google-search',
+    description: 'Google core updates, search engine intelligence, technical SEO, indexation mechanics, and local search developments.',
+    displayOrder: 2,
+    isActive: true,
+    seoTitle: 'Google & Search Engine Intelligence — The Lobby | Avorria',
+    seoDescription: 'Empirical analysis of Google algorithm updates, crawl dynamics, and technical search architecture.',
+  },
+  {
+    id: 'cat-meta-social',
+    name: 'Meta & Social Platforms',
+    slug: 'meta-social',
+    description: 'Meta, Facebook, Instagram, algorithmic auction mechanics, ad infrastructure, and attribution dynamics.',
+    displayOrder: 3,
+    isActive: true,
+    seoTitle: 'Meta & Social Platform Shifts — The Lobby | Avorria',
+    seoDescription: 'Deconstructing paid social machine-learning changes, creative infrastructure, and attribution.',
+  },
+  {
+    id: 'cat-websites',
+    name: 'Websites & UX',
+    slug: 'websites',
+    description: 'Website strategy, UX architecture, interaction latency (INP), conversion design, and modern front-end technology.',
+    displayOrder: 4,
+    isActive: true,
+    seoTitle: 'Website Architecture & UX Intelligence — The Lobby | Avorria',
+    seoDescription: 'Technical telemetry covering interaction latency, Core Web Vitals, and sovereign web engineering.',
+  },
+  {
+    id: 'cat-small-business',
+    name: 'Small Business Guidance',
+    slug: 'small-business',
+    description: 'Practical, high-leverage commercial guidance, vendor evaluation, contract structures, and risk mitigation for growing firms.',
+    displayOrder: 5,
+    isActive: true,
+    seoTitle: 'Small Business Digital Guidance — The Lobby | Avorria',
+    seoDescription: 'Practical digital decision-making frameworks and commercial protection for business owners.',
+  },
+  {
+    id: 'cat-technology',
+    name: 'Applied Technology & AI',
+    slug: 'technology',
+    description: 'Useful developments across digital infrastructure, deterministic AI pipelines, automation, and software sovereignty.',
+    displayOrder: 6,
+    isActive: true,
+    seoTitle: 'Applied Technology & AI Systems — The Lobby | Avorria',
+    seoDescription: 'Deterministic AI agents, cloud architectures, and sovereign digital infrastructure.',
+  },
+  {
+    id: 'cat-avorria',
+    name: 'Avorria Dispatches',
+    slug: 'avorria',
+    description: 'Avorria announcements, engineering releases, studio milestones, and selected forensic case studies.',
+    displayOrder: 7,
+    isActive: true,
+    seoTitle: 'Studio Dispatches & Benchmarks — The Lobby | Avorria',
+    seoDescription: 'Engineering logs, open benchmarks, and announcements from the Avorria workshop.',
+  },
+  // Supporting editorial taxonomies for existing dossiers
+  {
+    id: 'cat-teardowns',
+    name: 'Forensic Teardowns',
     slug: 'teardowns',
-    label: 'Teardowns',
-    shortDescription: 'Forensic architecture & UX failure diagnostics',
-    longDescription:
-      'Objective, observable dissections of why high-budget corporate digital platforms break down in production, and how architectural engineering corrects them.',
+    description: 'Objective, observable dissections of why high-budget corporate digital platforms break down in production.',
+    displayOrder: 8,
+    isActive: true,
+    seoTitle: 'Forensic Digital Teardowns — The Lobby | Avorria',
+    seoDescription: 'Observable architectural dissections of production website failures.',
   },
   {
+    id: 'cat-digital-strategy',
+    name: 'Digital Strategy',
     slug: 'digital-strategy',
-    label: 'Digital Strategy',
-    shortDescription: 'Commercial models, capital discipline & agency contracts',
-    longDescription:
-      'Deep investigations into studio economics, fixed-scope engineering sprints versus cost-plus time-and-materials, and software sovereignty for scaling enterprises.',
-  },
-  {
-    slug: 'website-intelligence',
-    label: 'Website Intelligence',
-    shortDescription: 'TTFB, latency forensics & modern tech stacks',
-    longDescription:
-      'Technical telemetry covering server-side rendering, edge compute, database bottlenecks, and the structural debt of monolithic CMS platforms.',
-  },
-  {
-    slug: 'search-engine-intelligence',
-    label: 'Search Engine Intelligence',
-    shortDescription: 'Google core algorithmic shifts & crawl dynamics',
-    longDescription:
-      'Empirical analysis of Google indexation behaviour, Core Web Vitals mandates (INP, LCP), and the technical requirements for programmatic discovery.',
-  },
-  {
-    slug: 'platform-shifts',
-    label: 'Platform Shifts',
-    shortDescription: 'Meta algorithms, ad auctions & attribution',
-    longDescription:
-      'Deconstructing paid social machine-learning changes, creative fatigue mechanics, and the infrastructure needed to support Advantage+ campaigns.',
-  },
-  {
-    slug: 'applied-ai',
-    label: 'Applied AI',
-    shortDescription: 'Deterministic agent pipelines & operational utility',
-    longDescription:
-      'Cutting past generative hype into verifiable business automation, structured schema outputs, and enterprise data extraction pipelines.',
-  },
-  {
-    slug: 'field-memos',
-    label: 'Field Memos',
-    shortDescription: 'Direct guidance for founders & engineering leaders',
-    longDescription:
-      'Concise, practical notes from the Avorria engineering desk addressing scoping friction, vendor evaluation, and digital risk mitigation.',
-  },
-  {
-    slug: 'studio-dispatch',
-    label: 'Studio Dispatch',
-    shortDescription: 'Avorria engineering log, benchmarks & releases',
-    longDescription:
-      'Internal dispatches from the Avorria workshop detailing release logs, open tooling, research experiments, and studio milestones.',
+    description: 'Studio economics, fixed-scope engineering sprints versus cost-plus time-and-materials, and software sovereignty.',
+    displayOrder: 9,
+    isActive: true,
+    seoTitle: 'Digital Strategy & Economics — The Lobby | Avorria',
+    seoDescription: 'Fixed-scope commercial models versus agency retainers for scaling enterprises.',
   },
 ]
+
+export function getCategoryBySlug(slug: string): LobbyCategory | undefined {
+  return LOBBY_CATEGORIES.find((c) => c.slug === slug && c.isActive)
+}
+
+export function getAllCategories(): LobbyCategory[] {
+  return LOBBY_CATEGORIES.filter((c) => c.isActive).sort((a, b) => a.displayOrder - b.displayOrder)
+}
