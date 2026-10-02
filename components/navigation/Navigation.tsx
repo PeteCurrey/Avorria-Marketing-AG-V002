@@ -2,26 +2,25 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { Button } from '@/components/ui/Button'
 import { track } from '@/lib/analytics'
+import { MegaMenu } from './MegaMenu'
+import { megaMenuTabs, type MegaMenuTab } from './megaMenuData'
 
-// ─── Nav links — Canonical Architecture ──────────────────────────────────────
-const desktopNavLinks = [
-  { label: 'Work',       href: '/work' },
-  { label: 'Services',   href: '/services' },
-  { label: 'Process',    href: '/process' },
-  { label: 'About',      href: '/about' },
-  { label: 'Contact',    href: '/contact' },
-]
+// ─── Primary Navigation Structure ────────────────────────────────────────────
+interface NavLinkItem {
+  id: 'work' | 'services' | 'approach' | 'insights' | 'about'
+  label: string
+  href: string
+}
 
-const mobileNavLinks = [
-  { label: 'Work',       href: '/work' },
-  { label: 'Services',   href: '/services' },
-  { label: 'Process',    href: '/process' },
-  { label: 'About',      href: '/about' },
-  { label: 'The Lobby',  href: '/lobby' },
-  { label: 'Contact',    href: '/contact' },
+const desktopNavLinks: NavLinkItem[] = [
+  { id: 'work',     label: 'Work',     href: '/work' },
+  { id: 'services', label: 'Services', href: '/services' },
+  { id: 'approach', label: 'Approach', href: '/process' },
+  { id: 'insights', label: 'Insights', href: '/lobby' },
+  { id: 'about',    label: 'About',    href: '/about' },
 ]
 
 function isActiveLink(pathname: string | null | undefined, href: string): boolean {
@@ -34,8 +33,18 @@ export function Navigation() {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+
+  // Mega Menu State (Desktop)
+  const [activeTabId, setActiveTabId] = useState<string | null>(null)
+  const [megaMenuOpen, setMegaMenuOpen] = useState(false)
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Mobile Accordion State
+  const [expandedMobileSection, setExpandedMobileSection] = useState<string | null>(null)
+
   const mobileMenuRef = useRef<HTMLDivElement>(null)
   const mobileButtonRef = useRef<HTMLButtonElement>(null)
+  const navContainerRef = useRef<HTMLDivElement>(null)
 
   // 1px hairline fades in after scroll
   useEffect(() => {
@@ -44,10 +53,78 @@ export function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close mobile menu on route change
+  // Close menus on route change
   useEffect(() => {
     setMobileOpen(false)
+    setMegaMenuOpen(false)
+    setActiveTabId(null)
   }, [pathname])
+
+  // Clear close timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current)
+      }
+    }
+  }, [])
+
+  // Mega Menu Hover Intent Handlers
+  const handleNavMouseEnter = (tabId: string) => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current)
+      closeTimeoutRef.current = null
+    }
+    setActiveTabId(tabId)
+    setMegaMenuOpen(true)
+  }
+
+  const handleNavMouseLeave = () => {
+    closeTimeoutRef.current = setTimeout(() => {
+      setMegaMenuOpen(false)
+      setActiveTabId(null)
+    }, 180)
+  }
+
+  const handleMegaMenuMouseEnter = () => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current)
+      closeTimeoutRef.current = null
+    }
+  }
+
+  const handleMegaMenuMouseLeave = () => {
+    closeTimeoutRef.current = setTimeout(() => {
+      setMegaMenuOpen(false)
+      setActiveTabId(null)
+    }, 180)
+  }
+
+  const closeMegaMenu = useCallback(() => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current)
+      closeTimeoutRef.current = null
+    }
+    setMegaMenuOpen(false)
+    setActiveTabId(null)
+  }, [])
+
+  // Keyboard navigation: Escape key closes mega menu or mobile menu
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        if (megaMenuOpen) {
+          closeMegaMenu()
+        }
+        if (mobileOpen) {
+          setMobileOpen(false)
+          mobileButtonRef.current?.focus()
+        }
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [megaMenuOpen, mobileOpen, closeMegaMenu])
 
   // Focus trap in mobile menu
   useEffect(() => {
@@ -59,28 +136,24 @@ export function Navigation() {
     )
     const first = focusable[0]
     const last = focusable[focusable.length - 1]
-    function handleKeydown(e: KeyboardEvent) {
-      if (e.key === 'Escape') {
-        setMobileOpen(false)
-        mobileButtonRef.current?.focus()
-      }
+    function handleMobileKeydown(e: KeyboardEvent) {
       if (e.key === 'Tab') {
         if (e.shiftKey) {
           if (document.activeElement === first) {
             e.preventDefault()
-            last.focus()
+            last?.focus()
           }
         } else {
           if (document.activeElement === last) {
             e.preventDefault()
-            first.focus()
+            first?.focus()
           }
         }
       }
     }
-    document.addEventListener('keydown', handleKeydown)
+    document.addEventListener('keydown', handleMobileKeydown)
     first?.focus()
-    return () => document.removeEventListener('keydown', handleKeydown)
+    return () => document.removeEventListener('keydown', handleMobileKeydown)
   }, [mobileOpen])
 
   // Prevent body scroll when mobile menu open
@@ -89,17 +162,21 @@ export function Navigation() {
     return () => { document.body.style.overflow = '' }
   }, [mobileOpen])
 
+  const activeTab = megaMenuTabs.find((t) => t.id === activeTabId) || null
+
   return (
     <>
       <header
+        ref={navContainerRef}
         className={[
           'fixed top-0 left-0 right-0 z-50',
-          scrolled
-            ? 'bg-white/95 backdrop-blur-sm shadow-[0_1px_0_0_var(--color-border)]'
+          scrolled || megaMenuOpen
+            ? 'bg-white shadow-[0_1px_0_0_var(--color-border)]'
             : 'bg-transparent',
           'transition-all duration-[var(--duration-base)]',
         ].join(' ')}
         role="banner"
+        onMouseLeave={handleNavMouseLeave}
       >
         <div className="w-full px-6 md:px-10 lg:px-[7vw]">
           <nav
@@ -111,32 +188,47 @@ export function Navigation() {
               href="/"
               className="shrink-0 link-hover"
               aria-label="Avorria — Home"
+              onClick={closeMegaMenu}
             >
               <AvorriaMark />
             </Link>
 
-            {/* Desktop nav — centred */}
+            {/* Desktop Nav — Centred with Mega Menu Triggers */}
             <ul className="hidden lg:flex items-center gap-8" role="list">
-              {desktopNavLinks.map(({ label, href }) => {
+              {desktopNavLinks.map(({ id, label, href }) => {
                 const active = isActiveLink(pathname, href)
+                const isTabOpen = megaMenuOpen && activeTabId === id
+
                 return (
-                  <li key={href}>
+                  <li
+                    key={id}
+                    onMouseEnter={() => handleNavMouseEnter(id)}
+                    className="relative py-4"
+                  >
                     <Link
                       href={href}
                       aria-current={active ? 'page' : undefined}
+                      aria-expanded={isTabOpen}
+                      aria-haspopup="true"
+                      aria-controls={`mega-menu-${id}`}
+                      onFocus={() => handleNavMouseEnter(id)}
                       className={[
-                        'text-[var(--text-small)] font-light tracking-[0.03em]',
+                        'text-[0.6875rem] font-light tracking-[0.03em]',
                         'transition-colors duration-[var(--duration-base)]',
-                        'relative pb-px link-hover',
-                        active
+                        'relative pb-1 link-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-graphite)]',
+                        active || isTabOpen
                           ? 'text-[var(--color-graphite)]'
                           : 'text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)]',
                       ].join(' ')}
                     >
                       {label}
-                      {active && (
+                      {(active || isTabOpen) && (
                         <span
-                          className="absolute bottom-0 left-0 right-0 h-px bg-[var(--color-accent)]"
+                          className={[
+                            'absolute bottom-0 left-0 right-0 h-px',
+                            isTabOpen ? 'bg-[var(--color-graphite)]' : 'bg-[var(--color-accent)]',
+                            'transition-colors duration-200',
+                          ].join(' ')}
                           aria-hidden="true"
                         />
                       )}
@@ -158,7 +250,10 @@ export function Navigation() {
                     ? '!border-[var(--color-graphite)] !text-[var(--color-graphite)] bg-[var(--color-graphite)]/[0.04]'
                     : ''
                 }
-                onClick={() => track('cta_click_lobby', { location: 'navigation' })}
+                onClick={() => {
+                  closeMegaMenu()
+                  track('cta_click_lobby', { location: 'navigation' })
+                }}
               >
                 The Lobby
               </Button>
@@ -168,7 +263,10 @@ export function Navigation() {
                 href="/start-a-project"
                 variant="primary"
                 size="xs"
-                onClick={() => track('cta_click_start_project', { location: 'navigation' })}
+                onClick={() => {
+                  closeMegaMenu()
+                  track('cta_click_start_project', { location: 'navigation' })
+                }}
               >
                 Start a project{' '}
                 <span className="btn-arrow" aria-hidden="true">↗</span>
@@ -179,7 +277,7 @@ export function Navigation() {
             <button
               ref={mobileButtonRef}
               type="button"
-              className="lg:hidden flex flex-col gap-[5px] p-2 -mr-2 text-[var(--color-graphite)]"
+              className="lg:hidden flex flex-col gap-[5px] p-2 -mr-2 text-[var(--color-graphite)] focus-visible:outline-2 focus-visible:outline-offset-2"
               aria-label={mobileOpen ? 'Close navigation' : 'Open navigation'}
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
@@ -188,7 +286,7 @@ export function Navigation() {
               <span
                 className={[
                   'block w-5 h-px bg-current transition-transform duration-[var(--duration-base)]',
-                  mobileOpen ? 'translate-y-[7px] rotate-45' : '',
+                  mobileOpen ? 'translate-y-[6px] rotate-45' : '',
                 ].join(' ')}
               />
               <span
@@ -200,19 +298,41 @@ export function Navigation() {
               <span
                 className={[
                   'block w-5 h-px bg-current transition-transform duration-[var(--duration-base)]',
-                  mobileOpen ? '-translate-y-[7px] -rotate-45' : '',
+                  mobileOpen ? '-translate-y-[6px] -rotate-45' : '',
                 ].join(' ')}
               />
             </button>
           </nav>
         </div>
+
+        {/* ── Desktop Mega Menu Dropdown ── */}
+        <div
+          onMouseEnter={handleMegaMenuMouseEnter}
+          onMouseLeave={handleMegaMenuMouseLeave}
+        >
+          <MegaMenu
+            activeTab={activeTab}
+            isOpen={megaMenuOpen}
+            onClose={closeMegaMenu}
+            onItemNavigate={closeMegaMenu}
+          />
+        </div>
       </header>
 
-      {/* Mobile menu overlay — full-screen, large type, large tap targets */}
+      {/* ── Subtle Desktop Backdrop Curtain when Mega Menu is Open ── */}
+      {megaMenuOpen && (
+        <div
+          className="hidden lg:block fixed inset-0 top-16 md:top-20 z-30 bg-black/15 backdrop-blur-[2px] transition-opacity duration-300"
+          aria-hidden="true"
+          onClick={closeMegaMenu}
+        />
+      )}
+
+      {/* ── Mobile Menu Overlay — Editorial Accordion System ── */}
       <div
         className={[
           'fixed inset-0 z-40 lg:hidden',
-          'bg-[var(--color-ivory)]',
+          'bg-white overflow-y-auto',
           'transition-[opacity,visibility] duration-[var(--duration-slow)]',
           mobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible',
         ].join(' ')}
@@ -222,62 +342,102 @@ export function Navigation() {
         aria-label="Navigation menu"
         ref={mobileMenuRef}
       >
-        <div className="container-max h-full flex flex-col">
-          {/* Spacer for header */}
-          <div className="h-16" aria-hidden="true" />
+        <div className="w-full px-6 min-h-full flex flex-col justify-between pt-24 pb-10">
+          <nav aria-label="Mobile navigation" className="space-y-1">
+            {megaMenuTabs.map((tab) => {
+              const isExpanded = expandedMobileSection === tab.id
+              const active = isActiveLink(pathname, tab.href)
 
-          <nav className="flex-1 flex flex-col justify-between py-10" aria-label="Mobile navigation">
-            <ul className="space-y-0" role="list">
-              {mobileNavLinks.map(({ label, href }) => {
-                const active = isActiveLink(pathname, href)
-                return (
-                  <li key={href}>
+              return (
+                <div key={tab.id} className="border-b border-[var(--color-border)] py-1">
+                  <div className="flex items-center justify-between">
                     <Link
-                      href={href}
-                      aria-current={active ? 'page' : undefined}
+                      href={tab.href}
+                      onClick={() => setMobileOpen(false)}
                       className={[
-                        'flex items-center justify-between py-5 border-b border-[var(--color-border)]',
-                        'text-display-s font-light',
-                        'min-h-[60px]',    /* large tap target */
-                        active
-                          ? 'text-[var(--color-graphite)]'
-                          : 'text-[var(--color-graphite-mid)]',
+                        'text-xl font-light tracking-[-0.01em] py-3.5',
+                        active ? 'text-[var(--color-graphite)]' : 'text-[var(--color-graphite-mid)]',
                       ].join(' ')}
                     >
-                      {label}
-                      {active && (
-                        <span className="text-[var(--color-accent)] text-[var(--text-label)]" aria-hidden="true">•</span>
-                      )}
+                      {tab.label}
                     </Link>
-                  </li>
-                )
-              })}
-            </ul>
 
-            <div className="pt-8 flex flex-col gap-3">
-              <Button
-                as="link"
-                href="/lobby"
-                variant="secondary"
-                size="md"
-                className="w-full justify-center"
-                onClick={() => track('cta_click_lobby', { location: 'mobile-nav' })}
-              >
-                The Lobby
-              </Button>
+                    {/* Expand/Collapse Toggle */}
+                    <button
+                      type="button"
+                      onClick={() => setExpandedMobileSection(isExpanded ? null : tab.id)}
+                      className="p-3 text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)] text-lg font-light focus:outline-none"
+                      aria-expanded={isExpanded}
+                      aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${tab.label} sub-items`}
+                    >
+                      <span aria-hidden="true">{isExpanded ? '−' : '+'}</span>
+                    </button>
+                  </div>
 
-              <Button
-                as="link"
-                href="/start-a-project"
-                variant="primary"
-                size="md"
-                className="w-full justify-center"
-                onClick={() => track('cta_click_start_project', { location: 'mobile-nav' })}
-              >
-                Start a project ↗
-              </Button>
-            </div>
+                  {/* Expandable Sub-items */}
+                  {isExpanded && (
+                    <div className="pb-4 pl-3 space-y-4 animate-in fade-in-0 slide-in-from-top-1 duration-200">
+                      {tab.sections.map((section, sIdx) => (
+                        <div key={sIdx} className="space-y-2.5">
+                          <p className="text-[0.625rem] tracking-[0.16em] uppercase font-light text-[var(--color-graphite-muted)]">
+                            {section.title}
+                          </p>
+                          <ul className="space-y-2 pl-1" role="list">
+                            {section.items.map((item, iIdx) => (
+                              <li key={iIdx}>
+                                <Link
+                                  href={item.href}
+                                  onClick={() => setMobileOpen(false)}
+                                  className="block py-1 text-sm font-light text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)]"
+                                >
+                                  <span>{item.label}</span>
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
           </nav>
+
+          {/* Mobile Bottom Actions */}
+          <div className="pt-8 space-y-3 border-t border-[var(--color-border)] mt-8">
+            <Button
+              as="link"
+              href="/start-a-project"
+              variant="primary"
+              size="md"
+              className="w-full justify-center"
+              onClick={() => {
+                setMobileOpen(false)
+                track('cta_click_start_project', { location: 'mobile-nav' })
+              }}
+            >
+              Start a project ↗
+            </Button>
+
+            <Button
+              as="link"
+              href="/lobby"
+              variant="secondary"
+              size="md"
+              className="w-full justify-center"
+              onClick={() => {
+                setMobileOpen(false)
+                track('cta_click_lobby', { location: 'mobile-nav' })
+              }}
+            >
+              The Lobby
+            </Button>
+
+            <p className="text-[0.625rem] tracking-[0.18em] uppercase font-light text-[var(--color-graphite-muted)] text-center pt-3">
+              AVORRIA DIGITAL STUDIO // LONDON & GLOBAL
+            </p>
+          </div>
         </div>
       </div>
     </>
@@ -285,13 +445,9 @@ export function Navigation() {
 }
 
 // ─── SVG Wordmark ─────────────────────────────────────────────────────────────
-// Outlined Work Sans weight 200 geometry. Not live text — immune to font loading.
-// Height ~16px. "DIGITAL STUDIO" descriptor hidden on mobile.
-
 function AvorriaMark() {
   return (
     <span className="block">
-      {/* Text-based wordmark using the loaded font — visually identical but swap-ready */}
       <span
         className="font-display text-[1.0625rem] tracking-[0.2em] font-extralight text-[var(--color-graphite)] uppercase leading-none"
         aria-label="Avorria"
