@@ -25,7 +25,8 @@ interface TechItem {
   name: string
   category: string
   role: string
-  metric: string
+  proof: string
+  whyItMatters: string
   brandColor: string
   glowColor: string
   accentBorder: string
@@ -36,8 +37,9 @@ const technologies: TechItem[] = [
     id: 'nextjs',
     name: 'Next.js 16 App Router',
     category: 'FRAMEWORK',
-    role: 'Server-First Execution & Static Generation',
-    metric: '0.62S LCP',
+    role: 'Server-First Execution & Static Prerendering',
+    proof: 'Alkota Bikes Flagship',
+    whyItMatters: 'Instant sub-second page delivery with zero client-side hydration penalty.',
     brandColor: '#000000',
     glowColor: 'rgba(0, 112, 243, 0.22)',
     accentBorder: 'rgba(0, 0, 0, 0.28)',
@@ -46,8 +48,9 @@ const technologies: TechItem[] = [
     id: 'typescript',
     name: 'TypeScript',
     category: 'LANGUAGE',
-    role: 'End-to-End Strict Typings & Invariant Proofs',
-    metric: '100% STRICT',
+    role: 'End-to-End Strict Invariant Contracts',
+    proof: 'TAFM Commercial Marketplace',
+    whyItMatters: 'Guarantees data integrity across complex underwriting and customer portals.',
     brandColor: '#3178C6',
     glowColor: 'rgba(49, 120, 198, 0.24)',
     accentBorder: 'rgba(49, 120, 198, 0.40)',
@@ -56,8 +59,9 @@ const technologies: TechItem[] = [
     id: 'postgresql',
     name: 'PostgreSQL / PostGIS',
     category: 'DATABASE',
-    role: 'Relational Schemas & Spatial Cadastral Pyramids',
-    metric: '25M+ PARCELS',
+    role: 'Relational Schemas & Spatial Data Indices',
+    proof: 'NestIQ Property Intelligence',
+    whyItMatters: 'Sub-second spatial queries across nationwide boundary records.',
     brandColor: '#336791',
     glowColor: 'rgba(51, 103, 145, 0.24)',
     accentBorder: 'rgba(51, 103, 145, 0.40)',
@@ -66,8 +70,9 @@ const technologies: TechItem[] = [
     id: 'threejs',
     name: 'Vanilla Three.js',
     category: '3D GRAPHICS',
-    role: 'Low-Latency WebGL Geometry Inspection Stages',
-    metric: '60 FPS STABLE',
+    role: 'Low-Latency WebGL Inspection Stages',
+    proof: 'Alkota Bikes 3D Stage',
+    whyItMatters: 'Bespoke 3D product customization without third-party framework bloat.',
     brandColor: '#049EF4',
     glowColor: 'rgba(4, 158, 244, 0.24)',
     accentBorder: 'rgba(4, 158, 244, 0.40)',
@@ -76,8 +81,9 @@ const technologies: TechItem[] = [
     id: 'html5-canvas',
     name: 'HTML5 Canvas API',
     category: 'TELEMETRY',
-    role: 'Worker-Driven Isolated Financial Tick Aggregation',
-    metric: '5,000 TICKS/S',
+    role: 'Worker-Driven Real-Time Data Streams',
+    proof: 'Drawdown.Trading Terminal',
+    whyItMatters: 'Fluid rendering of streaming financial ticks without React paint stalls.',
     brandColor: '#E34F26',
     glowColor: 'rgba(227, 79, 38, 0.24)',
     accentBorder: 'rgba(227, 79, 38, 0.40)',
@@ -86,8 +92,9 @@ const technologies: TechItem[] = [
     id: 'ai-models',
     name: 'OpenAI / Anthropic',
     category: 'AI INTEGRATION',
-    role: 'Deterministic Agent Routines & Ontology Synthesis',
-    metric: 'ZERO HALLUCINATION',
+    role: 'Deterministic Vector Retrieval & Routines',
+    proof: 'CareerOS Enterprise Systems',
+    whyItMatters: 'Domain-trained agent routines that automate workflows with zero hallucination.',
     brandColor: '#D97706',
     glowColor: 'rgba(217, 119, 6, 0.22)',
     accentBorder: 'rgba(217, 119, 6, 0.38)',
@@ -96,8 +103,9 @@ const technologies: TechItem[] = [
     id: 'supabase',
     name: 'Supabase Realtime',
     category: 'INFRASTRUCTURE',
-    role: 'Binary WebSockets & Row-Level Authorization',
-    metric: '<10MS PUBSUB',
+    role: 'Binary WebSockets & Row-Level Security',
+    proof: 'Client Dashboards & Portals',
+    whyItMatters: 'Instant state synchronization backed by strict database-level security policies.',
     brandColor: '#3ECF8E',
     glowColor: 'rgba(62, 207, 142, 0.26)',
     accentBorder: 'rgba(62, 207, 142, 0.45)',
@@ -107,7 +115,8 @@ const technologies: TechItem[] = [
     name: 'Tailwind CSS v4',
     category: 'DESIGN TOKENS',
     role: 'CSS-First Architectural Theme System',
-    metric: 'ZERO RUNTIME',
+    proof: 'Avorria Studio Core',
+    whyItMatters: 'Zero-runtime style overhead with surgical typography token consistency.',
     brandColor: '#38BDF8',
     glowColor: 'rgba(56, 189, 248, 0.24)',
     accentBorder: 'rgba(56, 189, 248, 0.40)',
@@ -300,7 +309,7 @@ export function TechStack() {
               className="tech-card group p-6 lg:p-8 flex flex-col justify-between min-h-[270px] md:min-h-[300px] focus:outline-none"
               tabIndex={0}
               role="article"
-              aria-label={`${tech.name} — ${tech.category}: ${tech.metric}`}
+              aria-label={`${tech.name} — ${tech.category}: ${tech.proof}`}
               style={
                 {
                   '--tech-color': tech.brandColor,
@@ -317,31 +326,33 @@ export function TechStack() {
                 <TechLogo id={tech.id} />
               </div>
 
-              {/* ── Top: Category & Performance Metric ──────────────────────── */}
-              <div className="relative z-10 flex items-center justify-between text-[10px] tracking-[0.18em] uppercase font-light mb-6">
+              {/* ── Top: Category & Proof ──────────────────────── */}
+              <div className="relative z-10 flex items-center justify-between text-[10px] tracking-[0.16em] uppercase font-light mb-4">
                 <span className="text-[var(--color-graphite-muted)] group-hover:text-[var(--color-graphite)] group-focus:text-[var(--color-graphite)] transition-colors duration-300">
                   {tech.category}
                 </span>
-                <span className="text-[var(--color-rose-text)] font-light">
-                  {tech.metric}
+                <span className="text-[var(--color-rose-text)] font-light text-[9px]">
+                  {tech.proof}
                 </span>
               </div>
 
-              {/* ── Middle: Technology Name & Architectural Role ────────────── */}
-              <div className="relative z-10 my-auto py-2">
-                <h3 className="text-lg md:text-xl font-extralight text-[var(--color-graphite)] mb-2.5 tracking-[-0.01em] transition-colors duration-300">
+              {/* ── Middle: Technology Name, Role & Why It Matters ────────────── */}
+              <div className="relative z-10 my-auto py-1">
+                <h3 className="text-lg md:text-xl font-extralight text-[var(--color-graphite)] mb-1.5 tracking-[-0.01em] transition-colors duration-300">
                   {tech.name}
                 </h3>
-                <p className="text-xs font-light text-[var(--color-graphite-mid)] leading-relaxed max-w-[28ch]">
+                <p className="text-xs font-light text-[var(--color-graphite)] mb-2">
                   {tech.role}
+                </p>
+                <p className="text-xs font-light text-[var(--color-graphite-mid)] leading-relaxed">
+                  {tech.whyItMatters}
                 </p>
               </div>
 
-              {/* ── Bottom: Tolerance Classification Stamp ───────────────────── */}
-              <div className="relative z-10 pt-4 border-t border-[var(--color-border)]/80 flex items-center justify-end text-[9px] tracking-[0.14em] uppercase font-light text-[var(--color-graphite-muted)]">
-                <span className="shrink-0 select-none opacity-60">
-                  VERIFIED
-                </span>
+              {/* ── Bottom: Verified Value Stamp ───────────────────── */}
+              <div className="relative z-10 pt-4 border-t border-[var(--color-border)]/80 flex items-center justify-between text-[9px] tracking-[0.14em] uppercase font-light text-[var(--color-graphite-muted)]">
+                <span>CLIENT IMPACT</span>
+                <span className="text-[var(--color-graphite)]">PRODUCTION PROOF</span>
               </div>
             </div>
           ))}

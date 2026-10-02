@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
 import { generatePageMetadata } from '@/lib/metadata'
 import { siteConfig } from '@/content/config/site'
-import { ProjectInfoSection } from '@/components/consultation/ProjectInfoSection'
-import { DiscoveryHero } from '@/components/consultation/discovery/DiscoveryHero'
-import { DiscoveryWorkspace } from '@/components/consultation/discovery/DiscoveryWorkspace'
+import { DiscoveryJourney } from '@/components/consultation/discovery/DiscoveryJourney'
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'Start a Digital Project | Avorria Project Discovery',
@@ -53,11 +51,9 @@ function StartAProjectJsonLd() {
 
 export default function StartAProjectPage() {
   return (
-    <div className="bg-white text-[var(--color-graphite)] min-h-screen">
+    <>
       <StartAProjectJsonLd />
-      <DiscoveryHero />
-      <DiscoveryWorkspace />
-      <ProjectInfoSection />
-    </div>
+      <DiscoveryJourney />
+    </>
   )
 }

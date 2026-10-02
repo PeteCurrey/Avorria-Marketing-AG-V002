@@ -1,228 +1,321 @@
 'use client'
 
-/**
- * SelectedWork — Chapter 03
- *
- * Requirements:
- * - Chapter 03: Warm Ivory ground
- * - Oversized section numeral: 03 (Work Sans 200)
- * - Thin full-width rule
- * - Scale contrast: monumental display statement vs small tracked labels
- * - Pinned horizontal gallery (desktop) via GSAP ScrollTrigger
- * - Stacked on mobile
- * - Large-format imagery with real project captures (hero.webp & thumbnail.webp)
- * - Custom cursor "View" pill on fine pointers (@media (pointer: fine))
- */
-
-import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { getFeaturedProjects } from '@/content/projects'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { Button } from '@/components/ui/Button'
 
 export function SelectedWork() {
-  const projects = getFeaturedProjects()
-  const sectionRef = useRef<HTMLElement>(null)
-  const pinContainerRef = useRef<HTMLDivElement>(null)
-  const trackRef = useRef<HTMLDivElement>(null)
-
-  // Custom cursor follower state
-  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 })
-  const [cursorVisible, setCursorVisible] = useState(false)
-  const cursorRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    // Check prefers-reduced-motion or mobile viewports
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return
-    }
-
-    gsap.registerPlugin(ScrollTrigger)
-
-    const section = sectionRef.current
-    const track = trackRef.current
-    if (!section || !track) return
-
-    // Desktop horizontal scroll pinning (min-width: 1024px)
-    const mm = gsap.matchMedia()
-
-    mm.add('(min-width: 1024px)', () => {
-      const getScrollAmount = () => {
-        const trackWidth = track.scrollWidth
-        const viewportWidth = window.innerWidth
-        return -(trackWidth - viewportWidth + 120)
-      }
-
-      const tween = gsap.to(track, {
-        x: getScrollAmount,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          pin: true,
-          scrub: 0.8,
-          start: 'top top',
-          end: () => `+=${track.scrollWidth - window.innerWidth + 400}`,
-          invalidateOnRefresh: true,
-        },
-      })
-
-      return () => {
-        tween.scrollTrigger?.kill()
-        tween.kill()
-      }
-    })
-
-    return () => {
-      mm.revert()
-    }
-  }, [])
-
-  // Mouse follower handler for fine pointers
-  const handleMouseMove = (e: React.MouseEvent) => {
-    setCursorPos({ x: e.clientX, y: e.clientY })
-  }
-
   return (
     <section
-      ref={sectionRef}
-      onMouseMove={handleMouseMove}
       className="relative section-y-large border-t border-[var(--color-border)] bg-white overflow-hidden"
       aria-labelledby="work-heading"
     >
       {/* ── Background Architectural Numeral ─────────────────────────────────── */}
       <div
-        className="absolute top-8 right-[7vw] pointer-events-none select-none text-[clamp(6rem,16vw,14rem)] font-extralight text-[var(--color-graphite)] opacity-[0.04] leading-none"
+        className="absolute top-8 right-[7vw] pointer-events-none select-none text-[clamp(6rem,16vw,14rem)] font-extralight text-[var(--color-graphite)] opacity-[0.03] leading-none"
         aria-hidden="true"
       >
         03
       </div>
 
-      {/* ── Custom "View" Cursor for fine pointers ──────────────────────────── */}
-      <div
-        ref={cursorRef}
-        aria-hidden="true"
-        className={`pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--color-graphite)] text-[var(--color-ivory)] text-[10px] tracking-[0.2em] font-light uppercase px-4 py-2 shadow-lg transition-opacity duration-200 hidden md:flex items-center gap-1.5 ${
-          cursorVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-        }`}
-        style={{
-          left: `${cursorPos.x}px`,
-          top: `${cursorPos.y}px`,
-          transition: 'transform 0.15s ease-out, opacity 0.15s ease-out',
-        }}
-      >
-        <span>View</span>
-        <span className="text-[var(--color-rose-text)]">↗</span>
-      </div>
-
       <div className="w-full px-6 md:px-10 lg:px-[7vw]">
-        {/* Section Header with Scale Contrast Statement */}
-        <div className="max-w-[1200px] mb-12 lg:mb-16">
+        {/* Section Header */}
+        <div className="max-w-[1200px] mb-14 lg:mb-20">
           <RevealOnScroll>
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center gap-4 mb-6">
               <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-mid)]">
                 03 // SELECTED WORK
               </span>
               <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
             </div>
 
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-              <h2
-                id="work-heading"
-                className="font-extralight text-[var(--color-graphite)] leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.8vw,6.25rem)]"
-              >
-                Selected{' '}
-                <em className="not-italic italic font-extralight" style={{ color: 'var(--color-rose-text)' }}>
-                  work.
-                </em>
-              </h2>
-            </div>
+            <h2
+              id="work-heading"
+              className="font-extralight text-[var(--color-graphite)] leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.8vw,6.25rem)]"
+            >
+              Selected{' '}
+              <em className="not-italic italic font-extralight" style={{ color: 'var(--color-rose-text)' }}>
+                work.
+              </em>
+            </h2>
           </RevealOnScroll>
         </div>
 
-        {/* ── Pinned Horizontal Gallery (Desktop) / Stacked Grid (Mobile) ─────── */}
-        <div ref={pinContainerRef} className="relative w-full">
-          <div
-            ref={trackRef}
-            className="flex flex-col lg:flex-row gap-8 lg:gap-12 lg:w-max lg:pr-[10vw]"
-          >
-            {projects.map((project, idx) => (
-              <article
-                key={project.slug}
-                onMouseEnter={() => setCursorVisible(true)}
-                onMouseLeave={() => setCursorVisible(false)}
-                className="group relative w-full lg:w-[680px] shrink-0 border border-[var(--color-border)] bg-white hover:border-[var(--color-border-strong)] transition-all duration-[var(--duration-base)] p-5 md:p-6"
+        {/* ── 01. MONUMENTAL FEATURE: ALKOTA BIKES (FULL-BLEED MOMENT) ─────── */}
+        <div className="mb-20 lg:mb-32">
+          <RevealOnScroll>
+            <article className="group border border-[var(--color-border)] bg-white p-6 md:p-10 transition-all duration-500 hover:border-[var(--color-graphite)]">
+              {/* Telemetry Header */}
+              <div className="flex items-center justify-between pb-4 mb-6 border-b border-[var(--color-border)] text-[10px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-rose-text)]" />
+                  <span>FEATURED CASE STUDY // PRECISION CYCLING</span>
+                </span>
+                <span>PROJ. 01 / 2025</span>
+              </div>
+
+              {/* Monumental 16:9 Real-Image Plate */}
+              <Link
+                href="/work/alkota-bikes"
+                className="relative block w-full aspect-[16/9] bg-[#121110] border border-[var(--color-border)] overflow-hidden mb-8"
               >
-                <Link href={`/work/${project.slug}`} className="block">
-                  {/* Card Telemetry Header */}
-                  <div className="flex items-center justify-between pb-3 mb-4 border-b border-[var(--color-border)] text-[10px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
-                    <span className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]" />
-                      <span>{project.industry}</span>
-                    </span>
-                    <span>PROJ. 0{idx + 1} / 2025</span>
+                <Image
+                  src="/images/projects/alkota-bikes/hero-screenshot.png"
+                  alt="Alkota Bikes bespoke titanium 3D WebGL flagship platform"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 86vw, 100vw"
+                  className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+              </Link>
+
+              {/* Editorial Metadata & Description */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
+                <div className="lg:col-span-4">
+                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-extralight text-[var(--color-graphite)] tracking-[-0.02em] group-hover:text-[var(--color-rose-text)] transition-colors">
+                    Alkota Bikes
+                  </h3>
+                  <p className="text-xs font-light text-[var(--color-graphite-mid)] mt-1.5 tracking-[0.06em] uppercase">
+                    Bespoke Titanium Flagship & 3D Stage
+                  </p>
+                </div>
+
+                <div className="lg:col-span-5">
+                  <p className="text-base font-light text-[var(--color-graphite-mid)] leading-relaxed">
+                    A digital flagship engineered for titanium performance bicycles, combining surgical typography,
+                    interactive WebGL frame configuration, and zero layout shift.
+                  </p>
+                </div>
+
+                <div className="lg:col-span-3 flex lg:justify-end">
+                  <Link
+                    href="/work/alkota-bikes"
+                    className="inline-flex items-center gap-2 text-xs font-light tracking-[0.1em] uppercase text-[var(--color-graphite)] border-b border-[var(--color-graphite)] pb-1 hover:text-[var(--color-rose-text)] hover:border-[var(--color-rose-text)] transition-colors"
+                  >
+                    <span>View Case Study</span>
+                    <span aria-hidden="true">↗</span>
+                  </Link>
+                </div>
+              </div>
+            </article>
+          </RevealOnScroll>
+        </div>
+
+        {/* ── 02. EDITORIAL DUO: TAFM (7 COLS) & DRAWDOWN.TRADING (5 COLS) ─── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-20 lg:mb-32">
+          {/* TAFM — 7 Cols */}
+          <div className="lg:col-span-7">
+            <RevealOnScroll delay={100}>
+              <article className="group h-full flex flex-col justify-between border border-[var(--color-border)] bg-white p-6 md:p-8 transition-all duration-500 hover:border-[var(--color-graphite)]">
+                <div>
+                  <div className="flex items-center justify-between pb-3 mb-5 border-b border-[var(--color-border)] text-[10px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
+                    <span>COMMERCIAL MARKETPLACE</span>
+                    <span>PROJ. 02</span>
                   </div>
 
-                  {/* Large-Format Project Capture (16:9 Aspect Ratio) */}
-                  <div className="relative w-full aspect-[16/9] bg-[#1A1916] overflow-hidden border border-[var(--color-border)] mb-5">
-                    {project.heroImage ? (
-                      <Image
-                        src={project.heroImage.src}
-                        alt={project.heroImage.alt}
-                        fill
-                        priority={idx < 2}
-                        sizes="(max-width: 1024px) 100vw, 680px"
-                        className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-xs text-[var(--color-graphite-muted)] uppercase tracking-wider font-light">
-                        {project.title}
-                      </div>
-                    )}
+                  <Link
+                    href="/work/tafm"
+                    className="relative block w-full aspect-[16/10] bg-[#121110] border border-[var(--color-border)] overflow-hidden mb-6"
+                  >
+                    <Image
+                      src="/images/projects/tafm/hero-screenshot.png"
+                      alt="TAFM — The Asset Finance Marketplace platform"
+                      fill
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                      className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                  </Link>
 
-                    {/* Subtle Overlay Vignette */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-300" />
-                  </div>
+                  <h3 className="text-2xl md:text-3xl font-extralight text-[var(--color-graphite)] tracking-[-0.01em] group-hover:text-[var(--color-rose-text)] transition-colors mb-2">
+                    TAFM Marketplace
+                  </h3>
 
-                  {/* Project Details */}
-                  <div className="space-y-3">
-                    <div className="flex items-baseline justify-between gap-4">
-                      <h3 className="text-xl md:text-2xl font-extralight text-[var(--color-graphite)] tracking-[-0.01em] group-hover:text-[var(--color-rose-text)] transition-colors">
-                        {project.title}
-                      </h3>
-                      <span className="text-xs font-light text-[var(--color-graphite-mid)]">
-                        {project.client}
-                      </span>
-                    </div>
+                  <p className="text-sm font-light text-[var(--color-graphite-mid)] leading-relaxed mb-6">
+                    Commercial asset finance platform connecting UK businesses, equipment suppliers, and specialist
+                    finance providers through automated financing workflows.
+                  </p>
+                </div>
 
-                    <p className="text-sm font-light text-[var(--color-graphite-mid)] leading-relaxed line-clamp-2">
-                      {project.summary}
-                    </p>
-
-                    {/* Tech Badges */}
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      {project.technology?.slice(0, 3).map((tech) => (
-                        <span
-                          key={tech}
-                          className="text-[9px] tracking-[0.14em] uppercase text-[var(--color-graphite-muted)] font-light border border-[var(--color-border)] px-2 py-0.5"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </Link>
+                <div className="pt-4 border-t border-[var(--color-border)] flex items-center justify-between">
+                  <span className="text-[10px] tracking-[0.12em] uppercase font-light text-[var(--color-graphite-muted)]">
+                    Marketplace Infrastructure
+                  </span>
+                  <Link
+                    href="/work/tafm"
+                    className="text-xs font-light tracking-[0.08em] uppercase text-[var(--color-graphite)] hover:text-[var(--color-rose-text)] flex items-center gap-1 transition-colors"
+                  >
+                    <span>View Case Study</span>
+                    <span aria-hidden="true">↗</span>
+                  </Link>
+                </div>
               </article>
-            ))}
+            </RevealOnScroll>
+          </div>
+
+          {/* Drawdown.Trading — 5 Cols */}
+          <div className="lg:col-span-5">
+            <RevealOnScroll delay={200}>
+              <article className="group h-full flex flex-col justify-between border border-[var(--color-border)] bg-white p-6 md:p-8 transition-all duration-500 hover:border-[var(--color-graphite)]">
+                <div>
+                  <div className="flex items-center justify-between pb-3 mb-5 border-b border-[var(--color-border)] text-[10px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
+                    <span>FINANCIAL INTELLIGENCE</span>
+                    <span>PROJ. 03</span>
+                  </div>
+
+                  <Link
+                    href="/work/drawdown"
+                    className="relative block w-full aspect-[16/10] bg-[#121110] border border-[var(--color-border)] overflow-hidden mb-6"
+                  >
+                    <Image
+                      src="/images/projects/drawdown/hero.png"
+                      alt="Drawdown.Trading quantitative risk terminal"
+                      fill
+                      sizes="(min-width: 1024px) 36vw, 100vw"
+                      className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                  </Link>
+
+                  <h3 className="text-2xl md:text-3xl font-extralight text-[var(--color-graphite)] tracking-[-0.01em] group-hover:text-[var(--color-rose-text)] transition-colors mb-2">
+                    Drawdown.Trading
+                  </h3>
+
+                  <p className="text-sm font-light text-[var(--color-graphite-mid)] leading-relaxed mb-6">
+                    Sub-millisecond quantitative risk terminal and Canvas execution interface engineered for professional
+                    proprietary trading teams.
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-[var(--color-border)] flex items-center justify-between">
+                  <span className="text-[10px] tracking-[0.12em] uppercase font-light text-[var(--color-graphite-muted)]">
+                    Canvas API // Low Latency
+                  </span>
+                  <Link
+                    href="/work/drawdown"
+                    className="text-xs font-light tracking-[0.08em] uppercase text-[var(--color-graphite)] hover:text-[var(--color-rose-text)] flex items-center gap-1 transition-colors"
+                  >
+                    <span>View Case Study</span>
+                    <span aria-hidden="true">↗</span>
+                  </Link>
+                </div>
+              </article>
+            </RevealOnScroll>
           </div>
         </div>
 
-        {/* Gallery Footer CTA */}
-        <div className="mt-12 lg:mt-16 flex items-center justify-end border-t border-[var(--color-border)] pt-6">
-          <Button as="link" href="/work" variant="secondary" size="sm">
-            View All Verified Work
+        {/* ── 03. EDITORIAL DUO: CAREEROS (5 COLS) & NESTIQ (7 COLS) ───────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-16 lg:mb-24">
+          {/* CareerOS — 5 Cols */}
+          <div className="lg:col-span-5">
+            <RevealOnScroll delay={100}>
+              <article className="group h-full flex flex-col justify-between border border-[var(--color-border)] bg-white p-6 md:p-8 transition-all duration-500 hover:border-[var(--color-graphite)]">
+                <div>
+                  <div className="flex items-center justify-between pb-3 mb-5 border-b border-[var(--color-border)] text-[10px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
+                    <span>AI SYSTEMS</span>
+                    <span>PROJ. 04</span>
+                  </div>
+
+                  <Link
+                    href="/work/careeros"
+                    className="relative block w-full aspect-[16/10] bg-[#121110] border border-[var(--color-border)] overflow-hidden mb-6"
+                  >
+                    <Image
+                      src="/images/projects/careeros/hero-screenshot.png"
+                      alt="CareerOS AI skill taxonomy graph"
+                      fill
+                      sizes="(min-width: 1024px) 36vw, 100vw"
+                      className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                  </Link>
+
+                  <h3 className="text-2xl md:text-3xl font-extralight text-[var(--color-graphite)] tracking-[-0.01em] group-hover:text-[var(--color-rose-text)] transition-colors mb-2">
+                    CareerOS
+                  </h3>
+
+                  <p className="text-sm font-light text-[var(--color-graphite-mid)] leading-relaxed mb-6">
+                    Enterprise talent acceleration platform leveraging autonomous agent architectures, real-time skill
+                    taxonomy graphs, and bespoke user interfaces.
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-[var(--color-border)] flex items-center justify-between">
+                  <span className="text-[10px] tracking-[0.12em] uppercase font-light text-[var(--color-graphite-muted)]">
+                    Autonomous Agent Workflows
+                  </span>
+                  <Link
+                    href="/work/careeros"
+                    className="text-xs font-light tracking-[0.08em] uppercase text-[var(--color-graphite)] hover:text-[var(--color-rose-text)] flex items-center gap-1 transition-colors"
+                  >
+                    <span>View Case Study</span>
+                    <span aria-hidden="true">↗</span>
+                  </Link>
+                </div>
+              </article>
+            </RevealOnScroll>
+          </div>
+
+          {/* NestIQ — 7 Cols */}
+          <div className="lg:col-span-7">
+            <RevealOnScroll delay={200}>
+              <article className="group h-full flex flex-col justify-between border border-[var(--color-border)] bg-white p-6 md:p-8 transition-all duration-500 hover:border-[var(--color-graphite)]">
+                <div>
+                  <div className="flex items-center justify-between pb-3 mb-5 border-b border-[var(--color-border)] text-[10px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
+                    <span>SPATIAL DATA & POSTGIS</span>
+                    <span>PROJ. 05</span>
+                  </div>
+
+                  <Link
+                    href="/work/nestiq"
+                    className="relative block w-full aspect-[16/10] bg-[#121110] border border-[var(--color-border)] overflow-hidden mb-6"
+                  >
+                    <Image
+                      src="/images/projects/nestiq/hero.webp"
+                      alt="NestIQ spatial property intelligence platform"
+                      fill
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                      className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                  </Link>
+
+                  <h3 className="text-2xl md:text-3xl font-extralight text-[var(--color-graphite)] tracking-[-0.01em] group-hover:text-[var(--color-rose-text)] transition-colors mb-2">
+                    NestIQ Property Intelligence
+                  </h3>
+
+                  <p className="text-sm font-light text-[var(--color-graphite-mid)] leading-relaxed mb-6">
+                    Spatial analytics and cadastral data layers aggregating nationwide boundaries and automated valuation
+                    models for institutional investors.
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-[var(--color-border)] flex items-center justify-between">
+                  <span className="text-[10px] tracking-[0.12em] uppercase font-light text-[var(--color-graphite-muted)]">
+                    Vector Tiles // PostGIS
+                  </span>
+                  <Link
+                    href="/work/nestiq"
+                    className="text-xs font-light tracking-[0.08em] uppercase text-[var(--color-graphite)] hover:text-[var(--color-rose-text)] flex items-center gap-1 transition-colors"
+                  >
+                    <span>View Case Study</span>
+                    <span aria-hidden="true">↗</span>
+                  </Link>
+                </div>
+              </article>
+            </RevealOnScroll>
+          </div>
+        </div>
+
+        {/* ── Gallery Footer CTA ─────────────────────────────────────────────── */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-[var(--color-border)] pt-8">
+          <p className="text-xs font-light text-[var(--color-graphite-muted)] tracking-[0.04em]">
+            Every entry represents production architecture deployed for ambitious operators.
+          </p>
+          <Button as="link" href="/work" variant="primary" size="md">
+            View All Verified Work ↗
           </Button>
         </div>
       </div>
