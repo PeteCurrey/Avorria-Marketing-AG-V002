@@ -147,10 +147,10 @@ export const projects: Project[] = [
       height: 900,
     },
     heroImage: {
-      src: '/images/projects/careeros/hero.webp',
-      alt: 'CareerOS career orchestration platform view',
-      width: 1600,
-      height: 900,
+      src: '/images/projects/careeros/hero-screenshot.png',
+      alt: 'CareerOS — Your career needs more than advice hero screen',
+      width: 1024,
+      height: 640,
     },
     seo: {
       title: 'CareerOS — AI Talent Systems | Avorria Case Study',
