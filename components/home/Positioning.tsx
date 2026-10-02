@@ -80,9 +80,8 @@ export function Positioning() {
                 is all three working together.
               </p>
 
-              <div className="pt-6 border-t border-[var(--color-border)] mt-8 flex items-center justify-between text-[11px] tracking-[0.16em] uppercase text-[var(--color-graphite-muted)] font-light">
+              <div className="pt-6 border-t border-[var(--color-border)] mt-8 flex items-center text-[11px] tracking-[0.16em] uppercase text-[var(--color-graphite-muted)] font-light">
                 <span>EST. LONDON 2025</span>
-                <span>ZERO FABRICATED METRICS</span>
               </div>
             </RevealOnScroll>
           </div>

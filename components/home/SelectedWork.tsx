@@ -223,10 +223,7 @@ export function SelectedWork() {
         </div>
 
         {/* Gallery Footer CTA */}
-        <div className="mt-12 lg:mt-16 flex items-center justify-between border-t border-[var(--color-border)] pt-6">
-          <span className="text-[11px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
-            SCROLL HORIZONTALLY ON DESKTOP · TAP TO INSPECT
-          </span>
+        <div className="mt-12 lg:mt-16 flex items-center justify-end border-t border-[var(--color-border)] pt-6">
           <Button as="link" href="/work" variant="secondary" size="sm">
             View All Verified Work
           </Button>
