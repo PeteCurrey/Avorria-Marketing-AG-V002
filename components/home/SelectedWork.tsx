@@ -139,7 +139,7 @@ export function SelectedWork() {
                 </em>
               </h2>
               <p className="text-sm md:text-base font-light text-[var(--color-graphite-mid)] max-w-[38ch] leading-relaxed">
-                Six verified commercial and technical interventions. Zero fabricated metrics.
+                Seven verified commercial and technical interventions. Zero fabricated metrics.
               </p>
             </div>
           </RevealOnScroll>

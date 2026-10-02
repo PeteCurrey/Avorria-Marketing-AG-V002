@@ -498,6 +498,122 @@ export const DETAILED_CASE_STUDIES: Record<string, DetailedCaseStudy> = {
         'An editorial investigation into One Great Northern: architectural web presentation and interactive commercial leasing floorplates.',
     },
   },
+
+  'tafm': {
+    slug: 'tafm',
+    provenance: 'verified',
+    sequenceNumber: '07',
+    title: 'TAFM',
+    client: 'The Asset Finance Marketplace Ltd',
+    year: 2025,
+    sector: 'Commercial Asset Finance & Marketplace Systems',
+    discipline: '01 // BUILD',
+    executiveSummary:
+      'Multi-tier commercial asset finance marketplace connecting UK businesses, equipment suppliers, and specialist lenders through automated underwriting workflows.',
+    context:
+      'TAFM provides asset finance infrastructure across the UK, allowing companies to acquire essential commercial machinery, vehicles, and operational equipment. The organisation required a unified digital marketplace to connect equipment suppliers, applicants, and institutional finance providers with structured credit applications.',
+    problemStatement:
+      'Commercial equipment finance in the UK was traditionally fragmented: paper-heavy broker handoffs, opaque rates, and multi-day underwriting delays caused friction for buyers and suppliers alike.',
+    interventionSummary:
+      'Avorria engineered a streamlined digital marketplace platform on Next.js App Router featuring real-time equipment taxonomy indexing, automated borrower pre-qualification, and direct lender underwriting pipelines.',
+    technologyStack: [
+      'Next.js 16 App Router',
+      'TypeScript',
+      'Tailwind CSS v4',
+      'PostgreSQL',
+      'Workflow Automation',
+    ],
+    chapters: [
+      {
+        id: 'tafm-context',
+        type: 'CONTEXT',
+        sequence: '01',
+        eyebrow: '01 // MARKETPLACE CONTEXT',
+        title: 'Commercial Equipment Finance Demands Speed and Transparency.',
+        statement:
+          'When capital deployment is gated by opaque broker delays, business equipment acquisition grinds to a halt.',
+        paragraphs: [
+          'Commercial businesses needing critical equipment — from transport vehicles to industrial plant machinery — face convoluted financing hurdles. Traditional underwriting takes days and relies on manual paper forms.',
+          'TAFM was conceived to unify the entire acquisition chain into a single digital platform: one structured application, instant verification, and multiple verified financing possibilities.',
+        ],
+        media: {
+          id: 'tafm-media-1',
+          type: 'INTERFACE',
+          alt: 'TAFM marketplace hero interface and equipment taxonomy inspection',
+          caption: 'Interactive asset finance application platform with automated lender routing',
+          aspectRatio: '16/9',
+          figureNumber: 'FIG 07.1',
+          spec: 'NEXT.JS 16 // STRUCTURED APPLICATION PIPELINE',
+        },
+      },
+      {
+        id: 'tafm-system',
+        type: 'SYSTEM',
+        sequence: '02',
+        eyebrow: '02 // ARCHITECTURAL INTERVENTION',
+        title: 'Automated Routing & Multi-Tier Partner Taxonomy.',
+        statement:
+          'We engineered a multi-portal architecture serving borrowers, equipment dealers, and underwriters.',
+        paragraphs: [
+          'The platform models equipment categories, lending limits, and asset risk profiles into an indexed taxonomy. Equipment suppliers can initiate customer proposals directly at point of sale.',
+          'Underwriting criteria are evaluated deterministically in real-time, routing compliant applications to matching institutional funders without manual intermediary delays.',
+        ],
+        technicalSpecs: [
+          {
+            label: 'Route Performance',
+            value: 'Sub-Second LCP',
+            detail: 'Server-rendered pages with static edge caching',
+          },
+          {
+            label: 'Application Flow',
+            value: 'Zero Layout Shift',
+            detail: 'Structured multi-step form with client-side state preservation',
+          },
+          {
+            label: 'Data Integrity',
+            value: '100% Strict TypeScript',
+            detail: 'Strict domain models across all borrower and asset data schemas',
+          },
+        ],
+      },
+      {
+        id: 'tafm-evidence',
+        type: 'EVIDENCE',
+        sequence: '03',
+        eyebrow: '03 // VERIFIED PRODUCTION OUTCOME',
+        title: 'Operational Velocity & Nationwide Financing Scalability.',
+        paragraphs: [
+          'TAFM deployed globally with immediate route responsiveness, zero visual regressions, and surgical typography.',
+          'UK businesses and equipment vendors now complete financing proposals in minutes rather than days, drastically compressing the equipment acquisition cycle.',
+        ],
+      },
+    ],
+    qualitativeEvidence: [
+      {
+        id: 'tafm-q1',
+        category: 'PLATFORM_LAUNCHED',
+        statement: 'Production commercial asset finance marketplace deployed on Next.js 16 with instant LCP.',
+        verificationMethod: 'Public DNS and production telemetry audit.',
+      },
+      {
+        id: 'tafm-q2',
+        category: 'WORKFLOW_AUTOMATED',
+        statement: 'End-to-end structured asset application pipeline connecting suppliers directly to lenders.',
+        verificationMethod: 'Platform transaction workflow verification.',
+      },
+      {
+        id: 'tafm-q3',
+        category: 'PERFORMANCE_VERIFIED',
+        statement: '100% Core Web Vitals on mobile and desktop without third-party script bloat.',
+        verificationMethod: 'Automated CI Lighthouse audit report.',
+      },
+    ],
+    seo: {
+      title: 'TAFM — Case Study & Editorial Investigation | Avorria',
+      description:
+        'An editorial investigation into TAFM: digital marketplace architecture, equipment taxonomy, and automated asset financing workflows.',
+    },
+  },
 }
 
 /** Get all publicly verified case studies */

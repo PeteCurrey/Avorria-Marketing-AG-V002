@@ -270,6 +270,47 @@ export const PROJECT_MEDIA_REGISTRY: Record<string, ProjectMediaPackage> = {
         provenance: 'Live architectural site capture'
       }
     ]
+  },
+  'tafm': {
+    slug: 'tafm',
+    title: 'TAFM',
+    client: 'The Asset Finance Marketplace Ltd',
+    industry: 'Asset Finance & Marketplace Infrastructure',
+    year: 2025,
+    hero: {
+      src: '/images/projects/tafm/hero-screenshot.png',
+      alt: 'TAFM — The Asset Finance Marketplace flagship hero screen',
+      caption: 'Commercial asset finance marketplace platform connecting UK businesses and equipment suppliers',
+      width: 1024,
+      height: 592,
+      aspectRatio: '16/9',
+      figureNumber: 'FIG 07.1',
+      spec: 'NEXT.JS 16 // STRUCTURED CREDIT PIPELINE',
+      provenance: 'Production build capture from live flagship deployment'
+    },
+    thumbnail: {
+      src: '/images/projects/tafm/thumbnail.png',
+      alt: 'TAFM — The Asset Finance Marketplace platform overview',
+      caption: 'Commercial equipment finance taxonomy and partner portal',
+      width: 1024,
+      height: 592,
+      aspectRatio: '16/9',
+      figureNumber: 'FIG 07.2',
+      provenance: 'Production build capture'
+    },
+    gallery: [
+      {
+        src: '/images/projects/tafm/hero-screenshot.png',
+        alt: 'TAFM platform hero interface',
+        caption: 'Commercial asset finance application workflow and taxonomy indexing',
+        width: 1024,
+        height: 592,
+        aspectRatio: '16/9',
+        figureNumber: 'FIG 07.3',
+        spec: 'STRUCTURED APPLICATION ORCHESTRATION',
+        provenance: 'Production codebase capture'
+      }
+    ]
   }
 }
 

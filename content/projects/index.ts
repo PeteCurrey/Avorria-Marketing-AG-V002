@@ -47,6 +47,43 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: 'tafm',
+    status: 'published',
+    title: 'TAFM',
+    client: 'The Asset Finance Marketplace Ltd',
+    year: 2025,
+    industry: 'Asset Finance & Marketplace Infrastructure',
+    services: ['web-development', 'digital-systems', 'web-application'],
+    summary: 'Commercial asset finance marketplace platform connecting UK businesses, equipment suppliers, and specialist finance providers.',
+    description:
+      'A structured commercial marketplace platform engineered for UK asset finance, connecting businesses, equipment suppliers, and specialist lenders through automated financing workflows.',
+    challenge:
+      'Commercial equipment finance in the UK was historically constrained by fragmented manual broker processes, opaque rate structures, and multi-day underwriting delays.',
+    approach:
+      'Architected a unified digital marketplace on Next.js App Router featuring real-time equipment taxonomy categorization, multi-tier partner portals, and automated underwriting pipelines.',
+    technology: ['Next.js App Router', 'TypeScript', 'Tailwind CSS', 'PostgreSQL', 'Workflow Automation'],
+    outcome:
+      'Deployed a production asset finance marketplace operating at zero layout shift with automated credit routing and structured supplier application funnels.',
+    featured: true,
+    homepageLayout: 'horizontal',
+    thumbnail: {
+      src: '/images/projects/tafm/thumbnail.png',
+      alt: 'TAFM — The Asset Finance Marketplace platform overview',
+      width: 1024,
+      height: 592,
+    },
+    heroImage: {
+      src: '/images/projects/tafm/hero-screenshot.png',
+      alt: 'TAFM — The Asset Finance Marketplace hero screen',
+      width: 1024,
+      height: 592,
+    },
+    seo: {
+      title: 'TAFM — Asset Finance Marketplace | Avorria Case Study',
+      description: 'Commercial asset finance marketplace platform connecting UK businesses, equipment suppliers, and finance providers.',
+    },
+  },
+  {
     slug: 'drawdown',
     status: 'published',
     title: 'Drawdown.Trading',
