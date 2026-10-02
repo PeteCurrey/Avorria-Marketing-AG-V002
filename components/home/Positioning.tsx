@@ -18,7 +18,7 @@ import { MediaPlaceholder } from '@/components/ui/MediaPlaceholder'
 export function Positioning() {
   return (
     <section
-      className="relative section-y-large border-t border-[var(--color-border)] bg-[var(--color-ivory)] overflow-hidden"
+      className="relative section-y-large border-t border-[var(--color-border)] bg-white overflow-hidden"
       aria-labelledby="positioning-heading"
     >
       {/* ── Background Architectural Numeral ─────────────────────────────────── */}

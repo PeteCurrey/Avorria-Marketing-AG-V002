@@ -35,7 +35,7 @@ export function Footer() {
 
   return (
     <footer
-      className="border-t border-[var(--color-border)] bg-[var(--color-ivory-dark)]"
+      className="border-t border-[var(--color-border)] bg-white"
       role="contentinfo"
     >
       <div className="container-max">

@@ -86,7 +86,7 @@ export function Navigation() {
         className={[
           'fixed top-0 left-0 right-0 z-50',
           scrolled
-            ? 'bg-[var(--color-ivory)]/95 backdrop-blur-sm shadow-[0_1px_0_0_var(--color-border)]'
+            ? 'bg-white/95 backdrop-blur-sm shadow-[0_1px_0_0_var(--color-border)]'
             : 'bg-transparent',
           'transition-all duration-[var(--duration-base)]',
         ].join(' ')}

@@ -76,7 +76,7 @@ export function Capabilities() {
 
   return (
     <section
-      className="relative section-y-large border-t border-[var(--color-border)] bg-[var(--color-ivory)] overflow-hidden"
+      className="relative section-y-large border-t border-[var(--color-border)] bg-white overflow-hidden"
       aria-labelledby="capabilities-heading"
     >
       {/* ── Background Architectural Numeral ─────────────────────────────────── */}

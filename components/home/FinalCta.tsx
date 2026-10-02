@@ -15,7 +15,7 @@ import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 export function FinalCta() {
   return (
     <section
-      className="section-y-large relative border-t border-[var(--color-border)] bg-[var(--color-ivory)] overflow-hidden"
+      className="section-y-large relative border-t border-[var(--color-border)] bg-white overflow-hidden"
       aria-labelledby="final-cta-heading"
     >
       <div className="w-full px-6 md:px-10 lg:px-[7vw]">

@@ -181,7 +181,7 @@ export function ProcessSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative border-t border-[var(--color-border)] bg-[var(--color-ivory)]"
+      className="relative border-t border-[var(--color-border)] bg-white"
       aria-labelledby="process-heading"
       // NO overflow:hidden — preserves CSS position:sticky on left column
     >

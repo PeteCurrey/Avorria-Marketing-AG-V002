@@ -19,7 +19,7 @@ export async function LobbyPreview() {
 
   return (
     <section
-      className="relative section-y-large border-t border-[var(--color-border)] bg-[var(--color-ivory)] overflow-hidden"
+      className="relative section-y-large border-t border-[var(--color-border)] bg-white overflow-hidden"
       aria-labelledby="lobby-heading"
     >
       {/* ── Background Architectural Numeral ─────────────────────────────────── */}

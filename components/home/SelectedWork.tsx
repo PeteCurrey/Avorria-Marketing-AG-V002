@@ -89,7 +89,7 @@ export function SelectedWork() {
     <section
       ref={sectionRef}
       onMouseMove={handleMouseMove}
-      className="relative section-y-large border-t border-[var(--color-border)] bg-[var(--color-ivory)] overflow-hidden"
+      className="relative section-y-large border-t border-[var(--color-border)] bg-white overflow-hidden"
       aria-labelledby="work-heading"
     >
       {/* ── Background Architectural Numeral ─────────────────────────────────── */}
@@ -156,7 +156,7 @@ export function SelectedWork() {
                 key={project.slug}
                 onMouseEnter={() => setCursorVisible(true)}
                 onMouseLeave={() => setCursorVisible(false)}
-                className="group relative w-full lg:w-[680px] shrink-0 border border-[var(--color-border)] bg-[var(--color-ivory-light)] hover:border-[var(--color-border-strong)] transition-all duration-[var(--duration-base)] p-5 md:p-6"
+                className="group relative w-full lg:w-[680px] shrink-0 border border-[var(--color-border)] bg-white hover:border-[var(--color-border-strong)] transition-all duration-[var(--duration-base)] p-5 md:p-6"
               >
                 <Link href={`/work/${project.slug}`} className="block">
                   {/* Card Telemetry Header */}
