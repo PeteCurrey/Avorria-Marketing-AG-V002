@@ -1,122 +1,100 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
+/**
+ * HeroMedia — Right-panel media for the Hero section.
+ *
+ * Uses the Chicago river architectural photograph with soft left-edge fade
+ * on desktop and top-edge fade on mobile to blend seamlessly into the white ground.
+ */
 
-interface ReelItem {
-  src: string
-  alt: string
-  title: string
-  discipline: string
-  sector: string
+import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
+
+interface HeroMediaProps {
+  /** Path to poster image — served from /public */
+  poster?: string
+  /** Path to optional looping video */
+  video?: string
+  /** Alt text for poster */
+  alt?: string
 }
 
-const REEL_ITEMS: ReelItem[] = [
-  {
-    src: '/images/projects/alkota-bikes/hero-screenshot.png',
-    alt: 'Alkota Bikes bespoke titanium 3D WebGL flagship platform',
-    title: 'ALKOTA BIKES',
-    discipline: 'BESPOKE 3D WEBGL FLAGSHIP',
-    sector: 'PRECISION CYCLING',
-  },
-  {
-    src: '/images/projects/drawdown/hero.png',
-    alt: 'Drawdown.Trading low-latency quantitative risk terminal',
-    title: 'DRAWDOWN.TRADING',
-    discipline: 'SUB-MILLISECOND RISK TERMINAL',
-    sector: 'FINANCIAL QUANTITATIVE',
-  },
-  {
-    src: '/images/projects/tafm/hero-screenshot.png',
-    alt: 'The Asset Finance Marketplace structured commercial platform',
-    title: 'TAFM',
-    discipline: 'MARKETPLACE INFRASTRUCTURE',
-    sector: 'COMMERCIAL ASSET FINANCE',
-  },
-]
+export function HeroMedia({
+  poster = '/images/hero/hero-bg.jpg',
+  video,
+  alt = 'Avorria — Chicago river architectural twilight skyline',
+}: HeroMediaProps) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [videoReady, setVideoReady] = useState(false)
 
-export function HeroMedia() {
-  const [activeIndex, setActiveIndex] = useState(0)
-
+  // Attempt to play video if provided (respects reduced-motion via CSS)
   useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % REEL_ITEMS.length)
-    }, 7000)
-    return () => clearInterval(timer)
+    const v = videoRef.current
+    if (!v) return
+    v.play().catch(() => {
+      // Autoplay blocked — poster remains visible
+    })
+    const handleCanPlay = () => setVideoReady(true)
+    v.addEventListener('canplay', handleCanPlay)
+    return () => v.removeEventListener('canplay', handleCanPlay)
   }, [])
-
-  const current = REEL_ITEMS[activeIndex]
 
   return (
     <div
-      className="relative w-full h-full overflow-hidden hero-media-panel select-none bg-[#121110]"
+      className="relative w-full h-full overflow-hidden hero-media-panel select-none"
       aria-hidden="true"
     >
-      {/* ── Layered Verified Project Images with Ambient Crossfade ── */}
-      {REEL_ITEMS.map((item, idx) => (
-        <div
-          key={item.src}
-          className={[
-            'absolute inset-0 transition-all duration-1000 ease-out',
-            idx === activeIndex
-              ? 'opacity-100 scale-100 z-10'
-              : 'opacity-0 scale-[1.02] z-0 pointer-events-none',
-          ].join(' ')}
-        >
-          <Image
-            src={item.src}
-            alt={item.alt}
-            fill
-            priority={idx === 0}
-            sizes="(min-width: 1024px) 56vw, 100vw"
-            className="object-cover object-center"
-          />
-        </div>
-      ))}
+      {/* ── Chicago River architectural photograph ─────────────────────────── */}
+      <Image
+        src={poster}
+        alt={alt}
+        fill
+        priority
+        sizes="(min-width: 1024px) 54vw, 100vw"
+        className={[
+          'object-cover hero-media-poster',
+          videoReady ? 'opacity-0' : 'opacity-100',
+          'transition-opacity duration-700',
+        ].join(' ')}
+        style={{ objectPosition: 'center center' }}
+      />
 
-      {/* ── Soft Architectural Vignette & Editorial Tint ── */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none z-20" />
-
-      {/* ── White left-edge fade — blends into white text column on desktop ── */}
+      {/* ── White left-edge fade — blends image into white text column (Desktop) ── */}
       <div
-        className="absolute inset-y-0 left-0 pointer-events-none hidden lg:block z-20"
+        className="absolute inset-y-0 left-0 pointer-events-none hidden lg:block"
         style={{
           width: '24%',
           background: 'linear-gradient(to right, #ffffff 0%, rgba(255,255,255,0) 100%)',
+          zIndex: 1,
         }}
       />
 
-      {/* ── White top-edge fade on mobile ── */}
+      {/* ── White top-edge fade (Mobile) ──────────────────────────────────── */}
       <div
-        className="absolute inset-x-0 top-0 pointer-events-none lg:hidden z-20"
+        className="absolute inset-x-0 top-0 pointer-events-none lg:hidden"
         style={{
           height: '25%',
           background: 'linear-gradient(to bottom, #ffffff 0%, rgba(255,255,255,0) 100%)',
+          zIndex: 1,
         }}
       />
 
-      {/* ── Cinematic Bottom Caption Bar ── */}
-      <div className="absolute bottom-6 left-8 right-8 z-30 flex items-center justify-between text-[0.625rem] tracking-[0.16em] uppercase font-light text-white/80 border-t border-white/20 pt-3">
-        <div className="flex items-center gap-3">
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-rose-text)] animate-pulse" />
-          <span>VERIFIED PRODUCTION WORK // {current.title}</span>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <span className="hidden sm:inline text-white/50">{current.discipline}</span>
-          <div className="flex items-center gap-1.5">
-            {REEL_ITEMS.map((_, i) => (
-              <span
-                key={i}
-                className={[
-                  'h-1 transition-all duration-500 rounded-full',
-                  i === activeIndex ? 'w-5 bg-white' : 'w-1.5 bg-white/30',
-                ].join(' ')}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* ── Optional Video ────────────────────────────────────────────────── */}
+      {video && (
+        <video
+          ref={videoRef}
+          src={video}
+          muted
+          playsInline
+          loop
+          className={[
+            'absolute inset-0 w-full h-full object-cover hero-media-video',
+            videoReady ? 'opacity-100' : 'opacity-0',
+            'transition-opacity duration-700',
+          ].join(' ')}
+          aria-hidden="true"
+        />
+      )}
     </div>
   )
 }
