@@ -779,16 +779,81 @@
     border-right: 1px solid var(--color-border);
     background-color: #FFFFFF;
     overflow: hidden;
+    cursor: default;
     transition:
-      transform 450ms cubic-bezier(0.16, 1, 0.3, 1),
-      border-color 350ms ease,
-      box-shadow 450ms cubic-bezier(0.16, 1, 0.3, 1);
+      transform 400ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 300ms ease,
+      box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 300ms ease;
   }
 
   .tech-card:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: -2px;
-    z-index: 10;
+    z-index: 20;
+  }
+
+  /* Card expansion & elevation on hover / focus */
+  .tech-card:hover,
+  .tech-card:focus-within {
+    border-color: var(--tech-border, var(--color-border-strong));
+    box-shadow:
+      0 18px 36px -10px rgba(26, 25, 22, 0.10),
+      0 0 0 1px var(--tech-border, var(--color-border-strong));
+    transform: scale(1.03) translateY(-4px);
+    z-index: 20;
+  }
+
+  /* Atmospheric Brand Radial Glow */
+  .tech-card-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+      ellipse 80% 80% at 85% 85%,
+      var(--tech-glow, rgba(0, 0, 0, 0.05)) 0%,
+      rgba(255, 255, 255, 0) 70%
+    );
+    transition: opacity 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .tech-card:hover .tech-card-glow,
+  .tech-card:focus-within .tech-card-glow {
+    opacity: 1;
+  }
+
+  /* Authentic Technology Logo Surface */
+  .tech-card-logo-wrap {
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    width: 155px;
+    height: 155px;
+    pointer-events: none;
+    color: #1A1916;
+    opacity: 0.05;
+    transform: scale(0.92) translate(8px, 8px);
+    transition:
+      opacity 450ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 450ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Logo pops with colour and expands on hover */
+  .tech-card:hover .tech-card-logo-wrap,
+  .tech-card:focus-within .tech-card-logo-wrap {
+    color: var(--tech-color, #1A1916);
+    opacity: 0.25;
+    transform: scale(1.06) translate(0, 0);
+    filter: drop-shadow(0 6px 14px var(--tech-glow, rgba(0, 0, 0, 0.1)));
+  }
+
+  .tech-card-logo-wrap svg {
+    width: 100%;
+    height: 100%;
+    display: block;
   }
 
   .tech-card-image-wrap {
@@ -807,7 +872,7 @@
     object-fit: cover;
     width: 100%;
     height: 100%;
-    filter: grayscale(100%) contrast(108%);
+    filter: grayscale(100%) contrast(105%);
   }
 
   /* Protective light scrim: ensures 100% text readability over revealed image */
@@ -816,25 +881,16 @@
     inset: 0;
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.25) 0%,
-      rgba(255, 255, 255, 0.15) 50%,
-      rgba(255, 255, 255, 0.30) 100%
+      rgba(255, 255, 255, 0.40) 0%,
+      rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0.45) 100%
     );
     pointer-events: none;
   }
 
-  /* Hover & Focus state */
-  .tech-card:hover,
-  .tech-card:focus-within {
-    border-color: var(--color-border-strong);
-    box-shadow: 0 12px 28px -8px rgba(26, 25, 22, 0.06);
-    transform: translateY(-2px);
-    z-index: 2;
-  }
-
   .tech-card:hover .tech-card-image-wrap,
   .tech-card:focus-within .tech-card-image-wrap {
-    opacity: 0.32;
+    opacity: 0.14;
     transform: scale(1) translateZ(0);
   }
 
@@ -852,10 +908,15 @@
     transform: translateY(0);
   }
 
-  /* Mobile fallback: subtle atmospheric background without needing touch interaction */
+  /* Mobile fallback: atmospheric presence without hover */
   @media (max-width: 1023px) {
+    .tech-card-logo-wrap {
+      opacity: 0.12;
+      color: var(--tech-color, #1A1916);
+      transform: none;
+    }
     .tech-card-image-wrap {
-      opacity: 0.18;
+      opacity: 0.10;
       transform: none;
     }
     .tech-card-provenance {
@@ -870,14 +931,17 @@
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .tech-card,
+    .tech-card-glow,
+    .tech-card-logo-wrap,
     .tech-card-image-wrap,
     .tech-card-provenance {
       transition: none !important;
       transform: none !important;
     }
-    .tech-card:hover .tech-card-image-wrap,
-    .tech-card:focus-within .tech-card-image-wrap {
-      opacity: 0.28 !important;
+    .tech-card:hover .tech-card-logo-wrap,
+    .tech-card:focus-within .tech-card-logo-wrap {
+      opacity: 0.20 !important;
+      color: var(--tech-color, #1A1916) !important;
     }
   }
 
