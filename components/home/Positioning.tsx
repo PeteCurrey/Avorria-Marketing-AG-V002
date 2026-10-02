@@ -90,7 +90,7 @@ export function Positioning() {
           {/* Right: Large-format Art-Directed Visual Plate (16:9) */}
           <div className="lg:col-span-7">
             <RevealOnScroll delay={150}>
-              <div className="relative w-full aspect-[16/9] bg-[#121110] border border-[var(--color-border)] overflow-hidden shadow-sm">
+              <div className="relative w-full aspect-[16/9] overflow-hidden">
                 <Image
                   src="/images/positioning/manifesto.jpg"
                   alt="Precision engineering geometry — high-tolerance mechanical machining"
@@ -99,7 +99,14 @@ export function Positioning() {
                   priority
                   className="object-cover object-center transition-transform duration-700 hover:scale-[1.02]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
+                {/* Left fade */}
+                <div className="absolute inset-y-0 left-0 w-1/4 pointer-events-none" style={{ background: 'linear-gradient(to right, #ffffff 0%, rgba(255,255,255,0) 100%)' }} />
+                {/* Right fade */}
+                <div className="absolute inset-y-0 right-0 w-1/4 pointer-events-none" style={{ background: 'linear-gradient(to left, #ffffff 0%, rgba(255,255,255,0) 100%)' }} />
+                {/* Top fade */}
+                <div className="absolute inset-x-0 top-0 h-1/4 pointer-events-none" style={{ background: 'linear-gradient(to bottom, #ffffff 0%, rgba(255,255,255,0) 100%)' }} />
+                {/* Bottom fade */}
+                <div className="absolute inset-x-0 bottom-0 h-1/4 pointer-events-none" style={{ background: 'linear-gradient(to top, #ffffff 0%, rgba(255,255,255,0) 100%)' }} />
               </div>
               <div className="flex items-center justify-between pt-3 text-[10px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
                 <span className="flex items-center gap-2">
