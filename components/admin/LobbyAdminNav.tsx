@@ -20,8 +20,9 @@ export function LobbyAdminNav() {
   return (
     <nav className="flex flex-wrap items-center gap-2 border-b border-[var(--color-border)] pb-4 mb-8" aria-label="Lobby admin subnavigation">
       {lobbyAdminLinks.map((link) => {
-        const isActive =
-          link.href === '/admin/lobby'
+        const isActive = !pathname
+          ? false
+          : link.href === '/admin/lobby'
             ? pathname === '/admin/lobby'
             : pathname.startsWith(link.href)
 

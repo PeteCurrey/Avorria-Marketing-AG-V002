@@ -10,10 +10,8 @@ export default function GlobalError({
   reset: () => void
 }) {
   useEffect(() => {
-    // Report to monitoring on client-side
-    if (process.env.NEXT_PUBLIC_ENVIRONMENT === 'production') {
-      console.error('[GlobalError]', error.message, error.digest)
-    }
+    // Report to monitoring on client-side and ensure console visibility
+    console.error('[GlobalError]', error?.message || error, error?.digest)
   }, [error])
 
   return (

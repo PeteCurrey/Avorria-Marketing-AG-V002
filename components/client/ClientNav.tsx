@@ -53,7 +53,7 @@ export function ClientNav({ user, organisationName }: ClientNavProps) {
       <nav className="flex-1 p-4" aria-label="Client portal navigation">
         <ul className="space-y-0.5" role="list">
           {clientLinks.map(({ label, href, icon }) => {
-            const isActive = pathname === href || (href !== '/client/dashboard' && pathname.startsWith(href))
+            const isActive = pathname ? (pathname === href || (href !== '/client/dashboard' && pathname.startsWith(href))) : false
             return (
               <li key={href}>
                 <Link

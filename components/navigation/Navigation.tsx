@@ -16,7 +16,8 @@ const navLinks = [
   { label: 'Contact',    href: '/contact' },
 ]
 
-function isActiveLink(pathname: string, href: string): boolean {
+function isActiveLink(pathname: string | null | undefined, href: string): boolean {
+  if (!pathname) return false
   if (href === '/') return pathname === '/'
   return pathname === href || pathname.startsWith(href + '/')
 }

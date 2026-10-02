@@ -14,12 +14,49 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
+  const { pathname } = request.nextUrl
 
-  // Refresh session cookie — must use the request/response cookie pattern
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
+  // ─── X-Robots-Tag: noindex on /client/* and /admin/* always ─────────────
+  if (pathname.startsWith('/client/') || pathname.startsWith('/admin/')) {
+    supabaseResponse.headers.set('X-Robots-Tag', 'noindex, nofollow')
+  }
+
+  // ─── X-Robots-Tag: noindex on non-production deployments ─────────────────
+  if (process.env.NEXT_PUBLIC_ENVIRONMENT !== 'production') {
+    supabaseResponse.headers.set('X-Robots-Tag', 'noindex')
+  }
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  // If Supabase credentials are not configured, handle client/admin redirects safely without crashing
+  if (!supabaseUrl || !supabaseKey) {
+    if (
+      pathname.startsWith('/client/') &&
+      !pathname.startsWith('/client/login') &&
+      !pathname.startsWith('/client/reset-password')
+    ) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/client/login'
+      url.searchParams.set('from', pathname)
+      return NextResponse.redirect(url)
+    }
+    if (
+      pathname.startsWith('/admin/') &&
+      !pathname.startsWith('/admin/login') &&
+      !pathname.startsWith('/admin/mfa')
+    ) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/admin/login'
+      url.searchParams.set('from', pathname)
+      return NextResponse.redirect(url)
+    }
+    return supabaseResponse
+  }
+
+  try {
+    // Refresh session cookie — must use the request/response cookie pattern
+    const supabase = createServerClient(supabaseUrl, supabaseKey, {
       cookies: {
         getAll() {
           return request.cookies.getAll()
@@ -34,50 +71,40 @@ export async function proxy(request: NextRequest) {
           )
         },
       },
+    })
+
+    // IMPORTANT: getUser() refreshes the session token if near expiry.
+    // Do not use getSession() here — it does not validate the JWT server-side.
+    const { data: { user } } = await supabase.auth.getUser()
+
+    // ─── Coarse redirect: /client/* → /client/login ──────────────────────────
+    // Except the login page itself — avoid redirect loop.
+    if (
+      pathname.startsWith('/client/') &&
+      !pathname.startsWith('/client/login') &&
+      !pathname.startsWith('/client/reset-password') &&
+      !user
+    ) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/client/login'
+      url.searchParams.set('from', pathname)
+      return NextResponse.redirect(url)
     }
-  )
 
-  // IMPORTANT: getUser() refreshes the session token if near expiry.
-  // Do not use getSession() here — it does not validate the JWT server-side.
-  const { data: { user } } = await supabase.auth.getUser()
-
-  const { pathname } = request.nextUrl
-
-  // ─── Coarse redirect: /client/* → /client/login ──────────────────────────
-  // Except the login page itself — avoid redirect loop.
-  if (
-    pathname.startsWith('/client/') &&
-    !pathname.startsWith('/client/login') &&
-    !pathname.startsWith('/client/reset-password') &&
-    !user
-  ) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/client/login'
-    url.searchParams.set('from', pathname)
-    return NextResponse.redirect(url)
-  }
-
-  // ─── Coarse redirect: /admin/* → /admin/login ────────────────────────────
-  if (
-    pathname.startsWith('/admin/') &&
-    !pathname.startsWith('/admin/login') &&
-    !pathname.startsWith('/admin/mfa') &&
-    !user
-  ) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/admin/login'
-    url.searchParams.set('from', pathname)
-    return NextResponse.redirect(url)
-  }
-
-  // ─── X-Robots-Tag: noindex on /client/* and /admin/* always ─────────────
-  if (pathname.startsWith('/client/') || pathname.startsWith('/admin/')) {
-    supabaseResponse.headers.set('X-Robots-Tag', 'noindex, nofollow')
-  }
-
-  // ─── X-Robots-Tag: noindex on non-production deployments ─────────────────
-  if (process.env.NEXT_PUBLIC_ENVIRONMENT !== 'production') {
-    supabaseResponse.headers.set('X-Robots-Tag', 'noindex')
+    // ─── Coarse redirect: /admin/* → /admin/login ────────────────────────────
+    if (
+      pathname.startsWith('/admin/') &&
+      !pathname.startsWith('/admin/login') &&
+      !pathname.startsWith('/admin/mfa') &&
+      !user
+    ) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/admin/login'
+      url.searchParams.set('from', pathname)
+      return NextResponse.redirect(url)
+    }
+  } catch (error) {
+    console.error('[Middleware Error in proxy.ts]:', error)
   }
 
   return supabaseResponse

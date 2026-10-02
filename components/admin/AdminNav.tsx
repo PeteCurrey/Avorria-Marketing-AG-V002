@@ -52,7 +52,7 @@ export function AdminNav({ user }: AdminNavProps) {
       <nav className="flex-1 p-4" aria-label="Admin navigation">
         <ul className="space-y-0.5" role="list">
           {adminLinks.map(({ label, href, icon }) => {
-            const isActive = pathname === href || (href !== '/admin/dashboard' && pathname.startsWith(href))
+            const isActive = pathname ? (pathname === href || (href !== '/admin/dashboard' && pathname.startsWith(href))) : false
             return (
               <li key={href}>
                 <Link
