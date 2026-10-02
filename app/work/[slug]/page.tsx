@@ -6,8 +6,10 @@ import { ProjectMedia } from '@/components/ui/ProjectMedia'
 import { MediaPlaceholder } from '@/components/ui/MediaPlaceholder'
 import { ChapterRenderer } from '@/components/case-study/ChapterRenderer'
 import { EvidenceLedger } from '@/components/case-study/EvidenceLedger'
+import { CaseStudyGallery } from '@/components/case-study/CaseStudyGallery'
 import { getProject, getPublishedProjectSlugs } from '@/content/projects'
 import { getVerifiedCaseStudyBySlug } from '@/content/case-studies/registry'
+import { getProjectMedia } from '@/content/media/registry'
 import { siteConfig } from '@/content/config/site'
 
 interface Props {
@@ -30,6 +32,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: project.seo.title,
       description: project.seo.description,
       url: `${siteConfig.url}/work/${slug}`,
+      type: 'article',
+      images: [
+        {
+          url: project.heroImage?.src ? `${siteConfig.url}${project.heroImage.src}` : `${siteConfig.url}/og/default.png`,
+          width: 1600,
+          height: 900,
+          alt: project.heroImage?.alt || project.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: project.seo.title,
+      description: project.seo.description,
     },
   }
 }
@@ -40,11 +56,68 @@ export default async function ProjectPage({ params }: Props) {
   if (!project) notFound()
 
   const detailedCaseStudy = getVerifiedCaseStudyBySlug(slug)
+  const mediaPackage = getProjectMedia(slug)
+
+  // Structured Data Schema.org
+  const caseStudySchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    headline: project.title,
+    name: project.title,
+    description: project.description,
+    url: `${siteConfig.url}/work/${slug}`,
+    datePublished: `${project.year}-01-01`,
+    author: {
+      '@type': 'Organization',
+      name: siteConfig.name,
+      url: siteConfig.url,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: siteConfig.name,
+      url: siteConfig.url,
+    },
+    image: project.heroImage?.src ? `${siteConfig.url}${project.heroImage.src}` : undefined,
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteConfig.url,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Work',
+        item: `${siteConfig.url}/work`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: project.title,
+        item: `${siteConfig.url}/work/${slug}`,
+      },
+    ],
+  }
 
   return (
-    <div className="section-y-large">
-      <div className="container-max">
-        <div className="container-content">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <div className="section-y-large">
+        <div className="container-max">
+          <div className="container-content">
 
           <Breadcrumb
             items={[
@@ -57,13 +130,13 @@ export default async function ProjectPage({ params }: Props) {
           {/* Header */}
           <div className="border-b border-[var(--color-border)] pb-12 mb-12">
             <div className="flex flex-wrap items-center gap-4 mb-6">
-              <span className="text-label-upper text-muted font-mono">{project.industry}</span>
+              <span className="text-label-upper text-muted font-light">{project.industry}</span>
               <span className="text-label-upper text-muted">—</span>
-              <span className="text-label-upper text-muted font-mono">{project.year}</span>
+              <span className="text-label-upper text-muted font-light">{project.year}</span>
               {detailedCaseStudy && (
                 <>
                   <span className="text-label-upper text-muted">—</span>
-                  <span className="text-label-upper font-mono text-[var(--color-accent)]">
+                  <span className="text-label-upper font-light text-[var(--color-accent)]">
                     PROVENANCE: {detailedCaseStudy.provenance.toUpperCase()}
                   </span>
                 </>
@@ -137,13 +210,18 @@ export default async function ProjectPage({ params }: Props) {
               },
             ].map(({ label, value }) => (
               <div key={label} className="border-l border-t border-[var(--color-border)] p-6 last:border-r md:last:border-r-0">
-                <p className="text-label-upper text-muted mb-2 font-mono">{label}</p>
+                <p className="text-label-upper text-muted mb-2 font-light">{label}</p>
                 <p className="text-[var(--text-small)] text-[var(--color-graphite)] capitalize font-light">
                   {value}
                 </p>
               </div>
             ))}
           </div>
+
+          {/* ── Verified Visual Evidence Artefacts Gallery ───────────────────────── */}
+          {mediaPackage && mediaPackage.gallery.length > 0 && (
+            <CaseStudyGallery items={mediaPackage.gallery} />
+          )}
 
           {/* Render In-Depth Investigation Chapters if present in Registry */}
           {detailedCaseStudy && detailedCaseStudy.chapters.length > 0 ? (
@@ -169,21 +247,21 @@ export default async function ProjectPage({ params }: Props) {
             <>
               {project.challenge && (
                 <div className="border-t border-[var(--color-border)] py-12 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-8">
-                  <p className="text-label-upper font-mono">Challenge</p>
+                  <p className="text-label-upper font-light">Challenge</p>
                   <p className="text-secondary leading-relaxed font-light">{project.challenge}</p>
                 </div>
               )}
 
               {project.approach && (
                 <div className="border-t border-[var(--color-border)] py-12 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-8">
-                  <p className="text-label-upper font-mono">Approach</p>
+                  <p className="text-label-upper font-light">Approach</p>
                   <p className="text-secondary leading-relaxed font-light">{project.approach}</p>
                 </div>
               )}
 
               {project.outcome && (
                 <div className="border-t border-[var(--color-border)] py-12 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-8">
-                  <p className="text-label-upper font-mono">Outcome</p>
+                  <p className="text-label-upper font-light">Outcome</p>
                   <p className="text-secondary leading-relaxed font-light">{project.outcome}</p>
                 </div>
               )}
@@ -193,10 +271,10 @@ export default async function ProjectPage({ params }: Props) {
           {/* Technology badges */}
           {project.technology && project.technology.length > 0 && (
             <div className="border-t border-[var(--color-border)] py-12 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-8">
-              <p className="text-label-upper font-mono">Engineering Stack</p>
+              <p className="text-label-upper font-light">Engineering Stack</p>
               <div className="flex flex-wrap gap-2">
                 {project.technology.map((t) => (
-                  <span key={t} className="text-label-upper font-mono border border-[var(--color-border)] px-3 py-1.5 text-secondary text-[11px]">
+                  <span key={t} className="text-label-upper font-light border border-[var(--color-border)] px-3 py-1.5 text-secondary text-[11px]">
                     {t}
                   </span>
                 ))}
@@ -215,7 +293,7 @@ export default async function ProjectPage({ params }: Props) {
                   ← All Case Studies
                 </Button>
               </div>
-              <span className="text-[10px] font-mono text-[var(--color-graphite-muted)] uppercase">
+              <span className="text-[10px] font-light text-[var(--color-graphite-muted)] uppercase">
                 AVORRIA ARCHITECTURAL INVESTIGATION // {project.year}
               </span>
             </div>
@@ -224,5 +302,6 @@ export default async function ProjectPage({ params }: Props) {
         </div>
       </div>
     </div>
+    </>
   )
 }

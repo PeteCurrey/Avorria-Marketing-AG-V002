@@ -1,17 +1,19 @@
 import type { Metadata } from 'next'
 import { generatePageMetadata } from '@/lib/metadata'
+import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { Button } from '@/components/ui/Button'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = generatePageMetadata({
-  title: 'About',
+  title: 'About // Studio Charter, Engineering Principles & Operational Philosophy',
   description:
-    'Avorria is a digital agency and technology studio building digital products, AI systems and high-performance websites for ambitious businesses.',
+    'Avorria is an independent digital engineering studio. We combine architectural design, strict TypeScript engineering, and commercial systems for ambitious operators.',
   path: '/about',
 })
 
-const disciplines = [
+const DISCIPLINES = [
   {
     title: '01 // Build',
     description: 'High-performance digital flagships, bespoke web software, and interactive platforms engineered with surgical typography and instant LCP.',
@@ -29,102 +31,183 @@ const disciplines = [
   },
 ]
 
+const WHAT_WE_REFUSE = [
+  {
+    principle: 'NO THIRD-PARTY THEMES OR TEMPLATES',
+    explanation: 'We do not build on bloated commercial themes, page builders, or fragile plugin ecosystems. Every line of markup and CSS is authored intentionally for the specific engagement.',
+  },
+  {
+    principle: 'ZERO SYNTHETIC OR HALLUCINATED METRICS',
+    explanation: 'We never fabricate commercial results, fake client logos, or exaggerate performance claims. Our portfolio consists exclusively of verified production deployments.',
+  },
+  {
+    principle: 'NO UNNECESSARY CLIENT-SIDE JAVASCRIPT',
+    explanation: 'We default to React Server Components and server-side execution. If an interaction does not genuinely require client state, it runs on the server with zero browser overhead.',
+  },
+  {
+    principle: 'NO UNACCOUNTABLE RETAINER DRIFT',
+    explanation: 'We do not sell vague monthly retainers that convert into passive maintenance invoices. Work is scoped in discrete, demonstrable engineering milestones with clear deliverables.',
+  },
+]
+
 export default function AboutPage() {
+  const aboutSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'About Avorria',
+    description: 'Studio charter, engineering principles, and operational philosophy of Avorria.',
+    url: `${siteConfig.url}/about`,
+    publisher: {
+      '@type': 'Organization',
+      name: siteConfig.name,
+      url: siteConfig.url,
+      description: siteConfig.organization.description,
+      email: siteConfig.organization.contactEmail,
+    },
+  }
+
   return (
-    <div className="section-y-large">
-      <div className="container-max">
-        <div className="container-content">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+      />
+      <div className="section-y-large bg-[var(--color-ivory)]">
+        <div className="container-max">
+          <div className="container-content">
 
-          <div className="border-b border-[var(--color-border)] pb-16 mb-16">
-            <Eyebrow>About Avorria</Eyebrow>
-            <h1 className="text-display-l max-w-[700px]">
-              A digital agency that builds things.
-            </h1>
-          </div>
+            <Breadcrumb items={[{ label: 'About' }]} className="mb-12" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-20">
-            <RevealOnScroll>
-              <div className="space-y-6 text-secondary leading-relaxed">
-                <p className="text-body-l">
-                  Avorria is a digital agency and technology studio. We design
-                  and build digital products, intelligent systems and
-                  high-performance websites for businesses that want technology
-                  to actually do something.
-                </p>
-                <p>
-                  We combine strategy, design and engineering. Not as three
-                  separate services handed off between separate teams, but as
-                  an integrated discipline that produces better outcomes.
-                </p>
-                <p>
-                  Our clients are businesses that take digital seriously — who
-                  understand that the quality of the digital product they put
-                  in front of customers reflects directly on the quality of
-                  their business.
-                </p>
+            {/* Header */}
+            <div className="border-b border-[var(--color-border)] pb-16 mb-20">
+              <div className="flex items-center gap-4 mb-6">
+                <Eyebrow>About Avorria</Eyebrow>
+                <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
+                <span className="text-[10px] tracking-[0.2em] font-light text-[var(--color-graphite-muted)] uppercase">
+                  STUDIO CHARTER & ENGINEERING PRINCIPLES
+                </span>
               </div>
-            </RevealOnScroll>
-            <RevealOnScroll delay={150}>
-              <div className="space-y-6 text-secondary leading-relaxed">
-                <p>
-                  We do not build generic websites. We do not oversell AI. We
-                  do not use technology for its own sake.
-                </p>
-                <p>
-                  What we build is precise, performant and purposeful. We ask
-                  difficult questions at the start, so we can build the right
-                  thing — not just build something quickly.
-                </p>
-                <p>
-                  The most valuable digital products come from combining web,
-                  AI and systems engineering in a coherent whole. That is what
-                  we specialise in.
-                </p>
-              </div>
-            </RevealOnScroll>
-          </div>
+              <h1 className="text-display-l max-w-[800px] mb-6 font-extralight tracking-tight">
+                An engineering studio that{' '}
+                <em className="not-italic italic font-extralight" style={{ color: 'var(--color-rose-text)' }}>
+                  builds things.
+                </em>
+              </h1>
+              <p className="text-body-l text-secondary max-w-[640px] font-light leading-relaxed">
+                Avorria is an independent digital studio combining strategy, design, and technical engineering. We partner with operators who understand that digital surfaces directly reflect the calibre of their organisation.
+              </p>
+            </div>
 
-          {/* Disciplines */}
-          <div className="mb-20">
-            <p className="text-label-upper mb-10">What we do</p>
-            <div className="space-y-0">
-              {disciplines.map((d, i) => (
-                <RevealOnScroll key={d.title} delay={i * 60}>
-                  <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr_auto] gap-6 border-t border-[var(--color-border)] py-8 items-center">
-                    <h2 className="text-display-s">{d.title}</h2>
-                    <p className="text-secondary">{d.description}</p>
-                    <Button as="link" href={d.href} variant="ghost" size="sm" className="shrink-0">
-                      Learn more →
+            {/* Two-Column Editorial Thesis */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24">
+              <RevealOnScroll>
+                <div className="space-y-6 text-secondary leading-relaxed font-light">
+                  <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)] block mb-2">
+                    01 // PURPOSE & POSITIONING
+                  </span>
+                  <p className="text-xl text-[var(--color-graphite)] font-light leading-relaxed">
+                    Most digital agencies design to win portfolio awards rather than solve commercial problems. We take a different position: technology is only valuable when it improves a process, eliminates friction, or creates durable commercial leverage.
+                  </p>
+                  <p>
+                    We operate without account managers, offshore handoffs, or junior delivery queues. When you partner with Avorria, you collaborate directly with senior practitioners who author both the architectural specification and the production code.
+                  </p>
+                  <p>
+                    We build digital flagships, high-frequency trading terminals, geospatial intelligence platforms, and automated workflow engines. The common thread is technical precision and operational reliability.
+                  </p>
+                </div>
+              </RevealOnScroll>
+
+              <RevealOnScroll delay={120}>
+                <div className="space-y-6 text-secondary leading-relaxed font-light">
+                  <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)] block mb-2">
+                    02 // ARCHITECTURAL CONVERGENCE
+                  </span>
+                  <p className="text-xl text-[var(--color-graphite)] font-light leading-relaxed">
+                    The boundaries between website, application, data, and AI have dissolved. Modern commercial success requires them to function as a singular, coherent digital apparatus.
+                  </p>
+                  <p>
+                    A beautiful marketing website that fails to synchronize with back-office databases is an expensive brochure. An intelligent AI agent without strict deterministic boundaries is a liability.
+                  </p>
+                  <p>
+                    By maintaining deep in-house mastery across front-end rendering engines (Next.js 16, Three.js), spatial relational databases (PostgreSQL/PostGIS), and deterministic AI models, we deliver systems that compound in value over time.
+                  </p>
+                </div>
+              </RevealOnScroll>
+            </div>
+
+            {/* What Avorria Refuses To Do */}
+            <div className="border border-[var(--color-border)] bg-[var(--color-ivory-light)] p-8 md:p-12 mb-24">
+              <div className="flex items-center justify-between pb-6 mb-8 border-b border-[var(--color-border)] text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)]">
+                <span className="text-[var(--color-rose-text)]">OPERATIONAL BOUNDARIES</span>
+                <span>WHAT WE DELIBERATELY REFUSE</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {WHAT_WE_REFUSE.map((item, idx) => (
+                  <div key={idx} className="border-l border-[var(--color-border-strong)] pl-4 space-y-2">
+                    <span className="text-xs font-light text-[var(--color-graphite)] uppercase tracking-wider block">
+                      {item.principle}
+                    </span>
+                    <p className="text-xs font-light text-[var(--color-graphite-mid)] leading-relaxed">
+                      {item.explanation}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Disciplines Summary */}
+            <div className="mb-24">
+              <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)] block mb-8">
+                CORE TECHNICAL DISCIPLINES
+              </span>
+              <div className="space-y-0">
+                {DISCIPLINES.map((d, i) => (
+                  <RevealOnScroll key={d.title} delay={i * 60}>
+                    <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr_auto] gap-6 border-t border-[var(--color-border)] py-8 items-center">
+                      <h2 className="text-display-s font-extralight text-[var(--color-graphite)]">{d.title}</h2>
+                      <p className="text-secondary font-light text-sm">{d.description}</p>
+                      <Button as="link" href={d.href} variant="ghost" size="sm" className="shrink-0">
+                        Explore Discipline →
+                      </Button>
+                    </div>
+                  </RevealOnScroll>
+                ))}
+                <div className="border-t border-[var(--color-border)]" aria-hidden="true" />
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="border-t border-[var(--color-border)] pt-16">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  <h2 className="text-display-s mb-4 font-extralight">Initiate an exploratory discussion</h2>
+                  <p className="text-secondary font-light mb-8 max-w-md">
+                    Tell us about the digital system or platform you need to build.
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <Button as="link" href="/start-a-project" variant="primary" size="md">
+                      Start a project ↗
+                    </Button>
+                    <Button as="link" href="/contact" variant="secondary" size="md">
+                      Contact Studio
                     </Button>
                   </div>
-                </RevealOnScroll>
-              ))}
-              <div className="border-t border-[var(--color-border)]" aria-hidden="true" />
-            </div>
-          </div>
-
-          {/* CTA */}
-          <div className="border-t border-[var(--color-border)] pt-16">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-display-s mb-4">Work with us</h2>
-                <p className="text-secondary mb-8">
-                  Tell us about your project.
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <Button as="link" href="/start-a-project" variant="primary" size="md">
-                    Start a project ↗
-                  </Button>
-                  <Button as="link" href="/contact" variant="secondary" size="md">
-                    Get in touch
-                  </Button>
+                </div>
+                <div className="border border-[var(--color-border)] p-6 bg-[var(--color-ivory-light)]">
+                  <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)] block mb-2">
+                    INSTITUTIONAL INTEGRITY
+                  </span>
+                  <p className="text-xs font-light text-[var(--color-graphite-mid)] leading-relaxed">
+                    Avorria operates as an owner-led studio based in the United Kingdom. We do not participate in competitive unpaid multi-agency spec pitches. Engagements are accepted based on technical feasibility and commercial alignment.
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
