@@ -682,10 +682,94 @@
     .btn-arrow,
     .project-tile-image,
     .project-tile-meta,
-    .project-tile-rule {
+    .project-tile-rule,
+    .process-step-card,
+    .process-step-rule {
       transition: none !important;
       transform: none !important;
     }
+
+    .process-step-card {
+      opacity: 1 !important;
+    }
+  }
+
+  /* ── Process Section — Split-Scroll Cards ── */
+  .process-step-card {
+    position: relative;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-ivory);
+    opacity: 0.38;
+    transform: scale(0.985) translateZ(0);
+    transform-origin: center center;
+    transition:
+      opacity 450ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 450ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 350ms ease,
+      background-color 350ms ease,
+      box-shadow 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (max-width: 1023px) {
+    .process-step-card {
+      opacity: 0.6;
+      transform: none;
+    }
+  }
+
+  .process-step-card:hover {
+    opacity: 0.75;
+    transform: scale(0.995) translateZ(0);
+  }
+
+  .process-step-card[data-active="true"] {
+    opacity: 1;
+    transform: scale(1) translateZ(0);
+    border-color: var(--color-border-strong);
+    background-color: #FFFFFF;
+    box-shadow: 0 16px 40px -12px rgba(26, 25, 22, 0.07), 0 0 0 1px rgba(26, 25, 22, 0.04);
+  }
+
+  .process-step-rule {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--color-rose-text);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .process-step-card[data-active="true"] .process-step-rule {
+    transform: scaleX(1);
+  }
+
+  .process-step-card[data-active="true"] .process-step-stage-label {
+    color: var(--color-rose-text);
+  }
+
+  .process-step-card[data-active="true"] .process-step-title {
+    color: var(--color-graphite);
+  }
+
+  .process-step-card[data-active="true"] .process-step-statement {
+    color: var(--color-graphite);
+  }
+
+  .process-step-card[data-active="true"] .process-step-number {
+    color: var(--color-graphite);
+    opacity: 0.28;
+  }
+
+  .process-step-card .process-step-number {
+    color: var(--color-graphite-muted);
+    opacity: 0.12;
+  }
+
+  .process-step-card[data-active="true"] .process-step-deliverable {
+    color: var(--color-graphite);
   }
 
   /* ── Line reveal (decorative horizontal rules) ── */
