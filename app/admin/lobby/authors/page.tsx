@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { getAuthors } from '@/lib/lobby'
 import { LobbyAdminNav } from '@/components/admin/LobbyAdminNav'
+import { PageHeader } from '@/components/ui/dashboard/PageHeader'
+import { SectionLabel } from '@/components/ui/dashboard/SectionLabel'
+import { Button } from '@/components/ui/Button'
 import { saveAuthorAction } from '@/lib/actions/lobby'
 
 export const metadata: Metadata = {
@@ -12,118 +15,130 @@ export default async function AdminAuthorsPage() {
   const authors = await getAuthors()
 
   return (
-    <div className="p-8 max-w-5xl mx-auto space-y-8">
+    <div className="p-8 max-w-6xl mx-auto space-y-8">
       
       {/* Header */}
-      <div className="border-b border-white/10 pb-6">
-        <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40 block mb-1">
-          CONTRIBUTOR GOVERNANCE // VERIFIED PRINCIPALS
-        </span>
-        <h1 className="text-2xl sm:text-3xl font-extralight text-white tracking-tight">
-          Author &amp; Principal Registry
-        </h1>
-        <p className="text-sm font-light text-white/60 mt-1 max-w-2xl">
-          Verified editorial contributors. Principle: Real studio principals only. Never fabricate synthetic author profiles or generic ghostwriters.
-        </p>
-      </div>
+      <PageHeader
+        label="CONTRIBUTOR GOVERNANCE"
+        title="Author & Principal Registry"
+      />
 
       <LobbyAdminNav />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Authors List (8 cols) */}
-        <div className="lg:col-span-8 border border-white/10 bg-[#111]">
-          <div className="p-4 border-b border-white/10 flex items-center justify-between">
-            <span className="text-xs font-mono uppercase text-white/80">Registered Authors</span>
-            <span className="text-[11px] font-mono text-white/40">{authors.length} verified</span>
+        <div className="lg:col-span-8 border border-[var(--color-border)] bg-white">
+          <div className="p-4 border-b border-[var(--color-border)] flex items-center justify-between">
+            <SectionLabel>Verified Contributors ({authors.length})</SectionLabel>
+            <span className="text-[0.6875rem] text-[var(--color-graphite-muted)]">Real team members only</span>
           </div>
 
-          <div className="divide-y divide-white/5">
+          <div className="divide-y divide-[var(--color-border)]">
             {authors.map((a) => (
-              <div key={a.id || a.slug} className="p-6 space-y-3">
+              <div key={a.id || a.slug} className="p-6 space-y-2">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-base font-light text-white">{a.name}</h3>
-                    <p className="text-xs font-mono text-white/50">{a.role}</p>
+                    <h3 className="text-base font-light text-[var(--color-graphite)]">{a.name}</h3>
+                    <p className="text-xs text-[var(--color-graphite-muted)]">{a.role}</p>
                   </div>
-                  <span className="text-[9px] font-mono px-2 py-0.5 border border-emerald-500/30 bg-emerald-950/30 text-emerald-400">
-                    VERIFIED CONTRIBUTOR
+                  <span className="text-[0.6875rem] font-light tracking-[0.1em] uppercase text-[var(--color-graphite-muted)] border border-[var(--color-border)] px-2 py-0.5">
+                    Verified
                   </span>
                 </div>
-                <p className="text-xs font-light text-white/60 leading-relaxed">
+                <p className="text-sm font-light text-[var(--color-graphite-mid)] leading-relaxed">
                   {a.bio}
                 </p>
-                <div className="text-[10px] font-mono text-white/40">
-                  Public profile: <code className="text-white/60">/lobby/author/{a.slug}</code>
+                <div className="text-xs text-[var(--color-graphite-muted)] font-mono">
+                  /lobby/author/{a.slug}
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Add Author Form (4 cols) */}
-        <div className="lg:col-span-4 border border-white/10 p-6 bg-[#111] space-y-4">
-          <div>
-            <span className="text-[10px] font-mono uppercase text-white/40 block mb-1">
-              ENROLL CONTRIBUTOR
-            </span>
-            <h3 className="text-sm font-mono uppercase text-white/90">
-              + New Author Profile
-            </h3>
-          </div>
+        {/* Add Author (4 cols) */}
+        <div className="lg:col-span-4 border border-[var(--color-border)] p-6 bg-white space-y-4">
+          <SectionLabel>Register Contributor</SectionLabel>
+          <p className="text-xs font-light text-[var(--color-graphite-muted)]">
+            Only register genuine Avorria team members or principals. Person schema is generated only for real contributors.
+          </p>
 
           <form action={saveAuthorAction as any} className="space-y-4">
             <div className="space-y-1">
-              <label className="text-xs font-mono text-white/60">Full Name *</label>
+              <label htmlFor="name" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">
+                Full Name *
+              </label>
               <input
+                id="name"
                 name="name"
                 required
-                placeholder="e.g. Elena Rostova"
-                className="w-full bg-[#181818] border border-white/15 px-3 py-2 text-xs font-light text-white focus:border-white focus:outline-none"
+                placeholder="e.g. Jane Doe"
+                className="w-full border border-[var(--color-border)] px-3 py-2 text-sm font-light text-[var(--color-graphite)] focus:outline-none"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-mono text-white/60">Role / Title *</label>
+              <label htmlFor="role" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">
+                Studio Role / Title *
+              </label>
               <input
+                id="role"
                 name="role"
                 required
-                placeholder="e.g. Senior Conversion Engineer"
-                className="w-full bg-[#181818] border border-white/15 px-3 py-2 text-xs font-light text-white focus:border-white focus:outline-none"
+                placeholder="e.g. Lead Technical Strategist"
+                className="w-full border border-[var(--color-border)] px-3 py-2 text-sm font-light text-[var(--color-graphite)] focus:outline-none"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-mono text-white/60">Profile Slug *</label>
+              <label htmlFor="slug" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">
+                Slug *
+              </label>
               <input
+                id="slug"
                 name="slug"
                 required
                 pattern="^[a-z0-9-]+$"
-                placeholder="elena-rostova"
-                className="w-full bg-[#181818] border border-white/15 px-3 py-2 text-xs font-mono text-white focus:border-white focus:outline-none"
+                placeholder="jane-doe"
+                className="w-full border border-[var(--color-border)] px-3 py-2 text-sm font-mono text-[var(--color-graphite)] focus:outline-none"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-mono text-white/60">Professional Biography</label>
+              <label htmlFor="bio" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">
+                Short Biography
+              </label>
               <textarea
+                id="bio"
                 name="bio"
-                rows={4}
-                placeholder="Empirical background, technical focus, and areas of research."
-                className="w-full bg-[#181818] border border-white/15 p-2 text-xs font-light text-white focus:border-white focus:outline-none leading-relaxed"
+                rows={3}
+                placeholder="Brief professional background and areas of architectural focus..."
+                className="w-full border border-[var(--color-border)] p-3 text-xs font-light text-[var(--color-graphite)] focus:outline-none leading-relaxed"
               />
             </div>
 
-            <button
-              type="submit"
-              className="w-full py-2 bg-white text-black text-xs font-mono uppercase tracking-wider hover:opacity-90 transition-opacity"
-            >
-              Enroll Author
-            </button>
+            <div className="space-y-1">
+              <label htmlFor="linkedin" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">
+                LinkedIn URL
+              </label>
+              <input
+                id="linkedin"
+                name="linkedin"
+                type="url"
+                placeholder="https://linkedin.com/in/..."
+                className="w-full border border-[var(--color-border)] px-3 py-2 text-xs font-light text-[var(--color-graphite)] focus:outline-none"
+              />
+            </div>
+
+            <Button type="submit" variant="primary" size="sm" className="w-full">
+              Register Contributor
+            </Button>
           </form>
         </div>
 
       </div>
+
     </div>
   )
 }

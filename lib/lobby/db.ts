@@ -46,7 +46,7 @@ export async function getPublishedArticles(options: {
 
     const { data, error } = await query
     if (!error && data && data.length > 0) {
-      return data.map(mapDbArticleToDomain)
+      return (data as any[]).map(mapDbArticleToDomain)
     }
   } catch {
     // Fall back to verified static seed
@@ -61,10 +61,11 @@ export async function getPublishedArticles(options: {
     )
   }
 
-  if (options.authorSlug) {
+  const authorSlug = options.authorSlug
+  if (authorSlug) {
     filtered = filtered.filter(
-      (a) => (typeof a.author === 'object' && 'slug' in a.author && a.author.slug === options.authorSlug) ||
-             (a.leadAuthor && a.leadAuthor.name.toLowerCase().includes(options.authorSlug.replace(/-/g, ' ')))
+      (a) => (typeof a.author === 'object' && 'slug' in a.author && a.author.slug === authorSlug) ||
+             (a.leadAuthor && a.leadAuthor.name.toLowerCase().includes(authorSlug.replace(/-/g, ' ')))
     )
   }
 
@@ -133,7 +134,7 @@ export async function getCategories(): Promise<LobbyCategory[]> {
       .order('display_order', { ascending: true })
 
     if (!error && data && data.length > 0) {
-      return data.map((c) => ({
+      return (data as any[]).map((c: any) => ({
         id: c.id,
         name: c.name,
         slug: c.slug,
@@ -170,7 +171,7 @@ export async function getTags(): Promise<LobbyTag[]> {
       .eq('is_active', true)
 
     if (!error && data && data.length > 0) {
-      return data.map((t) => ({
+      return (data as any[]).map((t: any) => ({
         id: t.id,
         name: t.name,
         slug: t.slug,
@@ -199,7 +200,7 @@ export async function getAuthors(): Promise<LobbyAuthor[]> {
       .eq('is_active', true)
 
     if (!error && data && data.length > 0) {
-      return data.map((a) => ({
+      return (data as any[]).map((a: any) => ({
         id: a.id,
         name: a.name,
         role: a.role,
@@ -270,10 +271,10 @@ export async function getAllArticlesAdmin(options: {
 
     const { data, error } = await query
     if (!error && data && data.length > 0) {
-      let results = data.map(mapDbArticleToDomain)
+      let results: LobbyArticle[] = (data as any[]).map(mapDbArticleToDomain)
       if (options.search) {
         const s = options.search.toLowerCase()
-        results = results.filter((a) => a.title.toLowerCase().includes(s) || a.slug.includes(s))
+        results = results.filter((a: LobbyArticle) => a.title.toLowerCase().includes(s) || a.slug.includes(s))
       }
       return results
     }
@@ -281,13 +282,13 @@ export async function getAllArticlesAdmin(options: {
     // Fallback
   }
 
-  let results = [...LOBBY_ARTICLES]
+  let results: LobbyArticle[] = [...LOBBY_ARTICLES]
   if (options.status) {
     results = results.filter((a) => (a.status || 'PUBLISHED') === options.status)
   }
   if (options.search) {
     const s = options.search.toLowerCase()
-    results = results.filter((a) => a.title.toLowerCase().includes(s) || a.slug.includes(s))
+    results = results.filter((a: LobbyArticle) => a.title.toLowerCase().includes(s) || a.slug.includes(s))
   }
   return results
 }
@@ -361,8 +362,13 @@ function mapDbArticleToDomain(raw: any): LobbyArticle {
     readingTimeMinutes: raw.reading_time_minutes || 5,
     readTimeMinutes: raw.reading_time_minutes || 5,
     tags: [],
+    blocks: raw.body_blocks || [],
     sections: raw.body_blocks || [],
     ctaType: raw.cta_type || 'start-a-project',
+    ctaLabel: raw.cta_label || undefined,
+    ctaUrl: raw.cta_url || undefined,
+    schemaType: raw.schema_type || 'Article',
+    editorialNotes: raw.editorial_notes || undefined,
     seo: {
       title: raw.seo_title || undefined,
       description: raw.seo_description || undefined,

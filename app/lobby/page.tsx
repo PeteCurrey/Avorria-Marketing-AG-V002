@@ -1,17 +1,29 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getAllArticles, getAllCategories, getFeaturedArticle } from '@/lib/lobby'
-import { LobbyBroadsheetMasthead } from '@/components/lobby/LobbyBroadsheetMasthead'
-import { LobbyLeadFeature } from '@/components/lobby/LobbyLeadFeature'
-import { LobbyWireStory } from '@/components/lobby/LobbyWireStory'
+import { siteConfig } from '@/content/config/site'
 import { generatePageMetadata } from '@/lib/metadata'
 
+export const revalidate = 3600
+
 export const metadata: Metadata = generatePageMetadata({
-  title: 'The Lobby // Editorial & Intelligence Division',
+  title: 'The Lobby — What changed. What matters. What you should do about it.',
   description:
-    "Avorria's editorial intelligence desk covering critical changes across digital marketing, websites, Google, Meta, SEO, applied AI, and sovereign online infrastructure.",
+    'Editorial intelligence for small businesses: Google, Meta, websites, marketing, and growth — from Avorria as the knowledgeable operator.',
   path: '/lobby',
 })
+
+const CONTENT_TYPE_LABELS: Record<string, string> = {
+  ARTICLE:      'Article',
+  GUIDE:        'Guide',
+  NEWS_UPDATE:  'News',
+  RESOURCE:     'Resource',
+  ANNOUNCEMENT: 'Announcement',
+}
+
+function fmt(iso: string) {
+  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+}
 
 export default async function LobbyIndexPage() {
   const [articles, categories, featured] = await Promise.all([
@@ -21,226 +33,250 @@ export default async function LobbyIndexPage() {
   ])
 
   const secondaryArticles = featured
-    ? articles.filter((a) => a.id !== featured.id)
-    : articles
+    ? articles.filter((a) => a.id !== featured.id).slice(0, 12)
+    : articles.slice(0, 12)
 
-  // Structural intelligence categories
-  const structuralSlugs = [
-    { slug: 'marketing', label: 'Marketing Intelligence', desc: 'Acquisition economics, funnel conversion, and paid performance telemetry.' },
-    { slug: 'google-search', label: 'Google & Search', desc: 'Core algorithm updates, indexation dynamics, and technical SEO architecture.' },
-    { slug: 'meta-social', label: 'Meta & Social', desc: 'Machine learning ad delivery, Advantage+ auctions, and attribution models.' },
-    { slug: 'websites', label: 'Websites & UX', desc: 'Interaction latency (INP), Core Web Vitals, and modern frontend systems.' },
-    { slug: 'small-business', label: 'Small Business', desc: 'Commercial decision-making frameworks, contracts, and software sovereignty.' },
-    { slug: 'technology', label: 'Applied AI & Tech', desc: 'Deterministic agent pipelines, cloud infrastructure, and enterprise automation.' },
-    { slug: 'avorria', label: 'Avorria Dispatches', desc: 'Internal engineering logs, open benchmarks, and studio releases.' },
-  ]
+  // Group by category for section rows
+  const byCategory = categories.map((cat) => ({
+    category: cat,
+    articles: secondaryArticles.filter(
+      (a) => a.category === cat.slug || a.categorySlug === cat.slug
+    ).slice(0, 3),
+  })).filter((g) => g.articles.length > 0)
+
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'The Lobby — Avorria',
+    description: 'Editorial intelligence for small businesses from Avorria.',
+    url: `${siteConfig.url}/lobby`,
+    publisher: { '@type': 'Organization', name: 'Avorria', url: siteConfig.url },
+  }
 
   return (
-    <div className="min-h-screen bg-[var(--color-ivory)] dark:bg-[#080808] text-neutral-900 dark:text-white pt-28 pb-24 px-6 sm:px-8 md:px-12">
-      <div className="max-w-7xl mx-auto space-y-20">
-        
-        {/* Broadsheet Masthead with search utility */}
-        <div>
-          <div className="flex justify-end mb-4">
-            <Link
-              href="/lobby/search"
-              className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors border border-black/10 dark:border-white/10 px-3 py-1.5"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              <span>Search Intelligence</span>
-            </Link>
-          </div>
-          <LobbyBroadsheetMasthead
-            categories={categories}
-            totalArticlesCount={articles.length}
-          />
-        </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
-        {/* Empty State vs Content */}
-        {articles.length === 0 ? (
-          <div className="border border-black/10 dark:border-white/10 p-16 text-center space-y-4 max-w-2xl mx-auto">
-            <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-neutral-400 block">
-              STATUS // EDITORIAL DESK IN ACTIVE PREPARATION
-            </span>
-            <h2 className="text-3xl font-extralight text-neutral-900 dark:text-white">
-              The Lobby is Being Built
-            </h2>
-            <p className="text-sm font-light text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              Intelligence, practical guidance, and verified developments will appear here as they pass through editorial review and provenance verification.
-            </p>
-          </div>
-        ) : (
-          <>
-            {/* Dominant Featured Intelligence */}
-            {featured && (
-              <section aria-label="Featured Cover Investigation">
-                <LobbyLeadFeature article={featured} />
-              </section>
-            )}
+      <div className="min-h-screen bg-[var(--color-ivory)] pt-28 pb-24">
+        <div className="container-max container-content">
 
-            {/* The Chronological Intelligence Wire */}
-            <section aria-label="Intelligence Wire" className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-black/10 dark:border-white/10 pb-4">
-                <div>
-                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-400 block mb-1">
-                    CHRONOLOGICAL WIRE // DISPATCH STREAM
-                  </span>
-                  <h2 className="text-2xl font-extralight text-neutral-900 dark:text-white">
-                    Latest Dispatches &amp; Technical Memos
-                  </h2>
-                </div>
-                <span className="text-xs font-mono text-neutral-400">
-                  Showing {secondaryArticles.length} recent dispatches
-                </span>
-              </div>
-
-              {secondaryArticles.length === 0 ? (
-                <p className="text-xs font-mono text-neutral-400 py-6">
-                  No additional chronological dispatches currently indexed.
-                </p>
-              ) : (
-                <div className="space-y-2">
-                  {secondaryArticles.map((article) => (
-                    <LobbyWireStory key={article.id} article={article} />
-                  ))}
-                </div>
-              )}
-            </section>
-
-            {/* Structural Intelligence Areas */}
-            <section aria-label="Intelligence Domains" className="space-y-8 pt-8 border-t border-black/10 dark:border-white/10">
+          {/* ── Masthead ─────────────────────────────────────────────────── */}
+          <header className="border-b border-[var(--color-border)] pb-10 mb-12">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-8">
               <div>
-                <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-400 block mb-1">
-                  CORE COVERAGE // INTELLIGENCE DOMAINS
-                </span>
-                <h3 className="text-2xl font-extralight text-neutral-900 dark:text-white">
-                  Coverage Areas &amp; Subject Taxonomy
-                </h3>
+                <p className="text-[0.6875rem] font-light tracking-[0.2em] uppercase text-[var(--color-graphite-muted)] mb-3">
+                  Editorial Intelligence — Avorria
+                </p>
+                <h1 className="text-[var(--text-display-l)] font-[200] tracking-[var(--tracking-heading)] text-[var(--color-graphite)] leading-[1.05]">
+                  The Lobby
+                </h1>
+                <p className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] mt-3 max-w-[480px] leading-relaxed">
+                  What changed. What matters. What you should do about it.
+                </p>
               </div>
+              <div className="flex items-center gap-4 shrink-0">
+                <Link
+                  href="/lobby/search"
+                  className="text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-mid)] border border-[var(--color-border)] px-4 py-2 hover:border-[var(--color-graphite)] hover:text-[var(--color-graphite)] transition-colors duration-200"
+                  aria-label="Search The Lobby"
+                >
+                  Search
+                </Link>
+                <Link
+                  href="/lobby/rss.xml"
+                  className="text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-mid)] border border-[var(--color-border)] px-4 py-2 hover:border-[var(--color-graphite)] hover:text-[var(--color-graphite)] transition-colors duration-200"
+                  aria-label="RSS feed for The Lobby"
+                >
+                  RSS
+                </Link>
+              </div>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-black/10 dark:bg-white/10 border border-black/10 dark:border-white/10">
-                {structuralSlugs.map((topic) => {
-                  const matchCount = articles.filter(
-                    (a) => a.category === topic.slug || a.categorySlug === topic.slug
-                  ).length
-
-                  return (
+            {/* Category ticker */}
+            <nav aria-label="Lobby categories" className="overflow-x-auto">
+              <ul className="flex gap-0 min-w-max">
+                <li>
+                  <Link
+                    href="/lobby"
+                    className="block px-4 py-2 text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite)] border-b-2 border-[var(--color-graphite)] hover:text-[var(--color-accent)] transition-colors duration-200"
+                  >
+                    All
+                  </Link>
+                </li>
+                {categories.map((cat) => (
+                  <li key={cat.slug}>
                     <Link
-                      key={topic.slug}
-                      href={`/lobby/category/${topic.slug}`}
-                      className="group bg-[var(--color-ivory)] dark:bg-[#080808] p-6 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors flex flex-col justify-between space-y-4"
+                      href={`/lobby/category/${cat.slug}`}
+                      className="block px-4 py-2 text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-mid)] border-b-2 border-transparent hover:text-[var(--color-graphite)] hover:border-[var(--color-border)] transition-colors duration-200"
                     >
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400">
-                          <span className="uppercase tracking-[0.18em]">{topic.slug}</span>
-                          <span>{matchCount} {matchCount === 1 ? 'RECORD' : 'RECORDS'}</span>
-                        </div>
-                        <h4 className="text-lg font-light text-neutral-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
-                          {topic.label}
-                        </h4>
-                        <p className="text-xs font-light text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                          {topic.desc}
-                        </p>
-                      </div>
+                      {cat.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </header>
 
-                      <div className="text-[10px] font-mono text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-white transition-colors flex items-center gap-1 pt-2">
-                        <span>EXPLORE DOSSIERS</span>
-                        <span>→</span>
+          {/* ── Featured Story ───────────────────────────────────────────── */}
+          {featured ? (
+            <section aria-labelledby="featured-heading" className="mb-16 pb-16 border-b border-[var(--color-border)]">
+              <p className="text-[0.6875rem] font-light tracking-[0.2em] uppercase text-[var(--color-accent)] mb-4">
+                Featured
+              </p>
+              <Link
+                href={`/lobby/${featured.slug}`}
+                className="group block"
+              >
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 items-end">
+                  <div>
+                    <p className="text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)] mb-3">
+                      {featured.categoryName ?? featured.categoryLabel ?? featured.category}
+                      {featured.contentType && ` · ${CONTENT_TYPE_LABELS[featured.contentType]}`}
+                    </p>
+                    <h2
+                      id="featured-heading"
+                      className="text-[2rem] sm:text-[2.5rem] font-[200] tracking-[var(--tracking-heading)] text-[var(--color-graphite)] leading-[1.1] group-hover:text-[var(--color-accent)] transition-colors duration-200 max-w-[720px] mb-4"
+                    >
+                      {featured.title}
+                    </h2>
+                    <p className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] max-w-[560px] leading-relaxed mb-4">
+                      {featured.excerpt ?? featured.dek}
+                    </p>
+                    <div className="flex items-center gap-4 text-[0.6875rem] font-light tracking-[0.1em] uppercase text-[var(--color-graphite-muted)]">
+                      <span>{fmt(featured.publishedAt)}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>{featured.readingTimeMinutes ?? featured.readTimeMinutes ?? 5} min read</span>
+                    </div>
+                  </div>
+                  <span
+                    className="text-[var(--color-graphite-muted)] group-hover:text-[var(--color-accent)] group-hover:translate-x-1 transition-all duration-200 text-xl hidden lg:block"
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
+                </div>
+              </Link>
+            </section>
+          ) : null}
+
+          {/* ── Latest Dispatches ────────────────────────────────────────── */}
+          {secondaryArticles.length > 0 ? (
+            <section aria-labelledby="latest-heading" className="mb-16">
+              <p className="text-[0.6875rem] font-light tracking-[0.2em] uppercase text-[var(--color-graphite-muted)] mb-6" id="latest-heading">
+                Latest
+              </p>
+              <ul role="list">
+                {secondaryArticles.map((article) => (
+                  <li key={article.slug} className="border-t border-[var(--color-border)]">
+                    <Link
+                      href={`/lobby/${article.slug}`}
+                      className="group flex items-center justify-between gap-8 py-4 hover:border-[var(--color-border-strong)] transition-colors duration-200"
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 min-w-0">
+                        <p className="text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)] shrink-0 w-28 hidden sm:block">
+                          {article.categoryName ?? article.category}
+                        </p>
+                        <h3 className="text-[var(--text-small)] font-light text-[var(--color-graphite)] group-hover:text-[var(--color-accent)] transition-colors duration-200 truncate">
+                          {article.title}
+                        </h3>
+                      </div>
+                      <div className="flex items-center gap-4 shrink-0">
+                        <span className="text-[0.6875rem] font-light tracking-[0.1em] uppercase text-[var(--color-graphite-muted)] hidden md:block">
+                          {fmt(article.publishedAt)}
+                        </span>
+                        <span
+                          className="text-[var(--color-graphite-muted)] group-hover:text-[var(--color-accent)] transition-colors duration-200"
+                          aria-hidden="true"
+                        >
+                          →
+                        </span>
                       </div>
                     </Link>
-                  )
-                })}
-              </div>
+                  </li>
+                ))}
+                <li className="border-t border-[var(--color-border)]" aria-hidden="true" />
+              </ul>
             </section>
-
-            {/* Comprehensive Architectural Ledger Table */}
-            <section aria-label="Dispatch Registry" className="space-y-6 pt-10 border-t border-black/10 dark:border-white/10">
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-400 block mb-1">
-                    THE LOBBY ARCHIVE // ALL ISSUES
-                  </span>
-                  <h3 className="text-2xl font-extralight text-neutral-900 dark:text-white">
-                    Intelligence Ledger Index
-                  </h3>
-                </div>
-                <span className="text-[10px] font-mono text-neutral-400">
-                  {articles.length} RECORDS INDEXED
-                </span>
-              </div>
-
-              <div className="border border-black/10 dark:border-white/10 overflow-x-auto bg-black/[0.01] dark:bg-white/[0.01]">
-                <table className="w-full text-left text-xs font-light border-collapse">
-                  <thead>
-                    <tr className="border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] text-[10px] font-mono uppercase tracking-wider text-neutral-400">
-                      <th className="py-3 px-4">Ref / Issue</th>
-                      <th className="py-3 px-4">Investigation Title</th>
-                      <th className="py-3 px-4">Category</th>
-                      <th className="py-3 px-4">Provenance</th>
-                      <th className="py-3 px-4">Author</th>
-                      <th className="py-3 px-4 text-right">Published</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-black/5 dark:divide-white/5 font-mono text-[11px]">
-                    {articles.map((item) => {
-                      const authorName =
-                        typeof item.author === 'object' && 'name' in item.author
-                          ? item.author.name
-                          : item.leadAuthor?.name || 'Avorria Editorial Desk'
-                      const provState =
-                        typeof item.provenance === 'object' && 'state' in item.provenance
-                          ? item.provenance.state
-                          : item.editorialStatus || 'EDITORIAL_ANALYSIS'
-
-                      return (
-                        <tr key={item.id} className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors">
-                          <td className="py-3.5 px-4 text-neutral-400">
-                            {item.id}
-                          </td>
-                          <td className="py-3.5 px-4 font-sans text-xs">
-                            <Link
-                              href={`/lobby/${item.slug}`}
-                              className="text-neutral-900 dark:text-white hover:underline underline-offset-4"
-                            >
-                              {item.title}
-                            </Link>
-                          </td>
-                          <td className="py-3.5 px-4 text-neutral-500">
-                            <Link
-                              href={`/lobby/category/${item.categorySlug || item.category}`}
-                              className="hover:underline"
-                            >
-                              {item.categoryName || item.categoryLabel || item.category}
-                            </Link>
-                          </td>
-                          <td className="py-3.5 px-4">
-                            <span className="text-[10px] px-1.5 py-0.5 border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] text-neutral-600 dark:text-neutral-300">
-                              {provState}
-                            </span>
-                          </td>
-                          <td className="py-3.5 px-4 text-neutral-500">
-                            {authorName}
-                          </td>
-                          <td className="py-3.5 px-4 text-right text-neutral-400">
-                            {new Date(item.publishedAt).toLocaleDateString('en-GB', {
-                              day: '2-digit',
-                              month: 'short',
-                              year: 'numeric',
-                            })}
-                          </td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
-              </div>
+          ) : (
+            <section className="mb-16 py-16 border-t border-[var(--color-border)] text-center">
+              <p className="text-[0.6875rem] font-light tracking-[0.2em] uppercase text-[var(--color-graphite-muted)] mb-3">
+                No dispatches yet
+              </p>
+              <p className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] max-w-[360px] mx-auto leading-relaxed">
+                The Lobby is being built. Editorial intelligence on Google, Meta, websites, and marketing will appear here.
+              </p>
             </section>
-          </>
-        )}
+          )}
 
+          {/* ── Category Section Rows ────────────────────────────────────── */}
+          {byCategory.map(({ category, articles: catArticles }) => (
+            <section key={category.slug} aria-labelledby={`cat-${category.slug}`} className="mb-12 pb-12 border-b border-[var(--color-border)] last:border-0 last:pb-0">
+              <div className="flex items-baseline justify-between mb-5">
+                <p id={`cat-${category.slug}`} className="text-[0.6875rem] font-light tracking-[0.2em] uppercase text-[var(--color-graphite-muted)]">
+                  {category.name}
+                </p>
+                <Link
+                  href={`/lobby/category/${category.slug}`}
+                  className="text-[0.6875rem] font-light tracking-[0.12em] uppercase text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)] hover:underline underline-offset-4 transition-colors duration-200"
+                >
+                  All {category.name} →
+                </Link>
+              </div>
+              <ul role="list">
+                {catArticles.map((a) => (
+                  <li key={a.slug} className="border-t border-[var(--color-border)]">
+                    <Link
+                      href={`/lobby/${a.slug}`}
+                      className="group flex items-center justify-between gap-6 py-4"
+                    >
+                      <h3 className="text-[var(--text-small)] font-light text-[var(--color-graphite)] group-hover:text-[var(--color-accent)] transition-colors duration-200">
+                        {a.title}
+                      </h3>
+                      <span className="text-[0.6875rem] font-light tracking-[0.1em] uppercase text-[var(--color-graphite-muted)] shrink-0 hidden sm:block">
+                        {a.readingTimeMinutes ?? a.readTimeMinutes ?? 5} min
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+                <li className="border-t border-[var(--color-border)]" aria-hidden="true" />
+              </ul>
+            </section>
+          ))}
+
+          {/* ── Quiet CTA ────────────────────────────────────────────────── */}
+          <div className="mt-20 pt-12 border-t border-[var(--color-border)] grid grid-cols-1 md:grid-cols-2 gap-10 items-end">
+            <div>
+              <p className="text-[0.6875rem] font-light tracking-[0.2em] uppercase text-[var(--color-graphite-muted)] mb-3">
+                Working with Avorria
+              </p>
+              <h2 className="text-[var(--text-heading)] font-[200] text-[var(--color-graphite)] mb-4 max-w-[360px]">
+                Have something worth building?
+              </h2>
+              <p className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] leading-relaxed max-w-[360px]">
+                We work with small businesses and growing firms on websites, digital infrastructure, and marketing systems.
+              </p>
+            </div>
+            <div className="flex gap-6">
+              <Link
+                href="/start-a-project"
+                className="text-[var(--text-small)] font-light text-[var(--color-graphite)] border-b border-[var(--color-graphite)] pb-0.5 hover:text-[var(--color-accent)] hover:border-[var(--color-accent)] transition-colors duration-200"
+              >
+                Start a project ↗
+              </Link>
+              <Link
+                href="/services"
+                className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] border-b border-[var(--color-border)] pb-0.5 hover:text-[var(--color-graphite)] transition-colors duration-200"
+              >
+                Our services →
+              </Link>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
+    </>
   )
 }

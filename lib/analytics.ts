@@ -28,10 +28,14 @@ export type AnalyticsEvent =
   | 'form_success'
   | 'form_error'
   | 'form_abandon'
-  // Journey
+  // Journey — The Lobby
+  | 'lobby_article_view'
+  | 'lobby_cta_click'
+  | 'lobby_to_service'
+  | 'lobby_to_enquiry'
+  // Legacy journey events
   | 'service_to_enquiry'
   | 'work_to_enquiry'
-  | 'journal_to_enquiry'
 
 export interface AnalyticsPayload {
   event: AnalyticsEvent
@@ -81,11 +85,27 @@ export function trackForm(stage: 'start' | 'submit' | 'success' | 'error' | 'aba
 /**
  * Track journey: source page → enquiry form
  */
-export function trackJourney(source: 'service' | 'work' | 'journal'): void {
+export function trackJourney(source: 'service' | 'work' | 'lobby'): void {
   const map: Record<typeof source, AnalyticsEvent> = {
     service: 'service_to_enquiry',
-    work: 'work_to_enquiry',
-    journal: 'journal_to_enquiry',
+    work:    'work_to_enquiry',
+    lobby:   'lobby_to_enquiry',
   }
   track(map[source])
+}
+
+/**
+ * Track Lobby-specific events.
+ */
+export function trackLobby(
+  event: 'article_view' | 'cta_click' | 'to_service' | 'to_enquiry',
+  props?: Record<string, string | number | boolean>
+): void {
+  const map: Record<typeof event, AnalyticsEvent> = {
+    article_view: 'lobby_article_view',
+    cta_click:    'lobby_cta_click',
+    to_service:   'lobby_to_service',
+    to_enquiry:   'lobby_to_enquiry',
+  }
+  track(map[event], props)
 }

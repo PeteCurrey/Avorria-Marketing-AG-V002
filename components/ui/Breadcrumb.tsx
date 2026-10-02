@@ -13,7 +13,7 @@ interface BreadcrumbProps {
 /**
  * Breadcrumb — visible navigation aid for deeper pages.
  * Also renders BreadcrumbList structured data inline.
- * Used on: /work/[slug], /services/*, /journal/[slug]
+ * Used on: /work/[slug], /services/*, /lobby/[slug]
  */
 export function Breadcrumb({ items, className = '' }: BreadcrumbProps) {
   const fullItems = [{ label: 'Home', href: '/' }, ...items]

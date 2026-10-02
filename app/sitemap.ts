@@ -1,17 +1,19 @@
 import { siteConfig } from '@/content/config/site'
 import { getPublishedProjectSlugs } from '@/content/projects'
 import { getPublishedServices } from '@/content/services'
-import { LOBBY_ARTICLES } from '@/content/lobby/articles'
-import { LOBBY_CATEGORIES } from '@/content/lobby/categories'
-import { LOBBY_AUTHORS } from '@/content/lobby/authors'
 import type { MetadataRoute } from 'next'
 
 /**
  * Native Next.js sitemap — no next-sitemap dependency.
- * Only includes canonical, public, published pages.
- * Excludes: drafts, API routes, error pages, /client/*, /admin/*, /lobby/search, /lobby/tag/*
+ * Lobby items sourced from DB at build time (ISR-compatible).
+ * Only includes canonical, public, PUBLISHED pages.
+ * Excludes: drafts, API routes, error pages, /client/*, /admin/*,
+ *           /lobby/search, /lobby/tag/* (noindex until meaningful content),
+ *           /journal (301 redirects — not a canonical URL)
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 3600 // Regenerate every hour
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteConfig.url
   const now = new Date().toISOString()
 
@@ -45,35 +47,52 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }))
 
-  // The Lobby Published Articles (excluding any noIndex)
-  const lobbyArticleRoutes: MetadataRoute.Sitemap = LOBBY_ARTICLES
-    .filter((a) => (a.status || 'PUBLISHED') === 'PUBLISHED' && !a.seo?.noIndex)
-    .map((a) => ({
-      url: `${base}/lobby/${a.slug}`,
-      lastModified: a.updatedAt || a.publishedAt || now,
-      changeFrequency: 'monthly' as const,
-      priority: a.isFeatured ? 0.85 : 0.75,
-    }))
+  // The Lobby — articles and categories sourced from DB at build/ISR time
+  let lobbyArticleRoutes: MetadataRoute.Sitemap = []
+  let lobbyCategoryRoutes: MetadataRoute.Sitemap = []
+  let lobbyAuthorRoutes: MetadataRoute.Sitemap = []
 
-  // The Lobby Categories
-  const lobbyCategoryRoutes: MetadataRoute.Sitemap = LOBBY_CATEGORIES
-    .filter((c) => c.isActive)
-    .map((c) => ({
-      url: `${base}/lobby/category/${c.slug}`,
-      lastModified: now,
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
-    }))
+  try {
+    // Dynamic import to keep sitemap async and server-only
+    const { getPublishedArticles, getCategories, getAuthors } = await import('@/lib/lobby')
 
-  // The Lobby Verified Authors
-  const lobbyAuthorRoutes: MetadataRoute.Sitemap = LOBBY_AUTHORS
-    .filter((a) => a.isActive)
-    .map((a) => ({
-      url: `${base}/lobby/author/${a.slug}`,
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    }))
+    const [articles, categories, authors] = await Promise.all([
+      getPublishedArticles(),
+      getCategories(),
+      getAuthors(),
+    ])
+
+    lobbyArticleRoutes = articles
+      .filter((a) => !a.seo?.noIndex)
+      .map((a) => ({
+        url: `${base}/lobby/${a.slug}`,
+        lastModified: a.updatedAt || a.publishedAt || now,
+        changeFrequency: 'monthly' as const,
+        priority: a.isFeatured ? 0.85 : 0.75,
+      }))
+
+    // Only the 5 launch categories are indexed by default
+    lobbyCategoryRoutes = categories
+      .filter((c) => c.isActive)
+      .map((c) => ({
+        url: `${base}/lobby/category/${c.slug}`,
+        lastModified: now,
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      }))
+
+    // Real authors only (no fabricated contributors)
+    lobbyAuthorRoutes = authors
+      .filter((a) => a.isActive)
+      .map((a) => ({
+        url: `${base}/lobby/author/${a.slug}`,
+        lastModified: now,
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
+      }))
+  } catch {
+    // Sitemap must not break build if DB is unavailable
+  }
 
   return [
     ...staticRoutes,

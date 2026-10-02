@@ -23,7 +23,7 @@ const createArticleSchema = z.object({
   title: z.string().min(3).max(250),
   slug: z.string().min(3).max(120).regex(/^[a-z0-9-]+$/, 'Slug: lowercase letters, numbers, hyphens only'),
   excerpt: z.string().min(10).max(600),
-  contentType: z.enum(['ARTICLE', 'GUIDE', 'NEWS_UPDATE', 'RESOURCE', 'CASE_STUDY', 'ANNOUNCEMENT']).default('ARTICLE'),
+  contentType: z.enum(['ARTICLE', 'GUIDE', 'NEWS_UPDATE', 'RESOURCE', 'ANNOUNCEMENT']).default('ARTICLE'),
   categoryId: z.string().uuid().optional().or(z.literal('')),
   authorId: z.string().uuid().optional().or(z.literal('')),
 })
@@ -34,7 +34,7 @@ const updateArticleSchema = z.object({
   slug: z.string().min(3).max(120).regex(/^[a-z0-9-]+$/),
   issueNumber: z.string().max(50).optional(),
   excerpt: z.string().min(10).max(600),
-  contentType: z.enum(['ARTICLE', 'GUIDE', 'NEWS_UPDATE', 'RESOURCE', 'CASE_STUDY', 'ANNOUNCEMENT']),
+  contentType: z.enum(['ARTICLE', 'GUIDE', 'NEWS_UPDATE', 'RESOURCE', 'ANNOUNCEMENT']),
   categoryId: z.string().uuid().optional().or(z.literal('')),
   authorId: z.string().uuid().optional().or(z.literal('')),
   editorialStatus: z.enum(['VERIFIED', 'SOURCE_LINKED', 'EDITORIAL_ANALYSIS', 'OPINION', 'DRAFT']),
@@ -43,12 +43,17 @@ const updateArticleSchema = z.object({
   featured: z.coerce.boolean().default(false),
   bodyBlocksJson: z.string().optional(),
   sourceReferencesJson: z.string().optional(),
+  heroImageUrl: z.string().url().optional().or(z.literal('')),
+  heroImageAlt: z.string().max(200).optional(),
   seoTitle: z.string().max(120).optional(),
   seoDescription: z.string().max(250).optional(),
   canonicalUrl: z.string().url().optional().or(z.literal('')),
   ctaType: z.string().optional(),
+  ctaLabel: z.string().max(80).optional(),
+  ctaUrl: z.string().max(500).optional(),
   noIndex: z.coerce.boolean().default(false),
   noFollow: z.coerce.boolean().default(false),
+  editorialNotes: z.string().max(2000).optional(),
 })
 
 // ─── Article Actions ─────────────────────────────────────────────────────────
@@ -57,7 +62,7 @@ export async function createArticleAction(
   _prev: { error?: string; articleId?: string } | null,
   formData: FormData
 ): Promise<{ error?: string; articleId?: string }> {
-  const session = await requireTeam()
+  const user = await requireTeam()
 
   const parsed = createArticleSchema.safeParse({
     title: formData.get('title'),
@@ -96,8 +101,19 @@ export async function createArticleAction(
       return { error: error?.message || 'Failed to create article.' }
     }
 
+    // First revision
+    await admin.from('lobby_article_revisions').insert({
+      article_id: data.id,
+      version: 1,
+      title: parsed.data.title,
+      excerpt: parsed.data.excerpt,
+      body_blocks: [],
+      author_id: parsed.data.authorId || null,
+      notes: `Created by ${user.email}`,
+    })
+
     await writeAuditEvent({
-      actorId: session.id,
+      actorId: user.id,
       action: 'lobby.article_create',
       resourceType: 'lobby_article',
       resourceId: data.id,
@@ -117,7 +133,7 @@ export async function updateArticleAction(
   _prev: { error?: string; success?: boolean } | null,
   formData: FormData
 ): Promise<{ error?: string; success?: boolean }> {
-  const session = await requireTeam()
+  const user = await requireTeam()
 
   const parsed = updateArticleSchema.safeParse({
     id: formData.get('id'),
@@ -134,19 +150,29 @@ export async function updateArticleAction(
     featured: formData.get('featured') === 'true' || formData.get('featured') === 'on',
     bodyBlocksJson: formData.get('bodyBlocksJson') || undefined,
     sourceReferencesJson: formData.get('sourceReferencesJson') || undefined,
+    heroImageUrl: formData.get('heroImageUrl') || undefined,
+    heroImageAlt: formData.get('heroImageAlt') || undefined,
     seoTitle: formData.get('seoTitle') || undefined,
     seoDescription: formData.get('seoDescription') || undefined,
     canonicalUrl: formData.get('canonicalUrl') || undefined,
     ctaType: formData.get('ctaType') || 'start-a-project',
+    ctaLabel: formData.get('ctaLabel') || undefined,
+    ctaUrl: formData.get('ctaUrl') || undefined,
     noIndex: formData.get('noIndex') === 'true' || formData.get('noIndex') === 'on',
     noFollow: formData.get('noFollow') === 'true' || formData.get('noFollow') === 'on',
+    editorialNotes: formData.get('editorialNotes') || undefined,
   })
 
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? 'Invalid article payload.' }
   }
 
-  let bodyBlocks = []
+  // Image upload with alt-text required rule
+  if (parsed.data.heroImageUrl && !parsed.data.heroImageAlt) {
+    return { error: 'Hero image requires descriptive alt-text.' }
+  }
+
+  let bodyBlocks: any[] = []
   if (parsed.data.bodyBlocksJson) {
     try {
       bodyBlocks = JSON.parse(parsed.data.bodyBlocksJson)
@@ -155,7 +181,7 @@ export async function updateArticleAction(
     }
   }
 
-  let sourceReferences = []
+  let sourceReferences: any[] = []
   if (parsed.data.sourceReferencesJson) {
     try {
       sourceReferences = JSON.parse(parsed.data.sourceReferencesJson)
@@ -166,6 +192,10 @@ export async function updateArticleAction(
 
   const admin = createAdminClient()
   try {
+    const heroMedia = parsed.data.heroImageUrl
+      ? { url: parsed.data.heroImageUrl, altText: parsed.data.heroImageAlt || '' }
+      : null
+
     const { error } = await admin
       .from('lobby_articles')
       .update({
@@ -182,20 +212,44 @@ export async function updateArticleAction(
         featured: parsed.data.featured,
         body_blocks: bodyBlocks,
         source_references: sourceReferences,
+        hero_media: heroMedia,
         seo_title: parsed.data.seoTitle || null,
         seo_description: parsed.data.seoDescription || null,
         canonical_url: parsed.data.canonicalUrl || null,
         cta_type: parsed.data.ctaType || null,
+        cta_label: parsed.data.ctaLabel || null,
+        cta_url: parsed.data.ctaUrl || null,
         no_index: parsed.data.noIndex,
         no_follow: parsed.data.noFollow,
+        editorial_notes: parsed.data.editorialNotes || null,
         updated_at: new Date().toISOString(),
       })
       .eq('id', parsed.data.id)
 
     if (error) return { error: error.message }
 
+    // Record revision
+    const { data: revCount } = await admin
+      .from('lobby_article_revisions')
+      .select('version')
+      .eq('article_id', parsed.data.id)
+      .order('version', { ascending: false })
+      .limit(1)
+      .single()
+
+    const nextVer = (revCount?.version ?? 0) + 1
+    await admin.from('lobby_article_revisions').insert({
+      article_id: parsed.data.id,
+      version: nextVer,
+      title: parsed.data.title,
+      excerpt: parsed.data.excerpt,
+      body_blocks: bodyBlocks,
+      author_id: parsed.data.authorId || null,
+      notes: `Updated by ${user.email}`,
+    })
+
     await writeAuditEvent({
-      actorId: session.id,
+      actorId: user.id,
       action: 'lobby.article_update',
       resourceType: 'lobby_article',
       resourceId: parsed.data.id,
@@ -211,18 +265,52 @@ export async function updateArticleAction(
   }
 }
 
+// ─── Status Workflow Action ───────────────────────────────────────────────────
+
+const ALLOWED_TRANSITIONS: Record<LobbyArticleStatus, LobbyArticleStatus[]> = {
+  DRAFT: ['REVIEW'],
+  REVIEW: ['APPROVED', 'DRAFT'],
+  APPROVED: ['PUBLISHED', 'REVIEW'],
+  PUBLISHED: ['ARCHIVED'],
+  ARCHIVED: ['DRAFT'],
+}
+
 export async function setArticleStatusAction(
   articleId: string,
   newStatus: LobbyArticleStatus
 ): Promise<{ error?: string; success?: boolean }> {
-  let session = await requireTeam()
+  let user = await requireTeam()
+
+  const admin = createAdminClient()
+  const { data: article, error: fetchErr } = await admin
+    .from('lobby_articles')
+    .select('id, status, content_type, source_references, title, slug')
+    .eq('id', articleId)
+    .single()
+
+  if (fetchErr || !article) {
+    return { error: 'Article not found.' }
+  }
+
+  const currentStatus = article.status as LobbyArticleStatus
+  const allowed = ALLOWED_TRANSITIONS[currentStatus] || []
+  if (!allowed.includes(newStatus)) {
+    return { error: `Invalid transition from ${currentStatus} to ${newStatus}.` }
+  }
+
+  // Enforce rule: NEWS_UPDATE cannot be Approved without at least one source link
+  if (newStatus === 'APPROVED' && article.content_type === 'NEWS_UPDATE') {
+    const sources = Array.isArray(article.source_references) ? article.source_references : []
+    if (sources.length === 0) {
+      return { error: 'NEWS_UPDATE requires at least one source link before it can be approved.' }
+    }
+  }
 
   // Transitioning to PUBLISHED requires full ADMIN privileges
   if (newStatus === 'PUBLISHED') {
-    session = await requireAdmin()
+    user = await requireAdmin()
   }
 
-  const admin = createAdminClient()
   try {
     const updatePayload: Record<string, any> = {
       status: newStatus,
@@ -243,17 +331,18 @@ export async function setArticleStatusAction(
     if (error) return { error: error.message }
 
     await writeAuditEvent({
-      actorId: session.id,
+      actorId: user.id,
       action: 'lobby.article_status_change',
       resourceType: 'lobby_article',
       resourceId: articleId,
-      metadata: { old_status: updated.status, new_status: newStatus },
+      metadata: { old_status: currentStatus, new_status: newStatus, title: article.title },
     })
 
     revalidatePath('/admin/lobby')
     revalidatePath('/admin/lobby/articles')
     revalidatePath(`/admin/lobby/articles/${articleId}`)
     revalidatePath('/lobby')
+    revalidatePath('/sitemap.xml')
     if (updated?.slug) {
       revalidatePath(`/lobby/${updated.slug}`)
     }
@@ -280,7 +369,7 @@ export async function saveCategoryAction(
   _prev: { error?: string; success?: boolean } | null,
   formData: FormData
 ): Promise<{ error?: string; success?: boolean }> {
-  const session = await requireAdmin()
+  const user = await requireAdmin()
 
   const parsed = categorySchema.safeParse({
     id: formData.get('id') || undefined,
@@ -298,7 +387,7 @@ export async function saveCategoryAction(
   const admin = createAdminClient()
   try {
     if (parsed.data.id) {
-      await admin
+      const { error } = await admin
         .from('lobby_categories')
         .update({
           name: parsed.data.name,
@@ -311,8 +400,10 @@ export async function saveCategoryAction(
           updated_at: new Date().toISOString(),
         })
         .eq('id', parsed.data.id)
+
+      if (error) return { error: error.message }
     } else {
-      await admin.from('lobby_categories').insert({
+      const { error } = await admin.from('lobby_categories').insert({
         name: parsed.data.name,
         slug: parsed.data.slug,
         description: parsed.data.description || null,
@@ -321,13 +412,15 @@ export async function saveCategoryAction(
         seo_title: parsed.data.seoTitle || null,
         seo_description: parsed.data.seoDescription || null,
       })
+
+      if (error) return { error: error.message }
     }
 
     await writeAuditEvent({
-      actorId: session.id,
+      actorId: user.id,
       action: parsed.data.id ? 'lobby.category_update' : 'lobby.category_create',
       resourceType: 'lobby_category',
-      resourceId: parsed.data.id || parsed.data.slug,
+      resourceId: parsed.data.slug,
       metadata: { name: parsed.data.name },
     })
 
@@ -340,11 +433,11 @@ export async function saveCategoryAction(
 }
 
 export async function toggleCategoryAction(categoryId: string, currentActive: boolean): Promise<void> {
-  const session = await requireAdmin()
+  const user = await requireAdmin()
   const admin = createAdminClient()
   await admin.from('lobby_categories').update({ is_active: !currentActive }).eq('id', categoryId)
   await writeAuditEvent({
-    actorId: session.id,
+    actorId: user.id,
     action: 'lobby.category_toggle',
     resourceType: 'lobby_category',
     resourceId: categoryId,
@@ -360,7 +453,7 @@ export async function saveTagAction(
   _prev: { error?: string; success?: boolean } | null,
   formData: FormData
 ): Promise<{ error?: string; success?: boolean }> {
-  const session = await requireAdmin()
+  const user = await requireAdmin()
   const name = formData.get('name') as string
   const slug = formData.get('slug') as string
   const description = (formData.get('description') as string) || undefined
@@ -371,7 +464,7 @@ export async function saveTagAction(
   try {
     await admin.from('lobby_tags').insert({ name, slug, description: description || null })
     await writeAuditEvent({
-      actorId: session.id,
+      actorId: user.id,
       action: 'lobby.tag_create',
       resourceType: 'lobby_tag',
       resourceId: slug,
@@ -384,25 +477,27 @@ export async function saveTagAction(
   }
 }
 
-// ─── Author Actions ──────────────────────────────────────────────────────────
+// ─── Author Actions (Real team members only) ─────────────────────────────────
 
 export async function saveAuthorAction(
   _prev: { error?: string; success?: boolean } | null,
   formData: FormData
 ): Promise<{ error?: string; success?: boolean }> {
-  const session = await requireAdmin()
+  const user = await requireAdmin()
   const name = formData.get('name') as string
   const role = formData.get('role') as string
   const bio = (formData.get('bio') as string) || undefined
   const slug = formData.get('slug') as string
+  const linkedin = (formData.get('linkedin') as string) || undefined
 
   if (!name || !role || !slug) return { error: 'Name, role, and slug are required.' }
 
   const admin = createAdminClient()
   try {
-    await admin.from('lobby_authors').insert({ name, role, bio: bio || null, slug, social_links: {} })
+    const socialLinks = linkedin ? { linkedin } : {}
+    await admin.from('lobby_authors').insert({ name, role, bio: bio || null, slug, social_links: socialLinks })
     await writeAuditEvent({
-      actorId: session.id,
+      actorId: user.id,
       action: 'lobby.author_create',
       resourceType: 'lobby_author',
       resourceId: slug,

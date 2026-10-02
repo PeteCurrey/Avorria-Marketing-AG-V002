@@ -2,8 +2,13 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getTagBySlug, getTags, getPublishedArticles } from '@/lib/lobby'
-import { LobbyWireStory } from '@/components/lobby/LobbyWireStory'
 import { generatePageMetadata } from '@/lib/metadata'
+import { siteConfig } from '@/content/config/site'
+
+export const revalidate = 3600
+
+// Configurable threshold: tag archives are noindex until >= 3 articles
+const INDEX_THRESHOLD = 3
 
 interface TagPageProps {
   params: Promise<{ slug: string }>
@@ -11,9 +16,7 @@ interface TagPageProps {
 
 export async function generateStaticParams() {
   const tags = await getTags()
-  return tags.map((t) => ({
-    slug: t.slug,
-  }))
+  return tags.map((t) => ({ slug: t.slug }))
 }
 
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
@@ -22,23 +25,33 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
 
   if (!tag) {
     return generatePageMetadata({
-      title: 'Taxonomy Not Found // The Lobby',
+      title: 'Tag Not Found // The Lobby',
       description: 'The requested topic tag could not be found.',
       path: '/lobby',
     })
   }
 
+  const allArticles = await getPublishedArticles()
+  const matchCount = allArticles.filter((a) =>
+    a.tags?.some((t) => t.slug === tag.slug) ||
+    a.slug.includes(tag.slug)
+  ).length
+
   return {
     ...generatePageMetadata({
-      title: `${tag.name} // Topic Intelligence // The Lobby`,
-      description: tag.description || `Field intelligence and technical dossiers tagged under ${tag.name}.`,
+      title: `${tag.name} // The Lobby // Avorria`,
+      description: tag.description || `Editorial intelligence and analysis tagged under ${tag.name}.`,
       path: `/lobby/tag/${tag.slug}`,
     }),
     robots: {
-      index: false, // Prevent thin taxonomy indexation per search hygiene guidelines
+      index: matchCount >= INDEX_THRESHOLD,
       follow: true,
     },
   }
+}
+
+function fmt(iso: string) {
+  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
 export default async function LobbyTagPage({ params }: TagPageProps) {
@@ -51,83 +64,104 @@ export default async function LobbyTagPage({ params }: TagPageProps) {
 
   const allArticles = await getPublishedArticles()
   const matchingArticles = allArticles.filter((article) => {
-    // Check if tag is in article tags or category or text matches
     const tagSlug = tag.slug.toLowerCase()
     const inTags = article.tags?.some((t) => t.slug === tagSlug)
     const inSlug = article.slug.includes(tagSlug)
-    const inCat = (article.categorySlug || article.category || '').includes(tagSlug)
-    return inTags || inSlug || inCat
+    return inTags || inSlug
   })
 
   return (
-    <div className="min-h-screen bg-[var(--color-ivory)] dark:bg-[#080808] text-neutral-900 dark:text-white pt-28 pb-24 px-6 sm:px-8 md:px-12">
-      <div className="max-w-5xl mx-auto space-y-12">
-        
-        {/* Navigation Breadcrumb */}
-        <div className="border-b border-black/10 dark:border-white/10 pb-4 text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-400">
-          <Link href="/lobby" className="hover:text-neutral-900 dark:hover:text-white transition-colors">
-            ← THE LOBBY
-          </Link>
-          <span className="mx-2">//</span>
-          <span>TAXONOMY TAG</span>
-        </div>
+    <div className="min-h-screen bg-[var(--color-ivory)] pt-28 pb-24">
+      <div className="container-max container-content">
 
-        {/* Tag Header */}
-        <header className="space-y-4 border border-black/10 dark:border-white/10 p-8 bg-black/[0.015] dark:bg-white/[0.015]">
-          <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-400 block">
-            TOPIC TAG // {tag.slug}
-          </span>
-          <h1 className="text-3xl sm:text-4xl font-extralight tracking-tight text-neutral-900 dark:text-white">
-            {tag.name}
+        {/* ── Breadcrumb ──────────────────────────────────────────────── */}
+        <nav aria-label="Breadcrumb" className="mb-10">
+          <ol className="flex items-center gap-2 text-[0.6875rem] font-light tracking-[0.12em] uppercase text-[var(--color-graphite-muted)]">
+            <li>
+              <Link href="/lobby" className="hover:text-[var(--color-graphite)] transition-colors duration-200">
+                The Lobby
+              </Link>
+            </li>
+            <li aria-hidden="true">·</li>
+            <li className="text-[var(--color-graphite)]" aria-current="page">
+              #{tag.name}
+            </li>
+          </ol>
+        </nav>
+
+        {/* ── Header ─────────────────────────────────────────────────── */}
+        <header className="border-b border-[var(--color-border)] pb-8 mb-10">
+          <p className="text-[0.6875rem] font-light tracking-[0.2em] uppercase text-[var(--color-graphite-muted)] mb-3">
+            Topic Tag
+          </p>
+          <h1 className="text-[var(--text-display-l)] font-[200] tracking-[var(--tracking-heading)] text-[var(--color-graphite)] leading-[1.05] mb-3">
+            #{tag.name}
           </h1>
           {tag.description && (
-            <p className="text-sm font-light text-neutral-600 dark:text-neutral-400 max-w-2xl leading-relaxed">
+            <p className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] max-w-[560px] leading-relaxed">
               {tag.description}
             </p>
           )}
-          <div className="pt-2 text-[10px] font-mono text-neutral-400">
-            {matchingArticles.length} {matchingArticles.length === 1 ? 'DISPATCH' : 'DISPATCHES'} CLASSIFIED
-          </div>
         </header>
 
-        {/* Matching Dispatches */}
-        <section aria-label="Matching Dispatches" className="space-y-6">
-          <div className="flex items-baseline justify-between border-b border-black/10 dark:border-white/10 pb-4">
-            <span className="text-xs font-mono uppercase tracking-[0.15em] text-neutral-400">
-              Classified Dossiers
-            </span>
-            <span className="text-[10px] font-mono text-neutral-400">
-              Chronological
-            </span>
-          </div>
-
-          {matchingArticles.length > 0 ? (
-            <div className="space-y-2">
+        {/* ── Articles List ─────────────────────────────────────────── */}
+        {matchingArticles.length > 0 ? (
+          <section aria-labelledby="tag-articles-heading">
+            <p id="tag-articles-heading" className="sr-only">
+              Articles tagged with {tag.name}
+            </p>
+            <ul role="list">
               {matchingArticles.map((article) => (
-                <LobbyWireStory key={article.id} article={article} />
+                <li key={article.slug} className="border-t border-[var(--color-border)]">
+                  <Link
+                    href={`/lobby/${article.slug}`}
+                    className="group flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 py-6 hover:border-[var(--color-border-strong)] transition-colors duration-200"
+                  >
+                    <div className="max-w-[680px]">
+                      <p className="text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)] mb-1">
+                        {article.categoryName ?? article.category}
+                      </p>
+                      <h2 className="text-[var(--text-heading)] font-light text-[var(--color-graphite)] group-hover:text-[var(--color-accent)] transition-colors duration-200 mb-2">
+                        {article.title}
+                      </h2>
+                      <p className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] line-clamp-2 leading-relaxed">
+                        {article.excerpt ?? article.dek}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-4 shrink-0 text-[0.6875rem] font-light tracking-[0.1em] uppercase text-[var(--color-graphite-muted)]">
+                      <span>{fmt(article.publishedAt)}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>{article.readingTimeMinutes ?? article.readTimeMinutes ?? 5} min read</span>
+                      <span
+                        className="text-[var(--color-graphite-muted)] group-hover:text-[var(--color-accent)] group-hover:translate-x-1 transition-all duration-200"
+                        aria-hidden="true"
+                      >
+                        →
+                      </span>
+                    </div>
+                  </Link>
+                </li>
               ))}
-            </div>
-          ) : (
-            <div className="border border-black/10 dark:border-white/10 p-12 text-center max-w-md mx-auto space-y-2">
-              <p className="text-xs font-mono uppercase tracking-wider text-neutral-400">
-                No Dispatches Currently Tagged
-              </p>
-              <p className="text-xs font-light text-neutral-600 dark:text-neutral-400">
-                Field observations corresponding to this taxonomy are currently in review or unindexed.
-              </p>
-            </div>
-          )}
-        </section>
+              <li className="border-t border-[var(--color-border)]" aria-hidden="true" />
+            </ul>
+          </section>
+        ) : (
+          <div className="py-20 border-t border-[var(--color-border)] text-center">
+            <p className="text-[0.6875rem] font-light tracking-[0.2em] uppercase text-[var(--color-graphite-muted)] mb-3">
+              No matching dispatches
+            </p>
+            <p className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] max-w-[360px] mx-auto leading-relaxed mb-6">
+              There are no published articles currently tagged under #{tag.name}.
+            </p>
+            <Link
+              href="/lobby"
+              className="text-[var(--text-small)] font-light text-[var(--color-graphite)] border-b border-[var(--color-graphite)] pb-0.5 hover:text-[var(--color-accent)] hover:border-[var(--color-accent)] transition-colors duration-200"
+            >
+              ← Return to all dispatches
+            </Link>
+          </div>
+        )}
 
-        {/* Back Link */}
-        <div className="pt-8 border-t border-black/10 dark:border-white/10">
-          <Link
-            href="/lobby"
-            className="text-xs font-mono uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors"
-          >
-            ← Back to The Lobby
-          </Link>
-        </div>
       </div>
     </div>
   )

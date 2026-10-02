@@ -2,6 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getAllArticlesAdmin, getCategories } from '@/lib/lobby'
 import { LobbyAdminNav } from '@/components/admin/LobbyAdminNav'
+import { PageHeader } from '@/components/ui/dashboard/PageHeader'
+import { SectionLabel } from '@/components/ui/dashboard/SectionLabel'
+import { StatusDot } from '@/components/ui/dashboard/StatusDot'
+import { Button } from '@/components/ui/Button'
 import type { LobbyArticleStatus } from '@/types/lobby'
 
 export const metadata: Metadata = {
@@ -13,12 +17,18 @@ interface ArticlesPageProps {
   searchParams: Promise<{ status?: string; category?: string; q?: string }>
 }
 
+function fmt(iso: string) {
+  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+const STATUS_FILTERS = ['ALL', 'DRAFT', 'REVIEW', 'APPROVED', 'PUBLISHED', 'ARCHIVED'] as const
+
 export default async function AdminArticlesPage({ searchParams }: ArticlesPageProps) {
   const { status, category, q } = await searchParams
 
   const [articles, categories] = await Promise.all([
     getAllArticlesAdmin({
-      status: status as LobbyArticleStatus | undefined,
+      status: status && status !== 'ALL' ? (status as LobbyArticleStatus) : undefined,
       categoryId: category,
       search: q,
     }),
@@ -26,34 +36,25 @@ export default async function AdminArticlesPage({ searchParams }: ArticlesPagePr
   ])
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8">
+    <div className="p-8 max-w-6xl mx-auto space-y-8">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
-        <div>
-          <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40 block mb-1">
-            EDITORIAL REGISTRY // PUBLISHING QUEUE
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-extralight text-white tracking-tight">
-            Articles &amp; Dispatches Registry
-          </h1>
-        </div>
-
-        <Link
-          href="/admin/lobby/articles/new"
-          className="px-4 py-2 bg-white text-black text-xs font-mono uppercase tracking-wider hover:opacity-90 transition-opacity self-start sm:self-auto"
-        >
-          + Create New Dispatch
-        </Link>
-      </div>
+      <PageHeader
+        label="EDITORIAL REGISTRY"
+        title="Articles & Dispatches"
+        action={
+          <Button as="link" href="/admin/lobby/articles/new" variant="primary" size="sm">
+            + New Article
+          </Button>
+        }
+      />
 
       <LobbyAdminNav />
 
-      {/* Filter Ribbon */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border border-white/10 p-4 bg-[#111] text-xs font-mono">
-        <div className="flex flex-wrap items-center gap-2 text-white/60">
-          <span>Filter Status:</span>
-          {['ALL', 'DRAFT', 'REVIEW', 'APPROVED', 'PUBLISHED', 'ARCHIVED'].map((st) => {
+      {/* Filter Tabs */}
+      <div className="flex flex-wrap items-center justify-between gap-4 py-3 border-b border-[var(--color-border)]">
+        <div className="flex flex-wrap items-center gap-2">
+          {STATUS_FILTERS.map((st) => {
             const isSelected = (!status && st === 'ALL') || status === st
             const href = st === 'ALL' ? '/admin/lobby/articles' : `/admin/lobby/articles?status=${st}`
 
@@ -61,10 +62,10 @@ export default async function AdminArticlesPage({ searchParams }: ArticlesPagePr
               <Link
                 key={st}
                 href={href}
-                className={`px-2.5 py-1 transition-colors ${
+                className={`text-[0.6875rem] font-light tracking-[0.14em] uppercase px-3 py-1.5 transition-colors duration-200 ${
                   isSelected
-                    ? 'bg-white/20 text-white'
-                    : 'text-white/40 hover:text-white hover:bg-white/5'
+                    ? 'text-[var(--color-graphite)] bg-white border border-[var(--color-border)]'
+                    : 'text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)]'
                 }`}
               >
                 {st}
@@ -73,111 +74,81 @@ export default async function AdminArticlesPage({ searchParams }: ArticlesPagePr
           })}
         </div>
 
-        <span className="text-white/40">
-          {articles.length} {articles.length === 1 ? 'Dispatch' : 'Dispatches'} listed
-        </span>
+        <form method="GET" action="/admin/lobby/articles" className="flex items-center">
+          <input
+            type="text"
+            name="q"
+            defaultValue={q || ''}
+            placeholder="Search articles..."
+            className="border border-[var(--color-border)] bg-white px-3 py-1 text-xs font-light text-[var(--color-graphite)] placeholder:text-[var(--color-graphite-muted)] focus:outline-none focus:border-[var(--color-graphite)]"
+          />
+        </form>
       </div>
 
-      {/* Articles Table */}
-      <div className="border border-white/10 bg-[#111] overflow-x-auto">
-        <table className="w-full text-left text-xs font-light border-collapse">
+      {/* Table */}
+      <div className="border border-[var(--color-border)] overflow-x-auto bg-white">
+        <table className="w-full text-left text-sm font-light border-collapse">
           <thead>
-            <tr className="border-b border-white/10 bg-white/[0.02] text-[10px] font-mono uppercase tracking-wider text-white/40">
-              <th className="py-3 px-4">Ref</th>
-              <th className="py-3 px-4">Title &amp; Dek</th>
-              <th className="py-3 px-4">Type</th>
-              <th className="py-3 px-4">Category</th>
-              <th className="py-3 px-4">Status</th>
-              <th className="py-3 px-4">Provenance</th>
-              <th className="py-3 px-4">Date</th>
-              <th className="py-3 px-4 text-right">Actions</th>
+            <tr className="border-b border-[var(--color-border)] bg-[var(--color-ivory-dark)]">
+              <th className="py-3 px-4 text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">Status</th>
+              <th className="py-3 px-4 text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">Title</th>
+              <th className="py-3 px-4 text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)] hidden md:table-cell">Category</th>
+              <th className="py-3 px-4 text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)] hidden lg:table-cell">Type</th>
+              <th className="py-3 px-4 text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)] hidden sm:table-cell">Date</th>
+              <th className="py-3 px-4 text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)] text-right">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5 font-mono text-[11px]">
-            {articles.length === 0 ? (
-              <tr>
-                <td colSpan={8} className="py-12 text-center text-white/40">
-                  No dispatches match the selected filter criteria.
-                </td>
-              </tr>
-            ) : (
-              articles.map((item) => {
-                const itemStatus = item.status || 'PUBLISHED'
-                const itemType = item.contentType || 'ARTICLE'
-                const provState =
-                  typeof item.provenance === 'object' && 'state' in item.provenance
-                    ? item.provenance.state
-                    : item.editorialStatus || 'EDITORIAL_ANALYSIS'
-
+          <tbody className="divide-y divide-[var(--color-border)]">
+            {articles.length > 0 ? (
+              articles.map((article) => {
+                const author = typeof article.author === 'object' && 'name' in article.author ? article.author.name : article.leadAuthor?.name ?? 'Editorial Desk'
                 return (
-                  <tr key={item.id} className="hover:bg-white/[0.02] transition-colors">
-                    <td className="py-3.5 px-4 text-white/40 font-mono">
-                      {item.issueNumber || item.id}
+                  <tr key={article.id} className="hover:bg-[var(--color-ivory)] transition-colors h-14">
+                    <td className="py-3 px-4 whitespace-nowrap">
+                      <StatusDot status={article.status ?? 'DRAFT'} />
                     </td>
-                    <td className="py-3.5 px-4 max-w-sm">
+                    <td className="py-3 px-4">
                       <Link
-                        href={`/admin/lobby/articles/${item.id}`}
-                        className="text-white font-sans text-xs hover:text-amber-400 transition-colors block line-clamp-1"
+                        href={`/admin/lobby/articles/${article.id}`}
+                        className="text-[var(--color-graphite)] hover:text-[var(--color-accent)] transition-colors line-clamp-1"
                       >
-                        {item.title}
+                        {article.title}
                       </Link>
-                      <p className="text-[11px] font-light text-white/40 line-clamp-1 mt-0.5">
-                        {item.excerpt || item.dek}
+                      <p className="text-[0.6875rem] text-[var(--color-graphite-muted)] line-clamp-1">
+                        By {author} · /{article.slug}
                       </p>
                     </td>
-                    <td className="py-3.5 px-4 text-white/60 text-[10px]">
-                      {itemType}
+                    <td className="py-3 px-4 text-[var(--color-graphite-mid)] whitespace-nowrap hidden md:table-cell">
+                      {article.categoryName ?? article.category ?? '—'}
                     </td>
-                    <td className="py-3.5 px-4 text-white/60">
-                      {item.categoryName || item.categoryLabel || item.category}
+                    <td className="py-3 px-4 text-[0.6875rem] text-[var(--color-graphite-muted)] whitespace-nowrap hidden lg:table-cell">
+                      {article.contentType ?? 'ARTICLE'}
                     </td>
-                    <td className="py-3.5 px-4">
-                      <span
-                        className={`text-[9px] px-2 py-0.5 border ${
-                          itemStatus === 'PUBLISHED'
-                            ? 'border-emerald-500/30 bg-emerald-950/30 text-emerald-400'
-                            : itemStatus === 'REVIEW'
-                            ? 'border-amber-500/30 bg-amber-950/30 text-amber-400'
-                            : 'border-white/10 bg-white/5 text-white/50'
-                        }`}
-                      >
-                        {itemStatus}
-                      </span>
+                    <td className="py-3 px-4 text-[0.6875rem] text-[var(--color-graphite-muted)] whitespace-nowrap hidden sm:table-cell">
+                      {fmt(article.publishedAt)}
                     </td>
-                    <td className="py-3.5 px-4">
-                      <span className="text-[9px] px-1.5 py-0.5 border border-white/10 bg-white/5 text-white/70">
-                        {provState}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4 text-white/40 text-[10px]">
-                      {new Date(item.publishedAt).toLocaleDateString('en-GB', {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                      })}
-                    </td>
-                    <td className="py-3.5 px-4 text-right space-x-3">
+                    <td className="py-3 px-4 text-right whitespace-nowrap">
                       <Link
-                        href={`/admin/lobby/articles/${item.id}`}
-                        className="text-white/60 hover:text-white transition-colors"
+                        href={`/admin/lobby/articles/${article.id}`}
+                        className="text-[0.6875rem] font-light tracking-[0.1em] uppercase text-[var(--color-graphite)] hover:text-[var(--color-accent)] underline underline-offset-4"
                       >
-                        Workbench
-                      </Link>
-                      <Link
-                        href={`/lobby/${item.slug}`}
-                        target="_blank"
-                        className="text-white/40 hover:text-white transition-colors"
-                      >
-                        View ↗
+                        Edit
                       </Link>
                     </td>
                   </tr>
                 )
               })
+            ) : (
+              <tr>
+                <td colSpan={6} className="py-12 text-center text-sm font-light text-[var(--color-graphite-muted)]">
+                  No articles matched the filter.
+                </td>
+              </tr>
             )}
           </tbody>
         </table>
       </div>
+
     </div>
   )
 }

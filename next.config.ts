@@ -74,6 +74,22 @@ const nextConfig: NextConfig = {
     ]
   },
 
+  // ─── 301 Permanent Redirects: /journal → /lobby ───────────────────────────
+  async redirects() {
+    return [
+      {
+        source: '/journal',
+        destination: '/lobby',
+        permanent: true,
+      },
+      {
+        source: '/journal/:slug*',
+        destination: '/lobby/:slug*',
+        permanent: true,
+      },
+    ]
+  },
+
   trailingSlash: false,
 }
 

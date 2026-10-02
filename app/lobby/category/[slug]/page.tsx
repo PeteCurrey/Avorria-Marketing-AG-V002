@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getCategoryBySlug, getAllCategories, getArticlesByCategory, getAllArticles } from '@/lib/lobby'
-import { LobbyBroadsheetMasthead } from '@/components/lobby/LobbyBroadsheetMasthead'
-import { LobbyWireStory } from '@/components/lobby/LobbyWireStory'
+import { getCategoryBySlug, getAllCategories, getPublishedArticles } from '@/lib/lobby'
 import { generatePageMetadata } from '@/lib/metadata'
+import { siteConfig } from '@/content/config/site'
+
+export const revalidate = 3600
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>
@@ -29,14 +30,18 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     })
   }
 
-  const title = category.seoTitle || `${category.name || (category as any).label} // The Lobby`
-  const description = category.seoDescription || category.description || (category as any).longDescription
+  const title = category.seoTitle || `${category.name} // The Lobby // Avorria`
+  const description = category.seoDescription || category.description || `Editorial intelligence and analysis on ${category.name}.`
 
   return generatePageMetadata({
     title,
     description,
     path: `/lobby/category/${category.slug}`,
   })
+}
+
+function fmt(iso: string) {
+  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
 export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
@@ -47,85 +52,149 @@ export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
     notFound()
   }
 
-  const [categories, articles, allArticles] = await Promise.all([
+  const [categories, articles] = await Promise.all([
     getAllCategories(),
-    getArticlesByCategory(category.slug),
-    getAllArticles(),
+    getPublishedArticles({ categorySlug: category.slug }),
   ])
 
-  const displayName = category.name || (category as any).label
-  const displayDescription = (category as any).longDescription || category.description
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+      { '@type': 'ListItem', position: 2, name: 'The Lobby', item: `${siteConfig.url}/lobby` },
+      { '@type': 'ListItem', position: 3, name: category.name, item: `${siteConfig.url}/lobby/category/${category.slug}` },
+    ],
+  }
 
   return (
-    <div className="min-h-screen bg-[var(--color-ivory)] dark:bg-[#080808] text-neutral-900 dark:text-white pt-28 pb-24 px-6 sm:px-8 md:px-12">
-      <div className="max-w-7xl mx-auto space-y-16">
-        
-        {/* Masthead */}
-        <LobbyBroadsheetMasthead
-          categories={categories}
-          activeCategorySlug={category.slug}
-          totalArticlesCount={allArticles.length}
-        />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
 
-        {/* Category Dossier Header */}
-        <div className="border border-black/10 dark:border-white/10 p-8 md:p-10 bg-black/[0.015] dark:bg-white/[0.015] space-y-4">
-          <div className="flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-400">
-            <span>THEMATIC INTELLIGENCE DOSSIER</span>
-            <span>//</span>
-            <span>{category.slug}</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extralight tracking-tight text-neutral-900 dark:text-white">
-            {displayName}
-          </h2>
-          {displayDescription && (
-            <p className="text-sm sm:text-base font-light text-neutral-600 dark:text-neutral-300 max-w-3xl leading-relaxed">
-              {displayDescription}
+      <div className="min-h-screen bg-[var(--color-ivory)] pt-28 pb-24">
+        <div className="container-max container-content">
+
+          {/* ── Breadcrumb ──────────────────────────────────────────────── */}
+          <nav aria-label="Breadcrumb" className="mb-10">
+            <ol className="flex items-center gap-2 text-[0.6875rem] font-light tracking-[0.12em] uppercase text-[var(--color-graphite-muted)]">
+              <li>
+                <Link href="/lobby" className="hover:text-[var(--color-graphite)] transition-colors duration-200">
+                  The Lobby
+                </Link>
+              </li>
+              <li aria-hidden="true">·</li>
+              <li className="text-[var(--color-graphite)]" aria-current="page">
+                {category.name}
+              </li>
+            </ol>
+          </nav>
+
+          {/* ── Category Header ─────────────────────────────────────────── */}
+          <header className="border-b border-[var(--color-border)] pb-10 mb-12">
+            <p className="text-[0.6875rem] font-light tracking-[0.2em] uppercase text-[var(--color-graphite-muted)] mb-3">
+              Category
             </p>
-          )}
-          <div className="pt-2 text-[10px] font-mono text-neutral-400">
-            Indexed dispatches: {articles.length}
-          </div>
-        </div>
+            <h1 className="text-[var(--text-display-l)] font-[200] tracking-[var(--tracking-heading)] text-[var(--color-graphite)] leading-[1.05] mb-4">
+              {category.name}
+            </h1>
+            {category.description && (
+              <p className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] max-w-[560px] leading-relaxed mb-6">
+                {category.description}
+              </p>
+            )}
 
-        {/* Dispatches in this Category */}
-        <section aria-label="Category Dispatches" className="space-y-6">
-          <div className="flex items-baseline justify-between border-b border-black/10 dark:border-white/10 pb-4">
-            <span className="text-xs font-mono uppercase tracking-[0.15em] text-neutral-400">
-              Dispatches in {displayName}
-            </span>
-            <span className="text-[10px] font-mono text-neutral-400">
-              Chronological sequence
-            </span>
-          </div>
+            {/* Sub-nav for categories */}
+            <nav aria-label="All Lobby categories" className="overflow-x-auto pt-4 border-t border-[var(--color-border)]">
+              <ul className="flex gap-0 min-w-max">
+                <li>
+                  <Link
+                    href="/lobby"
+                    className="block px-4 py-2 text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-mid)] border-b-2 border-transparent hover:text-[var(--color-graphite)] hover:border-[var(--color-border)] transition-colors duration-200"
+                  >
+                    All
+                  </Link>
+                </li>
+                {categories.map((cat) => {
+                  const isActive = cat.slug === category.slug
+                  return (
+                    <li key={cat.slug}>
+                      <Link
+                        href={`/lobby/category/${cat.slug}`}
+                        className={`block px-4 py-2 text-[0.6875rem] font-light tracking-[0.14em] uppercase transition-colors duration-200 ${
+                          isActive
+                            ? 'text-[var(--color-graphite)] border-b-2 border-[var(--color-graphite)]'
+                            : 'text-[var(--color-graphite-mid)] border-b-2 border-transparent hover:text-[var(--color-graphite)] hover:border-[var(--color-border)]'
+                        }`}
+                      >
+                        {cat.name}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </nav>
+          </header>
 
+          {/* ── Dispatches List ─────────────────────────────────────────── */}
           {articles.length > 0 ? (
-            <div className="space-y-2">
-              {articles.map((article) => (
-                <LobbyWireStory key={article.id} article={article} />
-              ))}
-            </div>
+            <section aria-labelledby="category-articles-heading" className="space-y-0">
+              <p id="category-articles-heading" className="sr-only">
+                Articles in {category.name}
+              </p>
+              <ul role="list">
+                {articles.map((article) => (
+                  <li key={article.slug} className="border-t border-[var(--color-border)]">
+                    <Link
+                      href={`/lobby/${article.slug}`}
+                      className="group flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 py-6 hover:border-[var(--color-border-strong)] transition-colors duration-200"
+                    >
+                      <div className="max-w-[680px]">
+                        <h2 className="text-[var(--text-heading)] font-light text-[var(--color-graphite)] group-hover:text-[var(--color-accent)] transition-colors duration-200 mb-2">
+                          {article.title}
+                        </h2>
+                        <p className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] line-clamp-2 leading-relaxed">
+                          {article.excerpt ?? article.dek}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-4 shrink-0 text-[0.6875rem] font-light tracking-[0.1em] uppercase text-[var(--color-graphite-muted)]">
+                        <span>{fmt(article.publishedAt)}</span>
+                        <span aria-hidden="true">·</span>
+                        <span>{article.readingTimeMinutes ?? article.readTimeMinutes ?? 5} min read</span>
+                        <span
+                          className="text-[var(--color-graphite-muted)] group-hover:text-[var(--color-accent)] group-hover:translate-x-1 transition-all duration-200"
+                          aria-hidden="true"
+                        >
+                          →
+                        </span>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+                <li className="border-t border-[var(--color-border)]" aria-hidden="true" />
+              </ul>
+            </section>
           ) : (
-            <div className="border border-black/10 dark:border-white/10 p-12 text-center max-w-md mx-auto space-y-2">
-              <p className="text-xs font-mono uppercase tracking-wider text-neutral-400">
-                Dossier in Staging
+            <div className="py-20 border-t border-[var(--color-border)] text-center">
+              <p className="text-[0.6875rem] font-light tracking-[0.2em] uppercase text-[var(--color-graphite-muted)] mb-3">
+                No dispatches published yet
               </p>
-              <p className="text-xs font-light text-neutral-600 dark:text-neutral-400">
-                New field observations in this category are currently undergoing editorial and source verification.
+              <p className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] max-w-[360px] mx-auto leading-relaxed mb-6">
+                Editorial dispatches in {category.name} will appear here as they are published.
               </p>
+              <Link
+                href="/lobby"
+                className="text-[var(--text-small)] font-light text-[var(--color-graphite)] border-b border-[var(--color-graphite)] pb-0.5 hover:text-[var(--color-accent)] hover:border-[var(--color-accent)] transition-colors duration-200"
+              >
+                ← Return to all dispatches
+              </Link>
             </div>
           )}
-        </section>
 
-        {/* Back Link */}
-        <div className="pt-8 border-t border-black/10 dark:border-white/10">
-          <Link
-            href="/lobby"
-            className="text-xs font-mono uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors"
-          >
-            ← Back to All Dispatches
-          </Link>
         </div>
       </div>
-    </div>
+    </>
   )
 }

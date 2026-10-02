@@ -2,7 +2,12 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getArticleByIdAdmin, getCategories, getAuthors } from '@/lib/lobby'
+import { getArticleRevisions } from '@/lib/lobby/workflow'
 import { LobbyAdminNav } from '@/components/admin/LobbyAdminNav'
+import { PageHeader } from '@/components/ui/dashboard/PageHeader'
+import { SectionLabel } from '@/components/ui/dashboard/SectionLabel'
+import { StatusDot } from '@/components/ui/dashboard/StatusDot'
+import { Button } from '@/components/ui/Button'
 import { updateArticleAction, setArticleStatusAction } from '@/lib/actions/lobby'
 import type { LobbyArticleStatus } from '@/types/lobby'
 
@@ -15,452 +20,393 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
+function fmt(iso: string) {
+  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+}
+
 export default async function AdminArticleEditorPage({ params }: ArticleEditorProps) {
   const { id } = await params
-  const [article, categories, authors] = await Promise.all([
+  const [article, categories, authors, revisions] = await Promise.all([
     getArticleByIdAdmin(id),
     getCategories(),
     getAuthors(),
+    getArticleRevisions(id).catch(() => []),
   ])
 
   if (!article) {
     notFound()
   }
 
-  const currentStatus = article.status || 'PUBLISHED'
-  const provState =
-    typeof article.provenance === 'object' && 'state' in article.provenance
-      ? article.provenance.state
-      : article.editorialStatus || 'EDITORIAL_ANALYSIS'
-  const provRationale =
-    typeof article.provenance === 'object' && 'rationale' in article.provenance
-      ? article.provenance.rationale
-      : article.provenanceRationale || ''
-
-  const bodyBlocksJson = JSON.stringify(article.sections || [], null, 2)
+  const currentStatus = article.status || 'DRAFT'
+  const bodyBlocksJson = JSON.stringify(article.blocks || article.sections || [], null, 2)
   const sourcesJson = JSON.stringify(article.sources || article.sourceReferences || [], null, 2)
 
   return (
     <div className="p-8 max-w-5xl mx-auto space-y-8">
       
       {/* Top Bar & Status Control */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-6">
-        <div>
-          <div className="flex items-center gap-3 mb-1">
-            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">
-              EDITORIAL WORKBENCH // REF: {article.issueNumber || article.id}
-            </span>
-            <span
-              className={`text-[9px] px-2 py-0.5 border font-mono ${
-                currentStatus === 'PUBLISHED'
-                  ? 'border-emerald-500/40 bg-emerald-950/40 text-emerald-400'
-                  : currentStatus === 'REVIEW'
-                  ? 'border-amber-500/40 bg-amber-950/40 text-amber-400'
-                  : 'border-white/20 bg-white/5 text-white/60'
-              }`}
+      <PageHeader
+        label="EDITORIAL WORKBENCH"
+        title={article.title}
+        action={
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href={`/lobby/${article.slug}`}
+              target="_blank"
+              className="text-[0.6875rem] font-light tracking-[0.1em] uppercase text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)] border border-[var(--color-border)] px-3 py-1.5 bg-white transition-colors"
             >
-              STATUS: {currentStatus}
-            </span>
+              Public View ↗
+            </Link>
+
+            {/* Workflow Transition Buttons */}
+            {currentStatus === 'DRAFT' && (
+              <form action={async () => {
+                'use server'
+                await setArticleStatusAction(article.id, 'REVIEW')
+              }}>
+                <Button type="submit" variant="secondary" size="sm">
+                  Submit for Review →
+                </Button>
+              </form>
+            )}
+
+            {currentStatus === 'REVIEW' && (
+              <div className="flex items-center gap-2">
+                <form action={async () => {
+                  'use server'
+                  await setArticleStatusAction(article.id, 'APPROVED')
+                }}>
+                  <Button type="submit" variant="primary" size="sm">
+                    Approve Dispatch
+                  </Button>
+                </form>
+                <form action={async () => {
+                  'use server'
+                  await setArticleStatusAction(article.id, 'DRAFT')
+                }}>
+                  <Button type="submit" variant="ghost" size="sm">
+                    Return to Draft
+                  </Button>
+                </form>
+              </div>
+            )}
+
+            {currentStatus === 'APPROVED' && (
+              <div className="flex items-center gap-2">
+                <form action={async () => {
+                  'use server'
+                  await setArticleStatusAction(article.id, 'PUBLISHED')
+                }}>
+                  <Button type="submit" variant="primary" size="sm">
+                    Publish Live 🚀
+                  </Button>
+                </form>
+                <form action={async () => {
+                  'use server'
+                  await setArticleStatusAction(article.id, 'REVIEW')
+                }}>
+                  <Button type="submit" variant="ghost" size="sm">
+                    Re-open Review
+                  </Button>
+                </form>
+              </div>
+            )}
+
+            {currentStatus === 'PUBLISHED' && (
+              <form action={async () => {
+                'use server'
+                await setArticleStatusAction(article.id, 'ARCHIVED')
+              }}>
+                <Button type="submit" variant="ghost" size="sm">
+                  Archive
+                </Button>
+              </form>
+            )}
+
+            {currentStatus === 'ARCHIVED' && (
+              <form action={async () => {
+                'use server'
+                await setArticleStatusAction(article.id, 'DRAFT')
+              }}>
+                <Button type="submit" variant="secondary" size="sm">
+                  Restore to Draft
+                </Button>
+              </form>
+            )}
           </div>
-          <h1 className="text-xl sm:text-2xl font-extralight text-white tracking-tight line-clamp-1">
-            {article.title}
-          </h1>
-        </div>
-
-        {/* Status Transition Actions */}
-        <div className="flex items-center gap-3">
-          <Link
-            href={`/lobby/${article.slug}`}
-            target="_blank"
-            className="px-3 py-1.5 border border-white/20 text-xs font-mono uppercase text-white/80 hover:text-white hover:bg-white/10 transition-colors"
-          >
-            Public View ↗
-          </Link>
-
-          {currentStatus === 'DRAFT' && (
-            <form action={setArticleStatusAction.bind(null, article.id, 'REVIEW')}>
-              <button
-                type="submit"
-                className="px-3.5 py-1.5 bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-mono uppercase tracking-wider hover:bg-amber-500/30 transition-colors"
-              >
-                Submit for Review →
-              </button>
-            </form>
-          )}
-
-          {currentStatus === 'REVIEW' && (
-            <div className="flex items-center gap-2">
-              <form action={setArticleStatusAction.bind(null, article.id, 'APPROVED')}>
-                <button
-                  type="submit"
-                  className="px-3 py-1.5 bg-sky-500/20 border border-sky-500/40 text-sky-300 text-xs font-mono uppercase tracking-wider hover:bg-sky-500/30 transition-colors"
-                >
-                  Approve
-                </button>
-              </form>
-              <form action={setArticleStatusAction.bind(null, article.id, 'PUBLISHED')}>
-                <button
-                  type="submit"
-                  className="px-3.5 py-1.5 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-mono uppercase tracking-wider hover:bg-emerald-500/30 transition-colors"
-                >
-                  Publish Live ↗
-                </button>
-              </form>
-            </div>
-          )}
-
-          {currentStatus === 'APPROVED' && (
-            <form action={setArticleStatusAction.bind(null, article.id, 'PUBLISHED')}>
-              <button
-                type="submit"
-                className="px-3.5 py-1.5 bg-emerald-500 text-black font-mono text-xs uppercase tracking-wider hover:bg-emerald-400 transition-colors"
-              >
-                Publish Live ↗
-              </button>
-            </form>
-          )}
-
-          {currentStatus === 'PUBLISHED' && (
-            <form action={setArticleStatusAction.bind(null, article.id, 'ARCHIVED')}>
-              <button
-                type="submit"
-                className="px-3 py-1.5 border border-white/20 text-xs font-mono uppercase text-white/50 hover:text-rose-400 hover:border-rose-400/40 transition-colors"
-              >
-                Unpublish / Archive
-              </button>
-            </form>
-          )}
-        </div>
-      </div>
+        }
+      />
 
       <LobbyAdminNav />
 
-      {/* Editor Form */}
-      <form action={updateArticleAction as any} className="space-y-8">
-        <input type="hidden" name="id" value={article.id} />
+      {/* Status Bar */}
+      <div className="flex items-center gap-3 py-3 px-4 border border-[var(--color-border)] bg-white">
+        <StatusDot status={currentStatus} />
+        <span className="text-xs text-[var(--color-graphite-muted)] font-light">
+          Article ID: {article.id} · Workflow Status: {currentStatus}
+        </span>
+      </div>
 
-        {/* Section 1: Core Metadata */}
-        <div className="border border-white/10 p-6 bg-[#111] space-y-6">
-          <div className="border-b border-white/10 pb-3">
-            <h2 className="text-xs font-mono uppercase tracking-[0.15em] text-white/80">
-              1. Editorial Metadata &amp; Taxonomy
-            </h2>
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        
+        {/* Main Editor Form */}
+        <form action={updateArticleAction as any} className="space-y-6 border border-[var(--color-border)] p-8 bg-white">
+          <input type="hidden" name="id" value={article.id} />
 
+          {/* Title */}
           <div className="space-y-2">
-            <label className="block text-xs font-mono uppercase text-white/60">
-              Headline Title *
+            <label htmlFor="title" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">
+              Title *
             </label>
             <input
+              id="title"
               name="title"
               defaultValue={article.title}
               required
-              className="w-full bg-[#181818] border border-white/15 px-4 py-2 text-sm font-light text-white focus:border-white focus:outline-none"
+              className="w-full border border-[var(--color-border)] px-4 py-2 text-sm font-light text-[var(--color-graphite)] focus:border-[var(--color-graphite)] focus:outline-none"
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="block text-xs font-mono uppercase text-white/60">
-                URL Slug *
-              </label>
+          {/* Slug */}
+          <div className="space-y-2">
+            <label htmlFor="slug" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">
+              Slug *
+            </label>
+            <div className="flex items-center border border-[var(--color-border)] px-3 bg-[var(--color-ivory)]">
+              <span className="text-xs text-[var(--color-graphite-muted)]">/lobby/</span>
               <input
+                id="slug"
                 name="slug"
                 defaultValue={article.slug}
                 required
                 pattern="^[a-z0-9-]+$"
-                className="w-full bg-[#181818] border border-white/15 px-3 py-2 text-xs font-mono text-white focus:border-white focus:outline-none"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="block text-xs font-mono uppercase text-white/60">
-                Issue Number
-              </label>
-              <input
-                name="issueNumber"
-                defaultValue={article.issueNumber || ''}
-                placeholder="e.g. ISSUE 04 // Q4 2026"
-                className="w-full bg-[#181818] border border-white/15 px-3 py-2 text-xs font-mono text-white focus:border-white focus:outline-none"
+                className="w-full bg-transparent px-2 py-2 text-sm font-light text-[var(--color-graphite)] focus:outline-none"
               />
             </div>
           </div>
 
+          {/* Excerpt */}
           <div className="space-y-2">
-            <label className="block text-xs font-mono uppercase text-white/60">
-              Editorial Dek / Summary *
+            <label htmlFor="excerpt" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">
+              Summary (Dek / Excerpt) *
             </label>
             <textarea
+              id="excerpt"
               name="excerpt"
-              defaultValue={article.excerpt || article.dek || ''}
+              defaultValue={article.excerpt ?? article.dek ?? ''}
               required
               rows={3}
-              className="w-full bg-[#181818] border border-white/15 p-3 text-sm font-light text-white focus:border-white focus:outline-none leading-relaxed"
+              className="w-full border border-[var(--color-border)] p-3 text-sm font-light text-[var(--color-graphite)] focus:border-[var(--color-graphite)] focus:outline-none leading-relaxed"
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Grid: Type & Category */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="block text-xs font-mono uppercase text-white/60">
-                Format Type
+              <label htmlFor="contentType" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">
+                Content Type *
               </label>
               <select
+                id="contentType"
                 name="contentType"
-                defaultValue={article.contentType || 'ARTICLE'}
-                className="w-full bg-[#181818] border border-white/15 px-3 py-2 text-xs font-mono text-white focus:border-white focus:outline-none"
+                defaultValue={article.contentType ?? 'ARTICLE'}
+                className="w-full border border-[var(--color-border)] px-3 py-2 text-sm font-light text-[var(--color-graphite)] bg-white focus:border-[var(--color-graphite)] focus:outline-none"
               >
-                <option value="ARTICLE">ARTICLE</option>
-                <option value="GUIDE">GUIDE</option>
-                <option value="NEWS_UPDATE">NEWS_UPDATE</option>
-                <option value="RESOURCE">RESOURCE</option>
-                <option value="CASE_STUDY">CASE_STUDY</option>
-                <option value="ANNOUNCEMENT">ANNOUNCEMENT</option>
+                <option value="ARTICLE">Article</option>
+                <option value="GUIDE">Guide</option>
+                <option value="NEWS_UPDATE">News Update (requires ≥1 source)</option>
+                <option value="RESOURCE">Resource</option>
+                <option value="ANNOUNCEMENT">Announcement</option>
               </select>
             </div>
 
             <div className="space-y-2">
-              <label className="block text-xs font-mono uppercase text-white/60">
-                Category Domain
+              <label htmlFor="categoryId" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">
+                Category
               </label>
               <select
+                id="categoryId"
                 name="categoryId"
-                defaultValue={article.categoryId || ''}
-                className="w-full bg-[#181818] border border-white/15 px-3 py-2 text-xs font-mono text-white focus:border-white focus:outline-none"
+                defaultValue={article.categoryId ?? ''}
+                className="w-full border border-[var(--color-border)] px-3 py-2 text-sm font-light text-[var(--color-graphite)] bg-white focus:border-[var(--color-graphite)] focus:outline-none"
               >
-                <option value="">-- Select Category --</option>
+                <option value="">— Select Category —</option>
                 {categories.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="space-y-2">
-              <label className="block text-xs font-mono uppercase text-white/60">
-                Author Principal
-              </label>
-              <select
-                name="authorId"
-                defaultValue={article.authorId || ''}
-                className="w-full bg-[#181818] border border-white/15 px-3 py-2 text-xs font-mono text-white focus:border-white focus:outline-none"
-              >
-                <option value="">-- Avorria Editorial Desk --</option>
-                {authors.map((a) => (
-                  <option key={a.id} value={a.id}>
-                    {a.name}
-                  </option>
+                  <option key={c.id} value={c.id}>{c.name}</option>
                 ))}
               </select>
             </div>
           </div>
 
-          <div className="flex items-center gap-6 pt-2">
-            <label className="flex items-center gap-2 cursor-pointer">
+          {/* Grid: Author & Read Time */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label htmlFor="authorId" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">
+                Author (Real team members only)
+              </label>
+              <select
+                id="authorId"
+                name="authorId"
+                defaultValue={article.authorId ?? ''}
+                className="w-full border border-[var(--color-border)] px-3 py-2 text-sm font-light text-[var(--color-graphite)] bg-white focus:border-[var(--color-graphite)] focus:outline-none"
+              >
+                <option value="">— Avorria Editorial Desk —</option>
+                {authors.map((a) => (
+                  <option key={a.id} value={a.id}>{a.name} — {a.role}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="readingTimeMinutes" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">
+                Reading Time (minutes)
+              </label>
+              <input
+                id="readingTimeMinutes"
+                name="readingTimeMinutes"
+                type="number"
+                defaultValue={article.readingTimeMinutes ?? article.readTimeMinutes ?? 5}
+                min={1}
+                max={60}
+                className="w-full border border-[var(--color-border)] px-3 py-2 text-sm font-light text-[var(--color-graphite)] focus:border-[var(--color-graphite)] focus:outline-none"
+              />
+            </div>
+          </div>
+
+          {/* Hero Image & Alt-Text (Required rule: image upload with alt-text required) */}
+          <div className="border-t border-[var(--color-border)] pt-6 space-y-4">
+            <SectionLabel>Hero Media (Alt-Text Required if URL Provided)</SectionLabel>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="heroImageUrl" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)] mb-1">
+                  Hero Image URL
+                </label>
+                <input
+                  id="heroImageUrl"
+                  name="heroImageUrl"
+                  type="url"
+                  defaultValue={article.heroMedia?.url ?? ''}
+                  placeholder="https://..."
+                  className="w-full border border-[var(--color-border)] px-3 py-2 text-xs font-light text-[var(--color-graphite)] focus:outline-none"
+                />
+              </div>
+              <div>
+                <label htmlFor="heroImageAlt" className="block text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)] mb-1">
+                  Image Alt-Text *
+                </label>
+                <input
+                  id="heroImageAlt"
+                  name="heroImageAlt"
+                  type="text"
+                  defaultValue={article.heroMedia?.altText ?? ''}
+                  placeholder="Descriptive explanation for accessibility"
+                  className="w-full border border-[var(--color-border)] px-3 py-2 text-xs font-light text-[var(--color-graphite)] focus:outline-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Structured Body Blocks (JSON) */}
+          <div className="border-t border-[var(--color-border)] pt-6 space-y-2">
+            <div className="flex items-center justify-between">
+              <SectionLabel>Body Blocks (Structured JSON)</SectionLabel>
+              <span className="text-[0.6875rem] text-[var(--color-graphite-muted)]">Rendered server-side as semantic HTML</span>
+            </div>
+            <textarea
+              id="bodyBlocksJson"
+              name="bodyBlocksJson"
+              defaultValue={bodyBlocksJson}
+              rows={12}
+              className="w-full border border-[var(--color-border)] p-3 text-xs font-mono text-[var(--color-graphite)] focus:border-[var(--color-graphite)] focus:outline-none bg-[var(--color-ivory)] leading-relaxed"
+            />
+          </div>
+
+          {/* Sources & Citations (JSON) */}
+          <div className="border-t border-[var(--color-border)] pt-6 space-y-2">
+            <div className="flex items-center justify-between">
+              <SectionLabel>Sources & Empirical Citations (JSON)</SectionLabel>
+              <span className="text-[0.6875rem] text-[var(--color-graphite-muted)]">Required for NEWS_UPDATE approval</span>
+            </div>
+            <textarea
+              id="sourceReferencesJson"
+              name="sourceReferencesJson"
+              defaultValue={sourcesJson}
+              rows={5}
+              className="w-full border border-[var(--color-border)] p-3 text-xs font-mono text-[var(--color-graphite)] focus:border-[var(--color-graphite)] focus:outline-none bg-[var(--color-ivory)] leading-relaxed"
+            />
+          </div>
+
+          {/* Editorial Notes (Internal Only) */}
+          <div className="border-t border-[var(--color-border)] pt-6 space-y-2">
+            <SectionLabel>Editorial Notes (Internal / Team only)</SectionLabel>
+            <textarea
+              id="editorialNotes"
+              name="editorialNotes"
+              defaultValue={article.editorialNotes ?? ''}
+              rows={2}
+              placeholder="Internal reviewer notes, provenance verifications, or revision context..."
+              className="w-full border border-[var(--color-border)] p-3 text-sm font-light text-[var(--color-graphite)] focus:outline-none"
+            />
+          </div>
+
+          {/* Save Button */}
+          <div className="border-t border-[var(--color-border)] pt-6 flex items-center justify-between">
+            <label className="flex items-center gap-2 cursor-pointer text-xs font-light text-[var(--color-graphite)]">
               <input
                 type="checkbox"
                 name="featured"
                 value="true"
                 defaultChecked={article.isFeatured}
-                className="rounded-none bg-[#181818] border-white/20"
+                className="rounded-none border-[var(--color-border)]"
               />
-              <span className="text-xs font-mono text-white/80">Featured Cover Story</span>
+              <span>Feature on Lobby index</span>
             </label>
 
-            <div className="flex items-center gap-2">
-              <label className="text-xs font-mono text-white/60">Reading Time (Min):</label>
-              <input
-                type="number"
-                name="readingTimeMinutes"
-                defaultValue={article.readingTimeMinutes || article.readTimeMinutes || 5}
-                min={1}
-                max={120}
-                className="w-16 bg-[#181818] border border-white/15 px-2 py-1 text-xs font-mono text-white"
-              />
-            </div>
+            <Button type="submit" variant="primary" size="md">
+              Save Changes
+            </Button>
           </div>
-        </div>
+        </form>
 
-        {/* Section 2: Editorial Provenance & Sources */}
-        <div className="border border-white/10 p-6 bg-[#111] space-y-6">
-          <div className="border-b border-white/10 pb-3">
-            <h2 className="text-xs font-mono uppercase tracking-[0.15em] text-white/80">
-              2. Editorial Integrity &amp; Provenance Ledger
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="block text-xs font-mono uppercase text-white/60">
-                Provenance Classification *
-              </label>
-              <select
-                name="editorialStatus"
-                defaultValue={provState}
-                className="w-full bg-[#181818] border border-white/15 px-3 py-2 text-xs font-mono text-white focus:border-white focus:outline-none"
-              >
-                <option value="VERIFIED">VERIFIED — Audited empirical telemetry / code commit</option>
-                <option value="SOURCE_LINKED">SOURCE_LINKED — Primary external platform documentation</option>
-                <option value="EDITORIAL_ANALYSIS">EDITORIAL_ANALYSIS — Synthesis by Avorria principals</option>
-                <option value="OPINION">OPINION — Stated perspective or contrarian thesis</option>
-                <option value="DRAFT">DRAFT — Unverified internal working draft</option>
-              </select>
-            </div>
-
-            <div className="space-y-2">
-              <label className="block text-xs font-mono uppercase text-white/60">
-                Contextual Commercial CTA
-              </label>
-              <select
-                name="ctaType"
-                defaultValue={article.ctaType || 'start-a-project'}
-                className="w-full bg-[#181818] border border-white/15 px-3 py-2 text-xs font-mono text-white focus:border-white focus:outline-none"
-              >
-                <option value="start-a-project">Start a Project (Consultation)</option>
-                <option value="website-audit">Website Health Check (Diagnostic)</option>
-                <option value="consultation">Strategic Diagnostic Session</option>
-                <option value="services">Explore Core Service Pillars</option>
-                <option value="none">None (Pure Editorial Dossier)</option>
-              </select>
-            </div>
+        {/* Sidebar: Revisions & Metadata */}
+        <aside className="space-y-6">
+          
+          {/* Revisions History Drawer */}
+          <div className="border border-[var(--color-border)] p-6 bg-white space-y-4">
+            <SectionLabel>Revision History</SectionLabel>
+            {revisions && revisions.length > 0 ? (
+              <ul className="space-y-3 divide-y divide-[var(--color-border)]">
+                {revisions.map((rev: any) => (
+                  <li key={rev.id || rev.version} className="pt-2 text-xs font-light">
+                    <div className="flex items-baseline justify-between">
+                      <span className="font-mono text-[var(--color-accent)]">v{rev.version}</span>
+                      <span className="text-[var(--color-graphite-muted)] text-[0.6875rem]">{fmt(rev.createdAt || rev.created_at)}</span>
+                    </div>
+                    {rev.notes && (
+                      <p className="text-[var(--color-graphite-mid)] mt-1 line-clamp-2">{rev.notes}</p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-xs font-light text-[var(--color-graphite-muted)]">
+                Initial revision created.
+              </p>
+            )}
           </div>
 
-          <div className="space-y-2">
-            <label className="block text-xs font-mono uppercase text-white/60">
-              Provenance Rationale
-            </label>
-            <textarea
-              name="provenanceRationale"
-              defaultValue={provRationale}
-              rows={2}
-              placeholder="e.g. Synthesised across 140+ diagnostic audits conducted via the Scout engine between 2024 and 2026."
-              className="w-full bg-[#181818] border border-white/15 p-3 text-xs font-light text-white focus:border-white focus:outline-none"
-            />
+          {/* Article Info */}
+          <div className="border border-[var(--color-border)] p-6 bg-white space-y-3 text-xs font-light text-[var(--color-graphite-mid)]">
+            <SectionLabel>Article Metadata</SectionLabel>
+            <p><span className="text-[var(--color-graphite-muted)]">Published:</span> {article.publishedAt ? fmt(article.publishedAt) : 'Not published'}</p>
+            <p><span className="text-[var(--color-graphite-muted)]">Updated:</span> {article.updatedAt ? fmt(article.updatedAt) : '—'}</p>
+            <p><span className="text-[var(--color-graphite-muted)]">Schema Type:</span> {article.schemaType ?? 'Article'}</p>
           </div>
 
-          <div className="space-y-2">
-            <label className="block text-xs font-mono uppercase text-white/60">
-              Primary Source Citations (JSON Array)
-            </label>
-            <textarea
-              name="sourceReferencesJson"
-              defaultValue={sourcesJson}
-              rows={6}
-              className="w-full bg-[#181818] border border-white/15 p-3 text-xs font-mono text-white/80 focus:border-white focus:outline-none"
-            />
-            <p className="text-[10px] font-mono text-white/40">
-              Format: [{'{'} &quot;id&quot;: &quot;src-1&quot;, &quot;title&quot;: &quot;...&quot;, &quot;url&quot;: &quot;https://...&quot;, &quot;publisher&quot;: &quot;...&quot;, &quot;retrievedDate&quot;: &quot;YYYY-MM-DD&quot; {'}'}]
-            </p>
-          </div>
-        </div>
+        </aside>
 
-        {/* Section 3: Content Body Blocks */}
-        <div className="border border-white/10 p-6 bg-[#111] space-y-4">
-          <div className="border-b border-white/10 pb-3">
-            <h2 className="text-xs font-mono uppercase tracking-[0.15em] text-white/80">
-              3. Dossier Body Blocks &amp; Sections (JSON Array)
-            </h2>
-          </div>
+      </div>
 
-          <textarea
-            name="bodyBlocksJson"
-            defaultValue={bodyBlocksJson}
-            rows={12}
-            className="w-full bg-[#181818] border border-white/15 p-3 text-xs font-mono text-white/80 focus:border-white focus:outline-none"
-          />
-          <p className="text-[10px] font-mono text-white/40">
-            Supports title, romanNumeral, paragraphs, pullQuote, comparisonTable, and callout blocks.
-          </p>
-        </div>
-
-        {/* Section 4: SEO & Robots Controls */}
-        <div className="border border-white/10 p-6 bg-[#111] space-y-6">
-          <div className="border-b border-white/10 pb-3">
-            <h2 className="text-xs font-mono uppercase tracking-[0.15em] text-white/80">
-              4. Search Engine Hygiene &amp; Meta Controls
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="block text-xs font-mono uppercase text-white/60">
-                SEO Title Override
-              </label>
-              <input
-                name="seoTitle"
-                defaultValue={article.seo?.title || ''}
-                placeholder="Leave blank to use dispatch title"
-                className="w-full bg-[#181818] border border-white/15 px-3 py-2 text-xs font-mono text-white focus:border-white focus:outline-none"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="block text-xs font-mono uppercase text-white/60">
-                Canonical URL Override
-              </label>
-              <input
-                name="canonicalUrl"
-                defaultValue={article.seo?.canonicalUrl || ''}
-                placeholder="https://..."
-                className="w-full bg-[#181818] border border-white/15 px-3 py-2 text-xs font-mono text-white focus:border-white focus:outline-none"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="block text-xs font-mono uppercase text-white/60">
-              SEO Meta Description Override
-            </label>
-            <input
-              name="seoDescription"
-              defaultValue={article.seo?.description || ''}
-              placeholder="Leave blank to use editorial dek"
-              className="w-full bg-[#181818] border border-white/15 px-3 py-2 text-xs font-mono text-white focus:border-white focus:outline-none"
-            />
-          </div>
-
-          <div className="flex items-center gap-6 pt-2">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                name="noIndex"
-                value="true"
-                defaultChecked={article.seo?.noIndex}
-                className="rounded-none bg-[#181818] border-white/20"
-              />
-              <span className="text-xs font-mono text-white/80">noindex (Prevent Search Indexation)</span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                name="noFollow"
-                value="true"
-                defaultChecked={article.seo?.noFollow}
-                className="rounded-none bg-[#181818] border-white/20"
-              />
-              <span className="text-xs font-mono text-white/80">nofollow (Do Not Pass PageRank)</span>
-            </label>
-          </div>
-        </div>
-
-        {/* Save Bar */}
-        <div className="sticky bottom-4 border border-white/20 p-4 bg-[#080808]/95 backdrop-blur flex items-center justify-between shadow-2xl">
-          <Link
-            href="/admin/lobby/articles"
-            className="text-xs font-mono uppercase text-white/40 hover:text-white transition-colors"
-          >
-            ← Back to Articles
-          </Link>
-
-          <button
-            type="submit"
-            className="px-8 py-2.5 bg-white text-black text-xs font-mono uppercase tracking-wider hover:opacity-90 transition-opacity"
-          >
-            Save All Changes
-          </button>
-        </div>
-      </form>
     </div>
   )
 }

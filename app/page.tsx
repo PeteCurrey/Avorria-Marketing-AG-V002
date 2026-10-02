@@ -6,7 +6,7 @@ import { SelectedWork } from '@/components/home/SelectedWork'
 import { SystemsDiagram } from '@/components/home/SystemsDiagram'
 import { ProcessSection } from '@/components/home/ProcessSection'
 import { TechStack } from '@/components/home/TechStack'
-import { JournalPreview } from '@/components/home/JournalPreview'
+import { LobbyPreview } from '@/components/home/LobbyPreview'
 import { FinalCta } from '@/components/home/FinalCta'
 import { siteConfig } from '@/content/config/site'
 
@@ -33,7 +33,7 @@ export default function HomePage() {
       <SystemsDiagram />
       <ProcessSection />
       <TechStack />
-      <JournalPreview />
+      <LobbyPreview />
       <FinalCta />
     </>
   )

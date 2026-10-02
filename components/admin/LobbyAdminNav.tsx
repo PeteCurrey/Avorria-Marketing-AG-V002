@@ -18,7 +18,7 @@ export function LobbyAdminNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="flex flex-wrap items-center gap-1 border-b border-white/10 pb-4 text-xs font-mono">
+    <nav className="flex flex-wrap items-center gap-2 border-b border-[var(--color-border)] pb-4 mb-8" aria-label="Lobby admin subnavigation">
       {lobbyAdminLinks.map((link) => {
         const isActive =
           link.href === '/admin/lobby'
@@ -29,10 +29,10 @@ export function LobbyAdminNav() {
           <Link
             key={link.href}
             href={link.href}
-            className={`px-3 py-1.5 transition-colors ${
+            className={`text-[0.6875rem] font-light tracking-[0.14em] uppercase px-3 py-1.5 transition-colors duration-200 ${
               isActive
-                ? 'bg-white text-black'
-                : 'text-white/60 hover:text-white hover:bg-white/5'
+                ? 'text-[var(--color-graphite)] bg-white border border-[var(--color-border)]'
+                : 'text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)] hover:bg-white/50'
             }`}
           >
             {link.label}

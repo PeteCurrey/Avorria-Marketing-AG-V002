@@ -120,7 +120,7 @@ export default async function ServicePage({ params }: Props) {
               <div className="flex flex-wrap gap-4">
                 <Button as="link" href="/work" variant="ghost" size="sm">View our work →</Button>
                 <Button as="link" href="/process" variant="ghost" size="sm">Our process →</Button>
-                <Button as="link" href="/journal" variant="ghost" size="sm">Journal →</Button>
+                <Button as="link" href="/lobby" variant="ghost" size="sm">The Lobby →</Button>
               </div>
             </div>
 
