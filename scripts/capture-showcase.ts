@@ -23,7 +23,7 @@ const PROJECTS_DIR = path.join(process.cwd(), 'public/images/projects')
 
 const SLUGS = [
   'alkota-bikes',
-  'drawdown',
+  // 'drawdown', // Preserved authentic client screenshot
   'careeros',
   'nestiq',
   'entirefm',

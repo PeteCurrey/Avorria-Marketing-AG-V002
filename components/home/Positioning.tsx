@@ -11,9 +11,8 @@
  * - Large-format art-directed visual plate (16:9 / 4:5), never text alone
  */
 
-import { Eyebrow } from '@/components/ui/Eyebrow'
+import Image from 'next/image'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
-import { MediaPlaceholder } from '@/components/ui/MediaPlaceholder'
 
 export function Positioning() {
   return (
@@ -88,68 +87,26 @@ export function Positioning() {
             </RevealOnScroll>
           </div>
 
-          {/* Right: Large-format Art-Directed Visual Plate (16:9 / 4:5) */}
+          {/* Right: Large-format Art-Directed Visual Plate (16:9) */}
           <div className="lg:col-span-7">
             <RevealOnScroll delay={150}>
-              <div className="relative border border-[var(--color-border-strong)] bg-[#1A1916] p-4 md:p-6 shadow-sm overflow-hidden">
-                {/* Plate Header Bar */}
-                <div className="flex items-center justify-between border-b border-[#2E2B27] pb-3 mb-4 text-[10px] tracking-[0.18em] uppercase text-[#A09D97] font-light">
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-rose-text)]" />
-                    <span>SYSTEM INTERVENTION PROOF // GEOMETRY & TELEMETRY</span>
-                  </div>
-                  <span>REF. AV-2025-01</span>
-                </div>
-
-                {/* Main 16:9 High-Precision Visual Composition */}
-                <div className="relative w-full aspect-[16/9] bg-[#121110] border border-[#2E2B27] overflow-hidden flex items-center justify-center p-6">
-                  {/* Subtle architectural schematic grid */}
-                  <svg
-                    className="absolute inset-0 w-full h-full pointer-events-none opacity-40"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    <line x1="25%" y1="0" x2="25%" y2="100%" stroke="#2E2B27" strokeWidth="0.5" />
-                    <line x1="50%" y1="0" x2="50%" y2="100%" stroke="#2E2B27" strokeWidth="0.5" />
-                    <line x1="75%" y1="0" x2="75%" y2="100%" stroke="#2E2B27" strokeWidth="0.5" />
-                    <line x1="0" y1="33%" x2="100%" y2="33%" stroke="#2E2B27" strokeWidth="0.5" />
-                    <line x1="0" y1="66%" x2="100%" y2="66%" stroke="#2E2B27" strokeWidth="0.5" />
-                    <circle cx="50%" cy="50%" r="28%" fill="none" stroke="#3A3835" strokeWidth="0.5" />
-                    <circle cx="50%" cy="50%" r="42%" fill="none" stroke="#2E2B27" strokeWidth="0.5" strokeDasharray="4 4" />
-                  </svg>
-
-                  {/* High-fidelity schematic data core */}
-                  <div className="relative z-10 text-center max-w-[420px]">
-                    <span className="text-[10px] tracking-[0.24em] uppercase text-[var(--color-rose-text)] font-light block mb-2">
-                      ACTIVE VERIFICATION STAGE
-                    </span>
-                    <h3 className="text-xl md:text-2xl font-extralight text-[#F7F5F0] tracking-[-0.01em] mb-3">
-                      High-Precision Engineering Pipelines
-                    </h3>
-                    <p className="text-xs text-[#A09D97] font-light leading-relaxed mb-4">
-                      Sub-millisecond WebGL frame inspection, server-rendered Next.js editorial routing, and zero cumulative layout shift.
-                    </p>
-                    <div className="inline-flex items-center gap-3 px-3 py-1 border border-[#3A3835] bg-black/40 text-[9px] tracking-[0.16em] uppercase text-[#EAE6DF] font-light">
-                      <span>NEXT.JS 16</span>
-                      <span>·</span>
-                      <span>0.62S LCP</span>
-                      <span>·</span>
-                      <span>THREE.JS</span>
-                    </div>
-                  </div>
-
-                  {/* Corner registration ticks */}
-                  <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-[#4A4845]" />
-                  <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-[#4A4845]" />
-                  <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-[#4A4845]" />
-                  <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-[#4A4845]" />
-                </div>
-
-                {/* Micro telemetry footer */}
-                <div className="flex items-center justify-between pt-3 mt-1 text-[9px] tracking-[0.15em] text-[#7A7773] uppercase font-light">
-                  <span>PRODUCTION REEL // ALKOTA & DRAWDOWN</span>
-                  <span>100% AUDIT PASS</span>
-                </div>
+              <div className="relative w-full aspect-[16/9] bg-[#121110] border border-[var(--color-border)] overflow-hidden shadow-sm">
+                <Image
+                  src="/images/positioning/manifesto.jpg"
+                  alt="Precision engineering geometry — high-tolerance mechanical machining"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 55vw, 680px"
+                  priority
+                  className="object-cover object-center transition-transform duration-700 hover:scale-[1.02]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
+              </div>
+              <div className="flex items-center justify-between pt-3 text-[10px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-rose-text)]" />
+                  <span>PRECISION ENGINEERING // HIGH-TOLERANCE GEOMETRY</span>
+                </span>
+                <span>REF. AV-2025-01</span>
               </div>
             </RevealOnScroll>
           </div>

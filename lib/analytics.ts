@@ -13,12 +13,14 @@
 export type AnalyticsEvent =
   // CTAs
   | 'cta_click_start_project'
+  | 'cta_click_lobby'
   | 'cta_click_view_work'
   | 'cta_click_hero_primary'
   | 'cta_click_hero_secondary'
   | 'cta_click_footer'
   | 'cta_click_service_enquire'
   | 'cta_click_work_enquire'
+  | 'cta_click_lobby'
   // Contact
   | 'contact_email_click'
   | 'outbound_click'

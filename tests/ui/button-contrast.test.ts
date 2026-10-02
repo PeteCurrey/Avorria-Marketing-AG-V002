@@ -103,11 +103,19 @@ describe('Button contrast — WCAG compliance', () => {
     })
   })
 
-  // ── Navigation CTA ──────────────────────────────────────────────────────────
+  // ── Navigation CTAs ─────────────────────────────────────────────────────────
   describe('Navigation "Start a project ↗" CTA', () => {
     it('white text on graphite pill achieves AAA (≥ 7:1)', () => {
       const ratio = contrastRatio(WHITE, GRAPHITE)
-      console.log(`  nav CTA: ${ratio.toFixed(2)}:1`)
+      console.log(`  nav CTA (Start a project): ${ratio.toFixed(2)}:1`)
+      expect(ratio).toBeGreaterThanOrEqual(7)
+    })
+  })
+
+  describe('Navigation "The Lobby" CTA', () => {
+    it('graphite text on white/transparent header achieves AAA (≥ 7:1)', () => {
+      const ratio = contrastRatio(GRAPHITE, WHITE)
+      console.log(`  nav CTA (The Lobby): ${ratio.toFixed(2)}:1`)
       expect(ratio).toBeGreaterThanOrEqual(7)
     })
   })

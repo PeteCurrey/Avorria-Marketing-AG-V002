@@ -67,16 +67,16 @@ export const projects: Project[] = [
     featured: true,
     homepageLayout: 'dark-split',
     thumbnail: {
-      src: '/images/projects/drawdown/thumbnail.webp',
+      src: '/images/projects/drawdown/thumbnail.png',
       alt: 'Drawdown.Trading low-latency execution interface',
-      width: 1200,
-      height: 900,
+      width: 1024,
+      height: 592,
     },
     heroImage: {
-      src: '/images/projects/drawdown/hero.webp',
+      src: '/images/projects/drawdown/hero.png',
       alt: 'Drawdown.Trading quantitative risk terminal',
-      width: 1600,
-      height: 900,
+      width: 1024,
+      height: 592,
     },
     seo: {
       title: 'Drawdown.Trading — Quantitative Risk Platform | Avorria Case Study',

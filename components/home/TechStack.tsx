@@ -95,7 +95,7 @@ const technologies: TechItem[] = [
     category: 'TELEMETRY',
     role: 'Worker-Driven Isolated Financial Tick Aggregation',
     metric: '5,000 TICKS/S',
-    image: '/images/projects/drawdown/hero.webp',
+    image: '/images/projects/drawdown/hero.png',
     alt: 'Drawdown high-frequency execution interface on HTML5 Canvas',
     provenance: 'Drawdown.Trading // High-Frequency Telemetry',
     brandColor: '#E34F26',

@@ -28,7 +28,7 @@ const DISCIPLINE_VISUALS: Record<string, { image: string; alt: string; relatedCa
     relatedCase: { title: 'One Great Northern', slug: 'one-great-northern', metric: 'Zero Organic Equity Loss' },
   },
   systems: {
-    image: '/images/projects/drawdown/hero.webp',
+    image: '/images/projects/drawdown/hero.png',
     alt: 'Drawdown.Trading quantitative risk terminal and Canvas worker telemetry',
     relatedCase: { title: 'Drawdown.Trading', slug: 'drawdown', metric: '5,000 Ticks/Sec // 60 FPS' },
   },

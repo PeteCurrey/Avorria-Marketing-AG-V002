@@ -7,7 +7,15 @@ import { Button } from '@/components/ui/Button'
 import { track } from '@/lib/analytics'
 
 // ─── Nav links — Canonical Architecture ──────────────────────────────────────
-const navLinks = [
+const desktopNavLinks = [
+  { label: 'Work',       href: '/work' },
+  { label: 'Services',   href: '/services' },
+  { label: 'Process',    href: '/process' },
+  { label: 'About',      href: '/about' },
+  { label: 'Contact',    href: '/contact' },
+]
+
+const mobileNavLinks = [
   { label: 'Work',       href: '/work' },
   { label: 'Services',   href: '/services' },
   { label: 'Process',    href: '/process' },
@@ -109,7 +117,7 @@ export function Navigation() {
 
             {/* Desktop nav — centred */}
             <ul className="hidden lg:flex items-center gap-8" role="list">
-              {navLinks.map(({ label, href }) => {
+              {desktopNavLinks.map(({ label, href }) => {
                 const active = isActiveLink(pathname, href)
                 return (
                   <li key={href}>
@@ -138,13 +146,28 @@ export function Navigation() {
               })}
             </ul>
 
-            {/* Desktop CTA */}
-            <div className="hidden lg:flex shrink-0">
+            {/* Desktop CTAs — Matched Architectural Set */}
+            <div className="hidden lg:flex items-center gap-3 shrink-0">
+              <Button
+                as="link"
+                href="/lobby"
+                variant="secondary"
+                size="xs"
+                className={
+                  isActiveLink(pathname, '/lobby')
+                    ? '!border-[var(--color-graphite)] !text-[var(--color-graphite)] bg-[var(--color-graphite)]/[0.04]'
+                    : ''
+                }
+                onClick={() => track('cta_click_lobby', { location: 'navigation' })}
+              >
+                The Lobby
+              </Button>
+
               <Button
                 as="link"
                 href="/start-a-project"
                 variant="primary"
-                size="sm"
+                size="xs"
                 onClick={() => track('cta_click_start_project', { location: 'navigation' })}
               >
                 Start a project{' '}
@@ -205,7 +228,7 @@ export function Navigation() {
 
           <nav className="flex-1 flex flex-col justify-between py-10" aria-label="Mobile navigation">
             <ul className="space-y-0" role="list">
-              {navLinks.map(({ label, href }) => {
+              {mobileNavLinks.map(({ label, href }) => {
                 const active = isActiveLink(pathname, href)
                 return (
                   <li key={href}>
@@ -231,12 +254,23 @@ export function Navigation() {
               })}
             </ul>
 
-            <div className="pt-8">
+            <div className="pt-8 flex flex-col gap-3">
+              <Button
+                as="link"
+                href="/lobby"
+                variant="secondary"
+                size="md"
+                className="w-full justify-center"
+                onClick={() => track('cta_click_lobby', { location: 'mobile-nav' })}
+              >
+                The Lobby
+              </Button>
+
               <Button
                 as="link"
                 href="/start-a-project"
                 variant="primary"
-                size="lg"
+                size="md"
                 className="w-full justify-center"
                 onClick={() => track('cta_click_start_project', { location: 'mobile-nav' })}
               >

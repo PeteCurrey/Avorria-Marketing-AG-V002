@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { type ReactNode } from 'react'
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'text'
-type ButtonSize = 'sm' | 'md' | 'lg'
+type ButtonSize = 'xs' | 'sm' | 'md' | 'lg'
 
 interface BaseButtonProps {
   variant?: ButtonVariant
@@ -38,7 +38,7 @@ const variantStyles: Record<ButtonVariant, string> = {
     'hover:bg-[var(--color-rose-text)] hover:border-[var(--color-rose-text)]',
     'focus-visible:outline-2 focus-visible:outline-offset-3',
     'transition-colors duration-[var(--duration-base)]',
-    'font-light tracking-[0.08em] uppercase text-[var(--text-label)]',
+    'font-light uppercase',
   ].join(' '),
   secondary: [
     'btn-secondary',
@@ -47,7 +47,7 @@ const variantStyles: Record<ButtonVariant, string> = {
     'border border-[var(--color-graphite)]',
     'hover:bg-[var(--color-graphite)] hover:text-[var(--color-ivory)]',
     'transition-colors duration-[var(--duration-base)]',
-    'font-light tracking-[0.08em] uppercase text-[var(--text-label)]',
+    'font-light uppercase',
   ].join(' '),
   ghost: [
     'btn-ghost',
@@ -56,7 +56,7 @@ const variantStyles: Record<ButtonVariant, string> = {
     'border border-[var(--color-border)]',
     'hover:border-[var(--color-graphite)] hover:text-[var(--color-graphite)]',
     'transition-colors duration-[var(--duration-base)]',
-    'font-light tracking-[0.08em] uppercase text-[var(--text-label)]',
+    'font-light uppercase',
   ].join(' '),
   text: [
     'inline-flex items-center gap-1.5',
@@ -69,9 +69,10 @@ const variantStyles: Record<ButtonVariant, string> = {
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: 'px-4 py-2',
-  md: 'px-6 py-3',
-  lg: 'px-8 py-4',
+  xs: 'px-3.5 py-1.5 text-[0.6875rem] tracking-[0.14em]',
+  sm: 'px-4 py-2 text-[var(--text-label)] tracking-[0.08em]',
+  md: 'px-6 py-3 text-[var(--text-label)] tracking-[0.08em]',
+  lg: 'px-8 py-4 text-[var(--text-label)] tracking-[0.08em]',
 }
 
 export function Button(props: ButtonProps) {
