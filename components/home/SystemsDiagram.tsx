@@ -13,7 +13,12 @@ interface SystemNode {
   title: string
   description: string
   proof: string
+  /** Path to the primary image shown in the right panel */
   image: string
+  /** object-position value — lets us frame the most relevant part of each image */
+  imagePosition: string
+  /** Overlay gradient applied over the image for visual character */
+  overlay: string
 }
 
 const SYSTEM_NODES: SystemNode[] = [
@@ -23,7 +28,10 @@ const SYSTEM_NODES: SystemNode[] = [
     title: 'The Commercial Front-End',
     description: 'Fast, ranked, converting. Engineered for instant loading and zero layout shift.',
     proof: 'Alkota Bikes Flagship Platform',
+    // Full e-commerce storefront — the most legible "website" read
     image: '/images/projects/alkota-bikes/hero-screenshot.png',
+    imagePosition: 'top center',
+    overlay: 'bg-gradient-to-t from-black/60 via-black/10 to-transparent',
   },
   {
     index: '02',
@@ -31,7 +39,10 @@ const SYSTEM_NODES: SystemNode[] = [
     title: 'The Functional Engine',
     description: 'Session persistence, structured customer portals, and resilient state machines.',
     proof: 'TAFM Commercial Marketplace',
+    // Dense UI grid — reads as a complex application, not a marketing page
     image: '/images/projects/tafm/hero-screenshot.png',
+    imagePosition: 'center center',
+    overlay: 'bg-gradient-to-br from-black/40 via-transparent to-black/60',
   },
   {
     index: '03',
@@ -39,7 +50,10 @@ const SYSTEM_NODES: SystemNode[] = [
     title: 'Structured Intelligence',
     description: 'Relational PostgreSQL schemas, spatial PostGIS tiles, and unified reporting models.',
     proof: 'NestIQ Cadastral Spatial Data',
+    // Map / spatial data view — immediately reads as structured geographic data
     image: '/images/projects/nestiq/hero.webp',
+    imagePosition: 'center 30%',
+    overlay: 'bg-gradient-to-t from-black/70 via-black/20 to-transparent',
   },
   {
     index: '04',
@@ -47,7 +61,10 @@ const SYSTEM_NODES: SystemNode[] = [
     title: 'Integrated Service Contracts',
     description: 'Secure, low-latency bridges between internal databases and financial gateways.',
     proof: 'Drawdown Real-Time Telemetry',
-    image: '/images/projects/drawdown/hero.png',
+    // Drawdown's real-time financial dashboard — connective tissue between systems
+    image: '/images/projects/drawdown/hero.webp',
+    imagePosition: 'center top',
+    overlay: 'bg-gradient-to-tl from-black/60 via-transparent to-black/30',
   },
   {
     index: '05',
@@ -55,7 +72,10 @@ const SYSTEM_NODES: SystemNode[] = [
     title: 'Autonomous Domain Workflows',
     description: 'Domain-trained vector search, ontology graphs, and automated assistant routines.',
     proof: 'CareerOS Talent Orchestration',
-    image: '/images/projects/careeros/hero-screenshot.png',
+    // CareerOS full-width hero — AI-powered talent interface, richest "AI" visual
+    image: '/images/projects/careeros/hero.webp',
+    imagePosition: 'center 20%',
+    overlay: 'bg-gradient-to-b from-black/20 via-transparent to-black/70',
   },
   {
     index: '06',
@@ -63,15 +83,21 @@ const SYSTEM_NODES: SystemNode[] = [
     title: 'Background Operations',
     description: 'Scheduled worker queues, operational reconciliations, and dispatch systems.',
     proof: 'EntireFM National Dispatch',
+    // EntireFM operations — field dispatch, scheduling, real infrastructure
     image: '/images/projects/entirefm/hero.webp',
+    imagePosition: 'center center',
+    overlay: 'bg-gradient-to-tr from-black/70 via-black/20 to-transparent',
   },
   {
     index: '07',
     label: 'Business',
     title: 'Compounding Commercial Asset',
     description: 'The ultimate objective: digital infrastructure that reliably earns its place.',
-    proof: 'Multi-Platform Client Deployments',
-    image: '/images/projects/alkota-bikes/hero-screenshot.png',
+    proof: 'One Great Northern',
+    // One Great Northern — brand/venue/commerce convergence; strong editorial read
+    image: '/images/projects/one-great-northern/hero.webp',
+    imagePosition: 'center 40%',
+    overlay: 'bg-gradient-to-t from-black/80 via-black/30 to-transparent',
   },
 ]
 
@@ -209,9 +235,10 @@ export function SystemsDiagram() {
                   alt={activeNode.title}
                   fill
                   sizes="(min-width: 1024px) 45vw, 100vw"
-                  className="object-cover object-center transition-all duration-700 hover:scale-[1.02]"
+                  className="object-cover transition-all duration-700 hover:scale-[1.02]"
+                  style={{ objectPosition: activeNode.imagePosition }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+                <div className={`absolute inset-0 pointer-events-none ${activeNode.overlay}`} />
               </div>
 
               <div className="space-y-3">

@@ -89,7 +89,7 @@ export function Positioning() {
           {/* Right: Large-format Art-Directed Visual Plate (16:9) */}
           <div className="lg:col-span-7">
             <RevealOnScroll delay={150}>
-              <div className="relative w-full aspect-[16/9] overflow-hidden">
+              <div className="relative w-full aspect-[16/9] overflow-hidden rounded-[var(--radius-card)]">
                 <Image
                   src="/images/positioning/manifesto.jpg"
                   alt="Precision engineering geometry — high-tolerance mechanical machining"

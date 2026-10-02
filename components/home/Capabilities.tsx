@@ -196,7 +196,7 @@ export function Capabilities() {
               id={`discipline-panel-${activeIdx}`}
               role="tabpanel"
               aria-labelledby={`discipline-tab-${activeIdx}`}
-              className="border border-[var(--color-border)] bg-white p-5 md:p-6 shadow-sm overflow-hidden"
+              className="border border-[var(--color-border)] bg-white p-5 md:p-6 shadow-sm overflow-hidden rounded-[var(--radius-card)]"
             >
               {/* Aperture Header Bar */}
               <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-3 mb-4 text-[10px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
@@ -208,7 +208,7 @@ export function Capabilities() {
               </div>
 
               {/* Main 4:5 Real-Image Frame */}
-              <div className="relative w-full aspect-[4/5] bg-[#121110] border border-[var(--color-border)] overflow-hidden mb-4">
+              <div className="relative w-full aspect-[4/5] bg-[#121110] border border-[var(--color-border)] overflow-hidden mb-4 rounded-[var(--radius-card)]">
                 <Image
                   key={activeDiscipline.image}
                   src={activeDiscipline.image}
