@@ -24,7 +24,7 @@ const PROCESS_STEPS: ProcessStep[] = [
     description:
       'We interrogate the business model, unit economics, and operator workflows. Technology is only valuable if it resolves genuine commercial bottlenecks.',
     deliverable: 'Commercial Diagnostic & Strategic Scope',
-    image: '/images/positioning/manifesto.jpg',
+    image: '/images/process/01-understand.svg',
     imageCaption: 'Phase 01 Artifact: Operational friction diagnosis & unit economic scoping',
   },
   {
@@ -34,8 +34,8 @@ const PROCESS_STEPS: ProcessStep[] = [
     description:
       'Database schemas, caching hierarchies, route boundaries, and third-party integrations are specified prior to interface styling. Structure precedes surface.',
     deliverable: 'System Topology & Relational Data Schemas',
-    image: '/images/projects/drawdown/hero.png',
-    imageCaption: 'Phase 02 Artifact: Service topology & database schema specification',
+    image: '/images/process/02-architect.svg',
+    imageCaption: 'Phase 02 Artifact: Service topology & relational schema specification',
   },
   {
     index: '03',
@@ -44,8 +44,8 @@ const PROCESS_STEPS: ProcessStep[] = [
     description:
       'Editorial typography, restrained palette, zero decorative fluff. Every pixel, line-height, and interaction is engineered to convey credibility and precision.',
     deliverable: 'Design Tokens & Interactive Prototype',
-    image: '/images/projects/alkota-bikes/hero-screenshot.png',
-    imageCaption: 'Phase 03 Artifact: Bespoke typography tokens & 3D WebGL stage composition',
+    image: '/images/process/03-design.svg',
+    imageCaption: 'Phase 03 Artifact: Typography tokens, spatial grid & accessibility audit',
   },
   {
     index: '04',
@@ -54,8 +54,8 @@ const PROCESS_STEPS: ProcessStep[] = [
     description:
       'Server-first execution, strict static rendering, optimal Core Web Vitals, and strict accessibility. Zero monolithic themes or fragile plugin stacks.',
     deliverable: 'Versioned Production Repository',
-    image: '/images/projects/tafm/hero-screenshot.png',
-    imageCaption: 'Phase 04 Artifact: Full-stack application repository with typed contracts',
+    image: '/images/process/04-engineer.svg',
+    imageCaption: 'Phase 04 Artifact: Full-stack repository & strict TypeScript contracts',
   },
   {
     index: '05',
@@ -64,8 +64,8 @@ const PROCESS_STEPS: ProcessStep[] = [
     description:
       'Rigorous automated contrast testing, sub-second latency verification, edge caching checks, and cross-device visual parity inspections.',
     deliverable: 'Lighthouse 100 & WCAG AAA Compliance Audit',
-    image: '/images/projects/drawdown/hero.png',
-    imageCaption: 'Phase 05 Artifact: Automated latency audits & WCAG AAA contrast verification',
+    image: '/images/process/05-validate.svg',
+    imageCaption: 'Phase 05 Artifact: Lighthouse 100 benchmark & adversarial contrast audit',
   },
   {
     index: '06',
@@ -74,8 +74,8 @@ const PROCESS_STEPS: ProcessStep[] = [
     description:
       'Zero-equity-loss search redirect mapping, DNS cutover orchestration, and real-time observability telemetry on production traffic.',
     deliverable: 'Zero-Downtime Production Cutover',
-    image: '/images/projects/entirefm/hero.webp',
-    imageCaption: 'Phase 06 Artifact: Redirect mapping & live observability telemetry',
+    image: '/images/process/06-launch.svg',
+    imageCaption: 'Phase 06 Artifact: Zero-downtime cutover & edge observability telemetry',
   },
   {
     index: '07',
@@ -84,8 +84,8 @@ const PROCESS_STEPS: ProcessStep[] = [
     description:
       'Continuous conversion telemetry, search dominance expansion, and performance monitoring to ensure systems compound in value over time.',
     deliverable: 'Quarterly Telemetry & Conversion Iteration',
-    image: '/images/projects/nestiq/hero.webp',
-    imageCaption: 'Phase 07 Artifact: Live telemetry monitoring & conversion iteration',
+    image: '/images/process/07-improve.svg',
+    imageCaption: 'Phase 07 Artifact: Compounding conversion yield & quarterly iteration cycle',
   },
 ]
 
@@ -333,6 +333,7 @@ export function ProcessSection() {
                         src={step.image}
                         alt={step.imageCaption}
                         fill
+                        unoptimized
                         sizes="(min-width: 1024px) 50vw, 100vw"
                         className="object-cover object-center transition-transform duration-700 hover:scale-[1.02]"
                       />

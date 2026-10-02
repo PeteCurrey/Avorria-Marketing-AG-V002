@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none">
+  <defs>
+    <radialGradient id="bgGlow4" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#1A1816" />
+      <stop offset="100%" stop-color="#0A0A09" />
+    </radialGradient>
+    <pattern id="codeGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1F1D1B" stroke-width="0.5" />
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bgGlow4)" />
+  <rect width="1600" height="900" fill="url(#codeGrid)" opacity="0.4" />
+
+  <!-- Top Metadata Ribbon -->
+  <g transform="translate(80, 70)">
+    <text x="0" y="0" fill="#BE7B72" font-family="'Work Sans', system-ui, sans-serif" font-size="12" font-weight="300" letter-spacing="4">PHASE 04 // FULL-STACK REPOSITORY &amp; TYPED CONTRACT PIPELINE</text>
+    <text x="1440" y="0" text-anchor="end" fill="#75726C" font-family="ui-monospace, monospace" font-size="11" letter-spacing="2">NEXT.JS 16 // APP ROUTER // STRICT TYPESCRIPT</text>
+    <line x1="0" y1="20" x2="1440" y2="20" stroke="#2E2B27" stroke-width="1" />
+  </g>
+
+  <!-- Left: Production IDE Code Window -->
+  <g transform="translate(80, 140)">
+    <rect width="860" height="670" rx="3" fill="#131210" stroke="#2E2B27" stroke-width="1" />
+    
+    <!-- Titlebar -->
+    <path d="M 0 0 L 860 0 L 860 48 L 0 48 Z" fill="#1A1916" />
+    <circle cx="24" cy="24" r="4.5" fill="#EF4444" opacity="0.8" />
+    <circle cx="42" cy="24" r="4.5" fill="#F59E0B" opacity="0.8" />
+    <circle cx="60" cy="24" r="4.5" fill="#10B981" opacity="0.8" />
+    <text x="96" y="28" fill="#F0EDE8" font-family="ui-monospace, monospace" font-size="11" letter-spacing="1">lib/actions/discovery.ts — strict-mode</text>
+    <text x="830" y="28" text-anchor="end" fill="#BE7B72" font-family="ui-monospace, monospace" font-size="10">SERVER-ONLY</text>
+    <line x1="0" y1="48" x2="860" y2="48" stroke="#2E2B27" stroke-width="1" />
+
+    <!-- Code Editor Content -->
+    <g transform="translate(36, 80)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" line-height="24">
+      <text x="0" y="20" fill="#75726C">01</text>
+      <text x="35" y="20" fill="#BE7B72">'use server'</text>
+
+      <text x="0" y="48" fill="#75726C">02</text>
+      <text x="35" y="48" fill="#75726C">// Zero-compromise deterministic pipeline</text>
+
+      <text x="0" y="76" fill="#75726C">03</text>
+      <text x="35" y="76"><tspan fill="#BE7B72">import</tspan><tspan fill="#F0EDE8"> { z } </tspan><tspan fill="#BE7B72">from</tspan><tspan fill="#A09D97"> 'zod'</tspan></text>
+
+      <text x="0" y="104" fill="#75726C">04</text>
+      <text x="35" y="104"><tspan fill="#BE7B72">import</tspan><tspan fill="#F0EDE8"> { type </tspan><tspan fill="#E0A96D">DiscoveryProjectRow</tspan><tspan fill="#F0EDE8"> } </tspan><tspan fill="#BE7B72">from</tspan><tspan fill="#A09D97"> '@/lib/db/discovery'</tspan></text>
+
+      <text x="0" y="132" fill="#75726C">05</text>
+      <text x="35" y="132"><tspan fill="#BE7B72">import</tspan><tspan fill="#F0EDE8"> { </tspan><tspan fill="#E0A96D">evaluateCompleteness</tspan><tspan fill="#F0EDE8"> } </tspan><tspan fill="#BE7B72">from</tspan><tspan fill="#A09D97"> '@/lib/ai/openai'</tspan></text>
+
+      <text x="0" y="160" fill="#75726C">06</text>
+
+      <text x="0" y="188" fill="#75726C">07</text>
+      <text x="35" y="188"><tspan fill="#BE7B72">export async function</tspan><tspan fill="#F0EDE8"> saveStageAnswerAction(</tspan></text>
+
+      <text x="0" y="216" fill="#75726C">08</text>
+      <text x="55" y="216"><tspan fill="#F0EDE8">payload: </tspan><tspan fill="#E0A96D">StageAnswerPayload</tspan></text>
+
+      <text x="0" y="244" fill="#75726C">09</text>
+      <text x="35" y="244"><tspan fill="#F0EDE8">): </tspan><tspan fill="#E0A96D">Promise</tspan><tspan fill="#F0EDE8">&lt;</tspan><tspan fill="#E0A96D">StageAnswerResult</tspan><tspan fill="#F0EDE8">&gt; {</tspan></text>
+
+      <text x="0" y="272" fill="#75726C">10</text>
+      <text x="55" y="272"><tspan fill="#BE7B72">const</tspan><tspan fill="#F0EDE8"> project = </tspan><tspan fill="#BE7B72">await</tspan><tspan fill="#F0EDE8"> getDiscoveryProjectByToken(payload.token)</tspan></text>
+
+      <text x="0" y="300" fill="#75726C">11</text>
+      <text x="55" y="300"><tspan fill="#BE7B72">if</tspan><tspan fill="#F0EDE8"> (!project) </tspan><tspan fill="#BE7B72">throw new</tspan><tspan fill="#E0A96D"> SessionNotFoundError</tspan><tspan fill="#F0EDE8">()</tspan></text>
+
+      <text x="0" y="328" fill="#75726C">12</text>
+
+      <text x="0" y="356" fill="#75726C">13</text>
+      <text x="55" y="356"><tspan fill="#75726C">// Non-blocking progressive intelligence extraction</tspan></text>
+
+      <text x="0" y="384" fill="#75726C">14</text>
+      <text x="55" y="384"><tspan fill="#BE7B72">const</tspan><tspan fill="#F0EDE8"> completeness = </tspan><tspan fill="#BE7B72">await</tspan><tspan fill="#F0EDE8"> evaluateCompleteness(project.answers)</tspan></text>
+
+      <text x="0" y="412" fill="#75726C">15</text>
+      <text x="55" y="412"><tspan fill="#BE7B72">return</tspan><tspan fill="#F0EDE8"> { success: </tspan><tspan fill="#10B981">true</tspan><tspan fill="#F0EDE8">, completeness, latencyMs: </tspan><tspan fill="#BE7B72">42</tspan><tspan fill="#F0EDE8"> }</tspan></text>
+
+      <text x="0" y="440" fill="#75726C">16</text>
+      <text x="35" y="440" fill="#F0EDE8">}</text>
+    </g>
+
+    <!-- Editor Status Bar -->
+    <g transform="translate(0, 630)">
+      <rect width="860" height="40" fill="#181714" />
+      <line x1="0" y1="0" x2="860" y2="0" stroke="#262421" stroke-width="1" />
+      <text x="24" y="24" fill="#10B981" font-family="ui-monospace, monospace" font-size="11">● TS STRICT (0 ERRORS)</text>
+      <text x="240" y="24" fill="#8A8782" font-family="ui-monospace, monospace" font-size="11">UTF-8</text>
+      <text x="340" y="24" fill="#8A8782" font-family="ui-monospace, monospace" font-size="11">TAB: 2 SPACES</text>
+      <text x="830" y="24" text-anchor="end" fill="#BE7B72" font-family="ui-monospace, monospace" font-size="11">COMPILE TIME: 140MS</text>
+    </g>
+  </g>
+
+  <!-- Right: Build Output & Continuous Integration Metrics -->
+  <g transform="translate(980, 140)">
+    <rect width="540" height="670" rx="3" fill="#141311" stroke="#2E2B27" stroke-width="1" />
+    
+    <path d="M 0 0 L 540 0 L 540 48 L 0 48 Z" fill="#1A1916" />
+    <circle cx="24" cy="24" r="4" fill="#10B981" />
+    <text x="40" y="28" fill="#F0EDE8" font-family="'Work Sans', sans-serif" font-size="13" font-weight="300" letter-spacing="2">PRODUCTION BUILD STREAM</text>
+    <line x1="0" y1="48" x2="540" y2="48" stroke="#2E2B27" stroke-width="1" />
+
+    <!-- Terminal Output -->
+    <g transform="translate(28, 80)" font-family="ui-monospace, monospace" font-size="12">
+      <text x="0" y="20" fill="#A09D97">$ pnpm run ci</text>
+      <text x="0" y="50" fill="#10B981">✓ tsc --noEmit (0 type errors)</text>
+      <text x="0" y="80" fill="#10B981">✓ check:fonts (0 weight violations)</text>
+      <text x="0" y="110" fill="#10B981">✓ test:unit (62/62 tests passing in 890ms)</text>
+      <text x="0" y="140" fill="#BE7B72">✓ next build --webpack (Optimized SSR)</text>
+
+      <!-- Build Table Box -->
+      <g transform="translate(0, 170)">
+        <rect width="484" height="220" fill="#181714" stroke="#2A2724" stroke-width="1" rx="2" />
+        <text x="20" y="30" fill="#75726C" font-size="10">ROUTE</text>
+        <text x="320" y="30" fill="#75726C" font-size="10">SIZE</text>
+        <text x="440" y="30" text-anchor="end" fill="#75726C" font-size="10">FIRST LOAD</text>
+        <line x1="20" y1="42" x2="464" y2="42" stroke="#2A2724" stroke-width="1" />
+
+        <text x="20" y="70" fill="#F0EDE8">○ / (Home)</text>
+        <text x="320" y="70" fill="#A09D97">5.2 kB</text>
+        <text x="440" y="70" text-anchor="end" fill="#10B981">88.4 kB</text>
+
+        <text x="20" y="105" fill="#F0EDE8">● /work/[slug]</text>
+        <text x="320" y="105" fill="#A09D97">3.8 kB</text>
+        <text x="440" y="105" text-anchor="end" fill="#10B981">86.2 kB</text>
+
+        <text x="20" y="140" fill="#F0EDE8">○ /start-a-project</text>
+        <text x="320" y="140" fill="#A09D97">7.4 kB</text>
+        <text x="440" y="140" text-anchor="end" fill="#10B981">91.0 kB</text>
+
+        <text x="20" y="175" fill="#F0EDE8">● /services/[slug]</text>
+        <text x="320" y="175" fill="#A09D97">4.1 kB</text>
+        <text x="440" y="175" text-anchor="end" fill="#10B981">87.5 kB</text>
+      </g>
+
+      <!-- Key Performance Metrics -->
+      <g transform="translate(0, 420)">
+        <rect width="484" height="130" fill="#1C1A17" stroke="#33302B" stroke-width="1" rx="2" />
+        <text x="20" y="32" fill="#BE7B72" font-size="11" letter-spacing="1">RUNTIME PERFORMANCE SCORES</text>
+        
+        <text x="20" y="70" fill="#75726C">Largest Contentful Paint:</text>
+        <text x="464" y="70" text-anchor="end" fill="#10B981">0.42s (GOOD)</text>
+
+        <text x="20" y="100" fill="#75726C">Cumulative Layout Shift:</text>
+        <text x="464" y="100" text-anchor="end" fill="#10B981">0.000 (ZERO)</text>
+      </g>
+    </g>
+  </g>
+</svg>

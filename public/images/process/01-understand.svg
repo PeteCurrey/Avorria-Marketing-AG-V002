@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1E1C19" />
+      <stop offset="100%" stop-color="#0E0D0C" />
+    </radialGradient>
+    <linearGradient id="roseAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#BE7B72" />
+      <stop offset="100%" stop-color="#DDA099" />
+    </linearGradient>
+    <linearGradient id="chartBarGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#24221F" />
+      <stop offset="100%" stop-color="#BE7B72" stop-opacity="0.85" />
+    </linearGradient>
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#252320" stroke-width="0.75" />
+      <circle cx="0" cy="0" r="1" fill="#3D3A35" />
+    </pattern>
+  </defs>
+
+  <!-- Base Dark Canvas -->
+  <rect width="1600" height="900" fill="url(#bgGlow)" />
+  <rect width="1600" height="900" fill="url(#gridPattern)" opacity="0.45" />
+
+  <!-- Top Metadata Ribbon -->
+  <g transform="translate(80, 70)">
+    <text x="0" y="0" fill="#BE7B72" font-family="'Work Sans', system-ui, sans-serif" font-size="12" font-weight="300" letter-spacing="4">PHASE 01 // OPERATIONAL DIAGNOSTIC SPECIFICATION</text>
+    <text x="1440" y="0" text-anchor="end" fill="#75726C" font-family="ui-monospace, monospace" font-size="11" letter-spacing="2">SPEC: DIAG-2026-v4 // AVORRIA ARCHITECTURE</text>
+    <line x1="0" y1="20" x2="1440" y2="20" stroke="#2E2B27" stroke-width="1" />
+  </g>
+
+  <!-- Left Panel: Commercial Unit Economics Matrix -->
+  <g transform="translate(80, 140)">
+    <!-- Outer Card Frame -->
+    <rect width="680" height="660" rx="3" fill="#141311" stroke="#2E2B27" stroke-width="1" />
+    
+    <!-- Card Header -->
+    <path d="M 0 0 L 680 0 L 680 48 L 0 48 Z" fill="#1A1916" />
+    <circle cx="28" cy="24" r="4" fill="#BE7B72" />
+    <text x="44" y="28" fill="#F0EDE8" font-family="'Work Sans', sans-serif" font-size="13" font-weight="300" letter-spacing="2">UNIT ECONOMICS &amp; FRICTION MAPPING</text>
+    <text x="650" y="28" text-anchor="end" fill="#8A8782" font-family="ui-monospace, monospace" font-size="11">STAGE: DISCOVERY</text>
+    <line x1="0" y1="48" x2="680" y2="48" stroke="#2E2B27" stroke-width="1" />
+
+    <!-- Metric Rows -->
+    <g transform="translate(36, 80)">
+      <!-- Row 1 -->
+      <text x="0" y="0" fill="#8A8782" font-family="'Work Sans', sans-serif" font-size="11" letter-spacing="1.5">CUSTOMER ACQUISITION VELOCITY</text>
+      <text x="608" y="0" text-anchor="end" fill="#F0EDE8" font-family="ui-monospace, monospace" font-size="13">3.4x POTENTIAL</text>
+      <rect x="0" y="14" width="608" height="6" rx="1" fill="#22201D" />
+      <rect x="0" y="14" width="460" height="6" rx="1" fill="url(#roseAccent)" />
+      
+      <!-- Row 2 -->
+      <text x="0" y="56" fill="#8A8782" font-family="'Work Sans', sans-serif" font-size="11" letter-spacing="1.5">OPERATIONAL WORKFLOW FRICTION INDEX</text>
+      <text x="608" y="56" text-anchor="end" fill="#BE7B72" font-family="ui-monospace, monospace" font-size="13">42.8% ELIMINATED</text>
+      <rect x="0" y="70" width="608" height="6" rx="1" fill="#22201D" />
+      <rect x="0" y="70" width="280" height="6" rx="1" fill="#BE7B72" opacity="0.8" />
+
+      <!-- Row 3 -->
+      <text x="0" y="112" fill="#8A8782" font-family="'Work Sans', sans-serif" font-size="11" letter-spacing="1.5">ORGANIC SEARCH TRAFFIC CONVERSION</text>
+      <text x="608" y="112" text-anchor="end" fill="#F0EDE8" font-family="ui-monospace, monospace" font-size="13">+68.5% TARGET</text>
+      <rect x="0" y="126" width="608" height="6" rx="1" fill="#22201D" />
+      <rect x="0" y="126" width="410" height="6" rx="1" fill="#EFECE6" opacity="0.85" />
+    </g>
+
+    <!-- Bottleneck Breakdown Table -->
+    <g transform="translate(36, 260)">
+      <rect width="608" height="340" fill="#181714" stroke="#262421" stroke-width="1" rx="2" />
+      <text x="24" y="32" fill="#BE7B72" font-family="'Work Sans', sans-serif" font-size="11" letter-spacing="2">ROOT CAUSE COMMERCIAL FRICTIONS</text>
+      <line x1="24" y1="46" x2="584" y2="46" stroke="#2E2B27" stroke-width="1" />
+
+      <!-- Item 1 -->
+      <circle cx="34" cy="76" r="3" fill="#BE7B72" />
+      <text x="50" y="80" fill="#F0EDE8" font-family="'Work Sans', sans-serif" font-size="13" font-weight="300">Legacy Architecture Latency Bottleneck</text>
+      <text x="584" y="80" text-anchor="end" fill="#BE7B72" font-family="ui-monospace, monospace" font-size="11">CRITICAL</text>
+      <text x="50" y="98" fill="#75726C" font-family="'Work Sans', sans-serif" font-size="11">Multi-page layout shift causing 24% customer bounce on initial entry.</text>
+
+      <!-- Item 2 -->
+      <circle cx="34" cy="144" r="3" fill="#BE7B72" />
+      <text x="50" y="148" fill="#F0EDE8" font-family="'Work Sans', sans-serif" font-size="13" font-weight="300">Unsynchronized CRM &amp; Inventory Pipeline</text>
+      <text x="584" y="148" text-anchor="end" fill="#BE7B72" font-family="ui-monospace, monospace" font-size="11">HIGH</text>
+      <text x="50" y="166" fill="#75726C" font-family="'Work Sans', sans-serif" font-size="11">Manual dispatch exports creating 4.2 hour operational turnaround delay.</text>
+
+      <!-- Item 3 -->
+      <circle cx="34" cy="212" r="3" fill="#BE7B72" />
+      <text x="50" y="216" fill="#F0EDE8" font-family="'Work Sans', sans-serif" font-size="13" font-weight="300">Search Equity &amp; Category Authority Deficit</text>
+      <text x="584" y="216" text-anchor="end" fill="#BE7B72" font-family="ui-monospace, monospace" font-size="11">STRATEGIC</text>
+      <text x="50" y="234" fill="#75726C" font-family="'Work Sans', sans-serif" font-size="11">Unstructured metadata hierarchy suppressing top-tier transactional keywords.</text>
+
+      <!-- Footer tag -->
+      <rect x="24" y="278" width="560" height="38" fill="#1F1D1A" stroke="#33302B" stroke-width="1" rx="2" />
+      <text x="40" y="302" fill="#A09D97" font-family="ui-monospace, monospace" font-size="11">STATUS: DIAGNOSTIC VALIDATED // READY FOR SYSTEM ARCHITECTURE</text>
+    </g>
+  </g>
+
+  <!-- Right Panel: Strategic Scope Visual Graph -->
+  <g transform="translate(800, 140)">
+    <rect width="720" height="660" rx="3" fill="#141311" stroke="#2E2B27" stroke-width="1" />
+    
+    <!-- Header -->
+    <path d="M 0 0 L 720 0 L 720 48 L 0 48 Z" fill="#1A1916" />
+    <circle cx="28" cy="24" r="4" fill="#EFECE6" />
+    <text x="44" y="28" fill="#F0EDE8" font-family="'Work Sans', sans-serif" font-size="13" font-weight="300" letter-spacing="2">COMMERCIAL VELOCITY BENCHMARK CURVE</text>
+    <line x1="0" y1="48" x2="720" y2="48" stroke="#2E2B27" stroke-width="1" />
+
+    <!-- Wave Chart Visual -->
+    <g transform="translate(48, 80)">
+      <!-- Axis Lines -->
+      <line x1="0" y1="280" x2="624" y2="280" stroke="#2E2B27" stroke-width="1" />
+      <line x1="0" y1="210" x2="624" y2="210" stroke="#201E1B" stroke-width="1" stroke-dasharray="4 4" />
+      <line x1="0" y1="140" x2="624" y2="140" stroke="#201E1B" stroke-width="1" stroke-dasharray="4 4" />
+      <line x1="0" y1="70" x2="624" y2="70" stroke="#201E1B" stroke-width="1" stroke-dasharray="4 4" />
+
+      <!-- Baseline Line -->
+      <path d="M 0 240 Q 150 230 300 220 T 624 200" fill="none" stroke="#504D48" stroke-width="1.5" stroke-dasharray="6 6" />
+      <text x="624" y="190" text-anchor="end" fill="#75726C" font-family="ui-monospace, monospace" font-size="10">LEGACY SYSTEM STAGNATION</text>
+
+      <!-- Optimized Curve -->
+      <path d="M 0 240 Q 140 210 280 150 T 480 80 T 624 35" fill="none" stroke="url(#roseAccent)" stroke-width="2.5" />
+      
+      <!-- Gradient Fill Area -->
+      <path d="M 0 240 Q 140 210 280 150 T 480 80 T 624 35 L 624 280 L 0 280 Z" fill="#BE7B72" fill-opacity="0.08" />
+
+      <!-- Milestone Nodes -->
+      <circle cx="280" cy="150" r="5" fill="#141311" stroke="#BE7B72" stroke-width="2" />
+      <text x="280" y="132" text-anchor="middle" fill="#BE7B72" font-family="ui-monospace, monospace" font-size="10">PHASE 02 CUTOVER</text>
+
+      <circle cx="480" cy="80" r="5" fill="#141311" stroke="#F0EDE8" stroke-width="2" />
+      <text x="480" y="62" text-anchor="middle" fill="#F0EDE8" font-family="ui-monospace, monospace" font-size="10">AUTOMATION ONLINE</text>
+
+      <circle cx="624" cy="35" r="5" fill="#BE7B72" stroke="#FFFFFF" stroke-width="2" />
+      <text x="600" y="24" text-anchor="end" fill="#F0EDE8" font-family="ui-monospace, monospace" font-size="11">+285% YIELD</text>
+    </g>
+
+    <!-- Bottom Scope Breakdown -->
+    <g transform="translate(48, 400)">
+      <rect width="624" height="200" fill="#181714" stroke="#262421" stroke-width="1" rx="2" />
+      <text x="24" y="32" fill="#EFECE6" font-family="'Work Sans', sans-serif" font-size="12" font-weight="300" letter-spacing="2">STRATEGIC SCOPE CONTRACT</text>
+      
+      <g transform="translate(24, 60)">
+        <rect width="180" height="110" fill="#141311" stroke="#2E2B27" stroke-width="1" />
+        <text x="16" y="28" fill="#75726C" font-family="ui-monospace, monospace" font-size="10">MODULE 01</text>
+        <text x="16" y="52" fill="#F0EDE8" font-family="'Work Sans', sans-serif" font-size="12" font-weight="300">Commercial Core</text>
+        <text x="16" y="74" fill="#BE7B72" font-family="ui-monospace, monospace" font-size="11">SSR Architecture</text>
+      </g>
+
+      <g transform="translate(222, 60)">
+        <rect width="180" height="110" fill="#141311" stroke="#2E2B27" stroke-width="1" />
+        <text x="16" y="28" fill="#75726C" font-family="ui-monospace, monospace" font-size="10">MODULE 02</text>
+        <text x="16" y="52" fill="#F0EDE8" font-family="'Work Sans', sans-serif" font-size="12" font-weight="300">Data Pipeline</text>
+        <text x="16" y="74" fill="#BE7B72" font-family="ui-monospace, monospace" font-size="11">PostgreSQL Schemas</text>
+      </g>
+
+      <g transform="translate(420, 60)">
+        <rect width="180" height="110" fill="#141311" stroke="#2E2B27" stroke-width="1" />
+        <text x="16" y="28" fill="#75726C" font-family="ui-monospace, monospace" font-size="10">MODULE 03</text>
+        <text x="16" y="52" fill="#F0EDE8" font-family="'Work Sans', sans-serif" font-size="12" font-weight="300">Observability</text>
+        <text x="16" y="74" fill="#BE7B72" font-family="ui-monospace, monospace" font-size="11">Edge Telemetry</text>
+      </g>
+    </g>
+  </g>
+</svg>

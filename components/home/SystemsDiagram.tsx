@@ -27,77 +27,70 @@ const SYSTEM_NODES: SystemNode[] = [
     label: 'Website',
     title: 'The Commercial Front-End',
     description: 'Fast, ranked, converting. Engineered for instant loading and zero layout shift.',
-    proof: 'Alkota Bikes Flagship Platform',
-    // Full e-commerce storefront — the most legible "website" read
-    image: '/images/projects/alkota-bikes/hero-screenshot.png',
-    imagePosition: 'top center',
-    overlay: 'bg-gradient-to-t from-black/60 via-black/10 to-transparent',
+    proof: 'High-Performance E-Commerce & Web Platforms',
+    image: '/images/architecture/01-website.jpg',
+    imagePosition: 'center center',
+    overlay: 'bg-gradient-to-t from-black/60 via-transparent to-transparent',
   },
   {
     index: '02',
     label: 'Application',
     title: 'The Functional Engine',
     description: 'Session persistence, structured customer portals, and resilient state machines.',
-    proof: 'TAFM Commercial Marketplace',
-    // Dense UI grid — reads as a complex application, not a marketing page
-    image: '/images/projects/tafm/hero-screenshot.png',
+    proof: 'State-Machine SaaS & Operational Portals',
+    image: '/images/architecture/02-application.jpg',
     imagePosition: 'center center',
-    overlay: 'bg-gradient-to-br from-black/40 via-transparent to-black/60',
+    overlay: 'bg-gradient-to-t from-black/60 via-transparent to-transparent',
   },
   {
     index: '03',
     label: 'Data',
     title: 'Structured Intelligence',
     description: 'Relational PostgreSQL schemas, spatial PostGIS tiles, and unified reporting models.',
-    proof: 'NestIQ Cadastral Spatial Data',
-    // Map / spatial data view — immediately reads as structured geographic data
-    image: '/images/projects/nestiq/hero.webp',
-    imagePosition: 'center 30%',
-    overlay: 'bg-gradient-to-t from-black/70 via-black/20 to-transparent',
+    proof: 'Spatial Cadastral Topography & PostgreSQL Clusters',
+    image: '/images/architecture/03-data.jpg',
+    imagePosition: 'center center',
+    overlay: 'bg-gradient-to-t from-black/60 via-transparent to-transparent',
   },
   {
     index: '04',
     label: 'APIs',
     title: 'Integrated Service Contracts',
     description: 'Secure, low-latency bridges between internal databases and financial gateways.',
-    proof: 'Drawdown Real-Time Telemetry',
-    // Drawdown's real-time financial dashboard — connective tissue between systems
-    image: '/images/projects/drawdown/hero.webp',
-    imagePosition: 'center top',
-    overlay: 'bg-gradient-to-tl from-black/60 via-transparent to-black/30',
+    proof: 'Event-Driven Microservices & Telemetry Conduits',
+    image: '/images/architecture/04-apis.jpg',
+    imagePosition: 'center center',
+    overlay: 'bg-gradient-to-t from-black/60 via-transparent to-transparent',
   },
   {
     index: '05',
     label: 'AI & Intelligence',
     title: 'Autonomous Domain Workflows',
     description: 'Domain-trained vector search, ontology graphs, and automated assistant routines.',
-    proof: 'CareerOS Talent Orchestration',
-    // CareerOS full-width hero — AI-powered talent interface, richest "AI" visual
-    image: '/images/projects/careeros/hero.webp',
-    imagePosition: 'center 20%',
-    overlay: 'bg-gradient-to-b from-black/20 via-transparent to-black/70',
+    proof: 'Domain Vector Graphs & Autonomous Workflows',
+    image: '/images/architecture/05-ai.jpg',
+    imagePosition: 'center center',
+    overlay: 'bg-gradient-to-t from-black/60 via-transparent to-transparent',
   },
   {
     index: '06',
     label: 'Automation',
     title: 'Background Operations',
     description: 'Scheduled worker queues, operational reconciliations, and dispatch systems.',
-    proof: 'EntireFM National Dispatch',
-    // EntireFM operations — field dispatch, scheduling, real infrastructure
-    image: '/images/projects/entirefm/hero.webp',
+    proof: 'Operational Dispatch Queues & Background Workers',
+    image: '/images/architecture/06-automation.jpg',
     imagePosition: 'center center',
-    overlay: 'bg-gradient-to-tr from-black/70 via-black/20 to-transparent',
+    overlay: 'bg-gradient-to-t from-black/60 via-transparent to-transparent',
   },
   {
     index: '07',
     label: 'Business',
     title: 'Compounding Commercial Asset',
     description: 'The ultimate objective: digital infrastructure that reliably earns its place.',
-    proof: 'One Great Northern',
-    // One Great Northern — brand/venue/commerce convergence; strong editorial read
-    image: '/images/projects/one-great-northern/hero.webp',
-    imagePosition: 'center 40%',
-    overlay: 'bg-gradient-to-t from-black/80 via-black/30 to-transparent',
+    proof: 'Institutional-Grade Compounding Digital Assets',
+    image: '/images/architecture/07-business.jpg',
+    imagePosition: 'center center',
+    overlay: 'bg-gradient-to-t from-black/60 via-transparent to-transparent',
   },
 ]
 
@@ -222,7 +215,7 @@ export function SystemsDiagram() {
               <div className="flex items-center justify-between pb-3 mb-5 border-b border-[#2A2724] text-[10px] tracking-[0.18em] uppercase text-[#8A8784] font-light">
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-rose-text)]" />
-                  <span>ACTIVE ECOSYSTEM PROOF</span>
+                  <span>ACTIVE SYSTEM ARCHITECTURE</span>
                 </span>
                 <span>{activeNode.label}</span>
               </div>
@@ -252,7 +245,7 @@ export function SystemsDiagram() {
 
                 <div className="pt-4 border-t border-[#2A2724] flex items-center justify-between">
                   <span className="text-[10px] tracking-[0.14em] uppercase font-light text-[#8A8784]">
-                    Deployed Proof: {activeNode.proof}
+                    Architecture: {activeNode.proof}
                   </span>
                   <Link
                     href="/services/systems"

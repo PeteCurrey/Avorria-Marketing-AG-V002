@@ -33,6 +33,9 @@ const nextConfig: NextConfig = {
     deviceSizes: [390, 768, 1024, 1280, 1440, 1920],
     imageSizes: [16, 32, 64, 128, 256],
     minimumCacheTTL: 60 * 60 * 24 * 30,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
   async headers() {
