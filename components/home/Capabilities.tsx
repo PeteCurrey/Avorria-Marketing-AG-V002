@@ -86,15 +86,16 @@ export function Capabilities() {
 
   return (
     <section
-      className="relative section-y-large border-t border-[var(--color-border)] bg-white overflow-hidden"
+      className="relative section-y-large border-t border-[var(--color-border)] bg-white"
       aria-labelledby="capabilities-heading"
     >
       {/* ── Background Architectural Watermark ───────────────────────────────── */}
-      <div
-        className="absolute top-8 right-[7vw] pointer-events-none select-none text-[clamp(6rem,16vw,14rem)] font-extralight text-[var(--color-graphite)] opacity-[0.03] leading-none"
-        aria-hidden="true"
-      >
-        02
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div
+          className="absolute top-8 right-[7vw] select-none text-[clamp(6rem,16vw,14rem)] font-extralight text-[var(--color-graphite)] opacity-[0.03] leading-none"
+        >
+          02
+        </div>
       </div>
 
       <div className="w-full px-6 md:px-10 lg:px-[7vw]">
