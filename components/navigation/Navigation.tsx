@@ -79,8 +79,10 @@ export function Navigation() {
             ? 'bg-transparent'
             : scrolled
               ? isDarkChapter
-                ? 'bg-[#1A1916]/90 backdrop-blur-md shadow-[0_1px_0_0_rgba(247,245,240,0.12)]'
-                : 'bg-white/95 backdrop-blur-md shadow-[0_1px_0_0_var(--color-border)]'
+                // Dark chapters: thin graphite veil — petrol/wine/graphite bleeds through
+                ? 'bg-[#1A1916]/30 backdrop-blur-2xl'
+                // Light chapters: thin ivory veil — stone/ivory warmth bleeds through
+                : 'bg-[#F7F5F0]/40 backdrop-blur-2xl'
               : 'bg-transparent',
           'transition-all duration-[var(--duration-base)]',
         ].join(' ')}
