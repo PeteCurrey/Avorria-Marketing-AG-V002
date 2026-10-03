@@ -41,7 +41,7 @@ export function Positioning() {
 
             <h2
               id="positioning-heading"
-              className="font-extralight text-[var(--color-graphite)] leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.8vw,6.25rem)] max-w-[18ch]"
+              className="font-extralight text-[var(--color-graphite)] leading-[1.04] tracking-[-0.025em] text-[clamp(2rem,4.8vw,5rem)] max-w-[18ch]"
             >
               Technology should{' '}
               <em className="not-italic italic font-extralight" style={{ color: 'var(--color-rose-text)' }}>
@@ -96,7 +96,8 @@ export function Positioning() {
                   fill
                   sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 55vw, 680px"
                   priority
-                  className="object-cover object-center transition-transform duration-700 hover:scale-[1.02]"
+                  className="object-cover transition-transform duration-700 hover:scale-[1.02]"
+                  style={{ objectPosition: '50% 50%' }}
                 />
                 {/* Left fade */}
                 <div className="absolute inset-y-0 left-0 w-1/4 pointer-events-none" style={{ background: 'linear-gradient(to right, #ffffff 0%, rgba(255,255,255,0) 100%)' }} />
