@@ -1,11 +1,10 @@
 import type { Metadata } from 'next'
 import { generatePageMetadata } from '@/lib/metadata'
-import { Breadcrumb } from '@/components/ui/Breadcrumb'
-import { Eyebrow } from '@/components/ui/Eyebrow'
 import { Button } from '@/components/ui/Button'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { PageHero } from '@/components/ui/PageHero'
 import { FounderSection } from '@/components/about/FounderSection'
+import { TeamSection } from '@/components/about/TeamSection'
 import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = generatePageMetadata({
@@ -74,6 +73,8 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
       />
+
+      {/* ── 01 // Introduction: PageHero ──────────────────────────────────── */}
       <PageHero
         eyebrow="STUDIO / ABOUT"
         headline={[
@@ -89,12 +90,13 @@ export default function AboutPage() {
         metaRight="OWNER-LED — NO ACCOUNT MANAGERS"
       />
 
+      {/* ── 02 Philosophy / Belief & 03 What We Build ─────────────────────── */}
       <div className="section-y-large bg-[var(--color-ivory)]">
         <div className="container-max">
           <div className="container-content">
 
-            {/* Two-Column Editorial Thesis */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+            {/* 02 // Philosophy / Belief: Two-Column Editorial Thesis */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24">
               <RevealOnScroll>
                 <div className="space-y-6 text-secondary leading-relaxed font-light">
                   <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)] block mb-2">
@@ -130,21 +132,52 @@ export default function AboutPage() {
               </RevealOnScroll>
             </div>
 
+            {/* 03 // What We Build: Core Technical Disciplines */}
+            <div>
+              <div className="flex items-center gap-4 mb-4">
+                <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)]">
+                  03 // WHAT WE BUILD
+                </span>
+                <span className="h-px w-10 bg-[var(--color-border-strong)]" aria-hidden="true" />
+              </div>
+              <h2 className="text-display-s font-extralight text-[var(--color-graphite)] tracking-tight mb-8">
+                Three compounding disciplines.
+              </h2>
+              <div className="space-y-0">
+                {DISCIPLINES.map((d, i) => (
+                  <RevealOnScroll key={d.title} delay={i * 60}>
+                    <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr_auto] gap-6 border-t border-[var(--color-border)] py-8 items-center">
+                      <h3 className="text-2xl font-extralight text-[var(--color-graphite)]">{d.title}</h3>
+                      <p className="text-secondary font-light text-sm">{d.description}</p>
+                      <Button as="link" href={d.href} variant="ghost" size="sm" className="shrink-0">
+                        Explore Discipline →
+                      </Button>
+                    </div>
+                  </RevealOnScroll>
+                ))}
+                <div className="border-t border-[var(--color-border)]" aria-hidden="true" />
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
 
-      {/* ── Founder Editorial Feature ────────────────────────────────────────── */}
+      {/* ── 04 // Founder: Peter Currey ─────────────────────────────────────── */}
       <FounderSection />
 
+      {/* ── 05 // Meet The Team: The People Behind The Work ─────────────────── */}
+      <TeamSection />
+
+      {/* ── 06 // Approach & 07 Final CTA ───────────────────────────────────── */}
       <div className="section-y-large border-t border-[var(--color-border)] bg-[var(--color-ivory)]">
         <div className="container-max">
           <div className="container-content">
 
-            {/* What Avorria Refuses To Do */}
+            {/* 06 // What Avorria Refuses To Do (Operational Boundaries) */}
             <div className="border border-[var(--color-border)] bg-[var(--color-ivory-light)] p-8 md:p-12 mb-24">
               <div className="flex items-center justify-between pb-6 mb-8 border-b border-[var(--color-border)] text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)]">
-                <span className="text-[var(--color-rose-text)]">OPERATIONAL BOUNDARIES</span>
+                <span className="text-[var(--color-rose-text)]">06 // OPERATIONAL BOUNDARIES</span>
                 <span>WHAT WE DELIBERATELY REFUSE</span>
               </div>
 
@@ -162,28 +195,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Disciplines Summary */}
-            <div className="mb-24">
-              <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)] block mb-8">
-                CORE TECHNICAL DISCIPLINES
-              </span>
-              <div className="space-y-0">
-                {DISCIPLINES.map((d, i) => (
-                  <RevealOnScroll key={d.title} delay={i * 60}>
-                    <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr_auto] gap-6 border-t border-[var(--color-border)] py-8 items-center">
-                      <h2 className="text-display-s font-extralight text-[var(--color-graphite)]">{d.title}</h2>
-                      <p className="text-secondary font-light text-sm">{d.description}</p>
-                      <Button as="link" href={d.href} variant="ghost" size="sm" className="shrink-0">
-                        Explore Discipline →
-                      </Button>
-                    </div>
-                  </RevealOnScroll>
-                ))}
-                <div className="border-t border-[var(--color-border)]" aria-hidden="true" />
-              </div>
-            </div>
-
-            {/* CTA */}
+            {/* 07 // Final CTA: Initiate an exploratory discussion */}
             <div className="border-t border-[var(--color-border)] pt-16">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
