@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
 
   if (!author) {
     return generatePageMetadata({
-      title: 'Author Not Found // The Lobby',
+      title: 'Author Not Found — The Lobby',
       description: 'The requested author profile could not be found.',
       path: '/lobby',
     })
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
 
   return {
     ...generatePageMetadata({
-      title: `${author.name} // The Lobby // Avorria`,
+      title: `${author.name} — The Lobby — Avorria`,
       description: author.bio,
       path: `/lobby/author/${author.slug}`,
     }),

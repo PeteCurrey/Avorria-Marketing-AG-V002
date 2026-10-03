@@ -35,7 +35,7 @@ const provenanceConfig: Record<
     bg: 'bg-amber-500/5',
   },
   DRAFT: {
-    label: 'INTERNAL STAGING // DRAFT',
+    label: 'INTERNAL STAGING · DRAFT',
     border: 'border-black/20 dark:border-white/20',
     text: 'text-neutral-500',
     bg: 'bg-black/5 dark:bg-white/5',

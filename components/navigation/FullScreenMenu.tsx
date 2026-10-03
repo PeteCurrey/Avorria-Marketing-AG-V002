@@ -395,7 +395,7 @@ export function FullScreenMenu({ isOpen, onClose, triggerRef }: FullScreenMenuPr
         <div className="w-full px-6 md:px-10 lg:px-[7vw]">
           <div className="flex items-center justify-between h-12">
             <p className="text-[0.5625rem] tracking-[0.2em] font-light text-[var(--color-graphite-muted)] uppercase">
-              AVORRIA DIGITAL STUDIO // LONDON &amp; GLOBAL
+              AVORRIA DIGITAL STUDIO · LONDON &amp; GLOBAL
             </p>
             <Link
               href="/start-a-project"

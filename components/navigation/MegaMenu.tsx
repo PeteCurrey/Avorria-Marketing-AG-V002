@@ -179,7 +179,7 @@ export function MegaMenu({
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 mt-8 border-t border-[var(--color-border)] text-[0.625rem] tracking-[0.16em] uppercase font-light text-[var(--color-graphite-muted)]">
           <div className="flex items-center gap-4">
             <span>AVORRIA DIGITAL STUDIO</span>
-            <span>//</span>
+            <span>·</span>
             <span>LONDON & GLOBAL</span>
           </div>
 

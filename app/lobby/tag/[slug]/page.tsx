@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
 
   if (!tag) {
     return generatePageMetadata({
-      title: 'Tag Not Found // The Lobby',
+      title: 'Tag Not Found — The Lobby',
       description: 'The requested topic tag could not be found.',
       path: '/lobby',
     })
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
 
   return {
     ...generatePageMetadata({
-      title: `${tag.name} // The Lobby // Avorria`,
+      title: `${tag.name} — The Lobby — Avorria`,
       description: tag.description || `Editorial intelligence and analysis tagged under ${tag.name}.`,
       path: `/lobby/tag/${tag.slug}`,
     }),

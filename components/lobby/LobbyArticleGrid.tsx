@@ -15,7 +15,7 @@ interface LobbyArticleGridProps {
 export function LobbyArticleGrid({
   articles,
   title = 'Latest Intelligence',
-  eyebrow = 'DISPATCHES // ARCHIVE',
+  eyebrow = 'DISPATCHES · ARCHIVE',
 }: LobbyArticleGridProps) {
   if (!articles || articles.length === 0) return null
 
@@ -35,7 +35,7 @@ export function LobbyArticleGrid({
           </h2>
         </div>
         <p className="text-[0.6875rem] font-light tracking-[0.14em] uppercase text-[var(--color-graphite-muted)]">
-          {articles.length} DISPATCHES
+          {articles.length} ARTICLES
         </p>
       </div>
 

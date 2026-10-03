@@ -24,13 +24,13 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 
   if (!category) {
     return generatePageMetadata({
-      title: 'Category Not Found // The Lobby',
+      title: 'Category Not Found — The Lobby',
       description: 'The requested intelligence category could not be found.',
       path: '/lobby',
     })
   }
 
-  const title = category.seoTitle || `${category.name} // The Lobby // Avorria`
+  const title = category.seoTitle || `${category.name} — The Lobby — Avorria`
   const description = category.seoDescription || category.description || `Editorial intelligence and analysis on ${category.name}.`
 
   return generatePageMetadata({

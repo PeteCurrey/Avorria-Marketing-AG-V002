@@ -5,7 +5,7 @@ import { generatePageMetadata } from '@/lib/metadata'
 
 export const metadata: Metadata = {
   ...generatePageMetadata({
-    title: 'Search The Lobby // Avorria',
+    title: 'Search The Lobby — Avorria',
     description: 'Search editorial publications and analysis from Avorria.',
     path: '/lobby/search',
   }),

@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   const article = await getArticleBySlug(slug)
   if (!article) {
     return generatePageMetadata({
-      title: 'Article Not Found // The Lobby',
+      title: 'Article Not Found — The Lobby',
       description: 'The requested dispatch could not be found.',
       path: '/lobby',
     })
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   const excerpt = article.excerpt ?? article.dek ?? ''
   return {
     ...generatePageMetadata({
-      title: `${article.seo?.title ?? article.title} // The Lobby // Avorria`,
+      title: `${article.seo?.title ?? article.title} — The Lobby — Avorria`,
       description: article.seo?.description ?? excerpt,
       path: `/lobby/${article.slug}`,
     }),

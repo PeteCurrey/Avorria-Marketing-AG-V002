@@ -48,13 +48,13 @@ export const megaMenuTabs: MegaMenuTab[] = [
       title: 'Drawdown.Trading',
       subtitle: 'Sub-millisecond quantitative risk terminal and Canvas execution interface.',
       image: '/images/projects/drawdown/hero.png',
-      tag: 'FINANCIAL SYSTEMS // CANVAS API',
+      tag: 'FINANCIAL SYSTEMS · CANVAS API',
       href: '/work/drawdown',
       ctaText: 'View Case Study',
     },
     sections: [
       {
-        title: '01 // SELECTED WORK',
+        title: '01 — SELECTED WORK',
         items: [
           {
             label: 'Alkota Bikes',
@@ -65,7 +65,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'Alkota Bikes',
               subtitle: 'High-performance digital flagship and custom frame architecture for bespoke titanium bicycles.',
               image: '/images/projects/alkota-bikes/hero-screenshot.png',
-              tag: 'FLAGSHIP // THREE.JS // NEXT.JS',
+              tag: 'FLAGSHIP · THREE.JS · NEXT.JS',
               href: '/work/alkota-bikes',
               ctaText: 'View Case Study',
             },
@@ -79,7 +79,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'Drawdown.Trading',
               subtitle: 'Sub-millisecond quantitative risk terminal and Canvas execution interface for professional trading.',
               image: '/images/projects/drawdown/hero.png',
-              tag: 'FINANCIAL SYSTEMS // CANVAS API',
+              tag: 'FINANCIAL SYSTEMS · CANVAS API',
               href: '/work/drawdown',
               ctaText: 'View Case Study',
             },
@@ -107,7 +107,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'CareerOS',
               subtitle: 'Enterprise career orchestration platform and intelligent workflow systems powered by autonomous agents.',
               image: '/images/projects/careeros/hero-screenshot.png',
-              tag: 'AUTONOMOUS WORKFLOWS // AI',
+              tag: 'AUTONOMOUS WORKFLOWS · AI',
               href: '/work/careeros',
               ctaText: 'View Case Study',
             },
@@ -115,7 +115,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
         ],
       },
       {
-        title: '02 // PROVEN INFRASTRUCTURE',
+        title: '02 — PROVEN INFRASTRUCTURE',
         items: [
           {
             label: 'NestIQ Property Intelligence',
@@ -126,7 +126,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'NestIQ',
               subtitle: 'Spatial data layers and valuation modeling platform for institutional real estate search.',
               image: '/images/projects/nestiq/hero.webp',
-              tag: 'POSTGIS // SPATIAL TILES',
+              tag: 'POSTGIS · SPATIAL TILES',
               href: '/work/nestiq',
               ctaText: 'View Case Study',
             },
@@ -140,7 +140,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'EntireFM',
               subtitle: 'Nationwide commercial facilities management platform, operations dispatch, and organic search architecture.',
               image: '/images/projects/entirefm/hero.webp',
-              tag: 'ENTERPRISE MIGRATION // SEARCH',
+              tag: 'ENTERPRISE MIGRATION · SEARCH',
               href: '/work/entirefm',
               ctaText: 'View Case Study',
             },
@@ -175,13 +175,13 @@ export const megaMenuTabs: MegaMenuTab[] = [
       title: 'Digital Flagships & Web Applications',
       subtitle: 'Engineered for sub-second LCP, surgical typography, and zero layout shift.',
       image: '/images/projects/alkota-bikes/hero-screenshot.png',
-      tag: 'DISCIPLINE 01 // BUILD',
+      tag: 'DISCIPLINE 01 — BUILD',
       href: '/services/build',
       ctaText: 'Explore Build Discipline',
     },
     sections: [
       {
-        title: '01 // BUILD & PLATFORMS',
+        title: '01 — BUILD & PLATFORMS',
         items: [
           {
             label: 'Digital Flagships',
@@ -192,7 +192,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'Digital Flagships & Web Platforms',
               subtitle: 'Bespoke web applications engineered on Next.js 16 with instant LCP and zero layout shift.',
               image: '/images/projects/alkota-bikes/hero-screenshot.png',
-              tag: 'NEXT.JS 16 // THREE.JS',
+              tag: 'NEXT.JS 16 — THREE.JS',
               href: '/services/build',
               ctaText: 'Explore Build Discipline',
             },
@@ -206,7 +206,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'Bespoke Web Software',
               subtitle: 'Server-first execution and strict TypeScript invariants for high-value enterprise software.',
               image: '/images/projects/tafm/hero-screenshot.png',
-              tag: 'STRICT TYPESCRIPT // RBAC',
+              tag: 'STRICT TYPESCRIPT · RBAC',
               href: '/services/build',
               ctaText: 'Explore Build Discipline',
             },
@@ -220,7 +220,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'Selective WebGL Engineering',
               subtitle: 'Controlled 3D visualization stages without bloated third-party framework overhead.',
               image: '/images/projects/alkota-bikes/hero-screenshot.png',
-              tag: 'THREE.JS // WEBGL',
+              tag: 'THREE.JS · WEBGL',
               href: '/services/build',
               ctaText: 'Explore Build Discipline',
             },
@@ -228,7 +228,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
         ],
       },
       {
-        title: '02 // SEARCH & SYSTEMS',
+        title: '02 — SEARCH & SYSTEMS',
         items: [
           {
             label: 'Technical Search Architecture',
@@ -253,7 +253,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'Commercial Systems & Data',
               subtitle: 'Connecting transaction gateways, server-side webhooks, and real-time operational telemetry.',
               image: '/images/projects/drawdown/hero.png',
-              tag: 'POSTGRESQL // STRIPE',
+              tag: 'POSTGRESQL · STRIPE',
               href: '/services/systems',
               ctaText: 'Explore Systems Discipline',
             },
@@ -267,7 +267,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'Autonomous Systems & AI Agents',
               subtitle: 'Domain-trained vector embeddings and scheduled operational pipelines with zero human drag.',
               image: '/images/projects/careeros/hero-screenshot.png',
-              tag: 'VECTOR SEARCH // WORKFLOWS',
+              tag: 'VECTOR SEARCH · WORKFLOWS',
               href: '/services/systems',
               ctaText: 'Explore Systems Discipline',
             },
@@ -288,13 +288,13 @@ export const megaMenuTabs: MegaMenuTab[] = [
       title: 'Precision Engineering Methodology',
       subtitle: 'The 7-stage delivery protocol engineered to resolve commercial friction.',
       image: '/images/positioning/manifesto.jpg',
-      tag: 'AVORRIA PROTOCOL // REF. AV-2025',
+      tag: 'AVORRIA PROTOCOL · REF. AV-2025',
       href: '/process',
       ctaText: 'Explore 7-Stage Process',
     },
     sections: [
       {
-        title: '01 // HOW WE WORK',
+        title: '01 — HOW WE WORK',
         items: [
           {
             label: 'The 7-Stage Delivery Process',
@@ -319,7 +319,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'Engineering Tolerances',
               subtitle: 'Strict performance thresholds: 100/100 Core Web Vitals, zero layout shift, and contract invariants.',
               image: '/images/projects/drawdown/hero.png',
-              tag: 'SUB-SECOND LCP // ZERO CLS',
+              tag: 'SUB-SECOND LCP · ZERO CLS',
               href: '/about#standards',
               ctaText: 'View Standards',
             },
@@ -327,7 +327,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
         ],
       },
       {
-        title: '02 // COMMERCIAL TERMS',
+        title: '02 — COMMERCIAL TERMS',
         items: [
           {
             label: 'Transparent Pricing & Retainers',
@@ -338,7 +338,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'Commercial Transparency',
               subtitle: 'Defined deliverables, explicit production timelines, and senior engineer execution.',
               image: '/images/positioning/manifesto.jpg',
-              tag: 'FIXED-SCOPE // VALUE PRICED',
+              tag: 'FIXED-SCOPE · VALUE PRICED',
               href: '/pricing',
               ctaText: 'View Pricing Matrix',
             },
@@ -373,13 +373,13 @@ export const megaMenuTabs: MegaMenuTab[] = [
       title: 'The Lobby',
       subtitle: 'Editorial intelligence for modern operators: Google, AI systems, websites, and infrastructure.',
       image: '/images/projects/tafm/hero-screenshot.png',
-      tag: 'INTELLIGENCE // AVORRIA DISPATCH',
+      tag: 'INTELLIGENCE · AVORRIA DISPATCH',
       href: '/lobby',
       ctaText: 'Enter The Lobby',
     },
     sections: [
       {
-        title: '01 // EDITORIAL INTELLIGENCE',
+        title: '01 — EDITORIAL INTELLIGENCE',
         items: [
           {
             label: 'The Lobby Index',
@@ -390,7 +390,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'The Lobby Editorial Index',
               subtitle: 'Independent operator dispatches covering technical architecture, search changes, and digital systems.',
               image: '/images/projects/tafm/hero-screenshot.png',
-              tag: 'THE LOBBY // DISPATCH',
+              tag: 'THE LOBBY · DISPATCH',
               href: '/lobby',
               ctaText: 'Read Publications',
             },
@@ -412,7 +412,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
         ],
       },
       {
-        title: '02 // DIAGNOSTICS & BRIEFING',
+        title: '02 — DIAGNOSTICS & BRIEFING',
         items: [
           {
             label: 'Digital Teardown & Systems Audit',
@@ -458,13 +458,13 @@ export const megaMenuTabs: MegaMenuTab[] = [
       title: 'Avorria Digital Studio',
       subtitle: 'Engineers and designers building serious digital products and operating systems.',
       image: '/images/positioning/manifesto.jpg',
-      tag: 'LONDON // GLOBAL COMMISSIONS',
+      tag: 'LONDON · GLOBAL COMMISSIONS',
       href: '/about',
       ctaText: 'Explore Studio Profile',
     },
     sections: [
       {
-        title: '01 // THE STUDIO',
+        title: '01 — THE STUDIO',
         items: [
           {
             label: 'Studio Philosophy & Origin',
@@ -489,7 +489,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
               title: 'Production Invariants & Standards',
               subtitle: 'Strict design tokens, accessible color contrasts, and zero layout shift guarantees.',
               image: '/images/projects/drawdown/hero.png',
-              tag: 'WCAG AAA // ZERO CLS',
+              tag: 'WCAG AAA · ZERO CLS',
               href: '/about#standards',
               ctaText: 'Review Standards',
             },
@@ -497,7 +497,7 @@ export const megaMenuTabs: MegaMenuTab[] = [
         ],
       },
       {
-        title: '02 // DIRECT ENGAGEMENT',
+        title: '02 — DIRECT ENGAGEMENT',
         items: [
           {
             label: 'Pricing & Engagement Models',

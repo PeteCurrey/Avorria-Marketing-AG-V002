@@ -42,7 +42,7 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>The Lobby // Avorria</title>
+    <title>The Lobby — Avorria</title>
     <link>${base}/lobby</link>
     <description>What changed. What matters. What you should do about it. Editorial intelligence on Google, Meta, websites, and marketing from Avorria.</description>
     <language>en-GB</language>

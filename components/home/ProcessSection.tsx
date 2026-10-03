@@ -176,12 +176,14 @@ export function ProcessSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative border-t border-[var(--color-border)] bg-white"
+      className="relative border-t border-[var(--color-border)]"
+      style={{ backgroundColor: 'var(--color-ivory)' }}
+      data-chapter="ivory"
       aria-labelledby="process-heading"
     >
-      {/* ── Background architectural numeral ───────────────────────────────── */}
+      {/* ── Background architectural numeral: Stone on Ivory Tone-on-Tone ── */}
       <div
-        className="absolute top-8 right-[7vw] pointer-events-none select-none text-[clamp(6rem,16vw,14rem)] font-extralight text-[var(--color-graphite)] opacity-[0.035] leading-none"
+        className="absolute top-8 right-[7vw] numeral-stone-on-ivory opacity-60"
         aria-hidden="true"
       >
         05
@@ -198,7 +200,7 @@ export function ProcessSection() {
             {/* Eyebrow */}
             <div className="flex items-center gap-4 mb-8">
               <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-mid)]">
-                05 // PROCESS & METHODOLOGY
+                05 — PROCESS &amp; METHODOLOGY
               </span>
               <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
             </div>
@@ -232,7 +234,7 @@ export function ProcessSection() {
                 <span className="text-[0.625rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-muted)]">
                   ACTIVE METHODOLOGY PHASE
                 </span>
-                <span className="text-[0.6875rem] tracking-[0.16em] uppercase font-light text-[var(--color-cobalt)]">
+                <span className="text-[0.6875rem] tracking-[0.16em] uppercase font-light text-[var(--color-accent)]">
                   0{activeIndex + 1} / 0{PROCESS_STEPS.length}
                 </span>
               </div>

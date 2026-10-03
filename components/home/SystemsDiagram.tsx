@@ -13,11 +13,8 @@ interface SystemNode {
   title: string
   description: string
   proof: string
-  /** Path to the primary image shown in the right panel */
   image: string
-  /** object-position value — lets us frame the most relevant part of each image */
   imagePosition: string
-  /** Overlay gradient applied over the image for visual character */
   overlay: string
 }
 
@@ -57,7 +54,7 @@ const SYSTEM_NODES: SystemNode[] = [
     label: 'APIs',
     title: 'Integrated Service Contracts',
     description: 'Secure, low-latency bridges between internal databases and financial gateways.',
-    proof: 'Event-Driven Microservices & Telemetry Conduits',
+    proof: 'Event-Driven Microservices & Secure Conduits',
     image: '/images/architecture/04-apis.jpg',
     imagePosition: 'center center',
     overlay: 'bg-gradient-to-t from-black/60 via-transparent to-transparent',
@@ -130,12 +127,14 @@ export function SystemsDiagram() {
   return (
     <section
       ref={sectionRef}
-      className="relative section-y-large bg-[#121110] text-[#EFECE6] overflow-hidden"
+      className="relative section-y-large overflow-hidden"
+      style={{ backgroundColor: 'var(--color-petrol)', color: 'var(--color-ivory)' }}
+      data-chapter="petrol"
       aria-labelledby="systems-heading"
     >
-      {/* ── Background Architectural Watermark ───────────────────────────────── */}
+      {/* ── Background Architectural Watermark: Wine on Petrol ── */}
       <div
-        className="absolute top-8 right-[7vw] pointer-events-none select-none text-[clamp(6rem,16vw,14rem)] font-extralight text-white opacity-[0.02] leading-none"
+        className="absolute top-8 right-[7vw] numeral-wine-on-petrol"
         aria-hidden="true"
       >
         04
@@ -146,18 +145,18 @@ export function SystemsDiagram() {
         <div className="max-w-[1200px] mb-14 lg:mb-20">
           <RevealOnScroll>
             <div className="flex items-center gap-4 mb-6">
-              <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[#A09D97]">
-                04 // DIGITAL SYSTEMS ARCHITECTURE
+              <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-accent-light)] opacity-80">
+                04 — DIGITAL SYSTEMS ARCHITECTURE
               </span>
-              <span className="h-px w-12 bg-[#33302B]" aria-hidden="true" />
+              <span className="h-px w-12 bg-white/20" aria-hidden="true" />
             </div>
 
             <h2
               id="systems-heading"
-              className="font-extralight text-[#F7F5F0] leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.8vw,6.25rem)] max-w-[20ch]"
+              className="font-extralight text-[var(--color-ivory)] leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.8vw,6.25rem)] max-w-[20ch]"
             >
               Digital products that{' '}
-              <em className="not-italic italic font-extralight" style={{ color: 'var(--color-rose-text)' }}>
+              <em className="not-italic italic font-extralight" style={{ color: 'var(--color-accent-light)' }}>
                 connect
               </em>{' '}
               to the business.
@@ -165,7 +164,7 @@ export function SystemsDiagram() {
           </RevealOnScroll>
         </div>
 
-        {/* Two-Column Layout: Progressing System Nodes Left, Real Architecture Plate Right */}
+        {/* Two-Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Progressive Node Flow */}
           <div className="lg:col-span-6 space-y-3">
@@ -179,29 +178,29 @@ export function SystemsDiagram() {
                   className={[
                     'p-5 border transition-all duration-300 cursor-pointer rounded-[var(--radius-sm)]',
                     isActive
-                      ? 'border-[#4A4845] bg-[#1A1916] text-[#F7F5F0]'
-                      : 'border-[#22201D] bg-transparent text-[#8A8782] hover:border-[#33302B]',
+                      ? 'border-[var(--color-accent)]/60 bg-[#1E4349] text-[var(--color-ivory)]'
+                      : 'border-[#244C53] bg-transparent text-[var(--color-accent-light)]/70 hover:border-[#35656D]',
                   ].join(' ')}
                 >
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[#7A7773]">
-                      STAGE {node.index}
+                    <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-accent-light)] opacity-60">
+                      PHASE {node.index}
                     </span>
                     <span
                       className={[
                         'text-xs tracking-[0.1em] uppercase font-light transition-colors',
-                        isActive ? 'text-[var(--color-cobalt)]' : 'text-transparent',
+                        isActive ? 'text-[var(--color-accent-light)]' : 'text-transparent',
                       ].join(' ')}
                     >
-                      Active Stage
+                      Active
                     </span>
                   </div>
 
-                  <h3 className="text-lg md:text-xl font-extralight tracking-[-0.01em] mb-1 text-white">
+                  <h3 className="text-lg md:text-xl font-extralight tracking-[-0.01em] mb-1 text-[var(--color-ivory)]">
                     {node.label} — {node.title}
                   </h3>
 
-                  <p className="text-xs font-light text-[#A09D97] leading-relaxed max-w-[48ch]">
+                  <p className="text-xs font-light text-[var(--color-ivory)]/75 leading-relaxed max-w-[48ch]">
                     {node.description}
                   </p>
                 </div>
@@ -209,20 +208,19 @@ export function SystemsDiagram() {
             })}
           </div>
 
-          {/* Right Column: Sticky Verified Interface Evidence */}
+          {/* Right Column: Sticky Architecture Evidence */}
           <div className="lg:col-span-6 lg:sticky lg:top-28">
-            <div className="border border-[#2E2B27] bg-[#181715] p-6 md:p-8">
-              <div className="flex items-center justify-between pb-3 mb-5 border-b border-[#2A2724] text-[10px] tracking-[0.18em] uppercase text-[#8A8784] font-light">
+            <div className="border border-[#244C53] bg-[#122A2E] p-6 md:p-8">
+              <div className="flex items-center justify-between pb-3 mb-5 border-b border-[#244C53] text-[10px] tracking-[0.18em] uppercase text-[var(--color-accent-light)]/70 font-light">
                 <span className="flex items-center gap-2">
-                  {/* Cobalt dot — consistent with cobalt chapter language */}
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-cobalt)' }} />
-                  <span>ACTIVE SYSTEM ARCHITECTURE</span>
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-accent)' }} />
+                  <span>SYSTEM ARCHITECTURE</span>
                 </span>
                 <span>{activeNode.label}</span>
               </div>
 
               {/* Real Interface Visual */}
-              <div className="relative w-full aspect-[16/10] bg-[#121110] border border-[#2E2B27] overflow-hidden mb-6">
+              <div className="relative w-full aspect-[16/10] bg-[#0E2023] border border-[#244C53] overflow-hidden mb-6">
                 <Image
                   key={activeNode.image}
                   src={activeNode.image}
@@ -236,21 +234,21 @@ export function SystemsDiagram() {
               </div>
 
               <div className="space-y-3">
-                <h4 className="text-xl font-extralight text-white tracking-[-0.01em]">
+                <h4 className="text-xl font-extralight text-[var(--color-ivory)] tracking-[-0.01em]">
                   {activeNode.title}
                 </h4>
-                <p className="text-xs font-light text-[#C0BCB4] leading-relaxed">
+                <p className="text-xs font-light text-[var(--color-ivory)]/80 leading-relaxed">
                   {activeNode.description} Every layer is built directly into production repositories with strict typing,
                   clear service contracts, and verified commercial utility.
                 </p>
 
-                <div className="pt-4 border-t border-[#2A2724] flex items-center justify-between">
-                  <span className="text-[10px] tracking-[0.14em] uppercase font-light text-[#8A8784]">
-                    Architecture: {activeNode.proof}
+                <div className="pt-4 border-t border-[#244C53] flex items-center justify-between">
+                  <span className="text-[10px] tracking-[0.14em] uppercase font-light text-[var(--color-accent-light)]/60">
+                    Scope: {activeNode.proof}
                   </span>
                   <Link
                     href="/services/systems"
-                    className="text-xs font-light tracking-[0.08em] uppercase text-white hover:text-[var(--color-rose-text)] flex items-center gap-1 transition-colors"
+                    className="text-xs font-light tracking-[0.08em] uppercase text-[var(--color-ivory)] hover:text-[var(--color-accent-light)] flex items-center gap-1 transition-colors"
                   >
                     <span>Explore Systems</span>
                     <span aria-hidden="true">→</span>
