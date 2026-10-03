@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { generatePageMetadata } from '@/lib/metadata'
 import { Button } from '@/components/ui/Button'
+import { PageHero } from '@/components/ui/PageHero'
 import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = generatePageMetadata({
@@ -97,35 +98,22 @@ export default function ContactPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }}
       />
 
-      <div className="bg-[var(--color-ivory)] min-h-screen">
+      <PageHero
+        eyebrow="CONTACT / COMMISSION WORK"
+        headline={[
+          { before: 'Commission work' },
+          { before: 'with', accent: 'Avorria.' },
+        ]}
+        body="We work with a small number of clients at any given time. Every enquiry is reviewed personally by a senior member of the team — not a sales coordinator."
+        primaryCta={{ label: 'Start a project ↗', href: '/start-a-project' }}
+        secondaryCta={{ label: 'View our work', href: '/work' }}
+        image="/images/hero/hero-bg.jpg"
+        imageAlt="Avorria — Chicago river architectural twilight skyline"
+        metaLeft="EVERY ENQUIRY REVIEWED PERSONALLY"
+        metaRight="RESPONDS WITHIN ONE BUSINESS DAY"
+      />
 
-        {/* ── Page Header ─────────────────────────────────────────── */}
-        <div className="border-b border-[var(--color-border)]">
-          <div className="container-max py-20 md:py-28">
-            <div className="container-content">
-              <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 items-end">
-                <div>
-                  <p className="text-label-upper text-[var(--color-graphite-mid)] mb-6 font-light">
-                    CONTACT // ENQUIRIES
-                  </p>
-                  <h1 className="text-display-l font-extralight tracking-tight max-w-[700px] mb-6">
-                    Commission work with Avorria.
-                  </h1>
-                  <p className="text-body-l text-secondary font-light max-w-[560px] leading-relaxed">
-                    We work with a small number of clients at any given time. Every
-                    enquiry is reviewed personally by a senior member of the team.
-                  </p>
-                </div>
-                <div className="shrink-0">
-                  <Button as="link" href="/start-a-project" variant="primary" size="lg">
-                    Start a project ↗
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <div className="bg-[var(--color-ivory)]">
         <div className="container-max">
           <div className="container-content">
 

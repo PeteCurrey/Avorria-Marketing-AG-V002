@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { generatePageMetadata } from '@/lib/metadata'
 import { PRICING_MODELS, COST_DRIVERS } from '@/content/pricing'
 import { Button } from '@/components/ui/Button'
+import { PageHero } from '@/components/ui/PageHero'
 import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = generatePageMetadata({
@@ -95,27 +96,23 @@ export default function PricingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
 
-      <div className="bg-[var(--color-ivory)] min-h-screen">
+      <PageHero
+        eyebrow="COMMERCIAL / ENGAGEMENT ECONOMICS"
+        headline={[
+          { before: 'Predictable' },
+          { accent: 'engineering' },
+          { before: 'economics.' },
+        ]}
+        body="Milestone billing with fixed-fee diagnostics. No sliding monthly retainer ambiguity. No hourly rate padding. Every invoice reflects a verified deliverable."
+        primaryCta={{ label: 'Start a project ↗', href: '/start-a-project' }}
+        secondaryCta={{ label: 'View our work', href: '/work' }}
+        image="/images/positioning/manifesto.jpg"
+        imageAlt="High-tolerance precision engineering — Avorria commercial economics"
+        metaLeft="MILESTONE BILLING // FIXED-FEE DIAGNOSTICS"
+        metaRight="TRANSPARENT PROJECT ECONOMICS"
+      />
 
-        {/* ── Page Header ─────────────────────────────────────────── */}
-        <div className="border-b border-[var(--color-border)]">
-          <div className="container-max py-20 md:py-28">
-            <div className="container-content">
-              <p className="text-label-upper text-[var(--color-graphite-mid)] mb-6 font-light">
-                COMMERCIAL MODELS // ECONOMICS
-              </p>
-              <h1 className="text-display-l max-w-[820px] font-extralight tracking-tight mb-8">
-                Predictable engineering economics.
-              </h1>
-              <p className="text-body-l text-secondary font-light max-w-[640px] leading-relaxed">
-                We operate on milestone billing with fixed-fee diagnostics. No
-                sliding monthly retainer ambiguity. No hourly rate padding. Every
-                invoice reflects a verified deliverable.
-              </p>
-            </div>
-          </div>
-        </div>
-
+      <div className="bg-[var(--color-ivory)]">
         <div className="container-max">
           <div className="container-content">
 

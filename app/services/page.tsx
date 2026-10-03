@@ -5,6 +5,7 @@ import { generatePageMetadata } from '@/lib/metadata'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { Eyebrow } from '@/components/ui/Eyebrow'
+import { PageHero } from '@/components/ui/PageHero'
 import { Button } from '@/components/ui/Button'
 import { getPublishedServices } from '@/content/services'
 import { siteConfig } from '@/content/config/site'
@@ -66,31 +67,24 @@ export default function ServicesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesSchema) }}
       />
+      <PageHero
+        eyebrow="SERVICES / ENGINEERING DISCIPLINES"
+        headline={[
+          { before: 'Three disciplines.' },
+          { accent: 'One studio.' },
+        ]}
+        body="Avorria operates across three core disciplines — Build, Search, and Systems. They are designed to compound in commercial value when deployed as an integrated digital architecture."
+        primaryCta={{ label: 'Start a project ↗', href: '/start-a-project' }}
+        secondaryCta={{ label: 'View our work', href: '/work' }}
+        image="/images/projects/drawdown/hero.webp"
+        imageAlt="Drawdown.Trading quantitative risk terminal and real-time Canvas worker telemetry"
+        metaLeft="BUILD · SEARCH · SYSTEMS"
+        metaRight="THREE COMPOUNDING DISCIPLINES"
+      />
+
       <div className="section-y-large bg-[var(--color-ivory)]">
         <div className="container-max">
           <div className="container-content">
-
-            <Breadcrumb items={[{ label: 'Services' }]} className="mb-12" />
-
-            {/* Header */}
-            <div className="border-b border-[var(--color-border)] pb-16 mb-20">
-              <div className="flex items-center gap-4 mb-6">
-                <Eyebrow>What we build</Eyebrow>
-                <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
-                <span className="text-[10px] tracking-[0.2em] font-light text-[var(--color-graphite-muted)] uppercase">
-                  THREE ARCHITECTURAL DISCIPLINES
-                </span>
-              </div>
-              <h1 className="text-display-l max-w-[800px] mb-6 font-extralight tracking-tight">
-                Three disciplines.{' '}
-                <em className="not-italic italic font-extralight" style={{ color: 'var(--color-rose-text)' }}>
-                  One studio.
-                </em>
-              </h1>
-              <p className="text-body-l text-secondary max-w-[640px] font-light leading-relaxed">
-                Avorria operates across three core disciplines — Build, Search, and Systems. They are designed to compound in commercial value when deployed as an integrated digital architecture.
-              </p>
-            </div>
 
             {/* In-Depth Disciplines Breakdown with Visual Proofs */}
             <div className="space-y-24">

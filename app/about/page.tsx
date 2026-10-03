@@ -4,6 +4,7 @@ import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { Button } from '@/components/ui/Button'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { PageHero } from '@/components/ui/PageHero'
 import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = generatePageMetadata({
@@ -72,31 +73,24 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
       />
+      <PageHero
+        eyebrow="STUDIO / ABOUT"
+        headline={[
+          { before: 'An engineering studio' },
+          { before: 'that', accent: 'builds things.' },
+        ]}
+        body="Avorria is an independent digital studio combining strategy, design, and technical engineering. We partner with operators who understand that digital surfaces directly reflect the calibre of their organisation."
+        primaryCta={{ label: 'Start a project ↗', href: '/start-a-project' }}
+        secondaryCta={{ label: 'View our work', href: '/work' }}
+        image="/images/positioning/manifesto.jpg"
+        imageAlt="Precision engineering geometry — high-tolerance mechanical machining"
+        metaLeft="INDEPENDENT STUDIO // EST. LONDON 2025"
+        metaRight="OWNER-LED — NO ACCOUNT MANAGERS"
+      />
+
       <div className="section-y-large bg-[var(--color-ivory)]">
         <div className="container-max">
           <div className="container-content">
-
-            <Breadcrumb items={[{ label: 'About' }]} className="mb-12" />
-
-            {/* Header */}
-            <div className="border-b border-[var(--color-border)] pb-16 mb-20">
-              <div className="flex items-center gap-4 mb-6">
-                <Eyebrow>About Avorria</Eyebrow>
-                <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
-                <span className="text-[10px] tracking-[0.2em] font-light text-[var(--color-graphite-muted)] uppercase">
-                  STUDIO CHARTER & ENGINEERING PRINCIPLES
-                </span>
-              </div>
-              <h1 className="text-display-l max-w-[800px] mb-6 font-extralight tracking-tight">
-                An engineering studio that{' '}
-                <em className="not-italic italic font-extralight" style={{ color: 'var(--color-rose-text)' }}>
-                  builds things.
-                </em>
-              </h1>
-              <p className="text-body-l text-secondary max-w-[640px] font-light leading-relaxed">
-                Avorria is an independent digital studio combining strategy, design, and technical engineering. We partner with operators who understand that digital surfaces directly reflect the calibre of their organisation.
-              </p>
-            </div>
 
             {/* Two-Column Editorial Thesis */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24">

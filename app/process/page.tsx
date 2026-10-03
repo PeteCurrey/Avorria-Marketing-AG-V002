@@ -4,6 +4,7 @@ import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { Button } from '@/components/ui/Button'
+import { PageHero } from '@/components/ui/PageHero'
 import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = generatePageMetadata({
@@ -124,31 +125,24 @@ export default function ProcessPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(processSchema) }}
       />
+      <PageHero
+        eyebrow="PROCESS / SEVEN-STAGE METHODOLOGY"
+        headline={[
+          { before: 'Method is the' },
+          { accent: 'product.' },
+        ]}
+        body="Every Avorria engagement follows a systematic seven-stage discipline. Not communicated after the fact — it is the mechanism through which quality is produced and maintained."
+        primaryCta={{ label: 'Start a project ↗', href: '/start-a-project' }}
+        secondaryCta={{ label: 'View our work', href: '/work' }}
+        image="/images/projects/careeros/hero.webp"
+        imageAlt="CareerOS autonomous skill taxonomy and document synthesis system"
+        metaLeft="UNDERSTAND · ARCHITECT · DESIGN · ENGINEER · VALIDATE · LAUNCH · IMPROVE"
+        metaRight="SEVEN STAGES"
+      />
+
       <div className="section-y-large bg-[var(--color-ivory)]">
         <div className="container-max">
           <div className="container-content">
-
-            <Breadcrumb items={[{ label: 'Process' }]} className="mb-12" />
-
-            {/* Header */}
-            <div className="border-b border-[var(--color-border)] pb-16 mb-20">
-              <div className="flex items-center gap-4 mb-6">
-                <Eyebrow>How we work</Eyebrow>
-                <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
-                <span className="text-[10px] tracking-[0.2em] font-light text-[var(--color-graphite-muted)] uppercase">
-                  SEVEN-STAGE SYSTEMATIC DISCIPLINE
-                </span>
-              </div>
-              <h1 className="text-display-l max-w-[800px] mb-6 font-extralight tracking-tight">
-                A process built for{' '}
-                <em className="not-italic italic font-extralight" style={{ color: 'var(--color-rose-text)' }}>
-                  useful outcomes.
-                </em>
-              </h1>
-              <p className="text-body-l text-secondary max-w-[640px] font-light leading-relaxed">
-                Our methodology is not a sales deck — it is our operational framework. Every stage is engineered to eliminate technical waste, establish scope certainty, and guarantee production performance.
-              </p>
-            </div>
 
             {/* Stages Detailed Breakdown */}
             <div className="space-y-16">

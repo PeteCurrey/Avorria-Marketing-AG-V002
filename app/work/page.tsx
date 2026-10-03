@@ -6,6 +6,7 @@ import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { Button } from '@/components/ui/Button'
 import { Eyebrow } from '@/components/ui/Eyebrow'
+import { PageHero } from '@/components/ui/PageHero'
 import { getPublishedProjects } from '@/content/projects'
 import { siteConfig } from '@/content/config/site'
 
@@ -44,31 +45,24 @@ export default function WorkPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(workSchema) }}
       />
-      <div className="section-y-large bg-[var(--color-ivory)]">
+      <PageHero
+        eyebrow="SELECTED WORK / VERIFIED PORTFOLIO"
+        headline={[
+          { before: 'Websites and systems' },
+          { accent: 'built to work.' },
+        ]}
+        body="Six verified commercial and technical interventions. Every entry represents production architecture deployed for ambitious operators. Zero fabricated metrics."
+        primaryCta={{ label: 'View all projects ↓', href: '#projects' }}
+        secondaryCta={{ label: 'Start a project ↗', href: '/start-a-project' }}
+        image="/images/projects/alkota-bikes/hero.webp"
+        imageAlt="Alkota Bikes titanium frame configurator — high-performance WebGL flagship"
+        metaLeft="VERIFIED PRODUCTION DEPLOYMENTS ONLY"
+        metaRight="ZERO FABRICATED METRICS"
+      />
+
+      <div id="projects" className="section-y-large bg-[var(--color-ivory)]">
         <div className="container-max">
           <div className="container-content">
-
-            <Breadcrumb items={[{ label: 'Work' }]} className="mb-12" />
-
-            {/* Page Header */}
-            <div className="border-b border-[var(--color-border)] pb-16 mb-16">
-              <div className="flex items-center gap-4 mb-6">
-                <Eyebrow>Selected work</Eyebrow>
-                <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
-                <span className="text-[10px] tracking-[0.2em] font-light text-[var(--color-graphite-muted)] uppercase">
-                  VERIFIED COMMERCIAL & TECHNICAL PROOFS
-                </span>
-              </div>
-              <h1 className="text-display-l max-w-[800px] mb-6 font-extralight tracking-tight">
-                Websites and systems{' '}
-                <em className="not-italic italic font-extralight" style={{ color: 'var(--color-rose-text)' }}>
-                  built to work.
-                </em>
-              </h1>
-              <p className="text-body-l text-secondary max-w-[640px] font-light leading-relaxed">
-                Six verified commercial and technical interventions. Every entry represents production architecture deployed for ambitious operators. Zero fabricated metrics.
-              </p>
-            </div>
 
             {/* Visual Portfolio Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
