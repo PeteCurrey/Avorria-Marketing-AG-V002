@@ -1049,4 +1049,61 @@
     clip: auto;
     white-space: normal;
   }
+
+
+  /* ── Full-Screen Menu Animations ──────────────────────────────────────────
+     Three keyframes. One is the signature Avorria hairline motif.
+     All are CSS-only — no JS animation library.
+     ─────────────────────────────────────────────────────────────────────── */
+
+  /* 1. Architectural hairline draws left → right (signature motif) */
+  @keyframes menuRuleDraw {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
+  .menu-rule-draw {
+    animation: menuRuleDraw 400ms cubic-bezier(0.16, 1, 0.3, 1) 100ms both;
+  }
+
+  /* 2. Nav items slide up + fade in */
+  @keyframes menuItemReveal {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .menu-item-reveal {
+    animation: menuItemReveal 350ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* 3. Image panel — opacity + subtle scale resolve */
+  @keyframes menuImageReveal {
+    from {
+      opacity: 0;
+      transform: scale(1.02);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .menu-image-reveal {
+    animation: menuImageReveal 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* Reduced-motion: disable all three */
+  @media (prefers-reduced-motion: reduce) {
+    .menu-rule-draw,
+    .menu-item-reveal,
+    .menu-image-reveal {
+      animation: none;
+    }
+  }
 }

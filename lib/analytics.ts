@@ -38,6 +38,9 @@ export type AnalyticsEvent =
   // Legacy journey events
   | 'service_to_enquiry'
   | 'work_to_enquiry'
+  // Navigation
+  | 'nav_menu_open'
+  | 'menu_nav_click'
 
 export interface AnalyticsPayload {
   event: AnalyticsEvent
