@@ -1,0 +1,10 @@
+import { redirect } from 'next/navigation'
+import { getSession } from '@/lib/auth'
+
+export default async function ClientRootPage() {
+  const session = await getSession()
+  if (session) {
+    redirect('/client/dashboard')
+  }
+  redirect('/client/login')
+}

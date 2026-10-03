@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import { Work_Sans } from 'next/font/google'
-import { Navigation } from '@/components/navigation/Navigation'
-import { Footer } from '@/components/layout/Footer'
-import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { AppShell } from '@/components/layout/AppShell'
 import { siteConfig } from '@/content/config/site'
 import '@/styles/globals.css'
 
@@ -141,7 +139,6 @@ function OrganizationSchema() {
 // ─── Root Layout ─────────────────────────────────────────────────────────────
 
 import { WordmarkCurtain } from '@/components/curtain/WordmarkCurtain'
-import { SmoothScrollProvider } from '@/components/motion/SmoothScrollProvider'
 
 export default function RootLayout({
   children,
@@ -171,14 +168,9 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <SmoothScrollProvider>
-          <Navigation />
-          <main id="main-content" className="pt-16 md:pt-20">
-            {children}
-          </main>
-          <Footer />
-          <RevealOnScroll />
-        </SmoothScrollProvider>
+        <AppShell>
+          {children}
+        </AppShell>
       </body>
     </html>
   )
