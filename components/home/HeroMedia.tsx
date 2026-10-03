@@ -3,8 +3,13 @@
 /**
  * HeroMedia — Right-panel media for the Hero section.
  *
- * Uses the Chicago river architectural photograph with soft left-edge fade
- * on desktop and top-edge fade on mobile to blend seamlessly into the white ground.
+ * The image arrives as a confident editorial composition.
+ * No white-fade bleed — instead, a subtle shadow/vignette at the left
+ * edge creates depth without apologising for the image being there.
+ *
+ * Desktop: hard architectural edge where text column meets media panel.
+ *          A thin graphite rule (1px) separates the two columns.
+ * Mobile:  top-edge dark vignette (image sits below text, naturally separated).
  */
 
 import Image from 'next/image'
@@ -44,7 +49,7 @@ export function HeroMedia({
       className="relative w-full h-full overflow-hidden hero-media-panel select-none"
       aria-hidden="true"
     >
-      {/* ── Chicago River architectural photograph ─────────────────────────── */}
+      {/* ── Architectural photograph — confident, no apology ───────────────── */}
       <Image
         src={poster}
         alt={alt}
@@ -59,22 +64,32 @@ export function HeroMedia({
         style={{ objectPosition: 'center center' }}
       />
 
-      {/* ── White left-edge fade — blends image into white text column (Desktop) ── */}
+      {/* ── Left edge: subtle shadow vignette (depth, not bleed-to-white) ── */}
       <div
         className="absolute inset-y-0 left-0 pointer-events-none hidden lg:block"
         style={{
-          width: '24%',
-          background: 'linear-gradient(to right, #ffffff 0%, rgba(255,255,255,0) 100%)',
+          width: '12%',
+          background: 'linear-gradient(to right, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 100%)',
           zIndex: 1,
         }}
       />
 
-      {/* ── White top-edge fade (Mobile) ──────────────────────────────────── */}
+      {/* ── Bottom vignette — grounds the image ────────────────────────────── */}
+      <div
+        className="absolute inset-x-0 bottom-0 pointer-events-none"
+        style={{
+          height: '30%',
+          background: 'linear-gradient(to top, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0) 100%)',
+          zIndex: 1,
+        }}
+      />
+
+      {/* ── Mobile: dark top vignette — separates from text column ──────────── */}
       <div
         className="absolute inset-x-0 top-0 pointer-events-none lg:hidden"
         style={{
-          height: '25%',
-          background: 'linear-gradient(to bottom, #ffffff 0%, rgba(255,255,255,0) 100%)',
+          height: '20%',
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 100%)',
           zIndex: 1,
         }}
       />

@@ -232,7 +232,7 @@ export function ProcessSection() {
                 <span className="text-[0.625rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-muted)]">
                   ACTIVE METHODOLOGY PHASE
                 </span>
-                <span className="text-[0.6875rem] tracking-[0.16em] uppercase font-light text-[var(--color-rose-text)]">
+                <span className="text-[0.6875rem] tracking-[0.16em] uppercase font-light text-[var(--color-cobalt)]">
                   0{activeIndex + 1} / 0{PROCESS_STEPS.length}
                 </span>
               </div>
@@ -251,7 +251,7 @@ export function ProcessSection() {
                 aria-label={`Stage ${activeIndex + 1} of ${PROCESS_STEPS.length}`}
               >
                 <div
-                  className="absolute inset-y-0 left-0 bg-[var(--color-graphite)] transition-all duration-500 ease-out"
+                  className="absolute inset-y-0 left-0 bg-[var(--color-cobalt)] transition-all duration-500 ease-out"
                   style={{
                     width: `${((activeIndex + 1) / PROCESS_STEPS.length) * 100}%`,
                   }}
@@ -267,7 +267,7 @@ export function ProcessSection() {
                     style={{
                       backgroundColor:
                         i <= activeIndex
-                          ? 'var(--color-graphite)'
+                          ? 'var(--color-cobalt)'
                           : 'var(--color-border)',
                     }}
                   />
@@ -293,14 +293,17 @@ export function ProcessSection() {
                     key={step.index}
                     ref={setRef(i)}
                     data-step-index={i}
+                    data-active={isActive ? "true" : "false"}
                     className={[
-                      'border transition-all duration-500 rounded-[var(--radius-sm)] p-8 md:p-10 lg:p-12',
+                      'process-step-card relative border transition-all duration-500 rounded-[var(--radius-sm)] p-8 md:p-10 lg:p-12',
                       isActive
                         ? 'border-[var(--color-graphite)] bg-white shadow-md'
                         : 'border-[var(--color-border)] bg-transparent opacity-85',
                     ].join(' ')}
                     aria-current={isActive ? 'step' : undefined}
                   >
+                    {/* Cobalt top hairline rule that animates in when active */}
+                    <div className="process-step-rule" aria-hidden="true" />
                     {/* Card header */}
                     <div className="flex items-baseline justify-between gap-4 pb-5 mb-6 border-b border-[var(--color-border)]">
                       <div className="flex items-center gap-3">

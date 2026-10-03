@@ -1,45 +1,52 @@
 'use client'
 
-import Image from 'next/image'
+/**
+ * FinalCta — Chapter 08: Deep Graphite + Architectural Typography & Cobalt Creative Intervention
+ *
+ * Removes the blurred screenshot backdrop in favour of confident, editorial design:
+ * - Monumental architectural watermark typography: "BUILD" in muted graphite/white
+ * - Cobalt hairline accent rule establishing an intentional creative punctuation
+ * - Restrained, authoritative dark chapter balancing the page rhythm
+ */
+
 import { Button } from '@/components/ui/Button'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 
 export function FinalCta() {
   return (
     <section
-      className="relative min-h-[85vh] flex items-center bg-[#121110] text-[#EFECE6] overflow-hidden border-t border-[#2E2B27]"
+      className="relative min-h-[85vh] flex items-center bg-[#121110] text-[#EFECE6] overflow-hidden border-t border-[#262421]"
       aria-labelledby="final-cta-heading"
     >
-      {/* ── Background Subtle Architectural Visual Layer (Echoing Hero) ─────── */}
-      <div className="absolute inset-0 pointer-events-none opacity-20 select-none overflow-hidden" aria-hidden="true">
-        <Image
-          src="/images/projects/alkota-bikes/hero-screenshot.png"
-          alt="Architectural backdrop"
-          fill
-          sizes="100vw"
-          className="object-cover object-center scale-[1.04] blur-[1px]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#121110] via-[#121110]/80 to-[#121110]" />
-      </div>
-
-      {/* ── Watermark Studio Numeral ────────────────────────────────────────── */}
+      {/* ── Monumental Editorial Typography: "BUILD" watermark in background ── */}
       <div
-        className="absolute bottom-8 right-[7vw] pointer-events-none select-none text-[clamp(8rem,20vw,16rem)] font-extralight text-white opacity-[0.02] leading-none"
+        className="absolute bottom-4 right-[4vw] pointer-events-none select-none text-[clamp(9rem,24vw,22rem)] font-extralight italic text-white/[0.03] leading-none tracking-tight"
         aria-hidden="true"
       >
-        AV
+        BUILD
       </div>
 
       <div className="relative z-10 w-full px-6 md:px-10 lg:px-[7vw] py-24 lg:py-32">
         <RevealOnScroll>
           <div className="max-w-4xl">
-            {/* Eyebrow */}
-            <div className="flex items-center gap-3 mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-rose-text)] animate-pulse" />
+            {/* Eyebrow with cobalt pulsing indicator */}
+            <div className="flex items-center gap-3 mb-6">
+              <span
+                className="w-1.5 h-1.5 rounded-full animate-pulse"
+                style={{ backgroundColor: 'var(--color-cobalt)' }}
+                aria-hidden="true"
+              />
               <p className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[#A09D97]">
                 AVORRIA COMMISSIONS // INTAKE OPEN
               </p>
             </div>
+
+            {/* Cobalt architectural accent rule */}
+            <div
+              className="w-20 h-[2px] mb-8"
+              style={{ backgroundColor: 'var(--color-cobalt)' }}
+              aria-hidden="true"
+            />
 
             {/* Monumental Headline */}
             <h2
@@ -68,7 +75,7 @@ export function FinalCta() {
                 href="/contact"
                 variant="secondary"
                 size="lg"
-                className="border-[#4A4845] text-[#F7F5F0] hover:bg-white hover:text-[#121110]"
+                className="btn-dark-outline"
               >
                 Direct studio channel
               </Button>
@@ -79,7 +86,7 @@ export function FinalCta() {
               <div className="flex items-center gap-4">
                 <span>AVORRIA DIGITAL STUDIO</span>
                 <span>//</span>
-                <span>LONDON & GLOBAL</span>
+                <span>LONDON &amp; GLOBAL</span>
               </div>
               <div className="flex items-center gap-4">
                 <span>DIRECT PRINCIPAL ENGAGEMENT</span>

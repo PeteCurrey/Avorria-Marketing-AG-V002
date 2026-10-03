@@ -1,14 +1,19 @@
 'use client'
 
 /**
- * Positioning — Chapter 01
+ * Positioning — Chapter 01: Warm Ivory
+ *
+ * Visual chapter: warm ivory ground (#F6F4EF), editorial image composition
+ * with no apologetic fade-out — the image is a confident rectangular plate.
+ * A single left-edge fade blends into the ivory ground (not white).
  *
  * Requirements:
  * - Chapter 01: Warm Ivory ground
  * - Oversized section numeral: 01 (Work Sans 200, watermark)
  * - Thin full-width rule
- * - Scale contrast: monumental display statement (clamp up to 8vw, weight 200) vs small tracked labels
- * - Large-format art-directed visual plate (16:9 / 4:5), never text alone
+ * - Scale contrast: monumental display statement vs small tracked labels
+ * - Large-format art-directed visual plate (16:9), never text alone
+ * - Image composition: confident, not dissolved — left fade to ivory only
  */
 
 import Image from 'next/image'
@@ -17,7 +22,8 @@ import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 export function Positioning() {
   return (
     <section
-      className="relative section-y-large border-t border-[var(--color-border)] bg-white overflow-hidden"
+      className="relative section-y-large border-t border-[var(--color-border)] overflow-hidden"
+      style={{ backgroundColor: 'var(--color-ivory)' }}
       aria-labelledby="positioning-heading"
     >
       {/* ── Background Architectural Numeral ─────────────────────────────────── */}
@@ -34,7 +40,7 @@ export function Positioning() {
           <RevealOnScroll>
             <div className="flex items-center gap-4 mb-8">
               <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-mid)]">
-                01 // POSITIONING & MANIFESTO
+                01 // POSITIONING &amp; MANIFESTO
               </span>
               <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
             </div>
@@ -86,9 +92,10 @@ export function Positioning() {
             </RevealOnScroll>
           </div>
 
-          {/* Right: Large-format Art-Directed Visual Plate (16:9) */}
+          {/* Right: Large-format Art-Directed Visual Plate */}
           <div className="lg:col-span-7">
             <RevealOnScroll delay={150}>
+              {/* Image plate — confident composition, left-edge fade to ivory only */}
               <div className="relative w-full aspect-[16/9] overflow-hidden rounded-[var(--radius-card)]">
                 <Image
                   src="/images/positioning/manifesto.jpg"
@@ -99,15 +106,19 @@ export function Positioning() {
                   className="object-cover transition-transform duration-700 hover:scale-[1.02]"
                   style={{ objectPosition: '50% 50%' }}
                 />
-                {/* Left fade */}
-                <div className="absolute inset-y-0 left-0 w-1/4 pointer-events-none" style={{ background: 'linear-gradient(to right, #ffffff 0%, rgba(255,255,255,0) 100%)' }} />
-                {/* Right fade */}
-                <div className="absolute inset-y-0 right-0 w-1/4 pointer-events-none" style={{ background: 'linear-gradient(to left, #ffffff 0%, rgba(255,255,255,0) 100%)' }} />
-                {/* Top fade */}
-                <div className="absolute inset-x-0 top-0 h-1/4 pointer-events-none" style={{ background: 'linear-gradient(to bottom, #ffffff 0%, rgba(255,255,255,0) 100%)' }} />
-                {/* Bottom fade */}
-                <div className="absolute inset-x-0 bottom-0 h-1/4 pointer-events-none" style={{ background: 'linear-gradient(to top, #ffffff 0%, rgba(255,255,255,0) 100%)' }} />
+                {/* Single left-edge fade to warm ivory — directional, not dissolve */}
+                <div
+                  className="absolute inset-y-0 left-0 w-[18%] pointer-events-none"
+                  style={{ background: 'linear-gradient(to right, var(--color-ivory) 0%, rgba(246,244,239,0) 100%)' }}
+                />
+                {/* Bottom vignette — grounds the image */}
+                <div
+                  className="absolute inset-x-0 bottom-0 h-[20%] pointer-events-none"
+                  style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 100%)' }}
+                />
               </div>
+
+              {/* Editorial image caption */}
               <div className="flex items-center justify-between pt-3 text-[10px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-rose-text)]" />

@@ -2,20 +2,19 @@ import { Button } from '@/components/ui/Button'
 import { HeroMedia } from './HeroMedia'
 
 /**
- * Hero — Aurora Spec
+ * Hero — Aurora Spec (Visual Elevation)
  *
  * Layout:
  *   - Header overlays the hero (Navigation is fixed/absolute, z-50)
  *   - Left text column: ~44% width, inset pl-[7vw], vertically centred
  *   - Right media panel: ~56% width, full-bleed to top, right, bottom edges
  *   - The section is min-h-screen (100dvh) to fill the viewport
+ *   - A 1px vertical rule on desktop separates the two columns (architectural)
  *
  * Type:
- *   - Eyebrow: uppercase, tracked, Work Sans 300 (font-light)
- *   - H1: clamp(3rem, 6.2vw, 6.5rem), line-height 1.04, weight 200 (font-extralight)
- *     3 lines max at 1440: "Websites and" / "systems built" / "to work."
- *     "work." rendered italic weight 200 in rose
- *   - Paragraph: 18px / 1.125rem, Graphite Mid, max 46ch, weight 300
+ *   - Eyebrow: cobalt dot + uppercase, tracked, Work Sans 300
+ *   - H1: clamp(3rem, 6.2vw, 6.5rem), line-height 1.04, weight 200
+ *   - "work." italic weight 200 in rose
  *
  * Motion (gated on .js class — content always visible without JS):
  *   - Eyebrow: fade-up 0ms
@@ -31,7 +30,7 @@ import { HeroMedia } from './HeroMedia'
 export function Hero() {
   return (
     <section
-      className="-mt-16 md:-mt-20 relative flex flex-col lg:flex-row min-h-[100dvh] overflow-hidden"
+      className="-mt-16 md:-mt-20 relative flex flex-col lg:flex-row min-h-[100dvh] overflow-hidden bg-[var(--color-ivory)]"
       aria-labelledby="hero-heading"
     >
       {/* ── Left: Text column ───────────────────────────────────────────────── */}
@@ -46,14 +45,21 @@ export function Hero() {
         ].join(' ')}
       >
         <div className="my-auto">
-          {/* Eyebrow */}
+          {/* Eyebrow — cobalt dot + tracked label */}
           <p
             className={[
               'hero-eyebrow mb-5',
+              'flex items-center gap-2.5',
               'text-[0.6875rem] tracking-[0.18em] uppercase font-light',
               'text-[var(--color-graphite-mid)]',
             ].join(' ')}
           >
+            {/* Cobalt pulse dot — small creative navigation detail */}
+            <span
+              className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse"
+              style={{ backgroundColor: 'var(--color-cobalt)' }}
+              aria-hidden="true"
+            />
             DIGITAL PRODUCTS · SYSTEMS · INTELLIGENCE
           </p>
 
@@ -137,6 +143,13 @@ export function Hero() {
           </span>
         </div>
       </div>
+
+      {/* ── Thin vertical rule: architectural separator (desktop only) ────── */}
+      <div
+        className="hidden lg:block absolute top-0 bottom-0 w-px z-10 opacity-30"
+        style={{ left: '46%', backgroundColor: 'var(--color-border-strong)' }}
+        aria-hidden="true"
+      />
 
       {/* ── Mobile: media below text, 4:5 crop ─────────────────────────────── */}
       <div className="lg:hidden w-full aspect-[4/5] relative" aria-hidden="true">

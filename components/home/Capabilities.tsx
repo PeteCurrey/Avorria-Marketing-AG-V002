@@ -1,5 +1,16 @@
 'use client'
 
+/**
+ * Capabilities — Chapter 02: Pale Blue-Grey Tint
+ *
+ * Visual chapter: barely-perceptible cool tint (#F0F2F7) creates clear
+ * separation from the warm ivory above. Cobalt marks the active discipline
+ * as a deliberate colour punctuation (replacing the rose active state here).
+ *
+ * The right-panel aperture is freed from its outer bordered box — the image
+ * floats with a subtle shadow, feeling editorial rather than UI-chrome.
+ */
+
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -86,7 +97,8 @@ export function Capabilities() {
 
   return (
     <section
-      className="relative section-y-large border-t border-[var(--color-border)] bg-white"
+      className="relative section-y-large border-t border-[var(--color-border)]"
+      style={{ backgroundColor: 'var(--color-ivory-tint)' }}
       aria-labelledby="capabilities-heading"
     >
       {/* ── Background Architectural Watermark ───────────────────────────────── */}
@@ -104,7 +116,7 @@ export function Capabilities() {
           <RevealOnScroll>
             <div className="flex items-center gap-4 mb-6">
               <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-mid)]">
-                02 // CAPABILITIES & DISCIPLINES
+                02 // CAPABILITIES &amp; DISCIPLINES
               </span>
               <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
             </div>
@@ -122,10 +134,10 @@ export function Capabilities() {
           </RevealOnScroll>
         </div>
 
-        {/* Two-Column Interactive Layout: Editorial List Left, Real Media Aperture Right */}
+        {/* Two-Column Interactive Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Interactive Discipline List */}
-          <div className="lg:col-span-7 space-y-4" role="tablist" aria-label="Capabilities disciplines">
+          <div className="lg:col-span-7 space-y-3" role="tablist" aria-label="Capabilities disciplines">
             {disciplines.map((item, idx) => {
               const isActive = idx === activeIdx
 
@@ -140,12 +152,22 @@ export function Capabilities() {
                   onMouseEnter={() => setActiveIdx(idx)}
                   onFocus={() => setActiveIdx(idx)}
                   className={[
-                    'p-6 md:p-8 border transition-all duration-300 cursor-pointer rounded-[var(--radius-sm)] focus-visible:outline-2 focus-visible:outline-offset-2',
+                    'relative p-6 md:p-8 border transition-all duration-300 cursor-pointer rounded-[var(--radius-sm)] focus-visible:outline-2 focus-visible:outline-offset-2 overflow-hidden',
                     isActive
                       ? 'border-[var(--color-graphite)] bg-white shadow-sm'
-                      : 'border-[var(--color-border)] bg-transparent hover:border-[var(--color-border-strong)]',
+                      : 'border-[var(--color-border)] bg-white/60 hover:bg-white hover:border-[var(--color-border-strong)]',
                   ].join(' ')}
                 >
+                  {/* Cobalt top-edge rule — draws in when active */}
+                  <span
+                    className="absolute top-0 left-0 right-0 h-[2px] transition-transform duration-500 origin-left"
+                    style={{
+                      backgroundColor: 'var(--color-cobalt)',
+                      transform: isActive ? 'scaleX(1)' : 'scaleX(0)',
+                    }}
+                    aria-hidden="true"
+                  />
+
                   <div className="flex items-baseline justify-between gap-4 mb-3">
                     <span className="text-[0.6875rem] tracking-[0.2em] font-light uppercase text-[var(--color-graphite-muted)]">
                       {item.index} // {item.label}
@@ -153,10 +175,10 @@ export function Capabilities() {
                     <span
                       className={[
                         'text-xs tracking-[0.1em] uppercase font-light transition-colors duration-200',
-                        isActive ? 'text-[var(--color-rose-text)]' : 'text-transparent',
+                        isActive ? 'text-[var(--color-cobalt)]' : 'text-transparent',
                       ].join(' ')}
                     >
-                      Active Aperture
+                      Active
                     </span>
                   </div>
 
@@ -175,7 +197,7 @@ export function Capabilities() {
                   <div className="flex items-center justify-between pt-2">
                     <Link
                       href={item.href}
-                      className="inline-flex items-center gap-2 text-xs font-light tracking-[0.08em] uppercase text-[var(--color-graphite)] hover:text-[var(--color-rose-text)] transition-colors"
+                      className="inline-flex items-center gap-2 text-xs font-light tracking-[0.08em] uppercase text-[var(--color-graphite)] hover:text-[var(--color-cobalt)] transition-colors"
                       tabIndex={isActive ? 0 : -1}
                     >
                       <span>Explore Discipline</span>
@@ -192,24 +214,33 @@ export function Capabilities() {
           </div>
 
           {/* Right Column: Generous Real-Work Media Aperture (Sticky on Desktop) */}
+          {/* No outer box — image floats editorially with shadow only */}
           <div className="lg:col-span-5 lg:sticky lg:top-28">
             <div
               id={`discipline-panel-${activeIdx}`}
               role="tabpanel"
               aria-labelledby={`discipline-tab-${activeIdx}`}
-              className="border border-[var(--color-border)] bg-white p-5 md:p-6 shadow-sm overflow-hidden rounded-[var(--radius-card)]"
             >
               {/* Aperture Header Bar */}
-              <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-3 mb-4 text-[10px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
+              <div className="flex items-center justify-between pb-3 mb-4 border-b border-[var(--color-border)] text-[10px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
                 <span className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-rose-text)]" />
+                  <span
+                    className="w-1.5 h-1.5 rounded-full"
+                    style={{ backgroundColor: 'var(--color-cobalt)' }}
+                  />
                   <span>VERIFIED PROOF // {activeDiscipline.proofProject}</span>
                 </span>
                 <span>DISCIPLINE {activeDiscipline.index}</span>
               </div>
 
-              {/* Main 4:5 Real-Image Frame */}
-              <div className="relative w-full aspect-[4/5] bg-[#121110] border border-[var(--color-border)] overflow-hidden mb-4 rounded-[var(--radius-card)]">
+              {/* Main 4:5 Real-Image Frame — floats with shadow, no border box */}
+              <div
+                className="relative w-full aspect-[4/5] overflow-hidden mb-4 rounded-[var(--radius-card)]"
+                style={{
+                  backgroundColor: '#0E0D0C',
+                  boxShadow: '0 20px 50px -12px rgba(24,24,24,0.22), 0 4px 16px -4px rgba(24,24,24,0.12)',
+                }}
+              >
                 <Image
                   key={activeDiscipline.image}
                   src={activeDiscipline.image}
@@ -234,7 +265,7 @@ export function Capabilities() {
                 <div className="pt-3 border-t border-[var(--color-border)] flex items-center justify-between">
                   <Link
                     href={activeDiscipline.href}
-                    className="text-[10px] tracking-[0.14em] uppercase font-light text-[var(--color-graphite)] hover:text-[var(--color-rose-text)] flex items-center gap-1 transition-colors"
+                    className="text-[10px] tracking-[0.14em] uppercase font-light text-[var(--color-graphite)] hover:text-[var(--color-cobalt)] flex items-center gap-1 transition-colors"
                   >
                     <span>View Technical Scope</span>
                     <span aria-hidden="true">→</span>

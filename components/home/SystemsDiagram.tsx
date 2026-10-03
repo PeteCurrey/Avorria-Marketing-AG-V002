@@ -190,7 +190,7 @@ export function SystemsDiagram() {
                     <span
                       className={[
                         'text-xs tracking-[0.1em] uppercase font-light transition-colors',
-                        isActive ? 'text-[var(--color-rose-text)]' : 'text-transparent',
+                        isActive ? 'text-[var(--color-cobalt)]' : 'text-transparent',
                       ].join(' ')}
                     >
                       Active Stage
@@ -214,7 +214,8 @@ export function SystemsDiagram() {
             <div className="border border-[#2E2B27] bg-[#181715] p-6 md:p-8">
               <div className="flex items-center justify-between pb-3 mb-5 border-b border-[#2A2724] text-[10px] tracking-[0.18em] uppercase text-[#8A8784] font-light">
                 <span className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-rose-text)]" />
+                  {/* Cobalt dot — consistent with cobalt chapter language */}
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-cobalt)' }} />
                   <span>ACTIVE SYSTEM ARCHITECTURE</span>
                 </span>
                 <span>{activeNode.label}</span>

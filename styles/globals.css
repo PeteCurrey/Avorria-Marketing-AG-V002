@@ -16,19 +16,29 @@
    ─────────────────────────────────────────────────────────────────────────── */
 
 @theme {
-  /* Colours — True White Canvas Architecture */
-  --color-ivory:          #FFFFFF;
-  --color-ivory-dark:     #FAFAFA;
-  --color-ivory-border:   #EAE7E2;
-  --color-graphite:       #1A1916;
+  /* Colours — Warm Ivory Foundation + Creative Accent System */
+  --color-ivory:          #F6F4EF;   /* warm white — primary body & section bg */
+  --color-ivory-warm:     #EFECE6;   /* deeper warm ivory for hover/subtle diff */
+  --color-ivory-dark:     #EEEBE5;   /* warm ivory dark — borders, insets */
+  --color-ivory-border:   #E3DFD8;
+  --color-stone:          #E8E5DE;   /* soft stone — section border alternative */
+  --color-ivory-tint:     #F0F2F7;   /* pale blue-grey — Capabilities section bg */
+  --color-graphite:       #181818;   /* primary graphite (slightly deeper) */
   --color-graphite-mid:   #4A4845;
-  --color-graphite-muted: #8A8784;    /* metadata/decorative only — fails AA on small text */
-  --color-border:         #EAE7E2;
+  --color-graphite-muted: #8A8784;   /* metadata/decorative only — fails AA on small text */
+  --color-border:         #E3DFD8;   /* warm to match ivory ground */
   --color-border-strong:  #C8C4BE;
-  --color-accent:         #B5616A;    /* fills, hairlines, focus rings, large text only */
+  --color-accent:         #B5616A;   /* fills, hairlines, focus rings, large text only */
   --color-accent-light:   #E8D4D6;
-  --color-rose-text:      #9A4A53;    /* small rose text — verified ≥4.5:1 on white */
+  --color-rose-text:      #9A4A53;   /* small rose text — verified ≥4.5:1 on ivory */
   --color-white:          #FFFFFF;
+
+  /* Creative accent palette — use as punctuation, never decoratively distributed */
+  --color-cobalt:         #3157FF;   /* process/FinalCta — cobalt chapter */
+  --color-cobalt-light:   #EBF0FF;   /* pale cobalt tint for bg use */
+  --color-coral:          #E47763;   /* editorial/Lobby — coral chapter */
+  --color-coral-light:    #FBF0ED;   /* pale coral tint */
+  --color-chartreuse:     #C7D84A;   /* heritage accent — very rare, one appearance max */
 
   /* Single canonical typeface: Work Sans (loaded via next/font, self-hosted) */
   --font-display: var(--font-work-sans), 'Work Sans', system-ui, -apple-system, sans-serif;
@@ -174,7 +184,7 @@
   }
 
   body {
-    background-color: var(--color-ivory);
+    background-color: var(--color-ivory);   /* warm #F6F4EF — not pure white */
     color: var(--color-graphite);
     font-family: var(--font-sans);
     font-weight: 300;
@@ -608,6 +618,47 @@
     color: var(--color-graphite) !important;
   }
 
+  /* ── Dark-section button (FinalCta) ── */
+  .btn-dark-outline {
+    background-color: transparent !important;
+    color: var(--color-ivory) !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+  }
+  .btn-dark-outline:hover {
+    background-color: var(--color-white) !important;
+    color: var(--color-graphite) !important;
+    border-color: var(--color-white) !important;
+  }
+
+  /* ── Cobalt & Coral accent utilities ── */
+  .text-cobalt  { color: var(--color-cobalt); }
+  .text-coral   { color: var(--color-coral); }
+  .bg-cobalt    { background-color: var(--color-cobalt); }
+  .bg-coral     { background-color: var(--color-coral); }
+  .border-cobalt { border-color: var(--color-cobalt); }
+  .border-coral  { border-color: var(--color-coral); }
+
+  /* ── Section chapter backgrounds ── */
+  .section-ivory      { background-color: var(--color-ivory); }
+  .section-white      { background-color: var(--color-white); }
+  .section-ivory-tint { background-color: var(--color-ivory-tint); }
+  .section-graphite   { background-color: var(--color-graphite); }
+
+  /* ── Cobalt rule — horizontal bar that draws left to right ── */
+  .cobalt-rule {
+    display: block;
+    height: 2px;
+    background-color: var(--color-cobalt);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .cobalt-rule.in-view,
+  [data-active="true"] .cobalt-rule {
+    transform: scaleX(1);
+  }
+
+
   /* ── Button hover: arrow shifts 3px diagonally ── */
   .btn-arrow {
     display: inline-block;
@@ -738,7 +789,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background-color: var(--color-rose-text);
+    background-color: var(--color-cobalt);   /* cobalt chapter: process */
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -749,7 +800,7 @@
   }
 
   .process-step-card[data-active="true"] .process-step-stage-label {
-    color: var(--color-rose-text);
+    color: var(--color-cobalt);   /* cobalt chapter: process */
   }
 
   .process-step-card[data-active="true"] .process-step-title {

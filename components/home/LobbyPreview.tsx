@@ -4,14 +4,18 @@ import { Button } from '@/components/ui/Button'
 import { getAllArticles } from '@/lib/lobby'
 
 /**
- * LobbyPreview — Chapter 07
+ * LobbyPreview — Chapter 07: Warm Ivory + Coral Accent
+ *
+ * Visual chapter: warm ivory ground returns (#F6F4EF), coral category labels
+ * (#E47763) mark the editorial intelligence section. Coral is used only here
+ * as a warm, considered accent distinct from rose (hover/italic) and cobalt
+ * (process/system).
  *
  * Requirements:
  * - Chapter 07: Warm Ivory ground
- * - Oversized section numeral: 07 (Work Sans 200)
- * - Thin full-width rule
- * - Scale contrast: monumental display statement vs small tracked labels
- * - Truthful editorial intelligence dispatch listing with reserved visual aperture
+ * - Oversized section numeral: 07 (Work Sans 200, watermark)
+ * - Truthful editorial intelligence dispatch listing
+ * - Coral accent on category labels — editorial chapter colour
  */
 
 export async function LobbyPreview() {
@@ -19,7 +23,8 @@ export async function LobbyPreview() {
 
   return (
     <section
-      className="relative section-y-large border-t border-[var(--color-border)] bg-white overflow-hidden"
+      className="relative section-y-large border-t border-[var(--color-border)] overflow-hidden"
+      style={{ backgroundColor: 'var(--color-ivory)' }}
       aria-labelledby="lobby-heading"
     >
       {/* ── Background Architectural Numeral ─────────────────────────────────── */}
@@ -76,11 +81,15 @@ export async function LobbyPreview() {
             <RevealOnScroll key={article.slug} delay={i * 80}>
               <Link
                 href={`/lobby/${article.slug}`}
-                className="group block py-8 md:py-10 hover:bg-black/[0.012] transition-colors"
+                className="group block py-8 md:py-10 hover:bg-[var(--color-ivory-warm)] transition-colors rounded-[var(--radius-sm)]"
               >
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-baseline">
                   <div className="lg:col-span-3">
-                    <span className="text-[10px] tracking-[0.2em] font-light text-[var(--color-rose-text)] uppercase block mb-1">
+                    {/* Coral category label — editorial chapter accent */}
+                    <span
+                      className="text-[10px] tracking-[0.2em] font-light uppercase block mb-1"
+                      style={{ color: 'var(--color-coral)' }}
+                    >
                       {article.categoryName ?? article.categoryLabel ?? article.category}
                     </span>
                     <span className="text-[10px] tracking-[0.16em] uppercase text-[var(--color-graphite-muted)] font-light">
@@ -89,7 +98,7 @@ export async function LobbyPreview() {
                   </div>
 
                   <div className="lg:col-span-8">
-                    <h3 className="text-xl md:text-2xl font-extralight text-[var(--color-graphite)] group-hover:text-[var(--color-rose-text)] transition-colors mb-2 tracking-[-0.01em]">
+                    <h3 className="text-xl md:text-2xl font-extralight text-[var(--color-graphite)] group-hover:text-[var(--color-graphite)] transition-colors mb-2 tracking-[-0.01em]">
                       {article.title}
                     </h3>
                     <p className="text-sm font-light text-[var(--color-graphite-mid)] leading-relaxed line-clamp-2">
@@ -97,7 +106,7 @@ export async function LobbyPreview() {
                     </p>
                   </div>
 
-                  <div className="lg:col-span-1 hidden lg:flex justify-end text-[var(--color-graphite-mid)] group-hover:text-[var(--color-rose-text)] group-hover:translate-x-1 transition-all">
+                  <div className="lg:col-span-1 hidden lg:flex justify-end text-[var(--color-graphite-mid)] group-hover:text-[var(--color-coral)] group-hover:translate-x-1 transition-all">
                     <span>↗</span>
                   </div>
                 </div>

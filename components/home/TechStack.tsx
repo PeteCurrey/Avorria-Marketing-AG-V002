@@ -249,7 +249,8 @@ function TechLogo({ id }: { id: string }) {
 export function TechStack() {
   return (
     <section
-      className="relative section-y-large border-t border-[var(--color-border)] bg-white overflow-hidden"
+      className="relative section-y-large border-t border-[var(--color-border)] overflow-hidden"
+      style={{ backgroundColor: 'var(--color-ivory)' }}
       aria-labelledby="tech-heading"
       id="techstack"
     >
