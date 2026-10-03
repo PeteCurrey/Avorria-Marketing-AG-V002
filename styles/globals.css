@@ -16,29 +16,41 @@
    ─────────────────────────────────────────────────────────────────────────── */
 
 @theme {
-  /* Colours — Warm Ivory Foundation + Creative Accent System */
-  --color-ivory:          #F6F4EF;   /* warm white — primary body & section bg */
-  --color-ivory-warm:     #EFECE6;   /* deeper warm ivory for hover/subtle diff */
-  --color-ivory-dark:     #EEEBE5;   /* warm ivory dark — borders, insets */
-  --color-ivory-border:   #E3DFD8;
-  --color-stone:          #E8E5DE;   /* soft stone — section border alternative */
-  --color-ivory-tint:     #F0F2F7;   /* pale blue-grey — Capabilities section bg */
-  --color-graphite:       #181818;   /* primary graphite (slightly deeper) */
+  /* ── Colour System: Quiet Confidence with a Creative Edge ───────────────
+     Palette rules:
+     - Rose & Bronze: fills, hairlines, large numerals, dots only
+     - Bronze ≈3.7:1 on Ivory → large display / decorative ONLY, never small text
+     - On Wine/Petrol: use Ivory (#F7F5F0) and Rose Light (#E8D4D6) for text
+     - All pairs verified WCAG 2.2 AA (see contrast table in implementation_plan.md)
+     ─────────────────────────────────────────────────────────────────────── */
+  /* Neutrals — warm ivory & stone foundation (~70% coverage) */
+  --color-ivory:          #F7F5F0;   /* canonical warm white — primary body & section bg */
+  --color-ivory-warm:     #EDE9E3;   /* deeper warm ivory for hover / inset surfaces */
+  --color-ivory-dark:     #E8E2D8;   /* === Stone: warm neutral chapter ground */
+  --color-ivory-border:   #DDD8D0;
+  --color-stone:          #E8E2D8;   /* Stone chapter ground — Capabilities, Lobby Preview, TechStack */
+  --color-graphite:       #1A1916;   /* canonical Graphite — Selected Work chapter */
   --color-graphite-mid:   #4A4845;
-  --color-graphite-muted: #8A8784;   /* metadata/decorative only — fails AA on small text */
-  --color-border:         #E3DFD8;   /* warm to match ivory ground */
-  --color-border-strong:  #C8C4BE;
-  --color-accent:         #B5616A;   /* fills, hairlines, focus rings, large text only */
-  --color-accent-light:   #E8D4D6;
-  --color-rose-text:      #9A4A53;   /* small rose text — verified ≥4.5:1 on ivory */
+  --color-graphite-muted: #8A8784;   /* metadata / decorative only — fails AA on small text */
+  --color-border:         #DDD8D0;   /* warm to match ivory ground */
+  --color-border-strong:  #C0BAB3;
   --color-white:          #FFFFFF;
 
-  /* Creative accent palette — use as punctuation, never decoratively distributed */
-  --color-cobalt:         #3157FF;   /* process/FinalCta — cobalt chapter */
-  --color-cobalt-light:   #EBF0FF;   /* pale cobalt tint for bg use */
-  --color-coral:          #E47763;   /* editorial/Lobby — coral chapter */
-  --color-coral-light:    #FBF0ED;   /* pale coral tint */
-  --color-chartreuse:     #C7D84A;   /* heritage accent — very rare, one appearance max */
+  /* Signature accents — punctuation only, never decoratively distributed */
+  --color-accent:         #B5616A;   /* Rose: fills, hairlines, focus rings, large display text */
+  --color-accent-light:   #E8D4D6;   /* Rose Light: text on Wine/Petrol dark chapters */
+  --color-rose-text:      #9A4A53;   /* Rose Text: small italic emphasis on Ivory — 4.8:1 */
+  --color-bronze:         #A47551;   /* Bronze: fills, hairlines, large numerals — display only */
+
+  /* Deep chapter grounds (~25% coverage) */
+  --color-wine:           #4A1F27;   /* Wine chapter — final CTA, Lobby CTA */
+  --color-petrol:         #17353A;   /* Petrol chapter — Systems Diagram */
+
+  /* Legacy aliases retained for backward-compat (mapped to new palette) */
+  --color-ivory-tint:     #E8E2D8;   /* was cold blue-grey; now Stone — Capabilities bg */
+  --color-cobalt:         #3157FF;   /* authentic cobalt blue for client portal */
+  --color-cobalt-light:   #EBF0FF;   /* pale cobalt tint */
+  --color-coral:          #A47551;   /* DEPRECATED: replaced by Bronze accent */
 
   /* Single canonical typeface: Work Sans (loaded via next/font, self-hosted) */
   --font-display: var(--font-work-sans), 'Work Sans', system-ui, -apple-system, sans-serif;
@@ -630,25 +642,38 @@
     border-color: var(--color-white) !important;
   }
 
-  /* ── Cobalt & Coral accent utilities ── */
-  .text-cobalt  { color: var(--color-cobalt); }
-  .text-coral   { color: var(--color-coral); }
-  .bg-cobalt    { background-color: var(--color-cobalt); }
-  .bg-coral     { background-color: var(--color-coral); }
-  .border-cobalt { border-color: var(--color-cobalt); }
-  .border-coral  { border-color: var(--color-coral); }
+  /* ── Accent rules — Rose and Bronze animated hairlines ── */
+  .rose-rule {
+    display: block;
+    height: 2px;
+    background-color: var(--color-accent);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .rose-rule.in-view,
+  [data-active="true"] .rose-rule {
+    transform: scaleX(1);
+  }
 
-  /* ── Section chapter backgrounds ── */
-  .section-ivory      { background-color: var(--color-ivory); }
-  .section-white      { background-color: var(--color-white); }
-  .section-ivory-tint { background-color: var(--color-ivory-tint); }
-  .section-graphite   { background-color: var(--color-graphite); }
+  .bronze-rule {
+    display: block;
+    height: 2px;
+    background-color: var(--color-bronze);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .bronze-rule.in-view,
+  [data-active="true"] .bronze-rule {
+    transform: scaleX(1);
+  }
 
-  /* ── Cobalt rule — horizontal bar that draws left to right ── */
+  /* Backward-compatible alias — maps to rose */
   .cobalt-rule {
     display: block;
     height: 2px;
-    background-color: var(--color-cobalt);
+    background-color: var(--color-accent);
     transform-origin: left;
     transform: scaleX(0);
     transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -656,6 +681,92 @@
   .cobalt-rule.in-view,
   [data-active="true"] .cobalt-rule {
     transform: scaleX(1);
+  }
+
+  /* ── Section chapter backgrounds ── */
+  .section-ivory      { background-color: var(--color-ivory); }
+  .section-stone      { background-color: var(--color-stone); }
+  .section-white      { background-color: var(--color-white); }
+  .section-ivory-tint { background-color: var(--color-stone); }
+  .section-graphite   { background-color: var(--color-graphite); color: var(--color-ivory); }
+  .section-wine       { background-color: var(--color-wine); color: var(--color-ivory); }
+  .section-petrol     { background-color: var(--color-petrol); color: var(--color-ivory); }
+
+  /* ── Chapter system — art-direction layer ────────────────────────────────
+     data-chapter attribute drives background, typography palette, and automatic header inversion.
+     Usage: <section data-chapter="ivory"> etc.
+     ─────────────────────────────────────────────────────────────────────── */
+  [data-chapter="ivory"]        { background-color: var(--color-ivory); color: var(--color-graphite); }
+  [data-chapter="stone"]        { background-color: var(--color-stone); color: var(--color-graphite); }
+  [data-chapter="graphite"]     { background-color: var(--color-graphite); color: var(--color-ivory); }
+  [data-chapter="wine"]         { background-color: var(--color-wine); color: var(--color-ivory); }
+  [data-chapter="petrol"]       { background-color: var(--color-petrol); color: var(--color-ivory); }
+  [data-chapter="photographic"] { position: relative; }
+
+  /* Tone-on-tone sculptural section numerals (never bold, weight 200) */
+  .numeral-stone-on-ivory {
+    color: var(--color-stone);
+    font-weight: 200;
+    font-size: clamp(6rem, 16vw, 14rem);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .numeral-ivory-on-stone {
+    color: var(--color-ivory);
+    font-weight: 200;
+    font-size: clamp(6rem, 16vw, 14rem);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .numeral-graphite-on-graphite {
+    color: var(--color-graphite-mid);
+    opacity: 0.15;
+    font-weight: 200;
+    font-size: clamp(6rem, 16vw, 14rem);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .numeral-wine-on-petrol {
+    color: var(--color-wine);
+    opacity: 0.35;
+    font-weight: 200;
+    font-size: clamp(6rem, 16vw, 14rem);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .numeral-ivory-on-dark {
+    color: var(--color-ivory);
+    opacity: 0.05;
+    font-weight: 200;
+    font-size: clamp(6rem, 16vw, 14rem);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* ── AnnotationLabel: thin rose hairline callout ── */
+  .annotation-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.625rem;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-graphite-muted);
+  }
+  .annotation-label::before {
+    content: '';
+    display: inline-block;
+    width: 1.25rem;
+    height: 1px;
+    background-color: var(--color-accent);
+    flex-shrink: 0;
   }
 
 
@@ -789,7 +900,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background-color: var(--color-cobalt);   /* cobalt chapter: process */
+    background-color: var(--color-accent);   /* rose: process step active indicator */
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -800,7 +911,7 @@
   }
 
   .process-step-card[data-active="true"] .process-step-stage-label {
-    color: var(--color-cobalt);   /* cobalt chapter: process */
+    color: var(--color-accent);   /* rose: active stage indicator */
   }
 
   .process-step-card[data-active="true"] .process-step-title {

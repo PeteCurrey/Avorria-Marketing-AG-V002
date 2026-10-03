@@ -14,20 +14,46 @@ function isActiveLink(pathname: string | null | undefined, href: string): boolea
   return pathname === href || pathname.startsWith(href + '/')
 }
 
+const DARK_CHAPTERS = new Set(['graphite', 'wine', 'petrol'])
+
 // ─── Navigation ──────────────────────────────────────────────────────────────
 
 export function Navigation() {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [isDarkChapter, setIsDarkChapter] = useState(false)
   const hamburgerRef = useRef<HTMLButtonElement>(null)
 
-  // Hairline fades in after scroll
+  // Header scroll & dark-chapter inversion detection
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      setScrolled(scrollY > 20)
+
+      // Find section currently beneath the header (around y = 50px)
+      const headerY = 50
+      const chapterSections = document.querySelectorAll<HTMLElement>('[data-chapter]')
+      let currentDark = false
+
+      for (const section of chapterSections) {
+        const rect = section.getBoundingClientRect()
+        if (rect.top <= headerY && rect.bottom >= headerY) {
+          const chapter = section.getAttribute('data-chapter')
+          if (chapter && DARK_CHAPTERS.has(chapter)) {
+            currentDark = true
+          }
+          break
+        }
+      }
+
+      setIsDarkChapter(currentDark)
+    }
+
     window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll() // Initial check on mount
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [pathname])
 
   // Close on route change
   useEffect(() => {
@@ -52,7 +78,9 @@ export function Navigation() {
           menuOpen
             ? 'bg-transparent'
             : scrolled
-              ? 'bg-white shadow-[0_1px_0_0_var(--color-border)]'
+              ? isDarkChapter
+                ? 'bg-[#1A1916]/90 backdrop-blur-md shadow-[0_1px_0_0_rgba(247,245,240,0.12)]'
+                : 'bg-white/95 backdrop-blur-md shadow-[0_1px_0_0_var(--color-border)]'
               : 'bg-transparent',
           'transition-all duration-[var(--duration-base)]',
         ].join(' ')}
@@ -70,7 +98,7 @@ export function Navigation() {
               aria-label="Avorria — Home"
               onClick={closeMenu}
             >
-              <AvorriaMark />
+              <AvorriaMark inverted={isDarkChapter && !menuOpen} />
             </Link>
 
             {/* Right cluster: The Lobby link + hamburger */}
@@ -81,10 +109,14 @@ export function Navigation() {
                 className={[
                   'hidden lg:block text-[0.6875rem] font-light tracking-[0.04em]',
                   'transition-colors duration-[var(--duration-base)] link-hover',
-                  'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-graphite)]',
-                  isActiveLink(pathname, '/lobby')
-                    ? 'text-[var(--color-graphite)]'
-                    : 'text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)]',
+                  'focus-visible:outline-2 focus-visible:outline-offset-4',
+                  isDarkChapter && !menuOpen
+                    ? isActiveLink(pathname, '/lobby')
+                      ? 'text-[var(--color-ivory)]'
+                      : 'text-[var(--color-accent-light)] hover:text-[var(--color-ivory)]'
+                    : isActiveLink(pathname, '/lobby')
+                      ? 'text-[var(--color-graphite)]'
+                      : 'text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)]',
                 ].join(' ')}
                 aria-current={isActiveLink(pathname, '/lobby') ? 'page' : undefined}
               >
@@ -103,10 +135,12 @@ export function Navigation() {
                   'text-[1.375rem] font-extralight leading-none',
                   'transition-colors duration-[var(--duration-base)]',
                   'w-8 h-8 flex items-center justify-center',
-                  'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-graphite)]',
+                  'focus-visible:outline-2 focus-visible:outline-offset-4',
                   menuOpen
                     ? 'text-[var(--color-graphite)] opacity-0 pointer-events-none'
-                    : 'text-[var(--color-graphite)] hover:text-[var(--color-rose-text)]',
+                    : isDarkChapter
+                      ? 'text-[var(--color-ivory)] hover:text-[var(--color-accent-light)]'
+                      : 'text-[var(--color-graphite)] hover:text-[var(--color-rose-text)]',
                 ].join(' ')}
               >
                 {/* Three-line icon — CSS animated */}
@@ -132,17 +166,23 @@ export function Navigation() {
 }
 
 // ─── SVG Wordmark ─────────────────────────────────────────────────────────────
-function AvorriaMark() {
+function AvorriaMark({ inverted = false }: { inverted?: boolean }) {
   return (
     <span className="block">
       <span
-        className="font-display text-[1.0625rem] tracking-[0.2em] font-extralight text-[var(--color-graphite)] uppercase leading-none"
+        className={[
+          'font-display text-[1.0625rem] tracking-[0.2em] font-extralight uppercase leading-none transition-colors duration-200',
+          inverted ? 'text-[var(--color-ivory)]' : 'text-[var(--color-graphite)]',
+        ].join(' ')}
         aria-label="Avorria"
       >
         AVORRIA
       </span>
       <span
-        className="hidden md:block text-[0.5625rem] tracking-[0.2em] font-light text-[var(--color-graphite-mid)] uppercase leading-none mt-0.5"
+        className={[
+          'hidden md:block text-[0.5625rem] tracking-[0.2em] font-light uppercase leading-none mt-0.5 transition-colors duration-200',
+          inverted ? 'text-[var(--color-accent-light)] opacity-70' : 'text-[var(--color-graphite-mid)]',
+        ].join(' ')}
         aria-hidden="true"
       >
         DIGITAL STUDIO

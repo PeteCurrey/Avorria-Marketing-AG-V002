@@ -1,14 +1,10 @@
 'use client'
 
 /**
- * Capabilities — Chapter 02: Pale Blue-Grey Tint
+ * Capabilities — Chapter 02: Warm Stone
  *
- * Visual chapter: barely-perceptible cool tint (#F0F2F7) creates clear
- * separation from the warm ivory above. Cobalt marks the active discipline
- * as a deliberate colour punctuation (replacing the rose active state here).
- *
- * The right-panel aperture is freed from its outer bordered box — the image
- * floats with a subtle shadow, feeling editorial rather than UI-chrome.
+ * Visual chapter: warm stone ground (#E8E2D8), rose/bronze active accents,
+ * generous real-work media aperture that floats with architectural depth.
  */
 
 import { useState } from 'react'
@@ -56,7 +52,7 @@ const disciplines: CapabilityDiscipline[] = [
   {
     index: '03',
     label: 'SYSTEMS & DATA',
-    title: 'Commercial Infrastructure & Real-Time Telemetry',
+    title: 'Commercial Infrastructure & Real-Time Intelligence',
     statement: 'Connecting payment gateways, spatial cadastral tiles, and data pipelines.',
     description:
       'Server-side attribution, Stripe financial infrastructure, PostGIS spatial queries, and sub-millisecond data visualisations that turn isolated websites into compounding operating assets.',
@@ -98,13 +94,14 @@ export function Capabilities() {
   return (
     <section
       className="relative section-y-large border-t border-[var(--color-border)]"
-      style={{ backgroundColor: 'var(--color-ivory-tint)' }}
+      style={{ backgroundColor: 'var(--color-stone)' }}
+      data-chapter="stone"
       aria-labelledby="capabilities-heading"
     >
-      {/* ── Background Architectural Watermark ───────────────────────────────── */}
+      {/* ── Background Architectural Watermark: Ivory on Stone ── */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div
-          className="absolute top-8 right-[7vw] select-none text-[clamp(6rem,16vw,14rem)] font-extralight text-[var(--color-graphite)] opacity-[0.03] leading-none"
+          className="absolute top-8 right-[7vw] select-none text-[clamp(6rem,16vw,14rem)] font-extralight text-[var(--color-ivory)] opacity-40 leading-none"
         >
           02
         </div>
@@ -116,7 +113,7 @@ export function Capabilities() {
           <RevealOnScroll>
             <div className="flex items-center gap-4 mb-6">
               <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-mid)]">
-                02 // CAPABILITIES &amp; DISCIPLINES
+                02 — CAPABILITIES &amp; DISCIPLINES
               </span>
               <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
             </div>
@@ -158,11 +155,11 @@ export function Capabilities() {
                       : 'border-[var(--color-border)] bg-white/60 hover:bg-white hover:border-[var(--color-border-strong)]',
                   ].join(' ')}
                 >
-                  {/* Cobalt top-edge rule — draws in when active */}
+                  {/* Rose top-edge rule — draws in when active */}
                   <span
                     className="absolute top-0 left-0 right-0 h-[2px] transition-transform duration-500 origin-left"
                     style={{
-                      backgroundColor: 'var(--color-cobalt)',
+                      backgroundColor: 'var(--color-accent)',
                       transform: isActive ? 'scaleX(1)' : 'scaleX(0)',
                     }}
                     aria-hidden="true"
@@ -170,12 +167,12 @@ export function Capabilities() {
 
                   <div className="flex items-baseline justify-between gap-4 mb-3">
                     <span className="text-[0.6875rem] tracking-[0.2em] font-light uppercase text-[var(--color-graphite-muted)]">
-                      {item.index} // {item.label}
+                      {item.index} — {item.label}
                     </span>
                     <span
                       className={[
                         'text-xs tracking-[0.1em] uppercase font-light transition-colors duration-200',
-                        isActive ? 'text-[var(--color-cobalt)]' : 'text-transparent',
+                        isActive ? 'text-[var(--color-accent)]' : 'text-transparent',
                       ].join(' ')}
                     >
                       Active
@@ -197,7 +194,7 @@ export function Capabilities() {
                   <div className="flex items-center justify-between pt-2">
                     <Link
                       href={item.href}
-                      className="inline-flex items-center gap-2 text-xs font-light tracking-[0.08em] uppercase text-[var(--color-graphite)] hover:text-[var(--color-cobalt)] transition-colors"
+                      className="inline-flex items-center gap-2 text-xs font-light tracking-[0.08em] uppercase text-[var(--color-graphite)] hover:text-[var(--color-accent)] transition-colors"
                       tabIndex={isActive ? 0 : -1}
                     >
                       <span>Explore Discipline</span>
@@ -205,7 +202,7 @@ export function Capabilities() {
                     </Link>
 
                     <span className="text-[10px] tracking-[0.14em] uppercase font-light text-[var(--color-graphite-muted)]">
-                      Proof: {item.proofProject}
+                      Case Study: {item.proofProject}
                     </span>
                   </div>
                 </div>
@@ -214,7 +211,6 @@ export function Capabilities() {
           </div>
 
           {/* Right Column: Generous Real-Work Media Aperture (Sticky on Desktop) */}
-          {/* No outer box — image floats editorially with shadow only */}
           <div className="lg:col-span-5 lg:sticky lg:top-28">
             <div
               id={`discipline-panel-${activeIdx}`}
@@ -226,9 +222,9 @@ export function Capabilities() {
                 <span className="flex items-center gap-2">
                   <span
                     className="w-1.5 h-1.5 rounded-full"
-                    style={{ backgroundColor: 'var(--color-cobalt)' }}
+                    style={{ backgroundColor: 'var(--color-accent)' }}
                   />
-                  <span>VERIFIED PROOF // {activeDiscipline.proofProject}</span>
+                  <span>CASE STUDY · {activeDiscipline.proofProject}</span>
                 </span>
                 <span>DISCIPLINE {activeDiscipline.index}</span>
               </div>
@@ -250,7 +246,6 @@ export function Capabilities() {
                   className="object-cover object-center transition-all duration-700 hover:scale-[1.02]"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
               </div>
 
               {/* Aperture Detail */}
@@ -265,7 +260,7 @@ export function Capabilities() {
                 <div className="pt-3 border-t border-[var(--color-border)] flex items-center justify-between">
                   <Link
                     href={activeDiscipline.href}
-                    className="text-[10px] tracking-[0.14em] uppercase font-light text-[var(--color-graphite)] hover:text-[var(--color-cobalt)] flex items-center gap-1 transition-colors"
+                    className="text-[10px] tracking-[0.14em] uppercase font-light text-[var(--color-graphite)] hover:text-[var(--color-accent)] flex items-center gap-1 transition-colors"
                   >
                     <span>View Technical Scope</span>
                     <span aria-hidden="true">→</span>

@@ -3,32 +3,24 @@
 /**
  * Positioning — Chapter 01: Warm Ivory
  *
- * Visual chapter: warm ivory ground (#F6F4EF), editorial image composition
- * with no apologetic fade-out — the image is a confident rectangular plate.
- * A single left-edge fade blends into the ivory ground (not white).
- *
- * Requirements:
- * - Chapter 01: Warm Ivory ground
- * - Oversized section numeral: 01 (Work Sans 200, watermark)
- * - Thin full-width rule
- * - Scale contrast: monumental display statement vs small tracked labels
- * - Large-format art-directed visual plate (16:9), never text alone
- * - Image composition: confident, not dissolved — left fade to ivory only
+ * Visual chapter: warm ivory ground (#F7F5F0), confident rectangular plate
+ * with no dissolve gradient fade. Stone on Ivory tone-on-tone sculptural numeral.
  */
 
 import Image from 'next/image'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { AnnotationLabel } from '@/components/art/AnnotationLabel'
 
 export function Positioning() {
   return (
     <section
       className="relative section-y-large border-t border-[var(--color-border)] overflow-hidden"
-      style={{ backgroundColor: 'var(--color-ivory)' }}
+      data-chapter="ivory"
       aria-labelledby="positioning-heading"
     >
-      {/* ── Background Architectural Numeral ─────────────────────────────────── */}
+      {/* ── Background Architectural Numeral: Stone on Ivory Tone-on-Tone ── */}
       <div
-        className="absolute top-8 right-[7vw] pointer-events-none select-none text-[clamp(6rem,16vw,14rem)] font-extralight text-[var(--color-graphite)] opacity-[0.04] leading-none"
+        className="absolute top-8 right-[7vw] numeral-stone-on-ivory opacity-60"
         aria-hidden="true"
       >
         01
@@ -40,14 +32,14 @@ export function Positioning() {
           <RevealOnScroll>
             <div className="flex items-center gap-4 mb-8">
               <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-mid)]">
-                01 // POSITIONING &amp; MANIFESTO
+                01 — POSITIONING &amp; MANIFESTO
               </span>
               <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
             </div>
 
             <h2
               id="positioning-heading"
-              className="font-extralight text-[var(--color-graphite)] leading-[1.04] tracking-[-0.025em] text-[clamp(2rem,4.8vw,5rem)] max-w-[18ch]"
+              className="font-extralight text-[var(--color-graphite)] leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.5vw,5.5rem)] max-w-[20ch]"
             >
               Technology should{' '}
               <em className="not-italic italic font-extralight" style={{ color: 'var(--color-rose-text)' }}>
@@ -95,36 +87,27 @@ export function Positioning() {
           {/* Right: Large-format Art-Directed Visual Plate */}
           <div className="lg:col-span-7">
             <RevealOnScroll delay={150}>
-              {/* Image plate — confident composition, left-edge fade to ivory only */}
-              <div className="relative w-full aspect-[16/9] overflow-hidden rounded-[var(--radius-card)]">
+              {/* Confident rectangular plate — hard architectural edges, no gradient dissolve */}
+              <div className="relative w-full aspect-[16/9] overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-border)]">
                 <Image
                   src="/images/positioning/manifesto.jpg"
-                  alt="Precision engineering geometry — high-tolerance mechanical machining"
+                  alt="Precision engineering geometry"
                   fill
                   sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 55vw, 680px"
                   priority
                   className="object-cover transition-transform duration-700 hover:scale-[1.02]"
                   style={{ objectPosition: '50% 50%' }}
                 />
-                {/* Single left-edge fade to warm ivory — directional, not dissolve */}
-                <div
-                  className="absolute inset-y-0 left-0 w-[18%] pointer-events-none"
-                  style={{ background: 'linear-gradient(to right, var(--color-ivory) 0%, rgba(246,244,239,0) 100%)' }}
-                />
-                {/* Bottom vignette — grounds the image */}
-                <div
-                  className="absolute inset-x-0 bottom-0 h-[20%] pointer-events-none"
-                  style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 100%)' }}
-                />
               </div>
 
-              {/* Editorial image caption */}
-              <div className="flex items-center justify-between pt-3 text-[10px] tracking-[0.18em] uppercase text-[var(--color-graphite-muted)] font-light">
-                <span className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-rose-text)]" />
-                  <span>PRECISION ENGINEERING // HIGH-TOLERANCE GEOMETRY</span>
+              {/* Editorial Image Annotation */}
+              <div className="pt-4 flex items-center justify-between">
+                <AnnotationLabel accent="rose">
+                  Precision Engineering Geometry
+                </AnnotationLabel>
+                <span className="text-[10px] tracking-[0.14em] uppercase font-light text-[var(--color-graphite-muted)]">
+                  LONDON STUDIO
                 </span>
-                <span>REF. AV-2025-01</span>
               </div>
             </RevealOnScroll>
           </div>

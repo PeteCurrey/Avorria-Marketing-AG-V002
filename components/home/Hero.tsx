@@ -31,6 +31,7 @@ export function Hero() {
   return (
     <section
       className="-mt-16 md:-mt-20 relative flex flex-col lg:flex-row min-h-[100dvh] overflow-hidden bg-[var(--color-ivory)]"
+      data-chapter="ivory"
       aria-labelledby="hero-heading"
     >
       {/* ── Left: Text column ───────────────────────────────────────────────── */}
@@ -39,9 +40,9 @@ export function Hero() {
         className={[
           'relative z-10',
           'flex flex-col justify-between',
-          'w-full lg:w-[46%] shrink-0 min-h-[100dvh]',
+          'w-full lg:w-[46%] shrink-0 lg:min-h-[100dvh]',
           'pl-[7vw] pr-8 lg:pr-6',
-          'pt-24 pb-8 lg:pt-28 lg:pb-10',
+          'pt-24 pb-12 lg:pt-28 lg:pb-10',
         ].join(' ')}
       >
         <div className="my-auto">
@@ -57,7 +58,7 @@ export function Hero() {
             {/* Cobalt pulse dot — small creative navigation detail */}
             <span
               className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse"
-              style={{ backgroundColor: 'var(--color-cobalt)' }}
+              style={{ backgroundColor: 'var(--color-accent)' }}
               aria-hidden="true"
             />
             DIGITAL PRODUCTS · SYSTEMS · INTELLIGENCE

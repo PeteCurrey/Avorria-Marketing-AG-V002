@@ -64,35 +64,7 @@ export function HeroMedia({
         style={{ objectPosition: 'center center' }}
       />
 
-      {/* ── Left edge: subtle shadow vignette (depth, not bleed-to-white) ── */}
-      <div
-        className="absolute inset-y-0 left-0 pointer-events-none hidden lg:block"
-        style={{
-          width: '12%',
-          background: 'linear-gradient(to right, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 100%)',
-          zIndex: 1,
-        }}
-      />
-
-      {/* ── Bottom vignette — grounds the image ────────────────────────────── */}
-      <div
-        className="absolute inset-x-0 bottom-0 pointer-events-none"
-        style={{
-          height: '30%',
-          background: 'linear-gradient(to top, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0) 100%)',
-          zIndex: 1,
-        }}
-      />
-
-      {/* ── Mobile: dark top vignette — separates from text column ──────────── */}
-      <div
-        className="absolute inset-x-0 top-0 pointer-events-none lg:hidden"
-        style={{
-          height: '20%',
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 100%)',
-          zIndex: 1,
-        }}
-      />
+      {/* ── Hard architectural edge — confident, no gradient dissolve ── */}
 
       {/* ── Optional Video ────────────────────────────────────────────────── */}
       {video && (
