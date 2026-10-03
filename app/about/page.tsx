@@ -5,6 +5,7 @@ import { Eyebrow } from '@/components/ui/Eyebrow'
 import { Button } from '@/components/ui/Button'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { PageHero } from '@/components/ui/PageHero'
+import { FounderSection } from '@/components/about/FounderSection'
 import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = generatePageMetadata({
@@ -93,7 +94,7 @@ export default function AboutPage() {
           <div className="container-content">
 
             {/* Two-Column Editorial Thesis */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
               <RevealOnScroll>
                 <div className="space-y-6 text-secondary leading-relaxed font-light">
                   <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)] block mb-2">
@@ -128,6 +129,17 @@ export default function AboutPage() {
                 </div>
               </RevealOnScroll>
             </div>
+
+          </div>
+        </div>
+      </div>
+
+      {/* ── Founder Editorial Feature ────────────────────────────────────────── */}
+      <FounderSection />
+
+      <div className="section-y-large border-t border-[var(--color-border)] bg-[var(--color-ivory)]">
+        <div className="container-max">
+          <div className="container-content">
 
             {/* What Avorria Refuses To Do */}
             <div className="border border-[var(--color-border)] bg-[var(--color-ivory-light)] p-8 md:p-12 mb-24">
