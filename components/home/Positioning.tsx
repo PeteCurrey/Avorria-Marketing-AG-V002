@@ -87,8 +87,8 @@ export function Positioning() {
           {/* Right: Large-format Art-Directed Visual Plate */}
           <div className="lg:col-span-7">
             <RevealOnScroll delay={150}>
-              {/* Confident rectangular plate — hard architectural edges, no gradient dissolve */}
-              <div className="relative w-full aspect-[16/9] overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-border)]">
+              {/* Art-Directed Visual Plate with faded gradient edges */}
+              <div className="relative w-full aspect-[16/9] overflow-hidden rounded-[var(--radius-card)]">
                 <Image
                   src="/images/positioning/manifesto.jpg"
                   alt="Precision engineering geometry"
@@ -97,6 +97,30 @@ export function Positioning() {
                   priority
                   className="object-cover transition-transform duration-700 hover:scale-[1.02]"
                   style={{ objectPosition: '50% 50%' }}
+                />
+                {/* Left fade */}
+                <div
+                  className="absolute inset-y-0 left-0 w-1/4 pointer-events-none z-10"
+                  style={{ background: 'linear-gradient(to right, var(--color-ivory) 0%, transparent 100%)' }}
+                  aria-hidden="true"
+                />
+                {/* Right fade */}
+                <div
+                  className="absolute inset-y-0 right-0 w-1/4 pointer-events-none z-10"
+                  style={{ background: 'linear-gradient(to left, var(--color-ivory) 0%, transparent 100%)' }}
+                  aria-hidden="true"
+                />
+                {/* Top fade */}
+                <div
+                  className="absolute inset-x-0 top-0 h-1/4 pointer-events-none z-10"
+                  style={{ background: 'linear-gradient(to bottom, var(--color-ivory) 0%, transparent 100%)' }}
+                  aria-hidden="true"
+                />
+                {/* Bottom fade */}
+                <div
+                  className="absolute inset-x-0 bottom-0 h-1/4 pointer-events-none z-10"
+                  style={{ background: 'linear-gradient(to top, var(--color-ivory) 0%, transparent 100%)' }}
+                  aria-hidden="true"
                 />
               </div>
 
