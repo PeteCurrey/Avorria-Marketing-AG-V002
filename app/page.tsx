@@ -1,12 +1,11 @@
 import type { Metadata } from 'next'
-import { Hero } from '@/components/home/Hero'
-import { Positioning } from '@/components/home/Positioning'
-import { Capabilities } from '@/components/home/Capabilities'
-import { SelectedWork } from '@/components/home/SelectedWork'
-import { SystemsDiagram } from '@/components/home/SystemsDiagram'
-import { ProcessSection } from '@/components/home/ProcessSection'
-import { LobbyPreview } from '@/components/home/LobbyPreview'
-import { FinalCta } from '@/components/home/FinalCta'
+import { ConceptHero } from '@/components/home/ConceptHero'
+import { ProofBand } from '@/components/home/ProofBand'
+import { PinnedChapters } from '@/components/home/PinnedChapters'
+import { AuditTiers } from '@/components/home/AuditTiers'
+import { FeaturedCaseStudy } from '@/components/home/FeaturedCaseStudy'
+import { LobbySection } from '@/components/home/LobbySection'
+import { ClosingCtaFooter } from '@/components/home/ClosingCtaFooter'
 import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = {
@@ -19,33 +18,44 @@ export const metadata: Metadata = {
     url: siteConfig.url,
     title: `Avorria — ${siteConfig.tagline}`,
     description: siteConfig.description,
+    type: 'website',
   },
 }
 
-/**
- * HomePage — Quiet Confidence with a Creative Edge
- *
- * Exact chapter sequence:
- * 1. Hero: ivory + full-bleed image
- * 2. Positioning: ivory
- * 3. Capabilities: stone
- * 4. Selected Work: graphite
- * 5. Systems: petrol
- * 6. Process: ivory
- * 7. Lobby: stone
- * 8. Final CTA: wine
- */
 export default function HomePage() {
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${siteConfig.url}/#organization`,
+    name: siteConfig.organization.name,
+    url: siteConfig.organization.url,
+    logo: {
+      '@type': 'ImageObject',
+      url: siteConfig.organization.logo,
+    },
+    description: siteConfig.organization.description,
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      email: siteConfig.organization.contactEmail,
+    },
+  }
+
   return (
     <>
-      <Hero />
-      <Positioning />
-      <Capabilities />
-      <SelectedWork />
-      <SystemsDiagram />
-      <ProcessSection />
-      <LobbyPreview />
-      <FinalCta />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <main id="main">
+        <ConceptHero />
+        <ProofBand />
+        <PinnedChapters />
+        <AuditTiers />
+        <FeaturedCaseStudy />
+        <LobbySection />
+        <ClosingCtaFooter />
+      </main>
     </>
   )
 }

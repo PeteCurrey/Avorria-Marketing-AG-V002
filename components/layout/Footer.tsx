@@ -48,10 +48,10 @@ export function Footer() {
             <div className="lg:col-span-1">
               <Link
                 href="/"
-                className="inline-block font-display text-[1.1rem] tracking-[0.16em] uppercase font-light text-[var(--color-graphite)] hover:text-[var(--color-accent)] transition-colors duration-[var(--duration-base)] mb-4"
+                className="inline-block font-display text-[1.25rem] tracking-[0.04em] font-light text-[var(--color-graphite)] hover:text-[var(--color-accent)] transition-colors duration-[var(--duration-base)] mb-4"
                 aria-label="Avorria — Home"
               >
-                AVORRIA
+                Avorria
               </Link>
               <p className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] leading-relaxed mb-6 max-w-[220px]">
                 Digital products, intelligent systems and high-performance websites.

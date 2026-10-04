@@ -358,6 +358,9 @@ export interface Database {
           no_follow: boolean
           cta_type: string | null
           internal_links: Json
+          body: string | null
+          published: boolean
+          author_name: string | null
           created_at: string
         }
         Insert: Omit<Database['public']['Tables']['lobby_articles']['Row'], 'id' | 'created_at' | 'updated_at'> & {
@@ -390,6 +393,117 @@ export interface Database {
           updated_at?: string
         }
         Update: Partial<Database['public']['Tables']['lobby_analytics']['Insert']>
+      }
+      clients: {
+        Row: {
+          id: string
+          name: string
+          logo_url: string | null
+          market: string | null
+          verified: boolean
+          sort: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          logo_url?: string | null
+          market?: string | null
+          verified?: boolean
+          sort?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['clients']['Insert']>
+      }
+      markets: {
+        Row: {
+          id: string
+          country: string
+          verified: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          country: string
+          verified?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['markets']['Insert']>
+      }
+      case_studies: {
+        Row: {
+          id: string
+          slug: string
+          client_id: string | null
+          headline_result: string
+          metric_label: string | null
+          metric_value: string | null
+          period: string | null
+          narrative: string | null
+          published: boolean
+          verified: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          slug: string
+          client_id?: string | null
+          headline_result: string
+          metric_label?: string | null
+          metric_value?: string | null
+          period?: string | null
+          narrative?: string | null
+          published?: boolean
+          verified?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['case_studies']['Insert']>
+      }
+      testimonials: {
+        Row: {
+          id: string
+          quote: string
+          person: string
+          role: string
+          client_id: string | null
+          verified: boolean
+          consent_documented: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          quote: string
+          person: string
+          role: string
+          client_id?: string | null
+          verified?: boolean
+          consent_documented?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['testimonials']['Insert']>
+      }
+      site_copy: {
+        Row: {
+          key: string
+          value: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          key: string
+          value: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['site_copy']['Insert']>
       }
     }
     Functions: {

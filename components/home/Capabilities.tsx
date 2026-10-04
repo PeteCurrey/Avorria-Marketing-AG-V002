@@ -98,26 +98,10 @@ export function Capabilities() {
       data-chapter="stone"
       aria-labelledby="capabilities-heading"
     >
-      {/* ── Background Architectural Watermark: Ivory on Stone ── */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <div
-          className="absolute top-8 right-[7vw] select-none text-[clamp(6rem,16vw,14rem)] font-extralight text-[var(--color-ivory)] opacity-40 leading-none"
-        >
-          02
-        </div>
-      </div>
-
       <div className="w-full px-6 md:px-10 lg:px-[7vw]">
         {/* Section Header */}
         <div className="max-w-[1200px] mb-16 lg:mb-20">
           <RevealOnScroll>
-            <div className="flex items-center gap-4 mb-6">
-              <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-mid)]">
-                02 — CAPABILITIES &amp; DISCIPLINES
-              </span>
-              <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
-            </div>
-
             <h2
               id="capabilities-heading"
               className="font-extralight text-[var(--color-graphite)] leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.8vw,6.25rem)] max-w-[18ch]"
@@ -130,6 +114,7 @@ export function Capabilities() {
             </h2>
           </RevealOnScroll>
         </div>
+
 
         {/* Two-Column Interactive Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
@@ -243,7 +228,7 @@ export function Capabilities() {
                   alt={activeDiscipline.title}
                   fill
                   sizes="(min-width: 1024px) 38vw, 100vw"
-                  className="object-cover object-center transition-all duration-700 hover:scale-[1.02]"
+                  className="object-cover object-center"
                   priority
                 />
               </div>

@@ -18,29 +18,9 @@ export function FinalCta() {
       data-chapter="wine"
       aria-labelledby="final-cta-heading"
     >
-      {/* ── Monumental Editorial Typography: "BUILD" watermark ── */}
-      <div
-        className="absolute bottom-4 right-[4vw] pointer-events-none select-none text-[clamp(9rem,24vw,22rem)] font-extralight italic text-white/[0.04] leading-none tracking-tight"
-        aria-hidden="true"
-      >
-        BUILD
-      </div>
-
       <div className="relative z-10 w-full px-6 md:px-10 lg:px-[7vw] py-24 lg:py-32">
         <RevealOnScroll>
           <div className="max-w-4xl">
-            {/* Eyebrow */}
-            <div className="flex items-center gap-3 mb-6">
-              <span
-                className="w-1.5 h-1.5 rounded-full"
-                style={{ backgroundColor: 'var(--color-accent)' }}
-                aria-hidden="true"
-              />
-              <p className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-accent-light)] opacity-80">
-                AVORRIA COMMISSIONS · INTAKE OPEN
-              </p>
-            </div>
-
             {/* Rose architectural accent rule */}
             <div
               className="w-20 h-[2px] mb-8"
@@ -84,18 +64,16 @@ export function FinalCta() {
 
             {/* Architectural Footer Bar */}
             <div
-              className="mt-20 pt-8 flex flex-wrap items-center justify-between gap-6 text-[10px] tracking-[0.2em] uppercase font-light"
+              className="mt-20 pt-8 flex flex-wrap items-center justify-between gap-6 text-[10px] tracking-[0.2em] font-light"
               style={{ borderTop: '1px solid rgba(247,245,240,0.15)', color: 'var(--color-ivory)', opacity: 0.6 }}
             >
               <div className="flex items-center gap-4">
-                <span>AVORRIA DIGITAL STUDIO</span>
+                <span>Avorria digital studio</span>
                 <span>·</span>
-                <span>LONDON &amp; GLOBAL</span>
+                <span>London &amp; global</span>
               </div>
               <div className="flex items-center gap-4">
-                <span>DIRECT PRINCIPAL ENGAGEMENT</span>
-                <span>·</span>
-                <span>ZERO PITCH THEATRE</span>
+                <span>Direct principal engagement</span>
               </div>
             </div>
           </div>

@@ -18,25 +18,10 @@ export function Positioning() {
       data-chapter="ivory"
       aria-labelledby="positioning-heading"
     >
-      {/* ── Background Architectural Numeral: Stone on Ivory Tone-on-Tone ── */}
-      <div
-        className="absolute top-8 right-[7vw] numeral-stone-on-ivory opacity-60"
-        aria-hidden="true"
-      >
-        01
-      </div>
-
       <div className="w-full px-6 md:px-10 lg:px-[7vw]">
-        {/* Section Header with Tracked Label and Monumental Statement */}
+        {/* Section Header with Monumental Statement */}
         <div className="max-w-[1200px] mb-16 lg:mb-24">
           <RevealOnScroll>
-            <div className="flex items-center gap-4 mb-8">
-              <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-mid)]">
-                01 — POSITIONING &amp; MANIFESTO
-              </span>
-              <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
-            </div>
-
             <h2
               id="positioning-heading"
               className="font-extralight text-[var(--color-graphite)] leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.5vw,5.5rem)] max-w-[20ch]"
@@ -79,7 +64,7 @@ export function Positioning() {
               </p>
 
               <div className="pt-6 border-t border-[var(--color-border)] mt-8 flex items-center text-[11px] tracking-[0.16em] uppercase text-[var(--color-graphite-muted)] font-light">
-                <span>EST. LONDON 2025</span>
+                <span>Est. London 2025</span>
               </div>
             </RevealOnScroll>
           </div>
@@ -95,7 +80,7 @@ export function Positioning() {
                   fill
                   sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 55vw, 680px"
                   priority
-                  className="object-cover transition-transform duration-700 hover:scale-[1.02]"
+                  className="object-cover"
                   style={{ objectPosition: '50% 50%' }}
                 />
               </div>
@@ -106,7 +91,7 @@ export function Positioning() {
                   Precision Engineering Geometry
                 </AnnotationLabel>
                 <span className="text-[10px] tracking-[0.14em] uppercase font-light text-[var(--color-graphite-muted)]">
-                  LONDON STUDIO
+                  London Studio
                 </span>
               </div>
             </RevealOnScroll>
@@ -116,3 +101,4 @@ export function Positioning() {
     </section>
   )
 }
+

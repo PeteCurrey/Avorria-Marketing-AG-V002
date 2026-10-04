@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Avorria homepage concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    --bg: #F4F1EB;
+    --fg: #232326;
+    --muted: #6E6A64;
+    --line: #D8D2C7;
+    --alt-bg: #232326;
+    --alt-fg: #F4F1EB;
+    --alt-muted: #A6A19A;
+    --alt-line: #3A3A3E;
+    --rose: #B5566B;
+    --rose-alt: #D07A8E;
+    --font: "Work Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #19191B;
+      --fg: #EFEBE4;
+      --muted: #9A958E;
+      --line: #34343A;
+      --alt-bg: #0F0F11;
+      --alt-fg: #EFEBE4;
+      --alt-muted: #9A958E;
+      --alt-line: #2A2A2E;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #19191B;
+    --fg: #EFEBE4;
+    --muted: #9A958E;
+    --line: #34343A;
+    --alt-bg: #0F0F11;
+    --alt-fg: #EFEBE4;
+    --alt-muted: #9A958E;
+    --alt-line: #2A2A2E;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font);
+    font-weight: 300;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--rose); outline-offset: 4px; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 3rem); }
+  .alt { background: var(--alt-bg); color: var(--alt-fg); }
+  .alt .muted { color: var(--alt-muted); }
+  .muted { color: var(--muted); }
+
+  /* progress hairline */
+  .progress { position: fixed; top: 0; left: 0; height: 2px; width: 100%; z-index: 30;
+    transform-origin: 0 50%; transform: scaleX(0); background: var(--rose); }
+
+  /* nav */
+  nav.top { position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+    padding-top: env(safe-area-inset-top, 0px);
+    mix-blend-mode: difference; color: #F4F1EB; }
+  nav.top .wrap { display: flex; justify-content: space-between; align-items: center; height: 4.5rem; }
+  .mark { font-size: 1.25rem; font-weight: 300; letter-spacing: 0.04em; }
+  nav.top ul { display: flex; gap: clamp(1rem, 3vw, 2.5rem); list-style: none; margin: 0; padding: 0; font-size: 0.9375rem; }
+  nav.top a { opacity: 0.85; transition: opacity .2s; }
+  nav.top a:hover { opacity: 1; }
+  @media (max-width: 640px) { nav.top li:not(:last-child) { display: none; } }
+
+  /* hero */
+  .hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 7rem 0 clamp(2.5rem, 7vh, 5rem); }
+  h1 { margin: 0; font-weight: 200; letter-spacing: -0.025em; line-height: 1.02;
+    font-size: clamp(2.6rem, 8.2vw, 7.6rem); }
+  h1 .line { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+  h1 .line > span { display: block; transform: translateY(108%); animation: rise 1.15s cubic-bezier(.19,.72,.12,1) forwards; }
+  h1 .line:nth-child(2) > span { animation-delay: .14s; }
+  h1 .line:nth-child(3) > span { animation-delay: .28s; }
+  @keyframes rise { to { transform: translateY(0); } }
+  .hero-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-top: clamp(2rem, 6vh, 4rem); }
+  .hero-foot p { margin: 0; max-width: 34ch; color: var(--muted); }
+  .link { display: inline-block; padding-bottom: 0.2rem; border-bottom: 1px solid var(--rose); transition: padding .25s; }
+  .link:hover { padding-right: 0.5rem; }
+  .fade { opacity: 0; animation: show .9s ease forwards; animation-delay: .9s; }
+  @keyframes show { to { opacity: 1; } }
+
+  /* proof band */
+  .proof { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 2.25rem 0; }
+  .proof .wrap { display: grid; grid-template-columns: 14rem 1fr; gap: 2rem; align-items: center; }
+  .proof-row { display: grid; grid-template-columns: repeat(5, 1fr); }
+  .slot { padding: 0.9rem 1rem; text-align: center; color: var(--muted); border-left: 1px solid var(--line); font-size: 0.9375rem; }
+  .slot:first-child { border-left: 0; }
+  @media (max-width: 860px) {
+    .proof .wrap { grid-template-columns: 1fr; gap: 1rem; }
+    .proof-row { grid-template-columns: repeat(2, 1fr); }
+    .slot { border-left: 0; text-align: left; padding-left: 0; }
+  }
+
+  /* chapters (pinned) */
+  .chapters { height: 320vh; position: relative; }
+  .pin { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+  .stage { position: relative; min-height: 22rem; }
+  .chapter { position: absolute; inset: 0; display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(2rem, 6vw, 6rem);
+    align-items: end; opacity: 0; transform: translateY(1.5rem); transition: opacity .7s ease, transform .7s ease; pointer-events: none; }
+  .chapter.on { opacity: 1; transform: none; pointer-events: auto; }
+  .chapter h2 { margin: 0; font-weight: 200; letter-spacing: -0.02em; line-height: 1.08; font-size: clamp(2rem, 5vw, 4.4rem); }
+  .chapter p { margin: 0; color: var(--alt-muted); max-width: 36ch; }
+  .rail { display: flex; gap: clamp(1.25rem, 4vw, 3.5rem); margin-top: 3rem; border-top: 1px solid var(--alt-line); }
+  .rail button { all: unset; cursor: pointer; padding: 1rem 0; color: var(--alt-muted); font-size: 0.9375rem; position: relative; transition: color .3s; }
+  .rail button::before { content: ""; position: absolute; left: 0; top: -1px; height: 1px; width: 0; background: var(--rose-alt); transition: width .5s ease; }
+  .rail button.on { color: var(--alt-fg); }
+  .rail button.on::before { width: 100%; }
+  @media (max-width: 760px) {
+    .chapters { height: auto; padding: 5rem 0; }
+    .pin { position: static; height: auto; }
+    .stage { min-height: 0; }
+    .chapter { position: static; opacity: 1; transform: none; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 3.5rem; }
+    .rail { display: none; }
+  }
+
+  /* tiers */
+  section.pad { padding: clamp(5rem, 12vh, 9rem) 0; }
+  h2.section { margin: 0 0 clamp(2.5rem, 6vw, 4.5rem); font-weight: 200; letter-spacing: -0.02em; line-height: 1.08;
+    font-size: clamp(2rem, 4.8vw, 4rem); max-width: 18ch; }
+  .tiers { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+  .tier { padding: 2rem clamp(1rem, 2.5vw, 2.25rem) 0 0; }
+  .tier + .tier { padding-left: clamp(1rem, 2.5vw, 2.25rem); border-left: 1px solid var(--line); }
+  .tier h3 { margin: 0 0 1rem; font-weight: 200; font-size: clamp(1.8rem, 3.2vw, 2.6rem); letter-spacing: -0.01em; }
+  .tier p { margin: 0; color: var(--muted); max-width: 30ch; }
+  @media (max-width: 760px) {
+    .tiers { grid-template-columns: 1fr; }
+    .tier, .tier + .tier { padding: 1.75rem 0; border-left: 0; border-bottom: 1px solid var(--line); }
+  }
+
+  /* case study */
+  .case { padding: clamp(6rem, 16vh, 11rem) 0; }
+  .case blockquote { margin: 0; font-weight: 200; letter-spacing: -0.02em; line-height: 1.1; font-size: clamp(2.2rem, 6vw, 5.4rem); max-width: 17ch; }
+  .case blockquote em { font-style: normal; color: var(--rose-alt); }
+  .case-meta { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-top: clamp(2.5rem, 6vw, 4rem); }
+
+  /* lobby */
+  .lobby-row { display: flex; justify-content: space-between; align-items: baseline; gap: 2rem; padding: 1.6rem 0;
+    border-top: 1px solid var(--line); transition: padding-left .35s ease; }
+  .lobby-row:last-child { border-bottom: 1px solid var(--line); }
+  .lobby-row:hover { padding-left: 1rem; }
+  .lobby-row h3 { margin: 0; font-weight: 200; font-size: clamp(1.4rem, 2.8vw, 2.2rem); letter-spacing: -0.01em; }
+  .lobby-row span { color: var(--muted); font-size: 0.9375rem; white-space: nowrap; }
+  @media (max-width: 640px) { .lobby-row { flex-direction: column; gap: 0.4rem; } }
+
+  /* footer */
+  footer { padding: clamp(5rem, 14vh, 9rem) 0 2.5rem; }
+  footer h2 { margin: 0 0 2.5rem; font-weight: 200; letter-spacing: -0.025em; line-height: 1.04; font-size: clamp(2.4rem, 7vw, 6rem); max-width: 14ch; }
+  .foot-base { display: flex; justify-content: space-between; margin-top: clamp(4rem, 10vh, 7rem); padding-top: 1.5rem;
+    border-top: 1px solid var(--alt-line); color: var(--alt-muted); font-size: 0.875rem; gap: 1rem; flex-wrap: wrap; }
+
+  .note { position: fixed; left: 1rem; bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); z-index: 40;
+    font-size: 0.75rem; padding: 0.4rem 0.7rem; background: var(--fg); color: var(--bg); border-radius: 2px; opacity: .9; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    h1 .line > span { animation: none; transform: none; }
+    .fade { animation: none; opacity: 1; }
+    .chapter, .rail button::before, .lobby-row, .link { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<nav class="top" aria-label="Main">
+  <div class="wrap">
+    <a class="mark" href="#top">Avorria</a>
+    <ul>
+      <li><a href="#method">Method</a></li>
+      <li><a href="#audit">Audit</a></li>
+      <li><a href="#lobby">The Lobby</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="top">
+  <header class="hero">
+    <div class="wrap">
+      <h1>
+        <span class="line"><span>Websites and AI systems</span></span>
+        <span class="line"><span>for companies that</span></span>
+        <span class="line"><span>operate across borders.</span></span>
+      </h1>
+      <div class="hero-foot fade">
+        <p>One team to design, build and run the digital side of your business.</p>
+        <a class="link" href="#contact">Start a conversation</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="proof" aria-label="Selected clients and markets">
+    <div class="wrap">
+      <span class="muted">Selected clients and markets</span>
+      <div class="proof-row">
+        <div class="slot">Client one</div>
+        <div class="slot">Client two</div>
+        <div class="slot">Client three</div>
+        <div class="slot">Client four</div>
+        <div class="slot">Client five</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapters alt" id="method" aria-label="How Avorria works">
+    <div class="pin">
+      <div class="wrap">
+        <div class="stage">
+          <article class="chapter on" data-i="0">
+            <h2>Design, build and run your digital estate as one.</h2>
+            <p>Websites, platforms and AI systems from a single team, held to a single standard.</p>
+          </article>
+          <article class="chapter" data-i="1">
+            <h2>One audit. One roadmap. One team.</h2>
+            <p>We measure what you have first, then fix the highest-value problems in order.</p>
+          </article>
+          <article class="chapter" data-i="2">
+            <h2>Reported against your numbers.</h2>
+            <p>Every project is tracked against targets agreed at the start, and shown to you plainly.</p>
+          </article>
+        </div>
+        <div class="rail" role="tablist">
+          <button class="on" data-go="0" role="tab">What we do</button>
+          <button data-go="1" role="tab">How it works</button>
+          <button data-go="2" role="tab">Proof</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad" id="audit">
+    <div class="wrap">
+      <h2 class="section">Choose how deep the audit goes.</h2>
+      <div class="tiers">
+        <div class="tier">
+          <h3>Slate</h3>
+          <p>A baseline. Where your site and systems stand today.</p>
+        </div>
+        <div class="tier">
+          <h3>Onyx</h3>
+          <p>The baseline, plus a prioritised roadmap you can act on.</p>
+        </div>
+        <div class="tier">
+          <h3>Obsidian</h3>
+          <p>The roadmap, with our team delivering it alongside yours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="case alt" aria-label="Featured case study">
+    <div class="wrap">
+      <blockquote>Qualified enquiries up <em>000%</em> in 000 days.</blockquote>
+      <div class="case-meta">
+        <span class="muted">Client name, market, year</span>
+        <a class="link" href="#">Read the case study</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad" id="lobby">
+    <div class="wrap">
+      <h2 class="section">The Lobby</h2>
+      <div>
+        <a class="lobby-row" href="#"><h3>Essay title goes here</h3><span>6 minutes</span></a>
+        <a class="lobby-row" href="#"><h3>A second, longer essay title goes here</h3><span>9 minutes</span></a>
+        <a class="lobby-row" href="#"><h3>A third essay title goes here</h3><span>5 minutes</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="alt" id="contact">
+  <div class="wrap">
+    <h2>Tell us what you are building.</h2>
+    <a class="link" href="#">Start a conversation</a>
+    <div class="foot-base">
+      <span>Avorria</span>
+      <span>Concept page with placeholder content</span>
+    </div>
+  </div>
+</footer>
+
+<div class="note">Concept: copy, clients and figures are placeholders</div>
+
+<script>
+(function () {
+  var prog = document.getElementById('progress');
+  var sec = document.getElementById('method');
+  var chapters = sec.querySelectorAll('.chapter');
+  var tabs = sec.querySelectorAll('.rail button');
+  var current = 0, ticking = false;
+  var mq = window.matchMedia('(max-width: 760px)');
+
+  function setChapter(i) {
+    if (i === current) return;
+    current = i;
+    chapters.forEach(function (c, n) { c.classList.toggle('on', n === i); });
+    tabs.forEach(function (t, n) { t.classList.toggle('on', n === i); });
+  }
+
+  function update() {
+    ticking = false;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, window.scrollY / h) : 0) + ')';
+    if (mq.matches) return;
+    var r = sec.getBoundingClientRect();
+    var span = sec.offsetHeight - window.innerHeight;
+    var p = Math.max(0, Math.min(0.9999, -r.top / span));
+    setChapter(Math.floor(p * chapters.length));
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  window.addEventListener('resize', update);
+
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      var i = parseInt(t.getAttribute('data-go'), 10);
+      var span = sec.offsetHeight - window.innerHeight;
+      var top = sec.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: top + span * ((i + 0.5) / chapters.length) });
+    });
+  });
+  update();
+})();
+</script>
+</body>
+</html>

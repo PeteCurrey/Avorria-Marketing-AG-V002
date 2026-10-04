@@ -1,216 +1,150 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { generatePageMetadata } from '@/lib/metadata'
-import { AuditRunner } from '@/components/audit/AuditRunner'
-import { ChapterGate } from '@/components/creative/ChapterGate'
+import { siteConfig } from '@/content/config/site'
 
-export const metadata: Metadata = generatePageMetadata({
-  title: 'Website Health Check // Forensic Diagnostic',
+export const metadata: Metadata = {
+  title: 'Audit — Slate, Onyx & Obsidian — Avorria',
   description:
-    'Submit any enterprise or commercial web property for multi-dimensional diagnostic analysis. Strict provenance guarantees, zero score fabrication.',
-  path: '/audit',
-})
+    'Forensic digital platform and architectural diagnostics. Choose how deep the audit goes: Slate, Onyx, or Obsidian.',
+  alternates: { canonical: `${siteConfig.url}/audit` },
+  openGraph: {
+    title: 'Audit — Slate, Onyx & Obsidian — Avorria',
+    description:
+      'Forensic digital platform and architectural diagnostics. Choose how deep the audit goes: Slate, Onyx, or Obsidian.',
+    url: `${siteConfig.url}/audit`,
+    type: 'website',
+  },
+}
 
-const PROVENANCE_LEVELS = [
+const TIERS = [
   {
-    tag: 'VERIFIED',
-    border: 'border-emerald-500/30',
-    text: 'text-emerald-400',
-    title: 'Direct Measurement',
-    description:
-      'Captured via live server network handshake, HTTP response headers, SSL certificate chains, and server timings. Zero approximation.',
+    name: 'Slate',
+    outcome: 'Where your site and systems stand today—a baseline forensic diagnostic.',
+    deliverables: [
+      '10-dimension forensic architecture and Core Web Vitals audit',
+      'Tracking, tag integrity, and attribution leakage check',
+      'Executive diagnostic report with verified provenance grading',
+      'Fixed fee diagnostic delivered in 5 business days',
+    ],
   },
   {
-    tag: 'OBSERVED',
-    border: 'border-cyan-500/30',
-    text: 'text-cyan-400',
-    title: 'DOM Markup Inspection',
-    description:
-      'Extracted directly from the server-rendered HTML document, including OpenGraph tags, semantic landmarks, alt attributes, and viewport directives.',
+    name: 'Onyx',
+    outcome: 'The baseline, plus a prioritised 90-day technical roadmap you can act on.',
+    deliverables: [
+      'Everything in Slate forensic diagnostic and telemetry check',
+      'Agency invoice and vendor quote teardown to eliminate padding',
+      'Prioritised 90-day remediation matrix (commercial ROI vs complexity)',
+      'Architecture blueprint, sprint epics, and board-ready briefing',
+      'Fixed fee advisory sprint delivered in 7 business days',
+    ],
   },
   {
-    tag: 'INFERRED',
-    border: 'border-amber-500/30',
-    text: 'text-amber-400',
-    title: 'Architectural Heuristic',
-    description:
-      'Calculated based on semantic depth, layout sequence, and conversion path friction. Never presented as absolute laboratory truth.',
-  },
-  {
-    tag: 'NOT_TESTED',
-    border: 'border-white/20',
-    text: 'text-white/40',
-    title: 'Truthful Suppression',
-    description:
-      'If a third-party API is unreachable or environment tokens are withheld, the metric is explicitly marked as unavailable rather than simulated.',
-  },
-]
-
-const AUDIT_DIMENSIONS = [
-  {
-    index: '01',
-    name: 'Performance & Network Architecture',
-    desc: 'Time to First Byte (TTFB), server handshake duration, compression mechanisms (Brotli/Gzip), and network transmission efficiency.',
-  },
-  {
-    index: '02',
-    name: 'Mobile Experience & Viewport',
-    desc: 'Viewport tag integrity, responsive viewport scaling, and mobile document boundary compliance.',
-  },
-  {
-    index: '03',
-    name: 'Technical SEO & Indexability',
-    desc: 'Canonical URL directives, robots.txt directives, indexation permission tags, and duplicate content mitigation.',
-  },
-  {
-    index: '04',
-    name: 'Metadata & Social Graph',
-    desc: 'Title length and clarity, meta description density, OpenGraph tags, and Twitter Cards.',
-  },
-  {
-    index: '05',
-    name: 'Accessibility & Semantic Hygiene',
-    desc: 'WCAG 2.1 compliance signals, image alt coverage, document language declarations, and screen reader clarity.',
-  },
-  {
-    index: '06',
-    name: 'Information & Navigation Architecture',
-    desc: 'Semantic HTML5 landmark regions (<nav>, <main>, <header>, <footer>) and logical DOM hierarchy.',
-  },
-  {
-    index: '07',
-    name: 'Conversion Architecture & Flow',
-    desc: 'Primary conversion hooks, interactive call-to-action discoverability, and initial user journey friction.',
-  },
-  {
-    index: '08',
-    name: 'Visual Hierarchy & Typography',
-    desc: 'Heading hierarchy discipline (singular H1 enforcement, structured subheadings), and layout contrast balance.',
-  },
-  {
-    index: '09',
-    name: 'Content Structure & Editorial Quality',
-    desc: 'Initial server-rendered copy density, information-to-noise ratio, and client-side rendering dependency.',
-  },
-  {
-    index: '10',
-    name: 'Technical Implementation & Security',
-    desc: 'Transport Layer Security (TLS/HTTPS), Strict-Transport-Security (HSTS), and Content Security Policy (CSP) headers.',
+    name: 'Obsidian',
+    outcome: 'The roadmap, with our senior engineering team delivering it alongside yours.',
+    deliverables: [
+      'Everything in Onyx diagnostic, vendor teardown, and roadmap',
+      'Production engineering and code remediation by senior Avorria staff',
+      'Server-side tracking, pipeline automation, and zero-shift guarantees',
+      'Direct engineering channel and full code repository handover',
+      'Dedicated Build Sprint or Embedded Retainer (4–12 weeks)',
+    ],
   },
 ]
 
 export default function AuditPage() {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': `${siteConfig.url}/#organization`,
+        name: siteConfig.organization.name,
+        url: siteConfig.organization.url,
+        logo: {
+          '@type': 'ImageObject',
+          url: siteConfig.organization.logo,
+        },
+        description: siteConfig.organization.description,
+      },
+      {
+        '@type': 'Service',
+        name: 'Avorria Architectural & System Audit',
+        description:
+          'Forensic digital platform, crawl health, and technical architecture diagnostics across three progressive tiers: Slate, Onyx, and Obsidian.',
+        url: `${siteConfig.url}/audit`,
+        provider: {
+          '@id': `${siteConfig.url}/#organization`,
+        },
+        hasOfferCatalog: {
+          '@type': 'OfferCatalog',
+          name: 'Audit Tiers',
+          itemListElement: TIERS.map((tier) => ({
+            '@type': 'Offer',
+            name: tier.name,
+            description: tier.outcome,
+          })),
+        },
+      },
+    ],
+  }
+
   return (
-    <div className="bg-[#080808] text-white min-h-screen section-y-large">
-      <div className="container-max">
-        <div className="container-content space-y-24">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+
+      <main id="main" className="audit-page">
+        <div className="wrap">
+
           {/* Header */}
-          <div className="border-b border-white/10 pb-16">
-            <p className="text-label-upper mb-4">[ DIAGNOSTIC CORE // HEALTH CHECK ]</p>
-            <h1 className="text-display-l max-w-[800px] mb-6 font-light">
-              Forensic Digital Health Check.
+          <header className="audit-page__header">
+            <h1 className="audit-page__title">
+              Choose how deep the audit goes.
             </h1>
-            <p className="text-xl md:text-2xl text-white/60 font-light max-w-[700px] leading-relaxed">
-              Objective, multi-dimensional diagnostic analysis for commercial web properties. Grounded in network telemetry and semantic inspection. Zero fabricated scores.
+            <p className="audit-page__intro">
+              Forensic diagnostics for high-stakes digital platforms. We evaluate what is working, what is broken, and what should legitimately be built.
             </p>
+          </header>
+
+          {/* Three columns divided by hairlines (no cards) */}
+          <div className="audit-page__tiers">
+            {TIERS.map((tier, idx) => (
+              <div key={tier.name} className="audit-page__tier">
+                <div className="audit-page__tier-head">
+                  <span className="audit-page__tier-num">0{idx + 1}</span>
+                  <h2 className="audit-page__tier-name">{tier.name}</h2>
+                </div>
+                <p className="audit-page__tier-outcome">{tier.outcome}</p>
+                <ul className="audit-page__tier-list">
+                  {tier.deliverables.map((item) => (
+                    <li key={item} className="audit-page__tier-item">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
 
-          {/* Interactive Diagnostic Runner */}
-          <section aria-label="Run Website Health Check">
-            <AuditRunner />
-          </section>
-
-          {/* Section Interruption: Provenance Architecture */}
-          <ChapterGate
-            number="01"
-            title="THE PROVENANCE PROTOCOL"
-            statement="Generic audit tools fabricate scores to generate fear. Avorria classifies every finding with verifiable telemetry."
-          />
-
-          {/* Provenance Ledger */}
-          <section className="space-y-8">
-            <div className="max-w-2xl">
-              <h2 className="text-display-s font-light mb-4">Four Provenance Tiers.</h2>
-              <p className="text-base text-white/60 font-light leading-relaxed">
-                Before accepting recommendations on your digital architecture, you should know exactly how the data was gathered. We categorize every test into one of four immutable states:
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {PROVENANCE_LEVELS.map((item) => (
-                <div key={item.tag} className={`border ${item.border} bg-[#0c0c0c] p-6 space-y-3`}>
-                  <div className="flex items-center justify-between">
-                    <span className={`text-xs font-mono tracking-widest font-light ${item.text}`}>
-                      [{item.tag}]
-                    </span>
-                  </div>
-                  <h3 className="text-base text-white font-light">{item.title}</h3>
-                  <p className="text-xs text-white/50 font-light leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Section Interruption: 10 Dimensions */}
-          <ChapterGate
-            number="02"
-            title="TEN AUDIT DIMENSIONS"
-            statement="Evaluating the entire digital surface: from wire-level protocol headers to semantic content hierarchy."
-          />
-
-          {/* Dimensional Breakdown */}
-          <section className="space-y-6">
-            <div className="border-t border-white/10 divide-y divide-white/10">
-              {AUDIT_DIMENSIONS.map((dim) => (
-                <div key={dim.index} className="py-6 grid grid-cols-1 md:grid-cols-[100px_1fr_2fr] gap-4 items-baseline">
-                  <span className="text-xs font-mono text-white/30 font-light">{dim.index}</span>
-                  <h3 className="text-base text-white font-light">{dim.name}</h3>
-                  <p className="text-sm text-white/50 font-light leading-relaxed">{dim.desc}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Alternative Specialized Diagnostics */}
-          <section className="border border-white/10 bg-[#0e0e0e] p-8 md:p-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <div className="space-y-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/40 font-light">
-                  [ SPECIALIZED DIAGNOSTIC ]
+          {/* One Call to Action */}
+          <div className="audit-page__cta">
+            <div className="audit-page__cta-inner">
+              <div>
+                <h2 className="audit-page__cta-title">Ready to commission an audit?</h2>
+                <p className="audit-page__cta-body">
+                  All audit fees are credited toward any subsequent build or engineering sprint.
                 </p>
-                <h3 className="text-2xl text-white font-light">The Agency Teardown.</h3>
-                <p className="text-sm text-white/60 font-light leading-relaxed">
-                  Evaluating an existing digital agency arrangement? Our diagnostic framework audits retainer efficiency, intellectual property ownership, and release velocity.
-                </p>
-                <Link
-                  href="/teardown"
-                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-white hover:text-white/70 transition-colors pt-2 font-light"
-                >
-                  Explore Agency Teardown →
-                </Link>
               </div>
-
-              <div className="space-y-4 border-t lg:border-t-0 lg:border-l border-white/10 pt-8 lg:pt-0 lg:pl-12">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/40 font-light">
-                  [ PRE-FLIGHT EVALUATION ]
-                </p>
-                <h3 className="text-2xl text-white font-light">Project & Digital Audit.</h3>
-                <p className="text-sm text-white/60 font-light leading-relaxed">
-                  Planning a major platform replatforming or custom web application build? De-risk architecture, scoping, and vendor dependencies prior to contracting.
-                </p>
-                <Link
-                  href="/digital-audit"
-                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-white hover:text-white/70 transition-colors pt-2 font-light"
-                >
-                  Explore Digital Project Audit →
-                </Link>
-              </div>
+              <Link href="/start-a-project?track=audit" className="link-rose text-[1.125rem]">
+                Commission Audit
+              </Link>
             </div>
-          </section>
+          </div>
+
         </div>
-      </div>
-    </div>
+      </main>
+    </>
   )
 }

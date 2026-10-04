@@ -12,7 +12,7 @@ const ContentSecurityPolicy = `
   img-src 'self' data: blob: https:;
   font-src 'self';
   connect-src 'self' https://*.supabase.co wss://*.supabase.co;
-  media-src 'none';
+  media-src 'self' https://*.supabase.co;
   object-src 'none';
   frame-src 'none';
   frame-ancestors 'none';
