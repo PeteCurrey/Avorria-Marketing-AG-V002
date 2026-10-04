@@ -1,11 +1,12 @@
 import { siteConfig } from '@/content/config/site'
+import { getPublishedProjectSlugs } from '@/content/projects'
 import { getPublishedServices } from '@/content/services'
 import type { MetadataRoute } from 'next'
 
 /**
  * Native Next.js sitemap — no next-sitemap dependency.
- * Lobby items and case studies sourced strictly from DB at build/ISR time.
- * Only includes canonical, public, PUBLISHED and VERIFIED pages.
+ * Lobby items sourced from DB at build time (ISR-compatible).
+ * Only includes canonical, public, PUBLISHED pages.
  * Excludes: drafts, API routes, error pages, /client/*, /admin/*,
  *           /lobby/search, /lobby/tag/* (noindex until meaningful content),
  *           /journal (301 redirects — not a canonical URL)
@@ -39,33 +40,56 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }))
 
-  // Work — verified and published case studies sourced from Supabase
-  let projectRoutes: MetadataRoute.Sitemap = []
-  try {
-    const { getVerifiedPublishedCaseStudies } = await import('@/lib/db/proof')
-    const caseStudies = await getVerifiedPublishedCaseStudies()
-    projectRoutes = caseStudies.map((cs) => ({
-      url: `${base}/work/${cs.slug}`,
-      lastModified: cs.updated_at || cs.created_at || now,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    }))
-  } catch {
-    // Sitemap must not break build if DB is unavailable
-  }
+  const projectRoutes: MetadataRoute.Sitemap = getPublishedProjectSlugs().map((slug) => ({
+    url: `${base}/work/${slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }))
 
-  // The Lobby — articles sourced from Supabase at build/ISR time
+  // The Lobby — articles and categories sourced from DB at build/ISR time
   let lobbyArticleRoutes: MetadataRoute.Sitemap = []
-  try {
-    const { getLobbyArticles } = await import('@/lib/db/lobby')
-    const { articles } = await getLobbyArticles()
+  let lobbyCategoryRoutes: MetadataRoute.Sitemap = []
+  let lobbyAuthorRoutes: MetadataRoute.Sitemap = []
 
-    lobbyArticleRoutes = articles.map((a) => ({
-      url: `${base}/lobby/${a.slug}`,
-      lastModified: a.updated_at || a.published_at || now,
-      changeFrequency: 'monthly' as const,
-      priority: a.featured ? 0.85 : 0.75,
-    }))
+  try {
+    // Dynamic import to keep sitemap async and server-only
+    const { getPublishedArticles, getCategories, getAuthors } = await import('@/lib/lobby')
+
+    const [articles, categories, authors] = await Promise.all([
+      getPublishedArticles(),
+      getCategories(),
+      getAuthors(),
+    ])
+
+    lobbyArticleRoutes = articles
+      .filter((a) => !a.seo?.noIndex)
+      .map((a) => ({
+        url: `${base}/lobby/${a.slug}`,
+        lastModified: a.updatedAt || a.publishedAt || now,
+        changeFrequency: 'monthly' as const,
+        priority: a.isFeatured ? 0.85 : 0.75,
+      }))
+
+    // Only the 5 launch categories are indexed by default
+    lobbyCategoryRoutes = categories
+      .filter((c) => c.isActive)
+      .map((c) => ({
+        url: `${base}/lobby/category/${c.slug}`,
+        lastModified: now,
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      }))
+
+    // Real authors only (no fabricated contributors)
+    lobbyAuthorRoutes = authors
+      .filter((a) => a.isActive)
+      .map((a) => ({
+        url: `${base}/lobby/author/${a.slug}`,
+        lastModified: now,
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
+      }))
   } catch {
     // Sitemap must not break build if DB is unavailable
   }
@@ -75,5 +99,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...serviceRoutes,
     ...projectRoutes,
     ...lobbyArticleRoutes,
+    ...lobbyCategoryRoutes,
+    ...lobbyAuthorRoutes,
   ]
 }

@@ -18,27 +18,42 @@ export function Positioning() {
       data-chapter="ivory"
       aria-labelledby="positioning-heading"
     >
+      {/* ── Background Architectural Numeral: Stone on Ivory Tone-on-Tone ── */}
+      <div
+        className="absolute top-8 right-[7vw] numeral-stone-on-ivory opacity-60"
+        aria-hidden="true"
+      >
+        01
+      </div>
+
       <div className="w-full px-6 md:px-10 lg:px-[7vw]">
-        {/* Section Header with Monumental Statement */}
-        <div className="max-w-[1200px] mb-16 lg:mb-24">
-          <RevealOnScroll>
-            <h2
-              id="positioning-heading"
-              className="font-extralight text-[var(--color-graphite)] leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.5vw,5.5rem)] max-w-[20ch]"
-            >
-              Technology should{' '}
-              <em className="not-italic italic font-extralight" style={{ color: 'var(--color-rose-text)' }}>
-                solve
-              </em>{' '}
-              something.
-            </h2>
-          </RevealOnScroll>
-        </div>
+        {/* Section Label */}
+        <RevealOnScroll>
+          <div className="flex items-center gap-4 mb-10 lg:mb-14">
+            <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-mid)]">
+              01 — POSITIONING &amp; MANIFESTO
+            </span>
+            <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
+          </div>
+        </RevealOnScroll>
 
         {/* Two-column layout: Narrative left, Large-format art-directed plate right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left: Editorial Narrative */}
-          <div className="lg:col-span-5 space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+          {/* Left: Headline + Editorial Narrative */}
+          <div className="lg:col-span-5 space-y-8">
+            <RevealOnScroll>
+              <h2
+                id="positioning-heading"
+                className="font-extralight text-[var(--color-graphite)] leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.5vw,5.5rem)] max-w-[20ch]"
+              >
+                Technology should{' '}
+                <em className="not-italic italic font-extralight" style={{ color: 'var(--color-rose-text)' }}>
+                  solve
+                </em>{' '}
+                something.
+              </h2>
+            </RevealOnScroll>
+
             <RevealOnScroll delay={100}>
               <p className="text-[1.125rem] lg:text-[1.25rem] font-light text-[var(--color-graphite)] leading-relaxed">
                 Too many digital projects are built to look impressive rather
@@ -64,7 +79,7 @@ export function Positioning() {
               </p>
 
               <div className="pt-6 border-t border-[var(--color-border)] mt-8 flex items-center text-[11px] tracking-[0.16em] uppercase text-[var(--color-graphite-muted)] font-light">
-                <span>Est. London 2025</span>
+                <span>EST. LONDON 2025</span>
               </div>
             </RevealOnScroll>
           </div>
@@ -80,7 +95,7 @@ export function Positioning() {
                   fill
                   sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 55vw, 680px"
                   priority
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 hover:scale-[1.02]"
                   style={{ objectPosition: '50% 50%' }}
                 />
               </div>
@@ -91,7 +106,7 @@ export function Positioning() {
                   Precision Engineering Geometry
                 </AnnotationLabel>
                 <span className="text-[10px] tracking-[0.14em] uppercase font-light text-[var(--color-graphite-muted)]">
-                  London Studio
+                  LONDON STUDIO
                 </span>
               </div>
             </RevealOnScroll>
@@ -101,4 +116,3 @@ export function Positioning() {
     </section>
   )
 }
-

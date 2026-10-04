@@ -1,111 +1,107 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import {
-  getVerifiedPublishedCaseStudies,
-  getVerifiedCaseStudyBySlug,
-} from '@/lib/db/proof'
+import { Breadcrumb } from '@/components/ui/Breadcrumb'
+import { Button } from '@/components/ui/Button'
+import { ProjectMedia } from '@/components/ui/ProjectMedia'
+import { MediaPlaceholder } from '@/components/ui/MediaPlaceholder'
+import { ChapterRenderer } from '@/components/case-study/ChapterRenderer'
+import { EvidenceLedger } from '@/components/case-study/EvidenceLedger'
+import { CaseStudyGallery } from '@/components/case-study/CaseStudyGallery'
+import { getProject, getPublishedProjectSlugs } from '@/content/projects'
+import { getVerifiedCaseStudyBySlug } from '@/content/case-studies/registry'
+import { getProjectMedia } from '@/content/media/registry'
 import { siteConfig } from '@/content/config/site'
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
-export const revalidate = 60
-
 export async function generateStaticParams() {
-  const studies = await getVerifiedPublishedCaseStudies()
-  return studies.map((s) => ({ slug: s.slug }))
+  return getPublishedProjectSlugs().map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const study = await getVerifiedCaseStudyBySlug(slug)
-  if (!study) return {}
-
-  const clientName = study.clients?.name || 'Case Study'
-  const ogTitle = `${study.headline_result} — ${clientName} — Avorria`
-  const ogDescription = study.narrative
-    ? study.narrative.slice(0, 160)
-    : `${study.headline_result}. A verified case study from Avorria.`
-
+  const project = getProject(slug)
+  if (!project) return {}
   return {
-    title: ogTitle,
-    description: ogDescription,
+    title: project.seo.title,
+    description: project.seo.description,
     alternates: { canonical: `${siteConfig.url}/work/${slug}` },
     openGraph: {
-      title: ogTitle,
-      description: ogDescription,
+      title: project.seo.title,
+      description: project.seo.description,
       url: `${siteConfig.url}/work/${slug}`,
       type: 'article',
       images: [
         {
-          url: `${siteConfig.url}/api/og?title=${encodeURIComponent(study.headline_result)}&client=${encodeURIComponent(clientName)}`,
-          width: 1200,
-          height: 630,
-          alt: ogTitle,
+          url: project.heroImage?.src ? `${siteConfig.url}${project.heroImage.src}` : `${siteConfig.url}/og/default.png`,
+          width: 1600,
+          height: 900,
+          alt: project.heroImage?.alt || project.title,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: ogTitle,
-      description: ogDescription,
+      title: project.seo.title,
+      description: project.seo.description,
     },
   }
 }
 
-export default async function WorkDetailPage({ params }: Props) {
+export default async function ProjectPage({ params }: Props) {
   const { slug } = await params
-  const study = await getVerifiedCaseStudyBySlug(slug)
-  if (!study) notFound()
+  const project = getProject(slug)
+  if (!project) notFound()
 
-  const clientName = study.clients?.name || 'Case Study'
-  const market = study.clients?.market
-  const period = study.period
+  const detailedCaseStudy = getVerifiedCaseStudyBySlug(slug)
+  const mediaPackage = getProjectMedia(slug)
 
-  // JSON-LD structured data: CaseStudy / Article
-  const articleSchema = {
+  // Structured Data Schema.org
+  const caseStudySchema = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: study.headline_result,
-    name: `${clientName} — ${study.headline_result}`,
-    description: study.narrative || study.headline_result,
+    '@type': 'CreativeWork',
+    headline: project.title,
+    name: project.title,
+    description: project.description,
     url: `${siteConfig.url}/work/${slug}`,
-    datePublished: study.created_at,
+    datePublished: `${project.year}-01-01`,
     author: {
       '@type': 'Organization',
-      name: 'Avorria',
+      name: siteConfig.name,
       url: siteConfig.url,
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Avorria',
+      name: siteConfig.name,
       url: siteConfig.url,
-      logo: {
-        '@type': 'ImageObject',
-        url: siteConfig.organization.logo,
-      },
     },
-    ...(study.metric_value
-      ? {
-          about: {
-            '@type': 'Thing',
-            name: study.metric_label || 'Key Metric',
-            description: `${study.metric_value}${study.period ? ` — ${study.period}` : ''}`,
-          },
-        }
-      : {}),
+    image: project.heroImage?.src ? `${siteConfig.url}${project.heroImage.src}` : undefined,
   }
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
-      { '@type': 'ListItem', position: 2, name: 'Work', item: `${siteConfig.url}/work` },
-      { '@type': 'ListItem', position: 3, name: clientName, item: `${siteConfig.url}/work/${slug}` },
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteConfig.url,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Work',
+        item: `${siteConfig.url}/work`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: project.title,
+        item: `${siteConfig.url}/work/${slug}`,
+      },
     ],
   }
 
@@ -113,91 +109,199 @@ export default async function WorkDetailPage({ params }: Props) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema) }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+      <div className="section-y-large">
+        <div className="container-max">
+          <div className="container-content">
 
-      <main id="main" className="work-detail">
-        {/* Film title open: large headline result sentence */}
-        <div className="work-detail__title-block">
-          <div className="wrap">
-            <div className="work-detail__meta-row">
-              <span className="work-detail__client">{clientName}</span>
-              {market && (
+          <Breadcrumb
+            items={[
+              { label: 'Work', href: '/work' },
+              { label: project.title },
+            ]}
+            className="mb-12"
+          />
+
+          {/* Header */}
+          <div className="border-b border-[var(--color-border)] pb-12 mb-12">
+            <div className="flex flex-wrap items-center gap-4 mb-6">
+              <span className="text-label-upper text-muted font-light">{project.industry}</span>
+              <span className="text-label-upper text-muted">—</span>
+              <span className="text-label-upper text-muted font-light">{project.year}</span>
+              {detailedCaseStudy && (
                 <>
-                  <span className="work-detail__divider" aria-hidden="true">·</span>
-                  <span className="work-detail__industry">{market}</span>
-                </>
-              )}
-              {period && (
-                <>
-                  <span className="work-detail__divider" aria-hidden="true">·</span>
-                  <span className="work-detail__year">{period}</span>
+                  <span className="text-label-upper text-muted">—</span>
+                  <span className="text-label-upper font-light text-[var(--color-accent)]">
+                    PROVENANCE: {detailedCaseStudy.provenance.toUpperCase()}
+                  </span>
                 </>
               )}
             </div>
-
-            <h1 className="work-detail__headline">
-              {study.headline_result}
+            <h1 className="text-display-l max-w-[800px] mb-6 font-extralight tracking-tight">
+              {project.title}
             </h1>
+            <p className="text-body-l text-secondary max-w-[620px] font-light leading-relaxed">
+              {project.description}
+            </p>
+          </div>
 
-            {/* Metric appears once, in the headline, sourced from the verified row */}
-            {study.metric_value && (
-              <div className="work-detail__metric">
-                <span className="work-detail__metric-value">{study.metric_value}</span>
-                {study.metric_label && (
-                  <span className="work-detail__metric-label">{study.metric_label}</span>
-                )}
-                {study.period && (
-                  <span className="work-detail__metric-period">{study.period}</span>
-                )}
+          {/* Case Study Hero Media Visual Plate */}
+          <div className="mb-16">
+            {project.heroImage?.src ? (
+              <div className="relative w-full aspect-[21/9] overflow-hidden border border-[var(--color-border)]">
+                <ProjectMedia
+                  src={project.heroImage.src}
+                  alt={project.heroImage.alt || project.title}
+                  fill
+                  priority
+                  sizes="100vw"
+                />
+              </div>
+            ) : project.heroVideo?.src ? (
+              <div className="relative w-full aspect-[21/9] overflow-hidden border border-[var(--color-border)]">
+                <ProjectMedia
+                  type="video"
+                  src={project.heroVideo.src}
+                  poster={project.heroVideo.poster}
+                  alt={project.heroVideo.alt || project.title}
+                  fill
+                  priority
+                  sizes="100vw"
+                />
+              </div>
+            ) : (
+              <div className="relative w-full aspect-[21/9] min-h-[320px] overflow-hidden border border-[var(--color-border)]">
+                <MediaPlaceholder
+                  variant="hero"
+                  title={project.title}
+                  client={project.client}
+                  sector={project.industry}
+                  discipline={detailedCaseStudy?.discipline || '01 // VERIFIED PRODUCTION FLAGSHIP'}
+                  specs={
+                    project.technology
+                      ? project.technology.slice(0, 3).map((t, idx) => ({
+                          label: `LAYER 0${idx + 1}`,
+                          value: t.toUpperCase(),
+                        }))
+                      : [
+                          { label: 'DELIVERY', value: 'SERVER-FIRST' },
+                          { label: 'TOLERANCES', value: 'SURGICAL' },
+                        ]
+                  }
+                />
               </div>
             )}
-
-            <div className="work-detail__back">
-              <Link href="/work" className="link-rose">← All work</Link>
-            </div>
           </div>
-        </div>
 
-        {/* Full-bleed imagery ONLY where client supplied it */}
-        {study.clients?.logo_url && (
-          <div className="work-detail__hero-image relative h-[50vh] w-full">
-            <Image
-              src={study.clients.logo_url}
-              alt={clientName}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover"
-            />
-          </div>
-        )}
-
-        {/* Narrative in a readable measure (max 68ch) */}
-        <div className="wrap">
-          <div className="work-detail__body max-w-[68ch]">
-            {study.narrative && (
-              <div className="work-detail__narrative">
-                <p className="text-[1.25rem] leading-[1.82] text-[var(--color-graphite)] font-light">
-                  {study.narrative}
+          {/* Meta grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 mb-16 border-b border-[var(--color-border)]">
+            {[
+              { label: 'Client', value: project.client },
+              { label: 'Year', value: String(project.year) },
+              { label: 'Industry', value: project.industry },
+              {
+                label: 'Services',
+                value: project.services.map((s) => s.replace(/-/g, ' ')).join(', '),
+              },
+            ].map(({ label, value }) => (
+              <div key={label} className="border-l border-t border-[var(--color-border)] p-6 last:border-r md:last:border-r-0">
+                <p className="text-label-upper text-muted mb-2 font-light">{label}</p>
+                <p className="text-[var(--text-small)] text-[var(--color-graphite)] capitalize font-light">
+                  {value}
                 </p>
               </div>
-            )}
+            ))}
           </div>
-        </div>
 
-        {/* Closing back link */}
-        <div className="work-detail__footer">
-          <div className="wrap">
-            <Link href="/work" className="link-rose">← All work</Link>
+          {/* ── Verified Visual Evidence Artefacts Gallery ───────────────────────── */}
+          {mediaPackage && mediaPackage.gallery.length > 0 && (
+            <CaseStudyGallery items={mediaPackage.gallery} />
+          )}
+
+          {/* Render In-Depth Investigation Chapters if present in Registry */}
+          {detailedCaseStudy && detailedCaseStudy.chapters.length > 0 ? (
+            <div className="mb-16">
+              {detailedCaseStudy.chapters.map((chapter) => (
+                <ChapterRenderer
+                  key={chapter.id}
+                  chapter={chapter}
+                  projectSlug={slug}
+                />
+              ))}
+
+              {detailedCaseStudy.qualitativeEvidence && detailedCaseStudy.qualitativeEvidence.length > 0 && (
+                <div className="border-t border-[var(--color-border)] pt-16">
+                  <EvidenceLedger
+                    evidence={detailedCaseStudy.qualitativeEvidence}
+                  />
+                </div>
+              )}
+            </div>
+          ) : (
+            /* Fallback to Standard Case Study Sections */
+            <>
+              {project.challenge && (
+                <div className="border-t border-[var(--color-border)] py-12 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-8">
+                  <p className="text-label-upper font-light">Challenge</p>
+                  <p className="text-secondary leading-relaxed font-light">{project.challenge}</p>
+                </div>
+              )}
+
+              {project.approach && (
+                <div className="border-t border-[var(--color-border)] py-12 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-8">
+                  <p className="text-label-upper font-light">Approach</p>
+                  <p className="text-secondary leading-relaxed font-light">{project.approach}</p>
+                </div>
+              )}
+
+              {project.outcome && (
+                <div className="border-t border-[var(--color-border)] py-12 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-8">
+                  <p className="text-label-upper font-light">Outcome</p>
+                  <p className="text-secondary leading-relaxed font-light">{project.outcome}</p>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Technology badges */}
+          {project.technology && project.technology.length > 0 && (
+            <div className="border-t border-[var(--color-border)] py-12 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-8">
+              <p className="text-label-upper font-light">Engineering Stack</p>
+              <div className="flex flex-wrap gap-2">
+                {project.technology.map((t) => (
+                  <span key={t} className="text-label-upper font-light border border-[var(--color-border)] px-3 py-1.5 text-secondary text-[11px]">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Case Study Bottom CTA */}
+          <div className="border-t border-[var(--color-border)] pt-16 mt-8">
+            <div className="flex flex-wrap gap-4 items-center justify-between">
+              <div className="flex flex-wrap gap-4 items-center">
+                <Button as="link" href="/start-a-project" variant="primary" size="md">
+                  Commission Similar Architecture ↗
+                </Button>
+                <Button as="link" href="/work" variant="ghost" size="md">
+                  ← All Case Studies
+                </Button>
+              </div>
+              <span className="text-[10px] font-light text-[var(--color-graphite-muted)] uppercase">
+                AVORRIA ARCHITECTURAL INVESTIGATION // {project.year}
+              </span>
+            </div>
           </div>
-        </div>
 
-      </main>
+        </div>
+      </div>
+    </div>
     </>
   )
 }

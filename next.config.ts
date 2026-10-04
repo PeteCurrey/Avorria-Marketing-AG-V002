@@ -12,7 +12,7 @@ const ContentSecurityPolicy = `
   img-src 'self' data: blob: https:;
   font-src 'self';
   connect-src 'self' https://*.supabase.co wss://*.supabase.co;
-  media-src 'self' https://*.supabase.co;
+  media-src 'none';
   object-src 'none';
   frame-src 'none';
   frame-ancestors 'none';
@@ -25,7 +25,7 @@ const isProduction = process.env.NEXT_PUBLIC_ENVIRONMENT === 'production'
 
 const nextConfig: NextConfig = {
   env: {
-    NEXT_PUBLIC_SITE_URL: (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://avorria.com').replace(/^http:\/\//i, 'https://'),
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://avorria.com',
   },
 
   images: {

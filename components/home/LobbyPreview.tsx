@@ -20,10 +20,25 @@ export async function LobbyPreview() {
       data-chapter="stone"
       aria-labelledby="lobby-heading"
     >
+      {/* ── Background Architectural Numeral: Ivory on Stone Tone-on-Tone ── */}
+      <div
+        className="absolute top-8 right-[7vw] pointer-events-none select-none text-[clamp(6rem,16vw,14rem)] font-extralight text-[var(--color-ivory)] opacity-40 leading-none"
+        aria-hidden="true"
+      >
+        07
+      </div>
+
       <div className="w-full px-6 md:px-10 lg:px-[7vw]">
         {/* Section Header */}
         <div className="max-w-[1200px] mb-16 lg:mb-20">
           <RevealOnScroll>
+            <div className="flex items-center gap-4 mb-8">
+              <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-mid)]">
+                07 — THE LOBBY · EDITORIAL INTELLIGENCE
+              </span>
+              <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
+            </div>
+
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
               <div>
                 <h2
@@ -71,7 +86,7 @@ export async function LobbyPreview() {
                       {article.categoryName ?? article.categoryLabel ?? article.category}
                     </span>
                     <span className="text-[10px] tracking-[0.16em] uppercase text-[var(--color-graphite-muted)] font-light">
-                      {article.readingTimeMinutes ?? article.readTimeMinutes ?? 5} min read
+                      {article.readingTimeMinutes ?? article.readTimeMinutes ?? 5} MIN READ
                     </span>
                   </div>
 

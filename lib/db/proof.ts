@@ -1,10 +1,55 @@
 import { createClient } from '@/lib/supabase/server'
-import type { Database } from '@/types/supabase'
 
-export type ClientRow = Database['public']['Tables']['clients']['Row']
-export type MarketRow = Database['public']['Tables']['markets']['Row']
-export type CaseStudyRow = Database['public']['Tables']['case_studies']['Row']
-export type TestimonialRow = Database['public']['Tables']['testimonials']['Row']
+// ── Local row types ─────────────────────────────────────────────────────────
+// Defined here rather than derived from Database['public']['Tables'] so this
+// file compiles before the Supabase type file is regenerated after the proof
+// migrations are applied to the hosted project.
+
+export interface ClientRow {
+  id: string
+  name: string
+  logo_url: string | null
+  website: string | null
+  verified: boolean
+  sort: number | null
+  created_at: string
+}
+
+export interface MarketRow {
+  id: string
+  label: string
+  country: string | null
+  verified: boolean
+  created_at: string
+}
+
+export interface CaseStudyRow {
+  id: string
+  slug: string
+  title: string
+  headline_result: string | null
+  metric_value: string | null
+  metric_label: string | null
+  period: string | null
+  summary: string | null
+  body_md: string | null
+  cover_url: string | null
+  client_id: string | null
+  verified: boolean
+  published: boolean
+  created_at: string
+}
+
+export interface TestimonialRow {
+  id: string
+  quote: string
+  attribution: string | null
+  role: string | null
+  client_id: string | null
+  verified: boolean
+  consent_documented: boolean
+  created_at: string
+}
 
 export type CaseStudyWithClient = CaseStudyRow & {
   clients?: ClientRow | null

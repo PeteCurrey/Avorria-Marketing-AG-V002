@@ -89,10 +89,7 @@ const PROCESS_STEPS: ProcessStep[] = [
   },
 ]
 
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-// ─── Hook: track active step bi-directionally via GSAP ScrollTrigger ─────────
+// ─── Hook: track active step bi-directionally via focal line ──────────────────
 
 function useActiveStep(
   sectionRef: React.RefObject<HTMLElement | null>,
@@ -109,30 +106,63 @@ function useActiveStep(
   )
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return
-    }
-
-    gsap.registerPlugin(ScrollTrigger)
     const section = sectionRef.current
     if (!section) return
 
-    const triggers: ScrollTrigger[] = []
+    let rafId: number | null = null
+    let isIntersecting = false
 
-    cardsRef.current.forEach((card, idx) => {
-      if (!card) return
-      const st = ScrollTrigger.create({
-        trigger: card,
-        start: 'top 55%',
-        end: 'bottom 45%',
-        onEnter: () => setActiveIndex(idx),
-        onEnterBack: () => setActiveIndex(idx),
+    function computeActiveStep() {
+      if (!isIntersecting) return
+
+      const focalY = window.innerHeight * 0.42
+      let closestIdx = 0
+      let closestDist = Infinity
+
+      cardsRef.current.forEach((card, idx) => {
+        if (!card) return
+        const rect = card.getBoundingClientRect()
+        const cardCenter = rect.top + rect.height * 0.45
+        const dist = Math.abs(cardCenter - focalY)
+
+        if (dist < closestDist) {
+          closestDist = dist
+          closestIdx = idx
+        }
       })
-      triggers.push(st)
-    })
+
+      setActiveIndex((prev) => (prev !== closestIdx ? closestIdx : prev))
+    }
+
+    function onScroll() {
+      if (!isIntersecting) return
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(computeActiveStep)
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isIntersecting = entry.isIntersecting
+        if (isIntersecting) {
+          computeActiveStep()
+          window.addEventListener('scroll', onScroll, { passive: true })
+        } else {
+          window.removeEventListener('scroll', onScroll)
+          if (rafId !== null) {
+            cancelAnimationFrame(rafId)
+            rafId = null
+          }
+        }
+      },
+      { rootMargin: '100px 0px 100px 0px', threshold: 0 },
+    )
+
+    observer.observe(section)
 
     return () => {
-      triggers.forEach((t) => t.kill())
+      observer.disconnect()
+      window.removeEventListener('scroll', onScroll)
+      if (rafId !== null) cancelAnimationFrame(rafId)
     }
   }, [sectionRef])
 
@@ -151,6 +181,14 @@ export function ProcessSection() {
       data-chapter="ivory"
       aria-labelledby="process-heading"
     >
+      {/* ── Background architectural numeral: Stone on Ivory Tone-on-Tone ── */}
+      <div
+        className="absolute top-8 right-[7vw] numeral-stone-on-ivory opacity-60"
+        aria-hidden="true"
+      >
+        05
+      </div>
+
       <div className="w-full px-6 md:px-10 lg:px-[7vw] pt-20 lg:pt-[7rem] pb-20 lg:pb-[7rem]">
         {/* Desktop: 38% left column, 62% right column with generous whitespace */}
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,38%)_1fr] gap-12 lg:gap-16 xl:gap-24 items-start">
@@ -159,6 +197,14 @@ export function ProcessSection() {
             className="lg:sticky"
             style={{ top: 'clamp(6rem, 11vh, 8.5rem)' }}
           >
+            {/* Eyebrow */}
+            <div className="flex items-center gap-4 mb-8">
+              <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-mid)]">
+                05 — PROCESS &amp; METHODOLOGY
+              </span>
+              <span className="h-px w-12 bg-[var(--color-border-strong)]" aria-hidden="true" />
+            </div>
+
             {/* Heading */}
             <h2
               id="process-heading"
@@ -186,7 +232,7 @@ export function ProcessSection() {
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[0.625rem] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-muted)]">
-                  Active methodology phase
+                  ACTIVE METHODOLOGY PHASE
                 </span>
                 <span className="text-[0.6875rem] tracking-[0.16em] uppercase font-light text-[var(--color-accent)]">
                   0{activeIndex + 1} / 0{PROCESS_STEPS.length}
@@ -264,7 +310,7 @@ export function ProcessSection() {
                     <div className="flex items-baseline justify-between gap-4 pb-5 mb-6 border-b border-[var(--color-border)]">
                       <div className="flex items-center gap-3">
                         <span className="text-[10px] tracking-[0.2em] font-light uppercase text-[var(--color-graphite-muted)]">
-                          Phase {step.index}
+                          PHASE {step.index}
                         </span>
                         <span className="text-[var(--color-border-strong)] text-sm">/</span>
                         <h3 className="text-2xl md:text-3xl font-extralight text-[var(--color-graphite)] tracking-[-0.01em]">
@@ -294,7 +340,7 @@ export function ProcessSection() {
                         fill
                         unoptimized
                         sizes="(min-width: 1024px) 50vw, 100vw"
-                        className="object-cover object-center"
+                        className="object-cover object-center transition-transform duration-700 hover:scale-[1.02]"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                       <div className="absolute bottom-3 left-4 right-4 text-[9px] tracking-[0.14em] uppercase font-light text-white/80">
@@ -304,7 +350,7 @@ export function ProcessSection() {
 
                     {/* Deliverable detail */}
                     <div className="flex items-center justify-between pt-4 border-t border-[var(--color-border)] text-[10px] tracking-[0.14em] uppercase font-light text-[var(--color-graphite-muted)]">
-                      <span>Deliverable:</span>
+                      <span>VERIFIED DELIVERABLE:</span>
                       <span className="text-[var(--color-graphite)] font-light">
                         {step.deliverable}
                       </span>

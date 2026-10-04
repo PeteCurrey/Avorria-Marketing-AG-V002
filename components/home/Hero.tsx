@@ -1,112 +1,41 @@
-'use client'
-
-import { useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/Button'
 import { HeroMedia } from './HeroMedia'
 
 /**
- * Hero — One Orchestrated GSAP Timeline
+ * Hero — Aurora Spec (Visual Elevation)
  *
- * Brief rules:
- * - One orchestrated hero reveal (GSAP timeline, not CSS animation).
- * - Never IntersectionObserver for animation.
- * - No ALL CAPS eyebrow label.
- * - No animate-pulse.
- * - Respect prefers-reduced-motion: skip GSAP, elements at final state.
- * - H1 is the LCP candidate — never starts at opacity:0.
- *   Lines animate translateY only (mask reveal via .line-mask overflow:hidden).
+ * Layout:
+ *   - Header overlays the hero (Navigation is fixed/absolute, z-50)
+ *   - Left text column: ~44% width, inset pl-[7vw], vertically centred
+ *   - Right media panel: ~56% width, full-bleed to top, right, bottom edges
+ *   - The section is min-h-screen (100dvh) to fill the viewport
+ *   - A 1px vertical rule on desktop separates the two columns (architectural)
  *
- * Motion sequence (GSAP timeline, delay from tl.play()):
- *   0ms   — H1 line 1 rises from translateY(100%) inside mask
- *   100ms — H1 line 2
- *   200ms — H1 line 3
- *   380ms — supporting paragraph fades + rises
- *   460ms — CTA buttons
- *   820ms — scroll cue
- *   0ms   — media panel scales 1.04 → 1 (parallel, 1400ms, CSS)
+ * Type:
+ *   - Eyebrow: cobalt dot + uppercase, tracked, Work Sans 300
+ *   - H1: clamp(3rem, 6.2vw, 6.5rem), line-height 1.04, weight 200
+ *   - "work." italic weight 200 in rose
+ *
+ * Motion (gated on .js class — content always visible without JS):
+ *   - Eyebrow: fade-up 0ms
+ *   - H1: line-by-line mask reveal, 80/160/240ms stagger
+ *   - Paragraph: fade-up 360ms
+ *   - CTAs: fade-up 440ms
+ *   - Scroll cue: fade-up 800ms
+ *   - Media panel: slow scale 1.04 → 1.0 over 1.4s
+ *
+ * LCP: H1 is LCP candidate. Never starts at opacity:0.
+ *      .line-inner slides from translateY(100%) inside overflow:hidden container.
  */
 export function Hero() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const line1Ref = useRef<HTMLSpanElement>(null)
-  const line2Ref = useRef<HTMLSpanElement>(null)
-  const line3Ref = useRef<HTMLSpanElement>(null)
-  const paraRef = useRef<HTMLParagraphElement>(null)
-  const ctasRef = useRef<HTMLDivElement>(null)
-  const scrollCueRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
-
-    // Dynamically import GSAP to keep it out of the SSR bundle
-    import('gsap').then(({ default: gsap }) => {
-      const targets = [
-        line1Ref.current,
-        line2Ref.current,
-        line3Ref.current,
-        paraRef.current,
-        ctasRef.current,
-        scrollCueRef.current,
-      ].filter(Boolean)
-
-      if (!targets.length) return
-
-      const tl = gsap.timeline({ paused: false })
-
-      // H1 lines: translateY only — opacity always 1 (LCP safe, Axe safe)
-      tl.fromTo(
-        line1Ref.current,
-        { y: '108%' },
-        { y: '0%', duration: 0.9, ease: 'cubic-bezier(0.19, 0.72, 0.12, 1)' },
-        0,
-      )
-      tl.fromTo(
-        line2Ref.current,
-        { y: '108%' },
-        { y: '0%', duration: 0.9, ease: 'cubic-bezier(0.19, 0.72, 0.12, 1)' },
-        0.1,
-      )
-      tl.fromTo(
-        line3Ref.current,
-        { y: '108%' },
-        { y: '0%', duration: 0.9, ease: 'cubic-bezier(0.19, 0.72, 0.12, 1)' },
-        0.2,
-      )
-
-      // Paragraph and CTAs: fade + rise
-      tl.fromTo(
-        paraRef.current,
-        { opacity: 0, y: 14 },
-        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-        0.38,
-      )
-      tl.fromTo(
-        ctasRef.current,
-        { opacity: 0, y: 14 },
-        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-        0.46,
-      )
-
-      // Scroll cue — last, subtle
-      if (scrollCueRef.current) {
-        tl.fromTo(
-          scrollCueRef.current,
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
-          0.82,
-        )
-      }
-    })
-  }, [])
-
   return (
     <section
-      ref={sectionRef}
       className="-mt-16 md:-mt-20 relative flex flex-col lg:flex-row min-h-[100dvh] overflow-hidden bg-[var(--color-ivory)]"
       data-chapter="ivory"
       aria-labelledby="hero-heading"
     >
       {/* ── Left: Text column ───────────────────────────────────────────────── */}
+      {/* pl-[7vw] inset per Aurora spec; pr gives breathing room before media */}
       <div
         className={[
           'relative z-10',
@@ -117,9 +46,27 @@ export function Hero() {
         ].join(' ')}
       >
         <div className="my-auto">
-          {/* H1 — line-by-line mask reveal via GSAP timeline.
-              .line-mask is overflow:hidden; inner span slides from translateY(108%).
-              H1 element is never opacity:0 — safe as LCP candidate. */}
+          {/* Eyebrow — cobalt dot + tracked label */}
+          <p
+            className={[
+              'hero-eyebrow mb-5',
+              'flex items-center gap-2.5',
+              'text-[0.6875rem] tracking-[0.18em] uppercase font-light',
+              'text-[var(--color-graphite-mid)]',
+            ].join(' ')}
+          >
+            {/* Cobalt pulse dot — small creative navigation detail */}
+            <span
+              className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse"
+              style={{ backgroundColor: 'var(--color-accent)' }}
+              aria-hidden="true"
+            />
+            DIGITAL PRODUCTS · SYSTEMS · INTELLIGENCE
+          </p>
+
+          {/* H1 — line-by-line mask reveal.
+              Each .line-mask is overflow:hidden; .line-inner slides up from 100%.
+              H1 element itself is never opacity:0 — safe as LCP candidate. */}
           <h1
             id="hero-heading"
             className="font-extralight mb-7 text-[var(--color-graphite)]"
@@ -130,13 +77,13 @@ export function Hero() {
             }}
           >
             <span className="line-mask hero-line-1">
-              <span ref={line1Ref} className="line-inner block">Websites and</span>
+              <span className="line-inner block">Websites and</span>
             </span>
             <span className="line-mask hero-line-2">
-              <span ref={line2Ref} className="line-inner block">systems built</span>
+              <span className="line-inner block">systems built</span>
             </span>
             <span className="line-mask hero-line-3">
-              <span ref={line3Ref} className="line-inner block">
+              <span className="line-inner block">
                 to{' '}
                 <em
                   className="not-italic italic font-extralight"
@@ -148,18 +95,21 @@ export function Hero() {
             </span>
           </h1>
 
-          {/* Supporting paragraph */}
+          {/* Supporting paragraph — max 46ch, Graphite Mid, 18px, weight 300 */}
           <p
-            ref={paraRef}
-            className="hero-para mb-8 font-light text-[var(--color-graphite-mid)] max-w-[46ch]"
+            className={[
+              'hero-para mb-8',
+              'font-light text-[var(--color-graphite-mid)]',
+              'max-w-[46ch]',
+            ].join(' ')}
             style={{ fontSize: '1.125rem', lineHeight: 1.6 }}
           >
             Avorria designs and builds digital products, intelligent systems
             and high-performance websites for ambitious businesses.
           </p>
 
-          {/* CTAs */}
-          <div ref={ctasRef} className="hero-ctas flex flex-row flex-wrap gap-4">
+          {/* CTAs — side by side per Aurora */}
+          <div className="hero-ctas flex flex-row flex-wrap gap-4">
             <Button as="link" href="/start-a-project" variant="primary" size="lg">
               Start a project{' '}
               <span className="btn-arrow" aria-hidden="true">↗</span>
@@ -170,12 +120,12 @@ export function Hero() {
           </div>
         </div>
 
-        {/* ── Scroll cue — bottom-left ─────────────────────────────────── */}
+        {/* ── Scroll cue — bottom-left, aligned to pl-[7vw] ─────────────── */}
         <div
-          ref={scrollCueRef}
           className="hero-scroll hidden lg:flex items-center gap-3 pt-4"
           aria-hidden="true"
         >
+          {/* Circular arrow — mimics Aurora's circular down-arrow button */}
           <div
             className={[
               'flex items-center justify-center',
@@ -187,7 +137,9 @@ export function Hero() {
           >
             ↓
           </div>
-          <span className="text-[0.625rem] tracking-[0.18em] uppercase font-light text-[var(--color-graphite-muted)]">
+          <span
+            className="text-[0.625rem] tracking-[0.18em] uppercase font-light text-[var(--color-graphite-muted)]"
+          >
             Scroll to explore
           </span>
         </div>
@@ -206,8 +158,10 @@ export function Hero() {
       </div>
 
       {/* ── Right: Media panel — ~56% width, full-bleed top/right/bottom ────── */}
+      {/* On desktop: absolutely positioned to fill the right ~56% of viewport,
+          stretching from top:0 to bottom:0, flushed to the right edge. */}
       <div
-        className="hidden lg:block absolute top-0 right-0 bottom-0 hero-media-panel"
+        className="hidden lg:block absolute top-0 right-0 bottom-0"
         style={{ left: '46%' }}
         aria-hidden="true"
       >

@@ -132,10 +132,25 @@ export function SystemsDiagram() {
       data-chapter="petrol"
       aria-labelledby="systems-heading"
     >
+      {/* ── Background Architectural Watermark: Wine on Petrol ── */}
+      <div
+        className="absolute top-8 right-[7vw] numeral-wine-on-petrol"
+        aria-hidden="true"
+      >
+        04
+      </div>
+
       <div className="w-full px-6 md:px-10 lg:px-[7vw]">
         {/* Section Header */}
         <div className="max-w-[1200px] mb-14 lg:mb-20">
           <RevealOnScroll>
+            <div className="flex items-center gap-4 mb-6">
+              <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-accent-light)] opacity-80">
+                04 — DIGITAL SYSTEMS ARCHITECTURE
+              </span>
+              <span className="h-px w-12 bg-white/20" aria-hidden="true" />
+            </div>
+
             <h2
               id="systems-heading"
               className="font-extralight text-[var(--color-ivory)] leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.8vw,6.25rem)] max-w-[20ch]"
@@ -169,7 +184,7 @@ export function SystemsDiagram() {
                 >
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-accent-light)] opacity-60">
-                      Phase {node.index}
+                      PHASE {node.index}
                     </span>
                     <span
                       className={[
@@ -199,7 +214,7 @@ export function SystemsDiagram() {
               <div className="flex items-center justify-between pb-3 mb-5 border-b border-[#244C53] text-[10px] tracking-[0.18em] uppercase text-[var(--color-accent-light)]/70 font-light">
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-accent)' }} />
-                  <span>System Architecture</span>
+                  <span>SYSTEM ARCHITECTURE</span>
                 </span>
                 <span>{activeNode.label}</span>
               </div>
@@ -212,7 +227,7 @@ export function SystemsDiagram() {
                   alt={activeNode.title}
                   fill
                   sizes="(min-width: 1024px) 45vw, 100vw"
-                  className="object-cover"
+                  className="object-cover transition-all duration-700 hover:scale-[1.02]"
                   style={{ objectPosition: activeNode.imagePosition }}
                 />
                 <div className={`absolute inset-0 pointer-events-none ${activeNode.overlay}`} />

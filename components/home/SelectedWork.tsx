@@ -20,10 +20,25 @@ export function SelectedWork() {
       data-chapter="graphite"
       aria-labelledby="work-heading"
     >
+      {/* ── Background Architectural Numeral: Ivory on Dark Tone-on-Tone ── */}
+      <div
+        className="absolute top-8 right-[7vw] pointer-events-none select-none text-[clamp(6rem,16vw,14rem)] font-extralight text-[var(--color-ivory)] opacity-[0.04] leading-none"
+        aria-hidden="true"
+      >
+        03
+      </div>
+
       <div className="w-full px-6 md:px-10 lg:px-[7vw]">
         {/* Section Header */}
         <div className="max-w-[1200px] mb-14 lg:mb-20">
           <RevealOnScroll>
+            <div className="flex items-center gap-4 mb-6">
+              <span className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-accent-light)] opacity-70">
+                03 — SELECTED WORK
+              </span>
+              <span className="h-px w-12 bg-white/20" aria-hidden="true" />
+            </div>
+
             <h2
               id="work-heading"
               className="font-extralight text-[var(--color-ivory)] leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.8vw,6.25rem)]"
@@ -35,7 +50,6 @@ export function SelectedWork() {
             </h2>
           </RevealOnScroll>
         </div>
-
 
         {/* ── 01. MONUMENTAL FEATURE: ALKOTA BIKES (CINEMATIC FULL-BLEED) ─────── */}
         <div className="mb-20 lg:mb-32">
@@ -53,10 +67,20 @@ export function SelectedWork() {
                   fill
                   priority
                   sizes="(min-width: 1024px) 86vw, 100vw"
-                  className="object-cover object-center"
+                  className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+
+                {/* Annotation label — top left */}
+                <div className="absolute top-5 left-6 flex items-center gap-2 text-[10px] tracking-[0.18em] uppercase font-light text-white/80">
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-accent)' }} aria-hidden="true" />
+                  <span>CASE STUDY 01 · PRECISION CYCLING</span>
+                </div>
+
+                <div className="absolute top-5 right-6 text-[10px] tracking-[0.18em] uppercase font-light text-white/50">
+                  FLAGSHIP BUILD
+                </div>
 
                 {/* Title overlay — bottom of image */}
                 <div className="absolute bottom-0 left-0 right-0 px-6 md:px-8 pb-6 md:pb-8 flex items-end justify-between">
@@ -88,6 +112,10 @@ export function SelectedWork() {
           <div className="lg:col-span-7">
             <RevealOnScroll delay={100}>
               <article className="group h-full flex flex-col">
+                <div className="flex items-center justify-between pb-3 mb-5 border-b border-white/10 text-[10px] tracking-[0.18em] uppercase text-white/50 font-light">
+                  <span>COMMERCIAL MARKETPLACE</span>
+                  <span>CASE STUDY 02</span>
+                </div>
 
                 <Link
                   href="/work/tafm"
@@ -98,7 +126,7 @@ export function SelectedWork() {
                     alt="TAFM — The Asset Finance Marketplace platform"
                     fill
                     sizes="(min-width: 1024px) 50vw, 100vw"
-                    className="object-cover object-center"
+                    className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
                   />
                 </Link>
 
@@ -131,6 +159,10 @@ export function SelectedWork() {
           <div className="lg:col-span-5">
             <RevealOnScroll delay={200}>
               <article className="group h-full flex flex-col">
+                <div className="flex items-center justify-between pb-3 mb-5 border-b border-white/10 text-[10px] tracking-[0.18em] uppercase text-white/50 font-light">
+                  <span>FINANCIAL INTELLIGENCE</span>
+                  <span>CASE STUDY 03</span>
+                </div>
 
                 <Link
                   href="/work/drawdown"
@@ -141,7 +173,7 @@ export function SelectedWork() {
                     alt="Drawdown.Trading quantitative risk terminal"
                     fill
                     sizes="(min-width: 1024px) 36vw, 100vw"
-                    className="object-cover object-center"
+                    className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
                   />
                 </Link>
 
@@ -177,6 +209,10 @@ export function SelectedWork() {
           <div className="lg:col-span-5">
             <RevealOnScroll delay={100}>
               <article className="group h-full flex flex-col">
+                <div className="flex items-center justify-between pb-3 mb-5 border-b border-white/10 text-[10px] tracking-[0.18em] uppercase text-white/50 font-light">
+                  <span>AI SYSTEMS</span>
+                  <span>CASE STUDY 04</span>
+                </div>
 
                 <Link
                   href="/work/careeros"
@@ -187,7 +223,7 @@ export function SelectedWork() {
                     alt="CareerOS AI skill taxonomy graph"
                     fill
                     sizes="(min-width: 1024px) 36vw, 100vw"
-                    className="object-cover object-center"
+                    className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
                   />
                 </Link>
 
@@ -220,6 +256,10 @@ export function SelectedWork() {
           <div className="lg:col-span-7">
             <RevealOnScroll delay={200}>
               <article className="group h-full flex flex-col">
+                <div className="flex items-center justify-between pb-3 mb-5 border-b border-white/10 text-[10px] tracking-[0.18em] uppercase text-white/50 font-light">
+                  <span>SPATIAL DATA &amp; POSTGIS</span>
+                  <span>CASE STUDY 05</span>
+                </div>
 
                 <Link
                   href="/work/nestiq"
@@ -230,7 +270,7 @@ export function SelectedWork() {
                     alt="NestIQ spatial property intelligence platform"
                     fill
                     sizes="(min-width: 1024px) 50vw, 100vw"
-                    className="object-cover object-center"
+                    className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
                   />
                 </Link>
 

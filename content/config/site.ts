@@ -8,7 +8,7 @@ export const siteConfig = {
   tagline: 'Digital Products. Intelligent Systems.',
   description:
     'Avorria designs and builds digital products, intelligent systems and high-performance websites for ambitious businesses.',
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://avorria.com').replace(/^http:\/\//i, 'https://'),
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://avorria.com',
   email: {
     hello: 'hello@avorria.com',
     support: 'support@avorria.com',

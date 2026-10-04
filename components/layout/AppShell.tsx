@@ -2,16 +2,18 @@
 
 import { usePathname } from 'next/navigation'
 import { Navigation } from '@/components/navigation/Navigation'
-import { ScrollProgress } from '@/components/motion/ScrollProgress'
+import { Footer } from '@/components/layout/Footer'
+import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { SmoothScrollProvider } from '@/components/motion/SmoothScrollProvider'
+import { ScrollProgress } from '@/components/motion/ScrollProgress'
 import type { ReactNode } from 'react'
 
 /**
- * AppShell foundation layout
+ * AppShell separates the public marketing experience from the dedicated
+ * client and admin authentication / portal experiences.
  *
- * - Includes 2px rose scroll-progress line driven by ScrollTrigger
- * - Foundation Navigation with mix-blend-difference over dark sections
- * - Lenis + GSAP ScrollTrigger provider
+ * Client authentication and portal routes MUST NOT render the marketing
+ * navigation bar, hamburger menu, Lobby CTA, or marketing footer.
  */
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
@@ -30,7 +32,11 @@ export function AppShell({ children }: { children: ReactNode }) {
     <SmoothScrollProvider>
       <ScrollProgress />
       <Navigation />
-      {children}
+      <main id="main-content" className="pt-16 md:pt-20">
+        {children}
+      </main>
+      <Footer />
+      <RevealOnScroll />
     </SmoothScrollProvider>
   )
 }
