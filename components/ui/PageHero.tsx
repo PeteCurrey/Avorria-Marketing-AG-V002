@@ -42,6 +42,8 @@ interface PageHeroProps {
   metaLeft?: string
   /** Bottom metadata strip — right label */
   metaRight?: string
+  /** Section color chapter theme */
+  theme?: 'graphite' | 'petrol' | 'wine'
 }
 
 export function PageHero({
@@ -54,11 +56,34 @@ export function PageHero({
   imageAlt,
   metaLeft,
   metaRight,
+  theme = 'graphite',
 }: PageHeroProps) {
+  const isPetrol = theme === 'petrol'
+  const isWine = theme === 'wine'
+
+  const bgColor = isPetrol
+    ? 'var(--color-petrol)'
+    : isWine
+    ? 'var(--color-wine)'
+    : 'var(--color-graphite)'
+
+  const bgGradient = isPetrol
+    ? 'linear-gradient(to right, rgba(23,53,58,0.96) 0%, rgba(23,53,58,0.88) 46%, rgba(23,53,58,0.5) 70%, rgba(23,53,58,0.25) 100%)'
+    : isWine
+    ? 'linear-gradient(to right, rgba(74,31,39,0.96) 0%, rgba(74,31,39,0.88) 46%, rgba(74,31,39,0.5) 70%, rgba(74,31,39,0.25) 100%)'
+    : 'linear-gradient(to right, rgba(26,25,22,0.95) 0%, rgba(26,25,22,0.85) 46%, rgba(26,25,22,0.45) 70%, rgba(26,25,22,0.25) 100%)'
+
+  const bottomFade = isPetrol
+    ? 'linear-gradient(to top, rgba(23,53,58,0.92) 0%, transparent 100%)'
+    : isWine
+    ? 'linear-gradient(to top, rgba(74,31,39,0.92) 0%, transparent 100%)'
+    : 'linear-gradient(to top, rgba(26,25,22,0.9) 0%, transparent 100%)'
+
   return (
     <section
       className="-mt-16 md:-mt-20 relative flex flex-col min-h-[100dvh] overflow-hidden"
-      style={{ backgroundColor: 'var(--color-graphite)' }}
+      style={{ backgroundColor: bgColor }}
+      data-chapter={theme}
       aria-labelledby="page-hero-heading"
     >
       {/* ── Full-bleed background image ──────────────────────────────────────── */}
@@ -74,16 +99,12 @@ export function PageHero({
         {/* Gradient: left heavy on desktop so text column is legible; full overlay on mobile */}
         <div
           className="absolute inset-0"
-          style={{
-            background: [
-              'linear-gradient(to right, rgba(26,25,22,0.95) 0%, rgba(26,25,22,0.85) 46%, rgba(26,25,22,0.45) 70%, rgba(26,25,22,0.25) 100%)',
-            ].join(''),
-          }}
+          style={{ background: bgGradient }}
         />
         {/* Bottom fade — ensures metadata strip reads cleanly */}
         <div
           className="absolute inset-x-0 bottom-0 h-40 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, rgba(26,25,22,0.9) 0%, transparent 100%)' }}
+          style={{ background: bottomFade }}
         />
       </div>
 
@@ -99,7 +120,7 @@ export function PageHero({
         <div className="my-auto">
           {/* Eyebrow */}
           <p className="text-[0.6875rem] tracking-[0.22em] uppercase font-light mb-6"
-            style={{ color: 'rgba(255,255,255,0.5)' }}>
+            style={{ color: isPetrol ? 'var(--color-accent-light)' : 'rgba(255,255,255,0.5)' }}>
             {eyebrow}
           </p>
 
@@ -120,7 +141,7 @@ export function PageHero({
                 {line.accent && (
                   <em
                     className="not-italic italic font-extralight"
-                    style={{ color: 'var(--color-rose-text)' }}
+                    style={{ color: isPetrol ? 'var(--color-accent-light)' : 'var(--color-rose-text)' }}
                   >
                     {line.accent}
                   </em>
@@ -149,7 +170,7 @@ export function PageHero({
               className="inline-flex items-center gap-2 px-6 py-3 text-sm font-light tracking-[0.06em] uppercase transition-colors duration-200"
               style={{
                 backgroundColor: '#FFFFFF',
-                color: 'var(--color-graphite)',
+                color: isPetrol ? 'var(--color-petrol)' : 'var(--color-graphite)',
               }}
             >
               {primaryCta.label}
@@ -193,7 +214,7 @@ export function PageHero({
           {metaLeft && (
             <span className="text-[10px] tracking-[0.18em] uppercase font-light flex items-center gap-2"
               style={{ color: 'rgba(255,255,255,0.35)' }}>
-              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-rose-text)' }} />
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: isPetrol ? 'var(--color-accent-light)' : 'var(--color-rose-text)' }} />
               {metaLeft}
             </span>
           )}

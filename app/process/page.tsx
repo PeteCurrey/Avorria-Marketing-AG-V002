@@ -138,6 +138,7 @@ export default function ProcessPage() {
         imageAlt="CareerOS autonomous skill taxonomy and document synthesis system"
         metaLeft="UNDERSTAND · ARCHITECT · DESIGN · ENGINEER · VALIDATE · LAUNCH · IMPROVE"
         metaRight="SEVEN STAGES"
+        theme="petrol"
       />
 
       <div className="section-y-large bg-[var(--color-ivory)]">
