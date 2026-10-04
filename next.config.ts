@@ -25,7 +25,7 @@ const isProduction = process.env.NEXT_PUBLIC_ENVIRONMENT === 'production'
 
 const nextConfig: NextConfig = {
   env: {
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://avorria.com',
+    NEXT_PUBLIC_SITE_URL: (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://avorria.com').replace(/^http:\/\//i, 'https://'),
   },
 
   images: {
