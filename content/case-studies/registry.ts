@@ -123,10 +123,26 @@ export const DETAILED_CASE_STUDIES: Record<string, DetailedCaseStudy> = {
         },
       },
     ],
+    primaryServiceSlug: 'build',
+    secondaryServiceSlugs: ['search'],
+    relatedLobbySlugs: [
+      'nextjs-vs-wordpress-engineering-comparison',
+      'core-web-vitals-ranking-reality',
+      'when-to-rebuild-your-website',
+    ],
+    relatedProjectSlugs: ['tafm', 'one-great-northern'],
+    customCta: {
+      headline: 'Commission a Bespoke Digital Flagship',
+      subtext: 'Transform your brand object into a high-performance web experience with sub-second LCP and zero template compromises.',
+      primaryLabel: 'Commission Flagship Architecture ↗',
+      primaryHref: '/start-a-project',
+      secondaryLabel: 'Explore Build Discipline',
+      secondaryHref: '/services/build',
+    },
     seo: {
-      title: 'Alkota Bikes — Case Study & Editorial Investigation | Avorria',
+      title: 'Alkota Bikes — Bespoke Titanium Platform & 3D Stage | Avorria Case Study',
       description:
-        'An editorial investigation into the digital engineering, WebGL frame configuration, and server-rendered architecture for Alkota Bikes.',
+        'Technical case study: How Avorria engineered a high-performance Next.js digital flagship, WebGL titanium frame inspection stage, and sub-second LCP architecture for Alkota Bikes.',
     },
   },
 
@@ -225,10 +241,25 @@ export const DETAILED_CASE_STUDIES: Record<string, DetailedCaseStudy> = {
         },
       },
     ],
+    primaryServiceSlug: 'systems',
+    secondaryServiceSlugs: ['build'],
+    relatedLobbySlugs: [
+      'bespoke-web-application-when-to-build',
+      'google-inp-core-web-vitals-architecture',
+    ],
+    relatedProjectSlugs: ['careeros', 'tafm'],
+    customCta: {
+      headline: 'Engineer Low-Latency Systems & High-Frequency Interfaces',
+      subtext: 'Isolate data-intensive streaming pipelines from the document object model for uncompromised paint performance.',
+      primaryLabel: 'Discuss Quantitative Systems ↗',
+      primaryHref: '/start-a-project',
+      secondaryLabel: 'Explore Systems Discipline',
+      secondaryHref: '/services/systems',
+    },
     seo: {
-      title: 'Drawdown.Trading — Quantitative Systems Case Study | Avorria',
+      title: 'Drawdown.Trading — Quantitative Risk Platform & Canvas Telemetry | Avorria Case Study',
       description:
-        'Technical investigation into the low-latency Canvas telemetry and real-time risk architecture of Drawdown.Trading.',
+        'Technical investigation into Drawdown.Trading: low-latency WebGL/Canvas telemetry, decoupled Web Worker data streaming, and sub-millisecond risk execution.',
     },
   },
 
@@ -291,6 +322,17 @@ export const DETAILED_CASE_STUDIES: Record<string, DetailedCaseStudy> = {
           spec: 'PGVECTOR-GRAPH',
         },
       },
+      {
+        id: 'careeros-evidence',
+        type: 'EVIDENCE',
+        sequence: '03',
+        eyebrow: '03 // VERIFIED PRODUCTION OUTCOME',
+        title: 'Deterministic AI Operations Across Enterprise Cohorts.',
+        paragraphs: [
+          'CareerOS deployed across enterprise client cohorts, eliminating unstructured prompt hallucination through strict Zod schema constraints and PostgreSQL database triggers.',
+          'Technical talent teams now audit engineering progression against verifiable code submissions rather than subjective self-evaluations.',
+        ],
+      },
     ],
     qualitativeEvidence: [
       {
@@ -306,10 +348,26 @@ export const DETAILED_CASE_STUDIES: Record<string, DetailedCaseStudy> = {
         verificationMethod: 'HR operations process sign-off.',
       },
     ],
+    primaryServiceSlug: 'systems',
+    secondaryServiceSlugs: ['build'],
+    relatedLobbySlugs: [
+      'custom-ai-vs-saas-business-decision',
+      'what-a-custom-ai-agent-can-automate',
+      'ai-integration-without-exposing-sensitive-data',
+    ],
+    relatedProjectSlugs: ['drawdown', 'tafm'],
+    customCta: {
+      headline: 'Deploy Custom AI Systems & Autonomous Workflows',
+      subtext: 'Integrate deterministic vector taxonomy pipelines and schema-validated AI evaluators into enterprise operations.',
+      primaryLabel: 'Discuss AI Systems Integration ↗',
+      primaryHref: '/start-a-project',
+      secondaryLabel: 'Explore Systems Discipline',
+      secondaryHref: '/services/systems',
+    },
     seo: {
-      title: 'CareerOS — Enterprise AI Systems Case Study | Avorria',
+      title: 'CareerOS — Enterprise AI Systems & Vector Taxonomy | Avorria Case Study',
       description:
-        'An editorial investigation into CareerOS: graph taxonomy models and autonomous talent orchestration.',
+        'Technical case study: How Avorria engineered CareerOS using pgvector semantic search, graph competence taxonomies, and server-side AI evaluation pipelines.',
     },
   },
 
@@ -349,6 +407,7 @@ export const DETAILED_CASE_STUDIES: Record<string, DetailedCaseStudy> = {
           'Rendering nationwide boundary polygons requires dynamic vector tiling rather than static GeoJSON downloads.',
         paragraphs: [
           'We configured server-side PostGIS routines to generate Mapbox Vector Tiles (MVT) directly from database queries, caching tile pyramids at edge locations.',
+          'By avoiding large client-side GeoJSON payloads, memory usage on mobile devices was reduced by over 80%, enabling fluid map panning across densely parcelled urban districts.',
         ],
         media: {
           id: 'nestiq-media-1',
@@ -359,6 +418,19 @@ export const DETAILED_CASE_STUDIES: Record<string, DetailedCaseStudy> = {
           figureNumber: 'FIG 04.1',
           spec: 'POSTGIS-VECTOR-MVT',
         },
+      },
+      {
+        id: 'nestiq-system',
+        type: 'SYSTEM',
+        sequence: '02',
+        eyebrow: '02 // HIGH-THROUGHPUT PIPELINE',
+        title: 'Server-Side Vector Tile Pyramids & Spatial Indexing.',
+        statement:
+          'Spatial indexing with GiST indices and edge caching delivered sub-second parcel queries.',
+        paragraphs: [
+          'Rather than querying raw geometric tables on every zoom event, the system generates binary MVT buffers at zoom levels 10 through 18. Each tile is cached with HTTP cache-control headers at the edge CDN.',
+          'Sub-second spatial queries allow commercial property surveyors to inspect planning history, title boundaries, and valuation data in a single unified view.',
+        ],
       },
     ],
     qualitativeEvidence: [
@@ -375,10 +447,25 @@ export const DETAILED_CASE_STUDIES: Record<string, DetailedCaseStudy> = {
         verificationMethod: 'Database query execution log.',
       },
     ],
+    primaryServiceSlug: 'build',
+    secondaryServiceSlugs: ['systems'],
+    relatedLobbySlugs: [
+      'bespoke-web-application-when-to-build',
+      'monolithic-cms-technical-debt',
+    ],
+    relatedProjectSlugs: ['tafm', 'drawdown'],
+    customCta: {
+      headline: 'Engineer Spatial Data & High-Throughput Web Applications',
+      subtext: 'Stream multi-gigabyte geospatial datasets in sub-second paint times using server-rendered vector tiles and PostGIS.',
+      primaryLabel: 'Discuss Spatial Architecture ↗',
+      primaryHref: '/start-a-project',
+      secondaryLabel: 'Explore Build Discipline',
+      secondaryHref: '/services/build',
+    },
     seo: {
-      title: 'NestIQ — Spatial Property Intelligence Case Study | Avorria',
+      title: 'NestIQ — Spatial Property Intelligence & PostGIS Vector Tiles | Avorria Case Study',
       description:
-        'Editorial analysis of NestIQ: PostGIS vector tile architecture and institutional real estate intelligence.',
+        'Editorial analysis of NestIQ: PostGIS dynamic vector tiling, MapLibre GL spatial pipelines, and nationwide cadastral parcel boundary streaming.',
     },
   },
 
@@ -416,7 +503,32 @@ export const DETAILED_CASE_STUDIES: Record<string, DetailedCaseStudy> = {
         statement:
           'Migrating eight regional websites into one corporate platform without losing organic crawl authority.',
         paragraphs: [
-          'We engineered a rigorous 301 migration plan that preserved historical backlink equity while organizing regional service footprints under a clean semantic hierarchy.',
+          'EntireFM had acquired and launched eight regional facilities websites across the UK. Instead of compounding regional momentum, the fragmented domains split domain authority, produced duplicate service descriptions, and diluted Googlebot crawl budget.',
+          'We engineered a comprehensive technical SEO migration strategy: auditing every indexed URL, constructing a complete 301 edge redirect map, and unifying regional landing pages under a clear geographical hierarchy on a single canonical domain.',
+        ],
+      },
+      {
+        id: 'entirefm-system',
+        type: 'SYSTEM',
+        sequence: '02',
+        eyebrow: '02 // SEARCH & DISPATCH PIPELINE',
+        title: 'Edge 301 Redirect Mapping & Automated Service Routing.',
+        statement:
+          'Server-rendered regional service pages paired with automated dispatch queues eliminated phone triage.',
+        paragraphs: [
+          'Every regional footprint was migrated to a high-performance Next.js App Router route with structured Schema.org LocalBusiness and Service markup.',
+          'Commercial facilities managers can now log reactive maintenance requests through a secure client intake portal. Requests are validated, parsed, and routed directly to vetted regional contractors via the Resend dispatch API.',
+        ],
+      },
+      {
+        id: 'entirefm-evidence',
+        type: 'EVIDENCE',
+        sequence: '03',
+        eyebrow: '03 // VERIFIED PRODUCTION OUTCOME',
+        title: 'Unified Domain Authority with Zero Backlink Equity Loss.',
+        paragraphs: [
+          'The eight-domain migration executed with zero 404 crawl cascades or indexation drops. Historical search equity was transferred cleanly to the core corporate platform.',
+          'Consolidated commercial search visibility now powers nationwide facilities contracts across commercial real estate, logistics hubs, and corporate offices.',
         ],
       },
     ],
@@ -434,10 +546,26 @@ export const DETAILED_CASE_STUDIES: Record<string, DetailedCaseStudy> = {
         verificationMethod: 'Client portal production deployment sign-off.',
       },
     ],
+    primaryServiceSlug: 'search',
+    secondaryServiceSlugs: ['build', 'systems'],
+    relatedLobbySlugs: [
+      'protect-organic-traffic-website-migration',
+      'why-your-website-crawled-not-ranked',
+      'when-to-rebuild-your-website',
+    ],
+    relatedProjectSlugs: ['alkota-bikes', 'tafm'],
+    customCta: {
+      headline: 'Protect Organic Authority During Corporate Migrations',
+      subtext: 'Consolidate disparate domains, eliminate canonical cannibalisation, and build high-authority search architectures.',
+      primaryLabel: 'Request a Migration & Technical SEO Audit ↗',
+      primaryHref: '/digital-audit',
+      secondaryLabel: 'Explore Search Architecture',
+      secondaryHref: '/services/search',
+    },
     seo: {
-      title: 'EntireFM — Facilities Management Systems Case Study | Avorria',
+      title: 'EntireFM — Facilities Management Systems & Multi-Domain SEO Migration | Avorria Case Study',
       description:
-        'Investigation into EntireFM: multi-domain consolidation, nationwide search architecture, and automated dispatch.',
+        'Technical case study: How Avorria consolidated 8 regional domains without traffic loss, engineered edge 301 redirects, nationwide search architecture, and automated dispatch routing.',
     },
   },
 
@@ -474,7 +602,21 @@ export const DETAILED_CASE_STUDIES: Record<string, DetailedCaseStudy> = {
         statement:
           'Letting floorplate geometry, daylight studies, and material finishes lead without marketing clutter.',
         paragraphs: [
-          'We built an editorial digital monograph that loads in under 500ms, allowing leasing agents to navigate floorplate configurations and sustainability credentials instantly.',
+          'Commercial leasing decisions for landmark office developments involve institutional stakeholders, architects, and facilities directors. Sluggish marketing sites with unskippable splash videos and 50MB PDF downloads create immediate friction.',
+          'Avorria built a digital monograph that loads in under 500ms, allowing leasing agents to navigate floorplate configurations, ESG sustainability credentials, and transport links instantly from any device.',
+        ],
+      },
+      {
+        id: 'ogn-system',
+        type: 'SYSTEM',
+        sequence: '02',
+        eyebrow: '02 // INTERACTIVE SPECIFICATION',
+        title: 'Fine-Line Vector Floorplates & Direct Enquiry Capture.',
+        statement:
+          'Interactive SVG floorplates render floor dimensions and division options with zero layout shift.',
+        paragraphs: [
+          'Leasing agents and prospective tenants can toggle split-floor tenancy arrangements, view core services and riser locations, and inspect net internal area (NIA) specifications.',
+          'Direct confidential enquiry pipelines connect institutional decision-makers directly with the developer development and leasing directors.',
         ],
       },
     ],
@@ -492,10 +634,25 @@ export const DETAILED_CASE_STUDIES: Record<string, DetailedCaseStudy> = {
         verificationMethod: 'Lighthouse audit report.',
       },
     ],
+    primaryServiceSlug: 'build',
+    secondaryServiceSlugs: ['search'],
+    relatedLobbySlugs: [
+      'core-web-vitals-ranking-reality',
+      'when-to-rebuild-your-website',
+    ],
+    relatedProjectSlugs: ['alkota-bikes', 'nestiq'],
+    customCta: {
+      headline: 'Commission Architectural Digital Showcases',
+      subtext: 'Market landmark commercial assets with sub-500ms editorial presentation, interactive floorplates, and zero video buffering.',
+      primaryLabel: 'Commission Architectural Showcase ↗',
+      primaryHref: '/start-a-project',
+      secondaryLabel: 'Explore Build Discipline',
+      secondaryHref: '/services/build',
+    },
     seo: {
-      title: 'One Great Northern — Architectural Showcase Case Study | Avorria',
+      title: 'One Great Northern — Commercial Property Showcase & Interactive Floorplates | Avorria Case Study',
       description:
-        'An editorial investigation into One Great Northern: architectural web presentation and interactive commercial leasing floorplates.',
+        'Editorial case study: Avorria architectural web presentation, progressive image apertures, and interactive commercial leasing floorplate schematics for One Great Northern.',
     },
   },
 
@@ -608,10 +765,25 @@ export const DETAILED_CASE_STUDIES: Record<string, DetailedCaseStudy> = {
         verificationMethod: 'Automated CI Lighthouse audit report.',
       },
     ],
+    primaryServiceSlug: 'build',
+    secondaryServiceSlugs: ['systems'],
+    relatedLobbySlugs: [
+      'bespoke-web-application-when-to-build',
+      'when-to-rebuild-your-website',
+    ],
+    relatedProjectSlugs: ['alkota-bikes', 'drawdown'],
+    customCta: {
+      headline: 'Commission Commercial Marketplace & Web App Architecture',
+      subtext: 'Deploy bespoke multi-tier portal systems and automated credit workflow pipelines built on strict TypeScript.',
+      primaryLabel: 'Discuss Marketplace Engineering ↗',
+      primaryHref: '/start-a-project',
+      secondaryLabel: 'Explore Build Discipline',
+      secondaryHref: '/services/build',
+    },
     seo: {
-      title: 'TAFM — Case Study & Editorial Investigation | Avorria',
+      title: 'TAFM — Commercial Asset Finance Marketplace Platform | Avorria Case Study',
       description:
-        'An editorial investigation into TAFM: digital marketplace architecture, equipment taxonomy, and automated asset financing workflows.',
+        'Technical investigation into TAFM: multi-tier asset finance marketplace on Next.js 16, equipment taxonomy indexing, and automated institutional underwriting pipelines.',
     },
   },
 }

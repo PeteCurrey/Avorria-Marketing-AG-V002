@@ -161,6 +161,33 @@ export interface DetailedCaseStudy {
    * Defaults to 'horizontal' if omitted.
    */
   homepageLayout?: 'horizontal' | 'dark-split' | 'asymmetric' | 'full-width' | 'side-by-side' | 'text-led'
+  /**
+   * Primary service discipline relationship for entity graph & internal linking.
+   */
+  primaryServiceSlug?: 'build' | 'search' | 'systems'
+  /**
+   * Secondary service relationships if multiple disciplines were involved.
+   */
+  secondaryServiceSlugs?: Array<'build' | 'search' | 'systems'>
+  /**
+   * Related Lobby article slugs that expand on methodologies or tech used.
+   */
+  relatedLobbySlugs?: string[]
+  /**
+   * Curated related case study slugs demonstrating similar architecture or problem domains.
+   */
+  relatedProjectSlugs?: string[]
+  /**
+   * Contextual next step CTA tailored to the project's technical scope.
+   */
+  customCta?: {
+    headline: string
+    subtext: string
+    primaryLabel: string
+    primaryHref: string
+    secondaryLabel?: string
+    secondaryHref?: string
+  }
   seo: {
     title: string
     description: string

@@ -119,6 +119,7 @@ export interface Service {
   approachStatement?: string
   approachSteps?: ServiceApproachStep[]
   caseStudySlugs?: string[]
+  relatedLobbySlugs?: string[]
   faqTitle?: string
   faqs?: ServiceFaqItem[]
 }
