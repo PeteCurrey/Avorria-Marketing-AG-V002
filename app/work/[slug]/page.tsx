@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { Button } from '@/components/ui/Button'
 import { ProjectMedia } from '@/components/ui/ProjectMedia'
@@ -12,6 +13,8 @@ import { generatePageMetadata } from '@/lib/metadata'
 import { getProject, getPublishedProjectSlugs } from '@/content/projects'
 import { getVerifiedCaseStudyBySlug } from '@/content/case-studies/registry'
 import { getProjectMedia } from '@/content/media/registry'
+import { getService } from '@/content/services'
+import { getArticleBySlug } from '@/lib/lobby'
 import { siteConfig } from '@/content/config/site'
 
 /** Atmospheric cinematic still for opening exhibition visual */
@@ -84,15 +87,34 @@ export default async function ProjectPage({ params }: Props) {
   const detailedCaseStudy = getVerifiedCaseStudyBySlug(slug)
   const mediaPackage = getProjectMedia(slug)
 
-  // Structured Data Schema.org
+  const primaryService = detailedCaseStudy?.primaryServiceSlug
+    ? getService(detailedCaseStudy.primaryServiceSlug)
+    : undefined
+
+  const secondaryServices = (detailedCaseStudy?.secondaryServiceSlugs ?? [])
+    .map((s) => getService(s))
+    .filter((s): s is NonNullable<typeof s> => Boolean(s))
+
+  const relatedArticles = detailedCaseStudy?.relatedLobbySlugs
+    ? (await Promise.all(detailedCaseStudy.relatedLobbySlugs.map((s) => getArticleBySlug(s))))
+        .filter((a): a is NonNullable<typeof a> => Boolean(a))
+    : []
+
+  const relatedProjects = (detailedCaseStudy?.relatedProjectSlugs ?? [])
+    .map((s) => getProject(s))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p))
+
+  // Structured Data Schema.org: TechArticle + CreativeWork
   const caseStudySchema = {
     '@context': 'https://schema.org',
-    '@type': 'CreativeWork',
-    headline: project.title,
+    '@type': 'TechArticle',
+    '@id': `${siteConfig.url}/work/${slug}#case-study`,
+    headline: project.seo?.title || project.title,
     name: project.title,
-    description: project.description,
+    description: project.seo?.description || project.description,
     url: `${siteConfig.url}/work/${slug}`,
     datePublished: `${project.year}-01-01`,
+    inLanguage: 'en-GB',
     author: {
       '@type': 'Organization',
       '@id': `${siteConfig.url}/#organization`,
@@ -106,6 +128,45 @@ export default async function ProjectPage({ params }: Props) {
       url: siteConfig.url,
     },
     image: project.heroImage?.src ? `${siteConfig.url}${project.heroImage.src}` : undefined,
+    about: [
+      detailedCaseStudy?.primaryServiceSlug
+        ? {
+            '@type': 'Service',
+            '@id': `${siteConfig.url}/services/${detailedCaseStudy.primaryServiceSlug}#service`,
+            name: primaryService?.title ?? detailedCaseStudy.primaryServiceSlug.toUpperCase(),
+          }
+        : null,
+      ...(detailedCaseStudy?.secondaryServiceSlugs?.map((sec) => ({
+        '@type': 'Service',
+        '@id': `${siteConfig.url}/services/${sec}#service`,
+        name: sec.toUpperCase(),
+      })) ?? []),
+    ].filter(Boolean),
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteConfig.url,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Work',
+        item: `${siteConfig.url}/work`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: project.title,
+        item: `${siteConfig.url}/work/${slug}`,
+      },
+    ],
   }
 
   return (
@@ -113,6 +174,10 @@ export default async function ProjectPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <div className="section-y-large">
         <div className="container-max">
@@ -281,13 +346,192 @@ export default async function ProjectPage({ params }: Props) {
             </div>
           )}
 
-          {/* Case Study Bottom CTA */}
+          {/* ── 01 // Core Service Discipline Anchor ───────────────────────── */}
+          {primaryService && (
+            <div className="border-t border-[var(--color-border)] py-14" aria-label="Core service discipline">
+              <div className="flex items-center gap-4 mb-4">
+                <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)]">
+                  01 // CORE SERVICE CAPABILITY
+                </span>
+                <span className="h-px w-10 bg-[var(--color-border-strong)]" aria-hidden="true" />
+              </div>
+              <div className="border border-[var(--color-border)] bg-[var(--color-ivory-light)] p-8 md:p-10">
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 items-center">
+                  <div>
+                    <span className="text-[10px] tracking-[0.16em] uppercase font-light text-[var(--color-rose-text)] block mb-2">
+                      {primaryService.disciplineEyebrow ?? 'PRIMARY DISCIPLINE'}
+                    </span>
+                    <h2 className="text-xl md:text-2xl font-light text-[var(--color-graphite)] mb-3">
+                      {primaryService.title} — {primaryService.headline}
+                    </h2>
+                    <p className="text-xs md:text-sm font-light text-secondary max-w-[70ch] leading-relaxed mb-4">
+                      {primaryService.description}
+                    </p>
+                    {secondaryServices.length > 0 && (
+                      <div className="flex flex-wrap items-center gap-2 pt-2">
+                        <span className="text-[10px] tracking-[0.14em] uppercase font-light text-muted">
+                          Supporting Disciplines:
+                        </span>
+                        {secondaryServices.map((sec) => (
+                          <Link
+                            key={sec.slug}
+                            href={`/services/${sec.slug}`}
+                            className="text-[11px] font-light tracking-[0.08em] uppercase border border-[var(--color-border)] px-2.5 py-1 text-[var(--color-graphite)] hover:border-[var(--color-graphite)] transition-colors"
+                          >
+                            {sec.title} →
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <Button
+                      as="link"
+                      href={`/services/${primaryService.slug}`}
+                      variant="primary"
+                      size="md"
+                    >
+                      Explore {primaryService.slug.toUpperCase()} Discipline →
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── 02 // Editorial Intelligence & Methodology ─────────────────── */}
+          {relatedArticles.length > 0 && (
+            <div className="border-t border-[var(--color-border)] py-14" aria-label="Related technical intelligence">
+              <div className="flex items-center gap-4 mb-4">
+                <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)]">
+                  02 // EDITORIAL INTELLIGENCE &amp; METHODOLOGY
+                </span>
+                <span className="h-px w-10 bg-[var(--color-border-strong)]" aria-hidden="true" />
+              </div>
+              <div className="max-w-2xl mb-8">
+                <h2 className="text-display-s font-extralight text-[var(--color-graphite)] tracking-tight mb-2">
+                  Engineering research supporting this architecture.
+                </h2>
+                <p className="text-xs md:text-sm font-light text-secondary">
+                  Technical teardowns and architectural essays from The Lobby explaining the principles behind this deployment.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {relatedArticles.map((article) => (
+                  <Link
+                    key={article.slug}
+                    href={`/lobby/${article.slug}`}
+                    className="group border border-[var(--color-border)] bg-[var(--color-ivory-light)] p-6 hover:border-[var(--color-graphite)] transition-all duration-200 flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between text-[10px] tracking-[0.16em] uppercase font-light text-[var(--color-graphite-muted)] mb-3">
+                        <span className="text-[var(--color-rose-text)]">{article.categoryLabel}</span>
+                        <span>{article.readTimeMinutes} min read</span>
+                      </div>
+                      <h3 className="text-base font-light text-[var(--color-graphite)] mb-2 group-hover:text-[var(--color-rose-text)] transition-colors">
+                        {article.title}
+                      </h3>
+                      <p className="text-xs font-light text-secondary leading-relaxed line-clamp-3 mb-4">
+                        {article.dek}
+                      </p>
+                    </div>
+                    <span className="text-[10px] tracking-[0.12em] uppercase font-light text-[var(--color-graphite)] inline-flex items-center gap-1.5 pt-3 border-t border-[var(--color-border)]">
+                      Read Analysis <span aria-hidden="true">→</span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── 03 // Comparative Production Architecture ───────────────────── */}
+          {relatedProjects.length > 0 && (
+            <div className="border-t border-[var(--color-border)] py-14" aria-label="Comparative production deployments">
+              <div className="flex items-center gap-4 mb-4">
+                <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)]">
+                  03 // COMPARATIVE ARCHITECTURE
+                </span>
+                <span className="h-px w-10 bg-[var(--color-border-strong)]" aria-hidden="true" />
+              </div>
+              <div className="max-w-2xl mb-8">
+                <h2 className="text-display-s font-extralight text-[var(--color-graphite)] tracking-tight mb-2">
+                  Parallel verified deployments.
+                </h2>
+                <p className="text-xs md:text-sm font-light text-secondary">
+                  Production systems built under similar operational constraints and commercial requirements.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {relatedProjects.map((rel) => (
+                  <Link
+                    key={rel.slug}
+                    href={`/work/${rel.slug}`}
+                    className="group border border-[var(--color-border)] bg-[var(--color-ivory-light)] p-8 hover:border-[var(--color-graphite)] transition-all duration-200"
+                  >
+                    <div className="flex items-center justify-between text-[10px] tracking-[0.16em] uppercase font-light text-[var(--color-graphite-muted)] mb-3">
+                      <span>{rel.client}</span>
+                      <span className="text-[var(--color-rose-text)]">{rel.year}</span>
+                    </div>
+                    <h3 className="text-lg font-light text-[var(--color-graphite)] mb-2 group-hover:text-[var(--color-rose-text)] transition-colors">
+                      {rel.title}
+                    </h3>
+                    <p className="text-xs md:text-sm font-light text-secondary leading-relaxed mb-4">
+                      {rel.description}
+                    </p>
+                    <span className="text-[10px] tracking-[0.12em] uppercase font-light text-[var(--color-graphite)] inline-flex items-center gap-1.5 pt-3 border-t border-[var(--color-border)]">
+                      Inspect Deployment <span aria-hidden="true">→</span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── 04 // Contextual Commercial Commissioning CTA ───────────────── */}
           <div className="border-t border-[var(--color-border)] pt-16 mt-8">
+            {detailedCaseStudy?.customCta && (
+              <div className="border border-[var(--color-border)] bg-[var(--color-ivory-light)] p-8 md:p-12 mb-8">
+                <div className="max-w-2xl mb-6">
+                  <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-rose-text)] block mb-2">
+                    COMMERCIAL COMMISSIONING
+                  </span>
+                  <h2 className="text-display-s font-extralight text-[var(--color-graphite)] tracking-tight mb-3">
+                    {detailedCaseStudy.customCta.headline}
+                  </h2>
+                  <p className="text-xs md:text-sm font-light text-secondary leading-relaxed">
+                    {detailedCaseStudy.customCta.subtext}
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-4 items-center">
+                  <Button
+                    as="link"
+                    href={detailedCaseStudy.customCta.primaryCtaHref}
+                    variant="primary"
+                    size="md"
+                  >
+                    {detailedCaseStudy.customCta.primaryCtaLabel} ↗
+                  </Button>
+                  <Button
+                    as="link"
+                    href={detailedCaseStudy.customCta.secondaryCtaHref}
+                    variant="ghost"
+                    size="md"
+                  >
+                    {detailedCaseStudy.customCta.secondaryCtaLabel}
+                  </Button>
+                </div>
+              </div>
+            )}
+
             <div className="flex flex-wrap gap-4 items-center justify-between">
               <div className="flex flex-wrap gap-4 items-center">
-                <Button as="link" href="/start-a-project" variant="primary" size="md">
-                  Commission Similar Architecture ↗
-                </Button>
+                {!detailedCaseStudy?.customCta && (
+                  <Button as="link" href="/start-a-project" variant="primary" size="md">
+                    Commission Similar Architecture ↗
+                  </Button>
+                )}
                 <Button as="link" href="/work" variant="ghost" size="md">
                   ← All Case Studies
                 </Button>
