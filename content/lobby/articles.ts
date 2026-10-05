@@ -519,7 +519,7 @@ export const LOBBY_ARTICLES: LobbyArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'A well-executed rebuild on a modern stack — [Next.js App Router, edge-rendered, with a structured migration protocol](/services/build) — should deliver measurable improvements in Core Web Vitals and indexation within 90 days of launch. This is the engineering standard Avorria holds itself to.',
+        text: 'A well-executed rebuild on a modern stack — such as the sub-1.2s architecture deployed for [Alkota Bikes](/work/alkota-bikes) or the structured digital estate re-engineering for [Entire Facilities Management](/work/entirefm) — should deliver measurable improvements in Core Web Vitals and indexation within 90 days of launch. This is the engineering standard Avorria holds itself to.',
       },
       {
         type: 'callout',
@@ -698,7 +698,7 @@ export const LOBBY_ARTICLES: LobbyArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'Avorria builds exclusively on [Next.js App Router architecture with React 19 Server Components](/services/build). This is not a commercial preference — it is an engineering standard derived from measurable performance, security, and commercial outcomes across client projects.',
+        text: 'Avorria builds exclusively on [Next.js App Router architecture with React 19 Server Components](/services/build). Real-world implementations — such as the sub-1.2s headless storefront engineered for [Alkota Bikes](/work/alkota-bikes) — demonstrate how headless React architecture eliminates monolithic CMS bottlenecks while sustaining pristine Core Web Vitals under high traffic.',
       },
     ],
   },
@@ -856,7 +856,7 @@ export const LOBBY_ARTICLES: LobbyArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'Avorria [technical SEO service](/services/search) includes a 90-day post-migration monitoring protocol as a standard deliverable on all website rebuilds. The engineering work to protect rankings is not separable from the build itself — it is part of the specification.',
+        text: 'Avorria [technical SEO service](/services/search) includes a 90-day post-migration monitoring protocol as a standard deliverable on all website rebuilds. In complex multi-service overhauls such as [Entire Facilities Management](/work/entirefm), this rigorous redirect architecture and metadata discipline prevented traffic dislocation across nationwide commercial service routes. The engineering work to protect rankings is not separable from the build itself — it is part of the specification.',
       },
     ],
   },
@@ -975,7 +975,7 @@ export const LOBBY_ARTICLES: LobbyArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'Building internal links from editorial content (like The Lobby) to commercial service pages is one of the most structurally important [technical SEO](/services/search) interventions available without external dependencies.',
+        text: 'Building internal links from editorial content to commercial service pages and proof points — as implemented in our digital estate architecture for [Entire Facilities Management](/work/entirefm) — is one of the most structurally important [technical SEO](/services/search) interventions available without external dependencies.',
       },
       {
         type: 'heading',
@@ -1115,7 +1115,7 @@ export const LOBBY_ARTICLES: LobbyArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'Avorria [AI Systems service](/services/systems) includes an evaluation phase that models the total cost of ownership for both routes before recommending an approach. Custom development is not always the answer — but it is frequently the correct answer when data sensitivity, workflow specificity, and scale are combined requirements.',
+        text: 'Avorria [AI Systems service](/services/systems) includes an evaluation phase that models the total cost of ownership for both routes before recommending an approach. Systems like [CareerOS](/work/careeros) exemplify this advantage: a custom multi-model orchestration pipeline delivered sub-second resume parsing and strict data governance that off-the-shelf SaaS cannot match.',
       },
     ],
   },
@@ -1182,7 +1182,7 @@ export const LOBBY_ARTICLES: LobbyArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'Structured data extraction from unstructured documents: Extracting specific fields — invoice numbers, contract terms, technical specifications — from PDFs, emails, or scanned documents is one of the most reliable AI agent use cases. The model extracts; a schema validates the output; mismatches are flagged for human review. Avorria Scout engine uses this pattern to parse website technical configurations from HTTP response headers.',
+        text: 'Structured data extraction from unstructured documents: Extracting specific fields — resume histories, contract terms, technical specifications — from PDFs or scanned documents is one of the most reliable AI agent use cases. In production architectures like [CareerOS](/work/careeros), this pipeline achieves sub-second structured extraction across messy document formats with deterministic schema validation and human review fallback.',
       },
       {
         type: 'paragraph',
@@ -1553,7 +1553,7 @@ export const LOBBY_ARTICLES: LobbyArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'A bespoke application built around your specific operational model can encode the process improvements that give you an advantage in a way that no off-the-shelf tool can replicate. This is not a theoretical benefit — it is the reason that operationally sophisticated businesses in competitive markets tend to own their software stack.',
+        text: 'A bespoke application built around your specific operational model can encode process improvements that no off-the-shelf tool can replicate. Real-world systems like [TAFM](/work/tafm) (an asset finance origination engine replacing opaque broker communications) and [Drawdown](/work/drawdown) (a private wealth portfolio projection dashboard) demonstrate how bespoke software unifies fragmented workflows into sovereign commercial advantages.',
       },
       {
         type: 'heading',
@@ -1709,7 +1709,7 @@ export const LOBBY_ARTICLES: LobbyArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'In Next.js, the `next/image` component handles LCP optimisation automatically: it converts images to WebP/AVIF, adds eager loading with high fetch priority to above-fold images, and serves responsive sizes. For non-Next.js stacks, each of these optimisations must be implemented explicitly.',
+        text: 'In Next.js, modern image and layout optimization delivers real gains. In production projects like [Alkota Bikes](/work/alkota-bikes) and [One Great Northern](/work/one-great-northern), structured image budgets and zero-layout-shift asset delivery drove mobile LCP down below 1.2s, satisfying CrUX 75th percentile thresholds consistently.',
       },
       {
         type: 'heading',

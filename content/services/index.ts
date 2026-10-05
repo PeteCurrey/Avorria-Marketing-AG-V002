@@ -109,6 +109,11 @@ export const services: Service[] = [
     ],
     technology: ['Next.js App Router', 'React 19', 'TypeScript', 'Tailwind CSS v4', 'Vanilla Three.js', 'PostgreSQL'],
     caseStudySlugs: ['alkota-bikes', 'tafm', 'one-great-northern', 'nestiq'],
+    relatedLobbySlugs: [
+      'when-to-rebuild-your-website',
+      'nextjs-vs-wordpress-engineering-comparison',
+      'bespoke-web-application-when-to-build',
+    ],
     faqTitle: 'COMMERCIAL & TECHNICAL QUESTIONS',
     faqs: [
       {
@@ -242,6 +247,11 @@ export const services: Service[] = [
     ],
     technology: ['Google Search Console API', 'Lighthouse', 'Schema.org', 'Next.js Metadata', 'Edge Rewriting'],
     caseStudySlugs: ['entirefm', 'alkota-bikes'],
+    relatedLobbySlugs: [
+      'protect-organic-traffic-website-migration',
+      'why-your-website-crawled-not-ranked',
+      'core-web-vitals-ranking-reality',
+    ],
     faqTitle: 'SEARCH & MIGRATION QUESTIONS',
     faqs: [
       {
@@ -374,7 +384,12 @@ export const services: Service[] = [
       },
     ],
     technology: ['PostgreSQL', 'Supabase', 'Stripe', 'Resend', 'TypeScript', 'Server Actions'],
-    caseStudySlugs: ['drawdown', 'careeros'],
+    caseStudySlugs: ['drawdown', 'careeros', 'nestiq'],
+    relatedLobbySlugs: [
+      'custom-ai-vs-saas-business-decision',
+      'what-a-custom-ai-agent-can-automate',
+      'ai-integration-without-exposing-sensitive-data',
+    ],
     faqTitle: 'AI & SYSTEMS INTEGRATION QUESTIONS',
     faqs: [
       {

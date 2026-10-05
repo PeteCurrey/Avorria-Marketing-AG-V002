@@ -42,8 +42,9 @@ export const projects: Project[] = [
       height: 578,
     },
     seo: {
-      title: 'Alkota Bikes — Bespoke Titanium Platform | Avorria Case Study',
-      description: 'Digital flagship and custom frame architecture for bespoke titanium bicycles.',
+      title: 'Alkota Bikes — Bespoke Titanium Platform & 3D Stage | Avorria Case Study',
+      description:
+        'Technical case study: How Avorria engineered a high-performance Next.js digital flagship, WebGL titanium frame inspection stage, and sub-second LCP architecture for Alkota Bikes.',
     },
   },
   {
@@ -79,8 +80,9 @@ export const projects: Project[] = [
       height: 592,
     },
     seo: {
-      title: 'TAFM — Asset Finance Marketplace | Avorria Case Study',
-      description: 'Commercial asset finance marketplace platform connecting UK businesses, equipment suppliers, and finance providers.',
+      title: 'TAFM — Commercial Asset Finance Marketplace Platform | Avorria Case Study',
+      description:
+        'Technical investigation into TAFM: multi-tier asset finance marketplace on Next.js 16, equipment taxonomy indexing, and automated institutional underwriting pipelines.',
     },
   },
   {
@@ -116,8 +118,9 @@ export const projects: Project[] = [
       height: 592,
     },
     seo: {
-      title: 'Drawdown.Trading — Quantitative Risk Platform | Avorria Case Study',
-      description: 'High-frequency analytics dashboard and quantitative risk management architecture.',
+      title: 'Drawdown.Trading — Quantitative Risk Platform & Canvas Telemetry | Avorria Case Study',
+      description:
+        'Technical investigation into Drawdown.Trading: low-latency WebGL/Canvas telemetry, decoupled Web Worker data streaming, and sub-millisecond risk execution.',
     },
   },
   {
@@ -153,8 +156,9 @@ export const projects: Project[] = [
       height: 640,
     },
     seo: {
-      title: 'CareerOS — AI Talent Systems | Avorria Case Study',
-      description: 'Enterprise career orchestration platform and intelligent workflow systems.',
+      title: 'CareerOS — Enterprise AI Systems & Vector Taxonomy | Avorria Case Study',
+      description:
+        'Technical case study: How Avorria engineered CareerOS using pgvector semantic search, graph competence taxonomies, and server-side AI evaluation pipelines.',
     },
   },
   {
@@ -190,8 +194,9 @@ export const projects: Project[] = [
       height: 900,
     },
     seo: {
-      title: 'NestIQ — Property Intelligence Platform | Avorria Case Study',
-      description: 'Spatial data layers and valuation modeling platform for institutional real estate.',
+      title: 'NestIQ — Spatial Property Intelligence & PostGIS Vector Tiles | Avorria Case Study',
+      description:
+        'Editorial analysis of NestIQ: PostGIS dynamic vector tiling, MapLibre GL spatial pipelines, and nationwide cadastral parcel boundary streaming.',
     },
   },
   {
@@ -227,8 +232,9 @@ export const projects: Project[] = [
       height: 900,
     },
     seo: {
-      title: 'EntireFM — Facilities Management Systems | Avorria Case Study',
-      description: 'Commercial facilities management digital operations platform and organic search architecture.',
+      title: 'EntireFM — Facilities Management Systems & Multi-Domain SEO Migration | Avorria Case Study',
+      description:
+        'Technical case study: How Avorria consolidated 8 regional domains without traffic loss, engineered edge 301 redirects, nationwide search architecture, and automated dispatch routing.',
     },
   },
   {
@@ -264,8 +270,9 @@ export const projects: Project[] = [
       height: 900,
     },
     seo: {
-      title: 'One Great Northern — Commercial Property Showcase | Avorria Case Study',
-      description: 'Immersive architectural showcase for landmark commercial development.',
+      title: 'One Great Northern — Commercial Property Showcase & Interactive Floorplates | Avorria Case Study',
+      description:
+        'Editorial case study: Avorria architectural web presentation, progressive image apertures, and interactive commercial leasing floorplate schematics for One Great Northern.',
     },
   },
 ]
