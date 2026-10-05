@@ -85,6 +85,17 @@ export interface ServiceCapability {
   description: string
 }
 
+export interface ServiceApproachStep {
+  step: string
+  title: string
+  description: string
+}
+
+export interface ServiceFaqItem {
+  question: string
+  answer: string
+}
+
 export interface Service {
   slug: string
   status: ContentStatus
@@ -94,6 +105,22 @@ export interface Service {
   capabilities: ServiceCapability[]
   technology?: string[]
   seo: SEOMeta
+  // Phase 3 enriched commercial fields
+  disciplineEyebrow?: string
+  heroHeadline?: { before?: string; accent?: string; after?: string }[]
+  heroImage?: string
+  heroAlt?: string
+  metaLeft?: string
+  metaRight?: string
+  problemTitle?: string
+  problemStatement?: string
+  problemDetail?: string[]
+  approachTitle?: string
+  approachStatement?: string
+  approachSteps?: ServiceApproachStep[]
+  caseStudySlugs?: string[]
+  faqTitle?: string
+  faqs?: ServiceFaqItem[]
 }
 
 // ─── Journal ─────────────────────────────────────────────────────────────────

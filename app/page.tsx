@@ -10,7 +10,9 @@ import { FinalCta } from '@/components/home/FinalCta'
 import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = {
-  title: `Avorria — ${siteConfig.tagline}`,
+  title: {
+    absolute: `Avorria — ${siteConfig.tagline}`,
+  },
   description: siteConfig.description,
   alternates: {
     canonical: siteConfig.url,

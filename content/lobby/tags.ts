@@ -64,6 +64,55 @@ export const LOBBY_TAGS: LobbyTag[] = [
     description: 'Rendering pipelines, schema validation, indexation hygiene, and canonical structure.',
     isActive: true,
   },
+  {
+    id: 'tag-website-migration',
+    name: 'Website Migration',
+    slug: 'website-migration',
+    description: 'Technical and SEO considerations when migrating or rebuilding a website without losing organic traffic.',
+    isActive: true,
+  },
+  {
+    id: 'tag-ai-agents',
+    name: 'AI Agents',
+    slug: 'ai-agents',
+    description: 'Autonomous AI agent architectures, multi-step reasoning pipelines, and practical deployment patterns.',
+    isActive: true,
+  },
+  {
+    id: 'tag-ai-implementation',
+    name: 'AI Implementation',
+    slug: 'ai-implementation',
+    description: 'Integrating AI capabilities into existing business systems, workflows, and software products.',
+    isActive: true,
+  },
+  {
+    id: 'tag-nextjs-development',
+    name: 'Next.js Development',
+    slug: 'nextjs-development',
+    description: 'Server components, App Router architecture, edge rendering, and Next.js engineering patterns.',
+    isActive: true,
+  },
+  {
+    id: 'tag-web-application-development',
+    name: 'Web Application Development',
+    slug: 'web-application-development',
+    description: 'Bespoke web application architecture, SaaS engineering, and custom platform development.',
+    isActive: true,
+  },
+  {
+    id: 'tag-seo-migration',
+    name: 'SEO Migration',
+    slug: 'seo-migration',
+    description: 'Preserving and improving search rankings during URL restructuring, domain moves, and stack changes.',
+    isActive: true,
+  },
+  {
+    id: 'tag-website-redesign',
+    name: 'Website Redesign',
+    slug: 'website-redesign',
+    description: 'When to rebuild versus redesign, commercial case evaluation, and stakeholder considerations.',
+    isActive: true,
+  },
 ]
 
 export function getTagBySlug(slug: string): LobbyTag | undefined {

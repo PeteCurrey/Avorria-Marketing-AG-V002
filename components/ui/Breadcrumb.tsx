@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { siteConfig } from '@/content/config/site'
 
 interface BreadcrumbItem {
   label: string
@@ -25,7 +26,7 @@ export function Breadcrumb({ items, className = '' }: BreadcrumbProps) {
       '@type': 'ListItem',
       position: index + 1,
       name: item.label,
-      ...(item.href && { item: `https://avorria.com${item.href}` }),
+      ...(item.href && { item: `${siteConfig.url}${item.href}` }),
     })),
   }
 

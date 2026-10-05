@@ -109,7 +109,8 @@ export default async function LobbyArticlePage({ params }: ArticlePageProps) {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Avorria',
+      '@id': `${base}/#organization`,
+      name: siteConfig.name,
       url: base,
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${base}/lobby/${article.slug}` },

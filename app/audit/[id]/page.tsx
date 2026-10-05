@@ -5,6 +5,7 @@ import { getAuditReport } from '@/lib/audit/storage'
 import { runAuditEngine } from '@/lib/audit/engine'
 import { PrintReportButton } from '@/components/audit/PrintReportButton'
 import { DiscussFindingsModal } from '@/components/audit/DiscussFindingsModal'
+import { generatePageMetadata } from '@/lib/metadata'
 import type { FindingSeverity, FindingStatus, ProvenanceTag } from '@/types/audit'
 
 interface PageProps {
@@ -15,10 +16,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { id } = await params
   let report = await getAuditReport(id)
   const domain = report ? report.domain : 'Target Domain'
-  return {
-    title: `Digital Audit Report // ${domain} — Avorria`,
+  return generatePageMetadata({
+    title: `Digital Audit Report // ${domain}`,
     description: `Forensic digital audit report and architectural recommendations for ${domain}. Strict provenance verified.`,
-  }
+    path: `/audit/${id}`,
+    noIndex: true, // Dynamic client reports must never be indexed by search engines
+  })
 }
 
 const SEVERITY_COLORS: Record<FindingSeverity, { border: string; text: string }> = {

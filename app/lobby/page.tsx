@@ -54,7 +54,12 @@ export default async function LobbyIndexPage() {
     name: 'The Lobby — Avorria',
     description: 'Editorial intelligence on digital systems, website architecture, search visibility, and emerging technology from Avorria.',
     url: `${siteConfig.url}/lobby`,
-    publisher: { '@type': 'Organization', name: 'Avorria', url: siteConfig.url },
+    publisher: {
+      '@type': 'Organization',
+      '@id': `${siteConfig.url}/#organization`,
+      name: siteConfig.name,
+      url: siteConfig.url,
+    },
   }
 
   return (

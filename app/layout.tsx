@@ -101,6 +101,26 @@ function OrganizationSchema() {
           url: siteConfig.organization.logo,
         },
         description: siteConfig.organization.description,
+        areaServed: [
+          {
+            '@type': 'Country',
+            name: 'United Kingdom',
+          },
+        ],
+        knowsAbout: [
+          'Web Development',
+          'Bespoke Web Software',
+          'Digital Systems',
+          'Artificial Intelligence',
+          'AI Automation',
+          'Technical SEO',
+        ],
+        founder: {
+          '@type': 'Person',
+          '@id': `${siteConfig.url}/about#founder`,
+          name: 'Peter Currey',
+          jobTitle: 'Founder & Principal',
+        },
         contactPoint: {
           '@type': 'ContactPoint',
           contactType: 'customer service',
@@ -149,6 +169,12 @@ export default function RootLayout({
     <html lang="en-GB" className={workSans.variable}>
       <head>
         <OrganizationSchema />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="The Lobby — Avorria"
+          href={`${siteConfig.url}/lobby/rss.xml`}
+        />
         {/*
           Inline script: add "js" class to <html> synchronously before first paint.
           This gates all CSS motion reveal states — content is always visible

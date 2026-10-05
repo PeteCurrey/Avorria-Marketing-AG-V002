@@ -4,6 +4,7 @@ import { generatePageMetadata } from '@/lib/metadata'
 import { ChapterGate } from '@/components/creative/ChapterGate'
 import { AgencyAssessmentRunner } from '@/components/teardown/AgencyAssessmentRunner'
 import { AnalyticalLedger } from '@/components/creative/AnalyticalLedger'
+import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'The Agency Teardown // Diagnostic Framework',
@@ -11,6 +12,31 @@ export const metadata: Metadata = generatePageMetadata({
     'An objective diagnostic framework for leadership teams evaluating digital agency arrangements. Audit retainer efficiency, IP ownership, and engineering velocity.',
   path: '/teardown',
 })
+
+const teardownSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${siteConfig.url}/teardown#service`,
+  name: 'The Agency Teardown // Diagnostic Framework',
+  provider: {
+    '@type': 'Organization',
+    '@id': `${siteConfig.url}/#organization`,
+    name: siteConfig.name,
+    url: siteConfig.url,
+  },
+  description:
+    'An objective diagnostic framework for leadership teams evaluating digital agency arrangements. Audit retainer efficiency, IP ownership, and engineering velocity.',
+  url: `${siteConfig.url}/teardown`,
+  serviceType: 'Agency Assessment & Retainer Diagnostic',
+  areaServed: 'GB',
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+      { '@type': 'ListItem', position: 2, name: 'Agency Teardown', item: `${siteConfig.url}/teardown` },
+    ],
+  },
+}
 
 const COMPARISON_ROWS = [
   {
@@ -47,9 +73,14 @@ const COMPARISON_ROWS = [
 
 export default function TeardownPage() {
   return (
-    <div className="bg-[#080808] text-white min-h-screen section-y-large">
-      <div className="container-max">
-        <div className="container-content space-y-24">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(teardownSchema) }}
+      />
+      <div className="bg-[#080808] text-white min-h-screen section-y-large">
+        <div className="container-max">
+          <div className="container-content space-y-24">
           
           {/* Header */}
           <div className="border-b border-white/10 pb-16">
@@ -121,5 +152,6 @@ export default function TeardownPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }

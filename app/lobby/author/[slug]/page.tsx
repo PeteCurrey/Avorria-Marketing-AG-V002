@@ -79,7 +79,8 @@ export default async function LobbyAuthorPage({ params }: AuthorPageProps) {
     url: `${siteConfig.url}/lobby/author/${author.slug}`,
     worksFor: {
       '@type': 'Organization',
-      name: 'Avorria',
+      '@id': `${siteConfig.url}/#organization`,
+      name: siteConfig.name,
       url: siteConfig.url,
     },
     ...(author.socialLinks?.linkedin && { sameAs: [author.socialLinks.linkedin] }),

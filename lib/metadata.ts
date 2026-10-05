@@ -35,9 +35,16 @@ export function generatePageMetadata({
   authors,
 }: GenerateMetadataOptions = {}): Metadata {
   const canonicalUrl = `${siteConfig.url}${path}`
-  const pageTitle = title
-    ? `${title} — Avorria`
+  
+  // Clean any pre-existing brand suffix to prevent duplicate templating (e.g., " — Avorria", " | Avorria")
+  const cleanTitle = title
+    ? title.replace(/\s*[-—|]\s*Avorria\b.*$/i, '').trim()
+    : ''
+
+  const fullTitle = cleanTitle
+    ? `${cleanTitle} — Avorria`
     : `Avorria — ${siteConfig.tagline}`
+
   const pageDescription = description ?? siteConfig.description
   const resolvedOgImage = ogImage
     ? ogImage.startsWith('http')
@@ -46,13 +53,15 @@ export function generatePageMetadata({
     : `${siteConfig.url}/og/default.png`
 
   const metadata: Metadata = {
-    title: pageTitle,
+    title: {
+      absolute: fullTitle,
+    },
     description: pageDescription,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: pageTitle,
+      title: fullTitle,
       description: pageDescription,
       url: canonicalUrl,
       siteName: siteConfig.name,
@@ -63,7 +72,7 @@ export function generatePageMetadata({
           url: resolvedOgImage,
           width: 1200,
           height: 630,
-          alt: pageTitle,
+          alt: fullTitle,
         },
       ],
       ...(publishedTime && { publishedTime }),
@@ -72,7 +81,7 @@ export function generatePageMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: pageTitle,
+      title: fullTitle,
       description: pageDescription,
       images: [resolvedOgImage],
     },

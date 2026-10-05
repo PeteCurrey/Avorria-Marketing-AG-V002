@@ -6,6 +6,8 @@
  * Zero editor/admin JavaScript in the public bundle.
  * ─────────────────────────────────────────────────────────────────────────────
  */
+import React from 'react'
+import Link from 'next/link'
 import type { LobbyBlock, LobbySection } from '@/types/lobby'
 
 interface LobbyBlockRendererProps {
@@ -20,6 +22,65 @@ function slugify(text: string) {
   return text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')
 }
 
+/**
+ * Parses markdown inline links [text](url) and `code` spans safely.
+ */
+function formatInlineText(text: string): React.ReactNode {
+  if (!text || typeof text !== 'string') return text
+
+  // Regex to split on [anchor](url) and `code`
+  const tokenRegex = /(\[[^\]]+\]\([^)]+\)|`[^`]+`)/g
+  const parts = text.split(tokenRegex)
+
+  if (parts.length === 1) return text
+
+  return parts.map((part, index) => {
+    // Markdown link: [text](url)
+    const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
+    if (linkMatch) {
+      const [, label, href] = linkMatch
+      const isInternal = href.startsWith('/') || href.startsWith('#')
+      if (isInternal) {
+        return (
+          <Link
+            key={index}
+            href={href}
+            className="text-[var(--color-graphite)] underline underline-offset-4 decoration-[var(--color-accent)] hover:text-[var(--color-rose-text)] transition-colors duration-200"
+          >
+            {label}
+          </Link>
+        )
+      }
+      return (
+        <a
+          key={index}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[var(--color-graphite)] underline underline-offset-4 decoration-[var(--color-border-strong)] hover:text-[var(--color-accent)] transition-colors duration-200"
+        >
+          {label}
+        </a>
+      )
+    }
+
+    // Inline code: `code`
+    const codeMatch = part.match(/^`([^`]+)`$/)
+    if (codeMatch) {
+      return (
+        <code
+          key={index}
+          className="bg-[var(--color-ivory-dark)] px-1.5 py-0.5 rounded text-[0.875em] font-mono text-[var(--color-graphite)]"
+        >
+          {codeMatch[1]}
+        </code>
+      )
+    }
+
+    return part
+  })
+}
+
 // ─── Block Renderers ──────────────────────────────────────────────────────────
 
 function RenderBlock({ block }: { block: LobbyBlock }) {
@@ -27,14 +88,14 @@ function RenderBlock({ block }: { block: LobbyBlock }) {
     case 'paragraph':
       return (
         <p className="text-[var(--text-body)] font-light text-[var(--color-graphite)] leading-[1.8] mb-6 max-w-[68ch]">
-          {block.text}
+          {formatInlineText(block.text)}
         </p>
       )
 
     case 'lead':
       return (
         <p className="text-[1.125rem] font-light text-[var(--color-graphite)] leading-[1.7] mb-8 max-w-[60ch] border-l-2 border-[var(--color-accent)] pl-6">
-          {block.text}
+          {formatInlineText(block.text)}
         </p>
       )
 
@@ -212,7 +273,7 @@ function RenderSection({ section }: { section: LobbySection }) {
 
       {section.paragraphs.map((p, i) => (
         <p key={i} className="text-[var(--text-body)] font-light text-[var(--color-graphite)] leading-[1.8] mb-6 max-w-[68ch]">
-          {p}
+          {formatInlineText(p)}
         </p>
       ))}
 
