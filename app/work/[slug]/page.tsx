@@ -4,13 +4,56 @@ import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { Button } from '@/components/ui/Button'
 import { ProjectMedia } from '@/components/ui/ProjectMedia'
 import { MediaPlaceholder } from '@/components/ui/MediaPlaceholder'
+import { CinematicPlate } from '@/components/cinematic/CinematicPlate'
 import { ChapterRenderer } from '@/components/case-study/ChapterRenderer'
 import { EvidenceLedger } from '@/components/case-study/EvidenceLedger'
 import { CaseStudyGallery } from '@/components/case-study/CaseStudyGallery'
+import { generatePageMetadata } from '@/lib/metadata'
 import { getProject, getPublishedProjectSlugs } from '@/content/projects'
 import { getVerifiedCaseStudyBySlug } from '@/content/case-studies/registry'
 import { getProjectMedia } from '@/content/media/registry'
 import { siteConfig } from '@/content/config/site'
+
+/** Atmospheric cinematic still for opening exhibition visual */
+const CINEMATIC_MAP: Record<string, string> = {
+  'alkota-bikes': '/images/cinematic/work-alkota.jpg',
+  tafm: '/images/cinematic/work-tafm.jpg',
+  drawdown: '/images/cinematic/work-drawdown.jpg',
+  careeros: '/images/cinematic/work-careeros.jpg',
+  nestiq: '/images/cinematic/work-nestiq.jpg',
+  entirefm: '/images/cinematic/work-entirefm.jpg',
+}
+
+const SPEC_SUBTITLE_MAP: Record<string, { annotation: string; metadata: string }> = {
+  'alkota-bikes': {
+    annotation: 'CASE STUDY 01 · PRECISION CYCLING',
+    metadata: 'BESPOKE TITANIUM FLAGSHIP & 3D STAGE',
+  },
+  tafm: {
+    annotation: 'CASE STUDY 02 · COMMERCIAL MARKETPLACE',
+    metadata: 'MARKETPLACE INFRASTRUCTURE & UNDERWRITING',
+  },
+  drawdown: {
+    annotation: 'CASE STUDY 03 · QUANTITATIVE RISK',
+    metadata: 'SUB-MILLISECOND CANVAS & WEBGL TELEMETRY',
+  },
+  careeros: {
+    annotation: 'CASE STUDY 04 · AI TALENT INFRASTRUCTURE',
+    metadata: 'AUTONOMOUS AGENT TAXONOMY ORCHESTRATION',
+  },
+  nestiq: {
+    annotation: 'CASE STUDY 05 · SPATIAL PROPERTY INTELLIGENCE',
+    metadata: 'POSTGIS & VECTOR TILE PIPELINE',
+  },
+  entirefm: {
+    annotation: 'CASE STUDY 06 · FACILITIES LOGISTICS',
+    metadata: 'MULTI-REGION DISPATCH & TECHNICAL SEARCH',
+  },
+  'one-great-northern': {
+    annotation: 'CASE STUDY 07 · ARCHITECTURAL SHOWCASE',
+    metadata: 'INTERACTIVE FLOORPLATE & LEASING SPECIFICATION',
+  },
+}
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -24,30 +67,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const project = getProject(slug)
   if (!project) return {}
-  return {
+  return generatePageMetadata({
     title: project.seo.title,
     description: project.seo.description,
-    alternates: { canonical: `${siteConfig.url}/work/${slug}` },
-    openGraph: {
-      title: project.seo.title,
-      description: project.seo.description,
-      url: `${siteConfig.url}/work/${slug}`,
-      type: 'article',
-      images: [
-        {
-          url: project.heroImage?.src ? `${siteConfig.url}${project.heroImage.src}` : `${siteConfig.url}/og/default.png`,
-          width: 1600,
-          height: 900,
-          alt: project.heroImage?.alt || project.title,
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: project.seo.title,
-      description: project.seo.description,
-    },
-  }
+    path: `/work/${slug}`,
+    ogImage: project.heroImage?.src,
+    type: 'article',
+  })
 }
 
 export default async function ProjectPage({ params }: Props) {
@@ -69,40 +95,17 @@ export default async function ProjectPage({ params }: Props) {
     datePublished: `${project.year}-01-01`,
     author: {
       '@type': 'Organization',
+      '@id': `${siteConfig.url}/#organization`,
       name: siteConfig.name,
       url: siteConfig.url,
     },
     publisher: {
       '@type': 'Organization',
+      '@id': `${siteConfig.url}/#organization`,
       name: siteConfig.name,
       url: siteConfig.url,
     },
     image: project.heroImage?.src ? `${siteConfig.url}${project.heroImage.src}` : undefined,
-  }
-
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: siteConfig.url,
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Work',
-        item: `${siteConfig.url}/work`,
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: project.title,
-        item: `${siteConfig.url}/work/${slug}`,
-      },
-    ],
   }
 
   return (
@@ -110,10 +113,6 @@ export default async function ProjectPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <div className="section-y-large">
         <div className="container-max">
@@ -150,18 +149,18 @@ export default async function ProjectPage({ params }: Props) {
             </p>
           </div>
 
-          {/* Case Study Hero Media Visual Plate */}
+          {/* Case Study Hero Media Visual Plate: Cinematic Still & Annotation */}
           <div className="mb-16">
-            {project.heroImage?.src ? (
-              <div className="relative w-full aspect-[21/9] overflow-hidden border border-[var(--color-border)]">
-                <ProjectMedia
-                  src={project.heroImage.src}
-                  alt={project.heroImage.alt || project.title}
-                  fill
-                  priority
-                  sizes="100vw"
-                />
-              </div>
+            {CINEMATIC_MAP[slug] || project.heroImage?.src ? (
+              <CinematicPlate
+                src={CINEMATIC_MAP[slug] ?? project.heroImage?.src ?? ''}
+                alt={project.heroImage?.alt || `${project.title} atmospheric case study still`}
+                aspectRatio="21/9"
+                priority
+                sizes="(min-width: 1024px) 86vw, 100vw"
+                annotation={SPEC_SUBTITLE_MAP[slug]?.annotation ?? `CASE STUDY // ${project.industry.toUpperCase()}`}
+                metadata={SPEC_SUBTITLE_MAP[slug]?.metadata ?? 'VERIFIED PRODUCTION DEPLOYMENT'}
+              />
             ) : project.heroVideo?.src ? (
               <div className="relative w-full aspect-[21/9] overflow-hidden border border-[var(--color-border)]">
                 <ProjectMedia

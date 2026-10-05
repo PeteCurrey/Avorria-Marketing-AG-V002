@@ -54,17 +54,42 @@ const WHAT_WE_REFUSE = [
 export default function AboutPage() {
   const aboutSchema = {
     '@context': 'https://schema.org',
-    '@type': 'AboutPage',
-    name: 'About Avorria',
-    description: 'Studio charter, engineering principles, and operational philosophy of Avorria.',
-    url: `${siteConfig.url}/about`,
-    publisher: {
-      '@type': 'Organization',
-      name: siteConfig.name,
-      url: siteConfig.url,
-      description: siteConfig.organization.description,
-      email: siteConfig.organization.contactEmail,
-    },
+    '@graph': [
+      {
+        '@type': 'AboutPage',
+        '@id': `${siteConfig.url}/about#webpage`,
+        name: 'About Avorria',
+        description: 'Studio charter, engineering principles, and operational philosophy of Avorria.',
+        url: `${siteConfig.url}/about`,
+        publisher: {
+          '@id': `${siteConfig.url}/#organization`,
+        },
+        mainEntity: {
+          '@id': `${siteConfig.url}/about#founder`,
+        },
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+            { '@type': 'ListItem', position: 2, name: 'About', item: `${siteConfig.url}/about` },
+          ],
+        },
+      },
+      {
+        '@type': 'Person',
+        '@id': `${siteConfig.url}/about#founder`,
+        name: 'Peter Currey',
+        jobTitle: 'Founder & Principal',
+        worksFor: {
+          '@id': `${siteConfig.url}/#organization`,
+        },
+        description:
+          'Directs digital architecture and software engineering at Avorria. Specialises in high-concurrency web systems, technical SEO engineering, and forensic UX teardowns.',
+        sameAs: [
+          'https://linkedin.com/company/avorria',
+        ],
+      },
+    ],
   }
 
   return (
@@ -84,8 +109,8 @@ export default function AboutPage() {
         body="Avorria is an independent digital studio combining strategy, design, and technical engineering. We partner with operators who understand that digital surfaces directly reflect the calibre of their organisation."
         primaryCta={{ label: 'Start a project ↗', href: '/start-a-project' }}
         secondaryCta={{ label: 'View our work', href: '/work' }}
-        image="/images/positioning/manifesto.jpg"
-        imageAlt="Precision engineering geometry — high-tolerance mechanical machining"
+        image="/images/cinematic/discipline-strategy.jpg"
+        imageAlt="Architectural drafting studio — precision engineering specifications and design systems"
         metaLeft="INDEPENDENT STUDIO // EST. LONDON 2025"
         metaRight="OWNER-LED — NO ACCOUNT MANAGERS"
       />
