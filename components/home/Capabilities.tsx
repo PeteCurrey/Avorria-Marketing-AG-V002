@@ -35,7 +35,7 @@ const disciplines: CapabilityDiscipline[] = [
     href: '/services/build',
     proofProject: 'Alkota Bikes',
     proofSector: 'Bespoke titanium frame geometry & real-time WebGL 3D stage',
-    image: '/images/projects/alkota-bikes/hero-screenshot.png',
+    image: '/images/cinematic/discipline-build.jpg',
   },
   {
     index: '02',
@@ -47,7 +47,7 @@ const disciplines: CapabilityDiscipline[] = [
     href: '/services/build',
     proofProject: 'TAFM Commercial Marketplace',
     proofSector: 'Multi-tier supplier portals and automated commercial equipment financing',
-    image: '/images/projects/tafm/hero-screenshot.png',
+    image: '/images/cinematic/work-tafm.jpg',
   },
   {
     index: '03',
@@ -59,7 +59,7 @@ const disciplines: CapabilityDiscipline[] = [
     href: '/services/systems',
     proofProject: 'Drawdown.Trading',
     proofSector: 'Sub-millisecond Canvas quantitative risk terminal & live execution telemetry',
-    image: '/images/projects/drawdown/hero.png',
+    image: '/images/cinematic/discipline-systems.jpg',
   },
   {
     index: '04',
@@ -71,7 +71,7 @@ const disciplines: CapabilityDiscipline[] = [
     href: '/services/systems',
     proofProject: 'CareerOS Enterprise Systems',
     proofSector: 'Autonomous skill taxonomy graphs and automated document synthesis',
-    image: '/images/projects/careeros/hero-screenshot.png',
+    image: '/images/cinematic/work-careeros.jpg',
   },
   {
     index: '05',
@@ -83,7 +83,7 @@ const disciplines: CapabilityDiscipline[] = [
     href: '/services/search',
     proofProject: 'EntireFM Nationwide',
     proofSector: 'Consolidation of 8 regional domains into unified national authority',
-    image: '/images/projects/entirefm/hero.webp',
+    image: '/images/cinematic/discipline-strategy.jpg',
   },
 ]
 

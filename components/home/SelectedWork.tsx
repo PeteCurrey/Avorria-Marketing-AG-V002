@@ -62,7 +62,7 @@ export function SelectedWork() {
                 aria-label="View Alkota Bikes case study"
               >
                 <Image
-                  src="/images/projects/alkota-bikes/hero-screenshot.png"
+                  src="/images/cinematic/work-alkota.jpg"
                   alt="Alkota Bikes bespoke titanium 3D WebGL flagship platform"
                   fill
                   priority
@@ -122,7 +122,7 @@ export function SelectedWork() {
                   className="relative block w-full aspect-[16/10] bg-[#121110] overflow-hidden mb-5 rounded-[var(--radius-card)] border border-white/10"
                 >
                   <Image
-                    src="/images/projects/tafm/hero-screenshot.png"
+                    src="/images/cinematic/work-tafm.jpg"
                     alt="TAFM — The Asset Finance Marketplace platform"
                     fill
                     sizes="(min-width: 1024px) 50vw, 100vw"
@@ -169,7 +169,7 @@ export function SelectedWork() {
                   className="relative block w-full aspect-[16/10] bg-[#121110] overflow-hidden mb-5 rounded-[var(--radius-card)] border border-white/10"
                 >
                   <Image
-                    src="/images/projects/drawdown/hero.png"
+                    src="/images/cinematic/work-drawdown.jpg"
                     alt="Drawdown.Trading quantitative risk terminal"
                     fill
                     sizes="(min-width: 1024px) 36vw, 100vw"
@@ -219,7 +219,7 @@ export function SelectedWork() {
                   className="relative block w-full aspect-[16/10] bg-[#121110] overflow-hidden mb-5 rounded-[var(--radius-card)] border border-white/10"
                 >
                   <Image
-                    src="/images/projects/careeros/hero-screenshot.png"
+                    src="/images/cinematic/work-careeros.jpg"
                     alt="CareerOS AI skill taxonomy graph"
                     fill
                     sizes="(min-width: 1024px) 36vw, 100vw"
@@ -266,7 +266,7 @@ export function SelectedWork() {
                   className="relative block w-full aspect-[16/10] bg-[#121110] overflow-hidden mb-5 rounded-[var(--radius-card)] border border-white/10"
                 >
                   <Image
-                    src="/images/projects/nestiq/hero.webp"
+                    src="/images/cinematic/work-nestiq.jpg"
                     alt="NestIQ spatial property intelligence platform"
                     fill
                     sizes="(min-width: 1024px) 50vw, 100vw"

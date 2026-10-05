@@ -1,0 +1,6 @@
+export { CinematicPlate } from './CinematicPlate'
+export type { CinematicPlateProps, AspectRatio, FadeTone } from './CinematicPlate'
+export { EditorialChapter } from './EditorialChapter'
+export type { EditorialChapterProps, ChapterTheme } from './EditorialChapter'
+export { ParallaxPlate } from './ParallaxPlate'
+export type { ParallaxPlateProps } from './ParallaxPlate'

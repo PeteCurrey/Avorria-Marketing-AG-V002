@@ -19,18 +19,18 @@ export const metadata: Metadata = generatePageMetadata({
 
 const DISCIPLINE_VISUALS: Record<string, { image: string; alt: string; relatedCase: { title: string; slug: string; metric: string } }> = {
   build: {
-    image: '/images/projects/alkota-bikes/hero.webp',
-    alt: 'Alkota Bikes titanium frame configurator interface representing the Build discipline',
+    image: '/images/cinematic/discipline-build.jpg',
+    alt: 'Architectural structural steel and precision engineering representing the Build discipline',
     relatedCase: { title: 'Alkota Bikes', slug: 'alkota-bikes', metric: '0.62s LCP // Zero Shift' },
   },
   search: {
-    image: '/images/projects/one-great-northern/hero.webp',
-    alt: 'One Great Northern enterprise search architecture and property monograph',
-    relatedCase: { title: 'One Great Northern', slug: 'one-great-northern', metric: 'Zero Organic Equity Loss' },
+    image: '/images/cinematic/discipline-strategy.jpg',
+    alt: 'Architectural studio and spatial planning representing the Search & Strategy discipline',
+    relatedCase: { title: 'EntireFM', slug: 'entirefm', metric: '8 Domains Consolidated // 0 Equity Loss' },
   },
   systems: {
-    image: '/images/projects/drawdown/hero.png',
-    alt: 'Drawdown.Trading quantitative risk terminal and Canvas worker telemetry',
+    image: '/images/cinematic/discipline-systems.jpg',
+    alt: 'Enterprise server hardware and optical telemetry representing the Systems discipline',
     relatedCase: { title: 'Drawdown.Trading', slug: 'drawdown', metric: '5,000 Ticks/Sec // 60 FPS' },
   },
 }
@@ -44,6 +44,7 @@ export default function ServicesPage() {
     serviceType: 'Digital Engineering & Architectural Web Development',
     provider: {
       '@type': 'Organization',
+      '@id': `${siteConfig.url}/#organization`,
       name: siteConfig.name,
       url: siteConfig.url,
     },
@@ -76,8 +77,8 @@ export default function ServicesPage() {
         body="Avorria operates across three core disciplines — Build, Search, and Systems. They are designed to compound in commercial value when deployed as an integrated digital architecture."
         primaryCta={{ label: 'Start a project ↗', href: '/start-a-project' }}
         secondaryCta={{ label: 'View our work', href: '/work' }}
-        image="/images/projects/drawdown/hero.webp"
-        imageAlt="Drawdown.Trading quantitative risk terminal and real-time Canvas worker telemetry"
+        image="/images/cinematic/discipline-build.jpg"
+        imageAlt="Architectural structural steel and precision engineering representing Avorria disciplines"
         metaLeft="BUILD · SEARCH · SYSTEMS"
         metaRight="THREE COMPOUNDING DISCIPLINES"
       />
