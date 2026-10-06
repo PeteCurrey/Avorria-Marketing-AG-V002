@@ -1,0 +1,244 @@
+[
+  {
+    "id": "EXP-001",
+    "date": "2026-10-06",
+    "url": "https://avorria.com/services/build",
+    "queryTheme": "Bespoke Web Development / Next.js Applications",
+    "hypothesis": "Shortening the title and optimizing meta description to 151 chars will prevent mobile SERP truncation and increase CTR for commercial development queries.",
+    "baseline": {
+      "title": "Bespoke Web Development, Next.js Applications & Digital Flagships — Avorria",
+      "titleLength": 75,
+      "description": "Avorria engineers bespoke web platforms, Next.js App Router applications, and custom software for ambitious businesses. Built with strict TypeScript and zero template compromises.",
+      "descriptionLength": 180
+    },
+    "change": {
+      "title": "Bespoke Web Development & Next.js Applications — Avorria",
+      "titleLength": 56,
+      "description": "Avorria engineers bespoke Next.js web applications and digital flagships for ambitious businesses. Strict TypeScript, sub-second LCP, zero templates.",
+      "descriptionLength": 151
+    },
+    "expectedImpact": "Higher CTR on UK commercial searches; zero snippet truncation on mobile viewports.",
+    "measurementWindow": "28 days post-indexation",
+    "status": "AWAITING_POST_CHANGE_SEARCH_DATA"
+  },
+  {
+    "id": "EXP-002",
+    "date": "2026-10-06",
+    "url": "https://avorria.com/services/search",
+    "queryTheme": "Technical SEO Agency / Website Migration",
+    "hypothesis": "Front-loading 'Technical SEO Agency' in title tag and trimming meta description to 148 chars aligns directly with commercial agency procurement intent.",
+    "baseline": {
+      "title": "Technical SEO, Website Migrations & Core Web Vitals Agency — Avorria",
+      "titleLength": 68,
+      "description": "Avorria provides enterprise technical search architecture and migration risk mitigation. Search engine visibility engineered for compounding commercial value.",
+      "descriptionLength": 158
+    },
+    "change": {
+      "title": "Technical SEO Agency & Website Migration Architecture — Avorria",
+      "titleLength": 63,
+      "description": "Enterprise technical SEO agency and migration risk engineering. We protect search equity, eliminate indexation debt, and optimize Core Web Vitals.",
+      "descriptionLength": 148
+    },
+    "expectedImpact": "Improved ranking proximity and CTR for 'technical seo agency uk'.",
+    "measurementWindow": "28 days post-indexation",
+    "status": "AWAITING_POST_CHANGE_SEARCH_DATA"
+  },
+  {
+    "id": "EXP-003",
+    "date": "2026-10-06",
+    "url": "https://avorria.com/services/systems",
+    "queryTheme": "Custom AI Development / Enterprise Systems",
+    "hypothesis": "Highlighting bespoke AI agent workflows and zero sensitive data leakage sharply differentiates Avorria from generic SaaS resellers in SERP snippets.",
+    "baseline": {
+      "title": "AI Development, Systems Integration & Workflow Automation — Avorria",
+      "titleLength": 67,
+      "description": "Avorria engineers commercial systems, server-side attribution, Stripe payment infrastructure, and intelligent AI workflow automation.",
+      "descriptionLength": 133
+    },
+    "change": {
+      "title": "Custom AI Development & Systems Automation — Avorria",
+      "titleLength": 52,
+      "description": "Avorria engineers bespoke AI agent workflows, sovereign data pipelines, and Stripe billing infrastructure with zero data leakage. Built with strict schemas.",
+      "descriptionLength": 158
+    },
+    "expectedImpact": "Increased qualified clicks from enterprise buyers requiring strict data governance.",
+    "measurementWindow": "28 days post-indexation",
+    "status": "AWAITING_POST_CHANGE_SEARCH_DATA"
+  },
+  {
+    "id": "EXP-004",
+    "date": "2026-10-06",
+    "url": "https://avorria.com/digital-audit",
+    "queryTheme": "Pre-Build Website Audit / Due Diligence",
+    "hypothesis": "Explicitly naming the 5-day delivery turnaround in title and snippet reduces enquiry friction for high-stakes buyers seeking pre-build due diligence.",
+    "baseline": {
+      "title": "Project & Digital Audit — Pre-Build Architecture Review",
+      "titleLength": 55,
+      "description": "De-risk your next high-stakes digital platform before committing capital. Avorria delivers comprehensive pre-build architectural, scope, and technical audits in 5 business days.",
+      "descriptionLength": 178
+    },
+    "change": {
+      "title": "Pre-Build Website & Architecture Audit // 5-Day Review — Avorria",
+      "titleLength": 64,
+      "description": "De-risk your next high-stakes web platform before committing capital. Comprehensive pre-build architectural, scope, and technical audits in 5 days.",
+      "descriptionLength": 148
+    },
+    "expectedImpact": "Higher CTR on problem-led searches evaluating agency quotes.",
+    "measurementWindow": "28 days post-indexation",
+    "status": "AWAITING_POST_CHANGE_SEARCH_DATA"
+  },
+  {
+    "id": "EXP-005",
+    "date": "2026-10-06",
+    "url": "https://avorria.com/work/entirefm",
+    "queryTheme": "Multi-Domain SEO Migration Case Study",
+    "hypothesis": "Trimming description from 182 to 150 chars eliminates mobile snippet truncation while keeping the core 'zero organic traffic loss' proof point visible.",
+    "baseline": {
+      "title": "EntireFM — Facilities Management Systems & Multi-Domain SEO Migration | Avorria Case Study",
+      "titleLength": 90,
+      "description": "Technical case study: How Avorria consolidated 8 regional domains without traffic loss, engineered edge 301 redirects, nationwide search architecture, and automated dispatch routing.",
+      "descriptionLength": 182
+    },
+    "change": {
+      "title": "EntireFM — Multi-Domain SEO Migration Architecture | Avorria Case Study",
+      "titleLength": 71,
+      "description": "How Avorria consolidated 8 regional domains with zero organic traffic loss: edge 301 redirects, nationwide search architecture, and automated routing.",
+      "descriptionLength": 150
+    },
+    "expectedImpact": "Complete, untruncated mobile snippet rendering; stronger commercial proof presentation.",
+    "measurementWindow": "28 days post-indexation",
+    "status": "AWAITING_POST_CHANGE_SEARCH_DATA"
+  },
+  {
+    "id": "EXP-006",
+    "date": "2026-10-06",
+    "url": "https://avorria.com/work/alkota-bikes",
+    "queryTheme": "Bespoke Next.js Flagship Case Study",
+    "hypothesis": "Trimming description from 178 to 151 chars prevents mobile truncation while highlighting sub-second LCP and Next.js engineering tolerances.",
+    "baseline": {
+      "title": "Alkota Bikes — Bespoke Titanium Platform & 3D Stage | Avorria Case Study",
+      "titleLength": 72,
+      "description": "Technical case study: How Avorria engineered a high-performance Next.js digital flagship, WebGL titanium frame inspection stage, and sub-second LCP architecture for Alkota Bikes.",
+      "descriptionLength": 178
+    },
+    "change": {
+      "title": "Alkota Bikes — Bespoke Next.js Platform & 3D Stage | Avorria Case Study",
+      "titleLength": 70,
+      "description": "How Avorria engineered a high-performance Next.js digital flagship, WebGL titanium inspection stage, and sub-second LCP architecture for Alkota Bikes.",
+      "descriptionLength": 151
+    },
+    "expectedImpact": "Clean display in SERP carousel snippets and image-rich results.",
+    "measurementWindow": "28 days post-indexation",
+    "status": "AWAITING_POST_CHANGE_SEARCH_DATA"
+  },
+  {
+    "id": "EXP-007",
+    "date": "2026-10-06",
+    "url": "https://avorria.com/lobby/protect-organic-traffic-website-migration",
+    "queryTheme": "Website Migration SEO Protocol",
+    "hypothesis": "Reducing description from 211 to 159 chars stops Google algorithm from discarding meta description in favor of noisy in-page text on mobile.",
+    "baseline": {
+      "title": "How to Protect Organic Traffic During a Website Migration | Avorria",
+      "titleLength": 67,
+      "description": "The technical protocol for protecting Google search rankings when rebuilding or migrating a website. Covers 301 redirects, crawl validation, canonical tags, Search Console management, and post-launch monitoring.",
+      "descriptionLength": 211
+    },
+    "change": {
+      "title": "Website Migration SEO: How to Protect Organic Traffic | Avorria",
+      "titleLength": 63,
+      "description": "The technical protocol for protecting Google rankings during a website migration. Covers 301 redirect mapping, canonical tags, and Search Console monitoring.",
+      "descriptionLength": 159
+    },
+    "expectedImpact": "Consistent snippet display; higher CTR from searchers actively planning migrations.",
+    "measurementWindow": "28 days post-indexation",
+    "status": "AWAITING_POST_CHANGE_SEARCH_DATA"
+  },
+  {
+    "id": "EXP-008",
+    "date": "2026-10-06",
+    "url": "https://avorria.com/lobby/when-to-rebuild-your-website",
+    "queryTheme": "Website Rebuild Decision Framework",
+    "hypothesis": "Reducing description from 212 to 153 chars eliminates truncation and sharpens the contrarian diagnostic hook ('redesigning is usually the wrong move').",
+    "baseline": {
+      "title": "When to Rebuild Your Website — The Engineering Diagnostic | Avorria",
+      "titleLength": 67,
+      "description": "Redesigning an underperforming website is usually the wrong answer. Learn the diagnostic framework Avorria uses to determine whether a website needs a redesign, a rebuild, or a complete architectural replacement.",
+      "descriptionLength": 212
+    },
+    "change": {
+      "title": "When to Rebuild Your Website: Engineering Diagnostic | Avorria",
+      "titleLength": 62,
+      "description": "Redesigning an underperforming website is usually the wrong move. The diagnostic framework Avorria uses to determine if you need a redesign or rebuild.",
+      "descriptionLength": 153
+    },
+    "expectedImpact": "Improved click-through rate from C-suite and marketing directors considering redesigns.",
+    "measurementWindow": "28 days post-indexation",
+    "status": "AWAITING_POST_CHANGE_SEARCH_DATA"
+  },
+  {
+    "id": "EXP-009",
+    "date": "2026-10-06",
+    "url": "https://avorria.com/services/search",
+    "queryTheme": "Internal Equity & Migration Intent Routing",
+    "hypothesis": "Contextual inbound links from LOBBY-026 and LOBBY-027 pointing to /services/search resolve landing page ambiguity and elevate /services/search into position 4–10.",
+    "baseline": {
+      "inboundEditorialLinks": 2,
+      "targetQueryIntent": "COMMERCIAL_INVESTIGATION"
+    },
+    "change": {
+      "inboundEditorialLinks": 4,
+      "action": "Reinforce contextual anchors 'technical search architecture' and 'migration risk mitigation' across Lobby search cluster dispatches."
+    },
+    "expectedImpact": "Consolidation of migration intent onto /services/search; improved ranking stability for 'technical seo agency uk'.",
+    "measurementWindow": "28 days post-indexation",
+    "status": "ACTIVE_EXPERIMENT"
+  },
+  {
+    "id": "EXP-010",
+    "date": "2026-10-06",
+    "url": "https://avorria.com/services/build",
+    "queryTheme": "Portfolio Discipline Hub Equity",
+    "hypothesis": "Bidirectional links between /work and /services/build establish strong semantic association between verified client flagships and commercial engineering capabilities.",
+    "baseline": {
+      "portfolioDisciplineLinks": "Present but unmonitored"
+    },
+    "change": {
+      "action": "Monitor referral path and crawling frequency of /work -> /services/build using GSC page dimensions."
+    },
+    "expectedImpact": "Increased crawl depth and internal PageRank transfer to /services/build.",
+    "measurementWindow": "28 days post-indexation",
+    "status": "ACTIVE_EXPERIMENT"
+  },
+  {
+    "id": "EXP-011",
+    "date": "2026-10-06",
+    "url": "https://avorria.com/work/alkota-bikes",
+    "queryTheme": "Case Study Schema Entity Interlinking",
+    "hypothesis": "Linking case study TechArticle schema 'about' field directly to the parent Service schema @id (#service) communicates unambiguous entity hierarchy to search engines.",
+    "baseline": {
+      "schemaLinkage": "Isolated TechArticle schema"
+    },
+    "change": {
+      "schemaLinkage": "TechArticle 'about' node references https://avorria.com/services/build#service"
+    },
+    "expectedImpact": "Google associates case study performance metrics directly with Avorria's commercial Build capability in knowledge graph synthesis.",
+    "measurementWindow": "28 days post-indexation",
+    "status": "ACTIVE_EXPERIMENT"
+  },
+  {
+    "id": "EXP-012",
+    "date": "2026-10-06",
+    "url": "https://avorria.com/digital-audit",
+    "queryTheme": "Diagnostic Teardown Conversion Funnel",
+    "hypothesis": "Positioning /digital-audit as the direct pre-build de-risking step on diagnostic Lobby teardowns generates higher conversion velocity than a generic 'Contact Us' CTA.",
+    "baseline": {
+      "teardownCta": "Generic contact link"
+    },
+    "change": {
+      "teardownCta": "Dedicated 5-day pre-build architectural audit gate with PriceSpecification (£1,500–£3,500)"
+    },
+    "expectedImpact": "Higher conversion rate on problem-led diagnostic search traffic.",
+    "measurementWindow": "28 days post-indexation",
+    "status": "ACTIVE_EXPERIMENT"
+  }
+]

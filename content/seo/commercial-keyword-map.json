@@ -1,0 +1,189 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-10-06",
+  "clusters": [
+    {
+      "discipline": "BUILD",
+      "primaryTargetUrl": "https://avorria.com/services/build",
+      "primaryHeadQuery": "bespoke web development agency uk",
+      "secondaryQueries": [
+        "custom web development company uk",
+        "web development agency uk",
+        "next.js agency uk",
+        "next.js development agency",
+        "bespoke website development",
+        "custom web application development",
+        "web application development agency",
+        "website rebuild agency",
+        "enterprise web development",
+        "high-performance web development"
+      ],
+      "searchIntent": "COMMERCIAL_INVESTIGATION / TRANSACTIONAL",
+      "candidateSubRoutesEvaluated": [
+        {
+          "route": "/services/nextjs-development",
+          "decision": "CONSOLIDATE_INTO_PARENT",
+          "rationale": "Creating a separate Next.js service URL risks severe cannibalisation with /services/build. Maintaining Next.js as the core architectural positioning on /services/build concentrates crawl equity and signals superior engineering standards."
+        },
+        {
+          "route": "/services/web-application-development",
+          "decision": "CONSOLIDATE_INTO_PARENT",
+          "rationale": "Web applications are already deeply covered within the 4-chapter case studies (TAFM, Drawdown). Consolidating into /services/build avoids thin keyword-swapped pages."
+        },
+        {
+          "route": "/services/website-rebuilds",
+          "decision": "CONSOLIDATE_INTO_PARENT",
+          "rationale": "High-intent rebuild searches are effectively captured by Lobby diagnostic dispatch LOBBY-024 ('when-to-rebuild-your-website') which funnels directly into /services/build."
+        }
+      ],
+      "supportingLobbyArticles": [
+        "when-to-rebuild-your-website",
+        "nextjs-vs-wordpress-engineering-comparison",
+        "bespoke-web-application-when-to-build",
+        "monolithic-cms-technical-debt"
+      ],
+      "supportingCaseStudies": [
+        "alkota-bikes",
+        "tafm",
+        "nestiq",
+        "one-great-northern"
+      ],
+      "primaryCta": {
+        "label": "Start a Project // Architectural Discovery ↗",
+        "href": "/start-a-project"
+      }
+    },
+    {
+      "discipline": "SEARCH",
+      "primaryTargetUrl": "https://avorria.com/services/search",
+      "primaryHeadQuery": "technical seo agency uk",
+      "secondaryQueries": [
+        "technical seo services",
+        "technical seo consultant uk",
+        "enterprise technical seo",
+        "website migration seo",
+        "seo migration agency",
+        "seo website migration",
+        "technical seo audit",
+        "core web vitals agency",
+        "javascript seo consultancy"
+      ],
+      "searchIntent": "COMMERCIAL_INVESTIGATION / PROBLEM_LED",
+      "candidateSubRoutesEvaluated": [
+        {
+          "route": "/services/technical-seo",
+          "decision": "CONSOLIDATE_INTO_PARENT",
+          "rationale": "/services/search is already the canonical commercial home for technical SEO. Introducing /services/technical-seo would create immediate internal cannibalisation."
+        },
+        {
+          "route": "/services/seo-migrations",
+          "decision": "CONSOLIDATE_INTO_PARENT",
+          "rationale": "Migration risk mitigation is prominently featured on /services/search and backed by the EntireFM case study. Kept consolidated to maximize page rank."
+        },
+        {
+          "route": "/services/seo-audits",
+          "decision": "LEVERAGE_EXISTING_TOOL",
+          "rationale": "Audit searches are seamlessly routed to /digital-audit, which offers a dedicated pre-build architecture review and diagnostic scan."
+        }
+      ],
+      "supportingLobbyArticles": [
+        "protect-organic-traffic-website-migration",
+        "why-your-website-crawled-not-ranked",
+        "google-inp-core-web-vitals-architecture",
+        "core-web-vitals-ranking-reality"
+      ],
+      "supportingCaseStudies": [
+        "entirefm",
+        "alkota-bikes",
+        "one-great-northern"
+      ],
+      "primaryCta": {
+        "label": "Commission Search Architecture Review ↗",
+        "href": "/start-a-project"
+      }
+    },
+    {
+      "discipline": "SYSTEMS",
+      "primaryTargetUrl": "https://avorria.com/services/systems",
+      "primaryHeadQuery": "custom ai development uk",
+      "secondaryQueries": [
+        "ai development agency uk",
+        "ai automation agency uk",
+        "ai workflow automation",
+        "ai integration agency",
+        "bespoke ai solutions",
+        "ai agent development uk",
+        "custom ai agents",
+        "business process automation ai",
+        "private ai development",
+        "secure ai implementation"
+      ],
+      "searchIntent": "COMMERCIAL_INVESTIGATION / TRANSACTIONAL",
+      "candidateSubRoutesEvaluated": [
+        {
+          "route": "/services/ai-development",
+          "decision": "CONSOLIDATE_INTO_PARENT",
+          "rationale": "Systems encompasses AI pipelines, database schemas, and billing engines. Retaining /services/systems protects comprehensive technical value."
+        },
+        {
+          "route": "/services/ai-agents",
+          "decision": "CONSOLIDATE_INTO_PARENT",
+          "rationale": "AI agents are extensively detailed in LOBBY-029 ('what-a-custom-ai-agent-can-automate') which funnels directly into /services/systems."
+        }
+      ],
+      "supportingLobbyArticles": [
+        "custom-ai-vs-saas-business-decision",
+        "what-a-custom-ai-agent-can-automate",
+        "ai-integration-without-exposing-sensitive-data",
+        "applied-ai-without-hallucination"
+      ],
+      "supportingCaseStudies": [
+        "careeros",
+        "drawdown",
+        "tafm"
+      ],
+      "primaryCta": {
+        "label": "Discuss Custom Systems Architecture ↗",
+        "href": "/start-a-project"
+      }
+    },
+    {
+      "discipline": "DIAGNOSTIC",
+      "primaryTargetUrl": "https://avorria.com/digital-audit",
+      "primaryHeadQuery": "pre-build website audit",
+      "secondaryQueries": [
+        "website architecture audit",
+        "website scope audit",
+        "agency proposal review",
+        "digital agency teardown",
+        "website health check diagnostic"
+      ],
+      "searchIntent": "PROBLEM_LED / COMMERCIAL_DIAGNOSTIC",
+      "candidateSubRoutesEvaluated": [
+        {
+          "route": "/audit",
+          "decision": "EXISTING_PARALLEL_TOOL",
+          "rationale": "/audit hosts the live multi-dimensional diagnostic scanner, while /digital-audit provides the commercial fixed-fee architecture review."
+        },
+        {
+          "route": "/teardown",
+          "decision": "EXISTING_EDITORIAL_TOOL",
+          "rationale": "/teardown provides the objective retainer efficiency and IP ownership diagnostic framework."
+        }
+      ],
+      "supportingLobbyArticles": [
+        "the-end-of-the-agency-retainer",
+        "how-to-evaluate-a-digital-agency",
+        "websites-we-would-fire"
+      ],
+      "supportingCaseStudies": [
+        "entirefm",
+        "alkota-bikes"
+      ],
+      "primaryCta": {
+        "label": "Book 5-Day Pre-Build Audit ↗",
+        "href": "/digital-audit"
+      }
+    }
+  ]
+}

@@ -42,9 +42,9 @@ export const projects: Project[] = [
       height: 578,
     },
     seo: {
-      title: 'Alkota Bikes — Bespoke Titanium Platform & 3D Stage | Avorria Case Study',
+      title: 'Alkota Bikes — Bespoke Next.js Platform & 3D Stage | Avorria Case Study',
       description:
-        'Technical case study: How Avorria engineered a high-performance Next.js digital flagship, WebGL titanium frame inspection stage, and sub-second LCP architecture for Alkota Bikes.',
+        'How Avorria engineered a high-performance Next.js digital flagship, WebGL titanium inspection stage, and sub-second LCP architecture for Alkota Bikes.',
     },
   },
   {
@@ -232,9 +232,9 @@ export const projects: Project[] = [
       height: 900,
     },
     seo: {
-      title: 'EntireFM — Facilities Management Systems & Multi-Domain SEO Migration | Avorria Case Study',
+      title: 'EntireFM — Multi-Domain SEO Migration Architecture | Avorria Case Study',
       description:
-        'Technical case study: How Avorria consolidated 8 regional domains without traffic loss, engineered edge 301 redirects, nationwide search architecture, and automated dispatch routing.',
+        'How Avorria consolidated 8 regional domains with zero organic traffic loss: edge 301 redirects, nationwide search architecture, and automated routing.',
     },
   },
   {

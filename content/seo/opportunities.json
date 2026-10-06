@@ -1,0 +1,130 @@
+[
+  {
+    "id": "OPP-A01",
+    "type": "POSITION_4_10",
+    "cluster": "BUILD",
+    "query": "bespoke web development agency uk",
+    "targetUrl": "https://avorria.com/services/build",
+    "currentPositionEstimate": "Position 4–10 (Striking Distance)",
+    "commercialValue": "VERY_HIGH",
+    "bottleneck": "Needs stronger semantic anchor reinforcement from work portfolio and homepage.",
+    "recommendedActions": [
+      "Front-load bespoke Next.js development in hero copy (Implemented in EXP-001)",
+      "Ensure all 4 Build case studies link upstream with anchor 'Bespoke web development discipline'",
+      "Add structured FAQPage schema covering intellectual property ownership and code handover"
+    ],
+    "confidence": "HIGH"
+  },
+  {
+    "id": "OPP-A02",
+    "type": "POSITION_4_10",
+    "cluster": "SEARCH",
+    "query": "technical seo agency uk",
+    "targetUrl": "https://avorria.com/services/search",
+    "currentPositionEstimate": "Position 4–10 (Striking Distance)",
+    "commercialValue": "VERY_HIGH",
+    "bottleneck": "Agency procurement searches prioritize explicit evidence over conceptual methodologies.",
+    "recommendedActions": [
+      "Front-load 'Technical SEO Agency' in meta title (Implemented in EXP-002)",
+      "Surface the 8-domain consolidation zero-traffic-loss metric prominently in section 05",
+      "Contextually link from Lobby articles LOBBY-026 and LOBBY-027 to /services/search"
+    ],
+    "confidence": "HIGH"
+  },
+  {
+    "id": "OPP-A03",
+    "type": "POSITION_4_10",
+    "cluster": "DIAGNOSTIC",
+    "query": "pre-build website audit",
+    "targetUrl": "https://avorria.com/digital-audit",
+    "currentPositionEstimate": "Position 4–10 (Striking Distance)",
+    "commercialValue": "VERY_HIGH",
+    "bottleneck": "Unclear delivery turnaround in search snippets causes decision hesitation.",
+    "recommendedActions": [
+      "Add explicit 5-day delivery turnaround in title tag and snippet (Implemented in EXP-004)",
+      "Clarify £1,500–£3,500 fixed-fee pricing in PriceSpecification schema",
+      "Link from diagnostic Lobby dispatches (LOBBY-018, LOBBY-020, LOBBY-024)"
+    ],
+    "confidence": "HIGH"
+  },
+  {
+    "id": "OPP-B01",
+    "type": "POSITION_11_20",
+    "cluster": "BUILD",
+    "query": "next.js development agency london",
+    "targetUrl": "https://avorria.com/services/build",
+    "currentPositionEstimate": "Position 11–20 (Page Two Contender)",
+    "commercialValue": "VERY_HIGH",
+    "bottleneck": "National agency competing against London-headquartered studios with local entity signals.",
+    "recommendedActions": [
+      "Highlight nationwide UK client portfolio (London, Yorkshire, Midlands)",
+      "Showcase zero layout shift, sub-second LCP benchmarks from production deployments",
+      "Strengthen Vercel ecosystem alignment and Next.js 16 App Router technical depth"
+    ],
+    "confidence": "MEDIUM_HIGH"
+  },
+  {
+    "id": "OPP-B02",
+    "type": "POSITION_11_20",
+    "cluster": "SYSTEMS",
+    "query": "custom ai development uk",
+    "targetUrl": "https://avorria.com/services/systems",
+    "currentPositionEstimate": "Position 11–20 (Page Two Contender)",
+    "commercialValue": "VERY_HIGH",
+    "bottleneck": "Market confusion between generic wrapper agencies and true systems engineering.",
+    "recommendedActions": [
+      "Differentiate sharply on sovereign data governance and zero client data leakage (EXP-003)",
+      "Showcase CareerOS pgvector and structured JSON extraction schema in technical diagrams",
+      "Link from LOBBY-028 and LOBBY-029 with anchor 'custom AI systems engineering'"
+    ],
+    "confidence": "HIGH"
+  },
+  {
+    "id": "OPP-C01",
+    "type": "HIGH_IMP_LOW_CTR",
+    "cluster": "SEARCH",
+    "query": "how to protect organic traffic during website migration",
+    "targetUrl": "https://avorria.com/lobby/protect-organic-traffic-website-migration",
+    "currentPositionEstimate": "High impressions, sub-optimal CTR due to 211-char description",
+    "commercialValue": "HIGH",
+    "bottleneck": "Google algorithms rewrite meta descriptions that exceed 160 characters on mobile.",
+    "recommendedActions": [
+      "Trimmed description from 211 to 159 chars (Implemented in EXP-007)",
+      "Ensured primary protocol steps (301 redirects, Search Console monitoring) are visible in SERP snippet",
+      "Awaiting 28-day re-indexing measurement"
+    ],
+    "confidence": "HIGH"
+  },
+  {
+    "id": "OPP-D01",
+    "type": "WRONG_LANDING_PAGE",
+    "cluster": "SEARCH",
+    "query": "website migration technical seo agency",
+    "targetUrl": "https://avorria.com/services/search",
+    "currentPositionEstimate": "Lobby article LOBBY-026 ranking instead of commercial service page",
+    "commercialValue": "HIGH",
+    "bottleneck": "Lobby article has high topical relevance but lower commercial enquiry conversion rate.",
+    "recommendedActions": [
+      "Insert prominent contextual commercial callout inside LOBBY-026 pointing to /services/search",
+      "Strengthen /services/search inbound anchor equity from /work/entirefm case study",
+      "Ensure Schema Service node is dominant on /services/search"
+    ],
+    "confidence": "HIGH"
+  },
+  {
+    "id": "OPP-E01",
+    "type": "UNSERVED_COMMERCIAL_INTENT",
+    "cluster": "DIAGNOSTIC",
+    "query": "agency retainer contract review uk",
+    "targetUrl": "https://avorria.com/teardown",
+    "currentPositionEstimate": "Unranked / Niche emerging",
+    "commercialValue": "HIGH",
+    "bottleneck": "High-friction commercial buyers seeking confidential retainer reviews lack an explicit diagnostic landing surface.",
+    "recommendedActions": [
+      "Enhance /teardown with structured assessment runner and confidential audit intake",
+      "Link from LOBBY-020 ('the-end-of-the-agency-retainer') with direct CTA",
+      "Reinforce zero-obligation IP ownership and code delivery principles"
+    ],
+    "confidence": "MEDIUM"
+  }
+]

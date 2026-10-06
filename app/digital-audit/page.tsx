@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/Button'
 import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = generatePageMetadata({
-  title: 'Project & Digital Audit — Pre-Build Architecture Review',
+  title: 'Pre-Build Website & Architecture Audit // 5-Day Review — Avorria',
   description:
-    'De-risk your next high-stakes digital platform before committing capital. Avorria delivers comprehensive pre-build architectural, scope, and technical audits in 5 business days.',
+    'De-risk your next high-stakes web platform before committing capital. Comprehensive pre-build architectural, scope, and technical audits in 5 days.',
   path: '/digital-audit',
 })
 

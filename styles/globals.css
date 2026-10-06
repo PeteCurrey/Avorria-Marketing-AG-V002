@@ -259,9 +259,9 @@
     text-wrap: balance;
   }
 
-  /* Focus visible — keyboard nav */
+  /* Focus visible — keyboard nav (Cobalt per Directive 30.3 — primary interactive accent) */
   :focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-cobalt);
     outline-offset: 3px;
     border-radius: var(--radius-sm);
   }
@@ -298,9 +298,9 @@
     font-synthesis: none;
   }
 
-  /* Selection colour */
+  /* Selection colour — Cobalt tint, warm graphite text */
   ::selection {
-    background-color: var(--color-accent-light);
+    background-color: var(--color-cobalt-light);
     color: var(--color-graphite);
   }
 }
@@ -369,10 +369,19 @@
   .font-extralight   { font-weight: 200; }
   .font-light        { font-weight: 300; }
 
+  /* Directive 30 canonical display class */
+  .text-display {
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    font-weight: 200;
+  }
+
   .text-display-xl {
     font-family: var(--font-display);
     font-size: var(--text-display-xl);
-    line-height: var(--leading-display);
+    line-height: 0.95;
     letter-spacing: -0.035em;
     font-weight: 200;
   }
@@ -388,7 +397,7 @@
   .text-display-m {
     font-family: var(--font-display);
     font-size: var(--text-display-m);
-    line-height: 1.1;
+    line-height: 1.05;
     letter-spacing: -0.025em;
     font-weight: 200;
   }
@@ -426,9 +435,19 @@
     font-weight: 300;
   }
 
+  /* Legacy rose accent */
   .text-accent {
     color: var(--color-accent);
   }
+
+  /* Directive 30 accent utilities */
+  .text-cobalt     { color: var(--color-cobalt); }
+  .text-coral      { color: var(--color-coral); }
+  .text-chartreuse { color: var(--color-chartreuse); }
+
+  .bg-cobalt     { background-color: var(--color-cobalt); }
+  .bg-coral      { background-color: var(--color-coral); }
+  .bg-chartreuse { background-color: var(--color-chartreuse); }
 
   /* ── Border utilities ── */
   .border-default   { border: var(--border-default); }
@@ -441,6 +460,19 @@
     border: none;
     border-top: var(--border-default);
     margin: 0;
+  }
+
+  /* ── Cobalt button — Directive 30.25 primary interactive accent ── */
+  .btn-cobalt {
+    background-color: var(--color-cobalt);
+    color: #ffffff;
+    border-color: var(--color-cobalt);
+    transition: background-color var(--duration-base) var(--ease-editorial),
+                border-color var(--duration-base) var(--ease-editorial);
+  }
+  .btn-cobalt:hover {
+    background-color: var(--color-graphite);
+    border-color: var(--color-graphite);
   }
 
   /* ═══════════════════════════════════════════════════════════════════════════

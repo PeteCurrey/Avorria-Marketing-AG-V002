@@ -426,8 +426,8 @@ export const LOBBY_ARTICLES: LobbyArticle[] = [
       },
     ],
     seo: {
-      title: 'When to Rebuild Your Website — The Engineering Diagnostic | Avorria',
-      description: 'Redesigning an underperforming website is usually the wrong answer. Learn the diagnostic framework Avorria uses to determine whether a website needs a redesign, a rebuild, or a complete architectural replacement.',
+      title: 'When to Rebuild Your Website: Engineering Diagnostic | Avorria',
+      description: 'Redesigning an underperforming website is usually the wrong move. The diagnostic framework Avorria uses to determine if you need a redesign or rebuild.',
     },
     sections: [],
     blocks: [
@@ -750,8 +750,8 @@ export const LOBBY_ARTICLES: LobbyArticle[] = [
       },
     ],
     seo: {
-      title: 'How to Protect Organic Traffic During a Website Migration | Avorria',
-      description: 'The technical protocol for protecting Google search rankings when rebuilding or migrating a website. Covers 301 redirects, crawl validation, canonical tags, Search Console management, and post-launch monitoring.',
+      title: 'Website Migration SEO: How to Protect Organic Traffic | Avorria',
+      description: 'The technical protocol for protecting Google rankings during a website migration. Covers 301 redirect mapping, canonical tags, and Search Console monitoring.',
     },
     sections: [],
     blocks: [

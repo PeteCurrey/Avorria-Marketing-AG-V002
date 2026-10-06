@@ -19,6 +19,7 @@ const adminLinks = [
   { label: 'Projects',      href: '/admin/projects',       icon: '⬡' },
   { label: 'Enquiries',     href: '/admin/enquiries',      icon: '◻' },
   { label: 'Finance',       href: '/admin/finance',        icon: '£' },
+  { label: 'Search & SEO',  href: '/admin/seo',            icon: '⌕' },
   { label: 'System Health', href: '/admin/system-health',  icon: '≡' },
 ]
 

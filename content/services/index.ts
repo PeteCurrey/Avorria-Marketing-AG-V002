@@ -143,9 +143,9 @@ export const services: Service[] = [
       },
     ],
     seo: {
-      title: 'Bespoke Web Development & Digital Flagships — Avorria',
+      title: 'Bespoke Web Development & Next.js Applications — Avorria',
       description:
-        'Avorria engineers bespoke web flagships and complex interactive applications. Precision typography, instant performance, and architectural restraint.',
+        'Avorria engineers bespoke Next.js web applications and digital flagships for ambitious businesses. Strict TypeScript, sub-second LCP, zero templates.',
     },
   },
   {
@@ -281,9 +281,9 @@ export const services: Service[] = [
       },
     ],
     seo: {
-      title: 'Technical Search Architecture & SEO Engineering — Avorria',
+      title: 'Technical SEO Agency & Website Migration Architecture — Avorria',
       description:
-        'Avorria provides enterprise technical search architecture and migration risk mitigation. Search engine visibility engineered for compounding commercial value.',
+        'Enterprise technical SEO agency and migration risk engineering. We protect search equity, eliminate indexation debt, and optimize Core Web Vitals.',
     },
   },
   {
@@ -419,9 +419,9 @@ export const services: Service[] = [
       },
     ],
     seo: {
-      title: 'AI Development, Systems Integration & Workflow Automation — Avorria',
+      title: 'Custom AI Development & Systems Automation — Avorria',
       description:
-        'Avorria engineers commercial systems, server-side attribution, Stripe payment infrastructure, and intelligent AI workflow automation.',
+        'Avorria engineers bespoke AI agent workflows, sovereign data pipelines, and Stripe billing infrastructure with zero data leakage. Built with strict schemas.',
     },
   },
 ]

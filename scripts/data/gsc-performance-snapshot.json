@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-06T10:03:02.311Z",
+  "timestamp": "2026-10-06T11:05:02.384Z",
   "property": "sc-domain:avorria.com",
   "connectionStatus": "NOT CONNECTED",
   "message": "Missing GOOGLE_SEARCH_CONSOLE_CLIENT_EMAIL or GOOGLE_SEARCH_CONSOLE_PRIVATE_KEY environment variables.",
