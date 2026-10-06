@@ -107,10 +107,11 @@ export default function ContactPage() {
         body="We work with a small number of clients at any given time. Every enquiry is reviewed personally by a senior member of the team — not a sales coordinator."
         primaryCta={{ label: 'Start a project ↗', href: '/start-a-project' }}
         secondaryCta={{ label: 'View our work', href: '/work' }}
-        image="/images/hero/hero-bg.jpg"
-        imageAlt="Avorria — Chicago river architectural twilight skyline"
+        image="/images/cinematic/discipline-strategy.jpg"
+        imageAlt="Avorria — Architectural studio drafting space, London"
         metaLeft="EVERY ENQUIRY REVIEWED PERSONALLY"
         metaRight="RESPONDS WITHIN ONE BUSINESS DAY"
+        theme="graphite"
       />
 
       <div className="bg-[var(--color-ivory)]">

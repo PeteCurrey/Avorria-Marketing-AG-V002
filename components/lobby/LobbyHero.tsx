@@ -8,8 +8,8 @@ interface LobbyHeroProps {
 }
 
 export function LobbyHero({ article }: LobbyHeroProps) {
-  // Use atmospheric architectural image to avoid embedded UI screenshot text clashing with the headline
-  const imageUrl = '/images/hero/hero-bg.jpg'
+  // Use atmospheric cinematic asset to avoid embedded UI screenshot text clashing with the headline
+  const imageUrl = '/images/cinematic/work-drawdown.jpg'
   const imageAlt = article?.title || 'The Lobby — Avorria'
   const title = article?.title || 'The Lobby'
   const category = article?.categoryName || article?.categoryLabel || article?.category || 'Editorial Intelligence'

@@ -243,6 +243,82 @@ export default function WorkPage() {
 
         </div>
       </div>
+
+      {/* ── DISCIPLINE ARCHITECTURE STRIP ─────────────────────────────────── */}
+      <div className="bg-[var(--color-ivory)] border-t border-[var(--color-border)]">
+        <div className="w-full px-6 md:px-10 lg:px-[7vw] py-20">
+          <RevealOnScroll>
+            <div className="flex items-center gap-4 mb-12">
+              <span className="text-[10px] tracking-[0.22em] uppercase font-light text-[var(--color-graphite-muted)]">
+                ARCHITECTURAL DISCIPLINES
+              </span>
+              <span className="h-px flex-1 max-w-[4rem] bg-[var(--color-border-strong)]" aria-hidden="true" />
+            </div>
+
+            <div className="max-w-2xl mb-12">
+              <h2 className="text-display-s font-extralight text-[var(--color-graphite)] tracking-tight mb-3">
+                Three disciplines. One engineering standard.
+              </h2>
+              <p className="text-sm font-light text-secondary leading-relaxed">
+                Every case study in this portfolio connects to one or more of Avorria&apos;s three technical disciplines. Explore the methodology behind the work.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-[var(--color-border)]">
+              {[
+                {
+                  slug: 'build',
+                  label: '01 // BUILD',
+                  headline: 'Digital flagships & bespoke web applications.',
+                  description: 'Bespoke Next.js architecture, interactive software, and engineered digital flagships. Built for performance, not compromised by templates.',
+                  count: '4 verified deployments',
+                  slugs: ['alkota-bikes', 'tafm', 'nestiq', 'one-great-northern'],
+                },
+                {
+                  slug: 'search',
+                  label: '02 // SEARCH',
+                  headline: 'Technical SEO & organic search architecture.',
+                  description: 'Enterprise crawl architecture, migration engineering, and Core Web Vitals remediation. Organic search treated as an engineering discipline.',
+                  count: '3 verified deployments',
+                  slugs: ['alkota-bikes', 'entirefm', 'one-great-northern'],
+                },
+                {
+                  slug: 'systems',
+                  label: '03 // SYSTEMS',
+                  headline: 'Commercial data systems & intelligent automation.',
+                  description: 'AI pipelines, server-side attribution, payment infrastructure, and autonomous workflow automation. Backend systems that compound in value.',
+                  count: '3 verified deployments',
+                  slugs: ['drawdown', 'careeros', 'nestiq'],
+                },
+              ].map((disc, i) => (
+                <Link
+                  key={disc.slug}
+                  href={`/services/${disc.slug}`}
+                  className={`group p-8 md:p-10 hover:bg-white transition-all duration-200 border-[var(--color-border)]${i > 0 ? ' md:border-l' : ''}`}
+                >
+                  <div className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-rose-text)] mb-4">
+                    {disc.label}
+                  </div>
+                  <h3 className="text-base md:text-lg font-light text-[var(--color-graphite)] mb-3 group-hover:text-[var(--color-rose-text)] transition-colors leading-snug">
+                    {disc.headline}
+                  </h3>
+                  <p className="text-xs font-light text-secondary leading-relaxed mb-6">
+                    {disc.description}
+                  </p>
+                  <div className="flex items-center justify-between pt-4 border-t border-[var(--color-border)]">
+                    <span className="text-[10px] tracking-[0.12em] uppercase font-light text-muted">
+                      {disc.count}
+                    </span>
+                    <span className="text-[10px] tracking-[0.12em] uppercase font-light text-[var(--color-graphite)] inline-flex items-center gap-1 group-hover:text-[var(--color-rose-text)] transition-colors">
+                      Explore Discipline <span aria-hidden="true">→</span>
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </RevealOnScroll>
+        </div>
+      </div>
     </>
   )
 }

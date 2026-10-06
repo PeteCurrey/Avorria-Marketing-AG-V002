@@ -507,20 +507,22 @@ export default async function ProjectPage({ params }: Props) {
                 <div className="flex flex-wrap gap-4 items-center">
                   <Button
                     as="link"
-                    href={detailedCaseStudy.customCta.primaryCtaHref}
+                    href={detailedCaseStudy.customCta.primaryHref}
                     variant="primary"
                     size="md"
                   >
-                    {detailedCaseStudy.customCta.primaryCtaLabel} ↗
+                    {detailedCaseStudy.customCta.primaryLabel} ↗
                   </Button>
-                  <Button
-                    as="link"
-                    href={detailedCaseStudy.customCta.secondaryCtaHref}
-                    variant="ghost"
-                    size="md"
-                  >
-                    {detailedCaseStudy.customCta.secondaryCtaLabel}
-                  </Button>
+                  {detailedCaseStudy.customCta.secondaryHref && (
+                    <Button
+                      as="link"
+                      href={detailedCaseStudy.customCta.secondaryHref}
+                      variant="ghost"
+                      size="md"
+                    >
+                      {detailedCaseStudy.customCta.secondaryLabel ?? '← All Case Studies'}
+                    </Button>
+                  )}
                 </div>
               </div>
             )}

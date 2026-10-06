@@ -9,6 +9,7 @@ import { PageHero } from '@/components/ui/PageHero'
 import { generatePageMetadata } from '@/lib/metadata'
 import { getService, getPublishedServices } from '@/content/services'
 import { getVerifiedCaseStudyBySlug } from '@/content/case-studies/registry'
+import { getArticleBySlug } from '@/lib/lobby'
 import { siteConfig } from '@/content/config/site'
 
 /** Cinematic asset override — project slug → editorial image */
@@ -51,6 +52,12 @@ export default async function ServicePage({ params }: Props) {
   const relatedCaseStudies = (service.caseStudySlugs ?? [])
     .map((s) => getVerifiedCaseStudyBySlug(s))
     .filter((cs): cs is NonNullable<typeof cs> => Boolean(cs))
+
+  // Retrieve related Lobby articles for this service
+  const relatedArticles = service.relatedLobbySlugs
+    ? (await Promise.all(service.relatedLobbySlugs.map((s) => getArticleBySlug(s))))
+        .filter((a): a is NonNullable<typeof a> => Boolean(a))
+    : []
 
   // Determine hero chapter theme based on discipline
   const heroTheme = slug === 'systems' ? 'petrol' : slug === 'search' ? 'graphite' : 'graphite'
@@ -322,6 +329,54 @@ export default async function ServicePage({ params }: Props) {
                       </RevealOnScroll>
                     )
                   })}
+                </div>
+              </section>
+            )}
+
+            {/* ── 05a // Related Technical Intelligence — The Lobby ──────────────── */}
+            {relatedArticles.length > 0 && (
+              <section className="mb-28 border-b border-[var(--color-border)] pb-20" aria-label="Technical intelligence from The Lobby">
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)]">
+                    05 // TECHNICAL INTELLIGENCE
+                  </span>
+                  <span className="h-px w-10 bg-[var(--color-border-strong)]" aria-hidden="true" />
+                </div>
+
+                <div className="max-w-2xl mb-12">
+                  <h2 className="text-display-s font-extralight text-[var(--color-graphite)] tracking-tight mb-3">
+                    Engineering methodology behind the work.
+                  </h2>
+                  <p className="text-sm font-light text-secondary">
+                    Technical teardowns, diagnostic frameworks, and architectural essays from The Lobby — the thinking that informs how we build.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {relatedArticles.map((article, i) => (
+                    <RevealOnScroll key={article.slug} delay={i * 60}>
+                      <Link
+                        href={`/lobby/${article.slug}`}
+                        className="group border border-[var(--color-border)] bg-[var(--color-ivory-light)] p-6 hover:border-[var(--color-graphite)] transition-all duration-200 flex flex-col justify-between h-full"
+                      >
+                        <div>
+                          <div className="flex items-center justify-between text-[10px] tracking-[0.16em] uppercase font-light text-[var(--color-graphite-muted)] mb-3">
+                            <span className="text-[var(--color-rose-text)]">{article.categoryLabel}</span>
+                            <span>{article.readTimeMinutes} min read</span>
+                          </div>
+                          <h3 className="text-base font-light text-[var(--color-graphite)] mb-2 group-hover:text-[var(--color-rose-text)] transition-colors leading-snug">
+                            {article.title}
+                          </h3>
+                          <p className="text-xs font-light text-[var(--color-graphite-mid)] leading-relaxed mb-4">
+                            {article.dek}
+                          </p>
+                        </div>
+                        <span className="text-[10px] tracking-[0.12em] uppercase font-light text-[var(--color-graphite)] inline-flex items-center gap-1.5 pt-3 border-t border-[var(--color-border)]">
+                          Read Analysis <span aria-hidden="true">→</span>
+                        </span>
+                      </Link>
+                    </RevealOnScroll>
+                  ))}
                 </div>
               </section>
             )}
