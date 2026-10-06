@@ -1,0 +1,725 @@
+{
+  "timestamp": "2026-10-06T10:09:23.225Z",
+  "siteUrl": "https://avorria.com",
+  "totalRoutes": 56,
+  "dataConnectivity": {
+    "googleSearchConsole": {
+      "status": "NOT CONNECTED",
+      "property": "sc-domain:avorria.com",
+      "details": "NOT CONNECTED: No Google Service Account JSON or API credentials found in environment."
+    },
+    "cruxApi": {
+      "status": "NOT CONNECTED",
+      "details": "NOT CONNECTED: GOOGLE_PAGESPEED_API_KEY environment variable is empty."
+    },
+    "backlinkProvider": {
+      "status": "NOT CONNECTED",
+      "details": "NOT CONNECTED: No third-party backlink API (Ahrefs, Semrush, Moz) configured."
+    }
+  },
+  "summary": {
+    "optimalRoutes": 46,
+    "warningRoutes": 10,
+    "attentionRoutes": 0
+  },
+  "cannibalisationChecks": {
+    "passed": true,
+    "notes": [
+      "All 7 case study title tags verified clean: using specific Brand + Capability formula with zero head commercial keyword collision."
+    ]
+  },
+  "routes": [
+    {
+      "url": "https://avorria.com",
+      "path": "/",
+      "category": "static",
+      "title": "Avorria — Digital Engineering Studio // High-Performance Web & Systems",
+      "titleLength": 70,
+      "description": "Avorria engineers bespoke web platforms, technical SEO migrations, and custom AI systems for ambitious organisations. Built with strict TypeScript.",
+      "descriptionLength": 147,
+      "canonicalUrl": "https://avorria.com",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/work",
+      "path": "/work",
+      "category": "static",
+      "title": "Work // Verified Production Engineering Portfolio — Avorria",
+      "titleLength": 59,
+      "description": "Verified case studies in digital product engineering, quantitative terminals, PostGIS cadastral platforms, and high-performance WebGL flagships by Avorria.",
+      "descriptionLength": 155,
+      "canonicalUrl": "https://avorria.com/work",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/services",
+      "path": "/services",
+      "category": "static",
+      "title": "Services // Build, Search & Systems — Avorria Engineering Studio",
+      "titleLength": 64,
+      "description": "Three core technical disciplines: high-performance web applications (Build), enterprise technical SEO (Search), and intelligent commercial systems (Systems).",
+      "descriptionLength": 157,
+      "canonicalUrl": "https://avorria.com/services",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/process",
+      "path": "/process",
+      "category": "static",
+      "title": "Engineering Process // Six Disciplined Sprints — Avorria",
+      "titleLength": 56,
+      "description": "How Avorria executes digital projects: architectural discovery, schema modeling, high-fidelity engineering, and rigorous launch telemetry.",
+      "descriptionLength": 138,
+      "canonicalUrl": "https://avorria.com/process",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/about",
+      "path": "/about",
+      "category": "static",
+      "title": "About Avorria // Engineering Standards & Studio Principles",
+      "titleLength": 58,
+      "description": "Independent digital engineering studio based in the UK. Founded on sovereign software ownership, performance budgets, and zero template compromises.",
+      "descriptionLength": 148,
+      "canonicalUrl": "https://avorria.com/about",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby",
+      "path": "/lobby",
+      "category": "static",
+      "title": "The Lobby // Forensic Digital Intelligence & Research Bureau",
+      "titleLength": 60,
+      "description": "Technical journalism, architectural teardowns, and algorithmic analysis. Empirical research covering Core Web Vitals, headless React, and enterprise AI.",
+      "descriptionLength": 152,
+      "canonicalUrl": "https://avorria.com/lobby",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/pricing",
+      "path": "/pricing",
+      "category": "static",
+      "title": "Pricing & Engagement Models // Transparent Fixed Sprints — Avorria",
+      "titleLength": 66,
+      "description": "Predictable, fixed-scope engineering sprints and technical retainers. Clear deliverables, zero scope drift, transparent capital allocation.",
+      "descriptionLength": 139,
+      "canonicalUrl": "https://avorria.com/pricing",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/audit",
+      "path": "/audit",
+      "category": "static",
+      "title": "Website Health Check // Forensic Diagnostic — Avorria",
+      "titleLength": 53,
+      "description": "Submit any enterprise or commercial web property for multi-dimensional diagnostic analysis. Strict provenance guarantees, zero score fabrication.",
+      "descriptionLength": 145,
+      "canonicalUrl": "https://avorria.com/audit",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/digital-audit",
+      "path": "/digital-audit",
+      "category": "static",
+      "title": "Pre-Build Website & Architecture Audit // 5-Day Review — Avorria",
+      "titleLength": 64,
+      "description": "De-risk your next high-stakes web platform before committing capital. Comprehensive pre-build architectural, scope, and technical audits in 5 days.",
+      "descriptionLength": 147,
+      "canonicalUrl": "https://avorria.com/digital-audit",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/teardown",
+      "path": "/teardown",
+      "category": "static",
+      "title": "The Agency Teardown // Diagnostic Framework — Avorria",
+      "titleLength": 53,
+      "description": "An objective diagnostic framework for leadership teams evaluating digital agency arrangements. Audit retainer efficiency, IP ownership, and velocity.",
+      "descriptionLength": 149,
+      "canonicalUrl": "https://avorria.com/teardown",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/contact",
+      "path": "/contact",
+      "category": "static",
+      "title": "Contact // Direct Engineering Intake — Avorria Studio",
+      "titleLength": 53,
+      "description": "Direct inquiry channel for enterprise executives and technical founders. Inquiries reviewed by senior engineering principals within 24 hours.",
+      "descriptionLength": 141,
+      "canonicalUrl": "https://avorria.com/contact",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/start-a-project",
+      "path": "/start-a-project",
+      "category": "static",
+      "title": "Start a Project // Scoping Intake & Architectural Inquiry — Avorria",
+      "titleLength": 67,
+      "description": "Initiate a structured scoping session for your upcoming digital flagship, search migration, or systems engineering engagement.",
+      "descriptionLength": 126,
+      "canonicalUrl": "https://avorria.com/start-a-project",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/privacy",
+      "path": "/privacy",
+      "category": "static",
+      "title": "Privacy Policy // Avorria Studio",
+      "titleLength": 32,
+      "description": "Information handling practices, telemetry disclosures, and client data confidentiality policies governing Avorria digital assets.",
+      "descriptionLength": 129,
+      "canonicalUrl": "https://avorria.com/privacy",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/cookies",
+      "path": "/cookies",
+      "category": "static",
+      "title": "Cookie Disclosures // Avorria Studio",
+      "titleLength": 36,
+      "description": "Technical cookie audit, local storage usage, and tracking policy disclosures for the Avorria web platform.",
+      "descriptionLength": 106,
+      "canonicalUrl": "https://avorria.com/cookies",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/terms",
+      "path": "/terms",
+      "category": "static",
+      "title": "Terms of Engagement // Avorria Studio",
+      "titleLength": 37,
+      "description": "Commercial terms of service, intellectual property ownership agreements, and engagement guarantees.",
+      "descriptionLength": 99,
+      "canonicalUrl": "https://avorria.com/terms",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/services/build",
+      "path": "/services/build",
+      "category": "service",
+      "title": "Bespoke Web Development & Next.js Applications — Avorria",
+      "titleLength": 56,
+      "description": "Avorria engineers bespoke Next.js web applications and digital flagships for ambitious businesses. Strict TypeScript, sub-second LCP, zero templates.",
+      "descriptionLength": 149,
+      "canonicalUrl": "https://avorria.com/services/build",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/services/search",
+      "path": "/services/search",
+      "category": "service",
+      "title": "Technical SEO Agency & Website Migration Architecture — Avorria",
+      "titleLength": 63,
+      "description": "Enterprise technical SEO agency and migration risk engineering. We protect search equity, eliminate indexation debt, and optimize Core Web Vitals.",
+      "descriptionLength": 146,
+      "canonicalUrl": "https://avorria.com/services/search",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/services/systems",
+      "path": "/services/systems",
+      "category": "service",
+      "title": "Custom AI Development & Systems Automation — Avorria",
+      "titleLength": 52,
+      "description": "Avorria engineers bespoke AI agent workflows, sovereign data pipelines, and Stripe billing infrastructure with zero data leakage. Built with strict schemas.",
+      "descriptionLength": 156,
+      "canonicalUrl": "https://avorria.com/services/systems",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/work/alkota-bikes",
+      "path": "/work/alkota-bikes",
+      "category": "case-study",
+      "title": "Alkota Bikes — Bespoke Next.js Platform & 3D Stage | Avorria Case Study",
+      "titleLength": 71,
+      "description": "How Avorria engineered a high-performance Next.js digital flagship, WebGL titanium inspection stage, and sub-second LCP architecture for Alkota Bikes.",
+      "descriptionLength": 150,
+      "canonicalUrl": "https://avorria.com/work/alkota-bikes",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/work/tafm",
+      "path": "/work/tafm",
+      "category": "case-study",
+      "title": "TAFM — Commercial Asset Finance Marketplace Platform | Avorria Case Study",
+      "titleLength": 73,
+      "description": "Technical investigation into TAFM: multi-tier asset finance marketplace on Next.js 16, equipment taxonomy indexing, and automated institutional underwriting pipelines.",
+      "descriptionLength": 167,
+      "canonicalUrl": "https://avorria.com/work/tafm",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/work/drawdown",
+      "path": "/work/drawdown",
+      "category": "case-study",
+      "title": "Drawdown.Trading — Quantitative Risk Platform & Canvas Telemetry | Avorria Case Study",
+      "titleLength": 85,
+      "description": "Technical investigation into Drawdown.Trading: low-latency WebGL/Canvas telemetry, decoupled Web Worker data streaming, and sub-millisecond risk execution.",
+      "descriptionLength": 155,
+      "canonicalUrl": "https://avorria.com/work/drawdown",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/work/careeros",
+      "path": "/work/careeros",
+      "category": "case-study",
+      "title": "CareerOS — Enterprise AI Systems & Vector Taxonomy | Avorria Case Study",
+      "titleLength": 71,
+      "description": "Technical case study: How Avorria engineered CareerOS using pgvector semantic search, graph competence taxonomies, and server-side AI evaluation pipelines.",
+      "descriptionLength": 155,
+      "canonicalUrl": "https://avorria.com/work/careeros",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/work/nestiq",
+      "path": "/work/nestiq",
+      "category": "case-study",
+      "title": "NestIQ — Spatial Property Intelligence & PostGIS Vector Tiles | Avorria Case Study",
+      "titleLength": 82,
+      "description": "Editorial analysis of NestIQ: PostGIS dynamic vector tiling, MapLibre GL spatial pipelines, and nationwide cadastral parcel boundary streaming.",
+      "descriptionLength": 143,
+      "canonicalUrl": "https://avorria.com/work/nestiq",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/work/entirefm",
+      "path": "/work/entirefm",
+      "category": "case-study",
+      "title": "EntireFM — Multi-Domain SEO Migration Architecture | Avorria Case Study",
+      "titleLength": 71,
+      "description": "How Avorria consolidated 8 regional domains with zero organic traffic loss: edge 301 redirects, nationwide search architecture, and automated routing.",
+      "descriptionLength": 150,
+      "canonicalUrl": "https://avorria.com/work/entirefm",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/work/one-great-northern",
+      "path": "/work/one-great-northern",
+      "category": "case-study",
+      "title": "One Great Northern — Commercial Property Showcase & Interactive Floorplates | Avorria Case Study",
+      "titleLength": 96,
+      "description": "Editorial case study: Avorria architectural web presentation, progressive image apertures, and interactive commercial leasing floorplate schematics for One Great Northern.",
+      "descriptionLength": 171,
+      "canonicalUrl": "https://avorria.com/work/one-great-northern",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/websites-we-would-fire",
+      "path": "/lobby/websites-we-would-fire",
+      "category": "lobby-article",
+      "title": "Websites We Would Fire: Five Digital Failure Archetypes",
+      "titleLength": 55,
+      "description": "Most underperforming enterprise websites suffer from the same five structural defects. An architectural investigation into why award-winning designs consistently fail to generate commercial pipeline.",
+      "descriptionLength": 199,
+      "canonicalUrl": "https://avorria.com/lobby/websites-we-would-fire",
+      "status": "WARNING",
+      "notes": [
+        "Description snippet is 199 chars (may truncate in mobile SERPs)"
+      ]
+    },
+    {
+      "url": "https://avorria.com/lobby/google-inp-core-web-vitals-architecture",
+      "path": "/lobby/google-inp-core-web-vitals-architecture",
+      "category": "lobby-article",
+      "title": "The Death of Client-Side React Hydration: Google INP and the Interaction Latency Mandate",
+      "titleLength": 88,
+      "description": "Why massive client-side JavaScript bundles are failing Google Interaction to Next Paint (INP) thresholds, and how server-driven React 19 architectures eliminate main-thread freezing.",
+      "descriptionLength": 182,
+      "canonicalUrl": "https://avorria.com/lobby/google-inp-core-web-vitals-architecture",
+      "status": "WARNING",
+      "notes": [
+        "Description snippet is 182 chars (may truncate in mobile SERPs)"
+      ]
+    },
+    {
+      "url": "https://avorria.com/lobby/the-end-of-the-agency-retainer",
+      "path": "/lobby/the-end-of-the-agency-retainer",
+      "category": "lobby-article",
+      "title": "The End of the Cost-Plus Agency Retainer: Why High-Performing Companies Switch to Fixed Sprints",
+      "titleLength": 95,
+      "description": "Traditional agency retainers incentivize junior staffing, bureaucratic status calls, and slow delivery. Fixed 4-week Build Sprints realign incentives around working production software.",
+      "descriptionLength": 185,
+      "canonicalUrl": "https://avorria.com/lobby/the-end-of-the-agency-retainer",
+      "status": "WARNING",
+      "notes": [
+        "Description snippet is 185 chars (may truncate in mobile SERPs)"
+      ]
+    },
+    {
+      "url": "https://avorria.com/lobby/meta-advantage-plus-creative-fatigue",
+      "path": "/lobby/meta-advantage-plus-creative-fatigue",
+      "category": "lobby-article",
+      "title": "Meta Advantage+ and Algorithmic Saturation: The Shift from Bidding Hacks to Creative Infrastructure",
+      "titleLength": 99,
+      "description": "When Meta Andromeda algorithms handle all targeting and bidding automatically, your only competitive advantage is high-velocity creative production and landing page conversion telemetry.",
+      "descriptionLength": 186,
+      "canonicalUrl": "https://avorria.com/lobby/meta-advantage-plus-creative-fatigue",
+      "status": "WARNING",
+      "notes": [
+        "Description snippet is 186 chars (may truncate in mobile SERPs)"
+      ]
+    },
+    {
+      "url": "https://avorria.com/lobby/applied-ai-without-hallucination",
+      "path": "/lobby/applied-ai-without-hallucination",
+      "category": "lobby-article",
+      "title": "Deterministic AI: Building Enterprise Agent Workflows Without Hallucination",
+      "titleLength": 75,
+      "description": "Generative chatbots in the corner of a website are an unverified gimmick. How Avorria deploys structured JSON schemas, strict validation barriers, and deterministic state machines.",
+      "descriptionLength": 180,
+      "canonicalUrl": "https://avorria.com/lobby/applied-ai-without-hallucination",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/monolithic-cms-technical-debt",
+      "path": "/lobby/monolithic-cms-technical-debt",
+      "category": "lobby-article",
+      "title": "The Hidden Cost of Monolithic CMS: WordPress Plugin Bloat vs Sovereign Headless Stacks",
+      "titleLength": 86,
+      "description": "Why forty-plugin WordPress installations cost mid-market firms £18,000+ per year in security patching, maintenance hours, and lost search rank.",
+      "descriptionLength": 143,
+      "canonicalUrl": "https://avorria.com/lobby/monolithic-cms-technical-debt",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/when-to-rebuild-your-website",
+      "path": "/lobby/when-to-rebuild-your-website",
+      "category": "lobby-article",
+      "title": "When to Rebuild Your Website: Engineering Diagnostic | Avorria",
+      "titleLength": 62,
+      "description": "Redesigning an underperforming website is usually the wrong move. The diagnostic framework Avorria uses to determine if you need a redesign or rebuild.",
+      "descriptionLength": 151,
+      "canonicalUrl": "https://avorria.com/lobby/when-to-rebuild-your-website",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/nextjs-vs-wordpress-engineering-comparison",
+      "path": "/lobby/nextjs-vs-wordpress-engineering-comparison",
+      "category": "lobby-article",
+      "title": "Next.js vs WordPress: Engineering Comparison for Businesses | Avorria",
+      "titleLength": 69,
+      "description": "A technical and commercial comparison of Next.js and WordPress for business websites. Covers performance, security, developer cost, CMS flexibility, and long-term platform control.",
+      "descriptionLength": 180,
+      "canonicalUrl": "https://avorria.com/lobby/nextjs-vs-wordpress-engineering-comparison",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/protect-organic-traffic-website-migration",
+      "path": "/lobby/protect-organic-traffic-website-migration",
+      "category": "lobby-article",
+      "title": "Website Migration SEO: How to Protect Organic Traffic | Avorria",
+      "titleLength": 63,
+      "description": "The technical protocol for protecting Google rankings during a website migration. Covers 301 redirect mapping, canonical tags, and Search Console monitoring.",
+      "descriptionLength": 157,
+      "canonicalUrl": "https://avorria.com/lobby/protect-organic-traffic-website-migration",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/why-your-website-crawled-not-ranked",
+      "path": "/lobby/why-your-website-crawled-not-ranked",
+      "category": "lobby-article",
+      "title": "Why Your Website Is Crawled But Not Ranked by Google | Avorria",
+      "titleLength": 62,
+      "description": "Being crawled by Google does not guarantee being ranked. Six technical failures — from rendering problems to thin content signals — that keep crawled websites out of search results.",
+      "descriptionLength": 181,
+      "canonicalUrl": "https://avorria.com/lobby/why-your-website-crawled-not-ranked",
+      "status": "WARNING",
+      "notes": [
+        "Description snippet is 181 chars (may truncate in mobile SERPs)"
+      ]
+    },
+    {
+      "url": "https://avorria.com/lobby/custom-ai-vs-saas-business-decision",
+      "path": "/lobby/custom-ai-vs-saas-business-decision",
+      "category": "lobby-article",
+      "title": "Custom AI vs SaaS AI Tools: When to Build and When to Buy | Avorria",
+      "titleLength": 67,
+      "description": "A decision framework for businesses evaluating AI SaaS tools against custom AI development. Covers data privacy, workflow specificity, cost at scale, and the engineering criteria that determine when custom development is justified.",
+      "descriptionLength": 231,
+      "canonicalUrl": "https://avorria.com/lobby/custom-ai-vs-saas-business-decision",
+      "status": "WARNING",
+      "notes": [
+        "Description snippet is 231 chars (may truncate in mobile SERPs)"
+      ]
+    },
+    {
+      "url": "https://avorria.com/lobby/what-a-custom-ai-agent-can-automate",
+      "path": "/lobby/what-a-custom-ai-agent-can-automate",
+      "category": "lobby-article",
+      "title": "What a Custom AI Agent Can Actually Automate in a Business | Avorria",
+      "titleLength": 68,
+      "description": "A practical, engineering-grounded guide to what AI agent pipelines reliably automate in business operations today — and what remains too unreliable for production deployment.",
+      "descriptionLength": 174,
+      "canonicalUrl": "https://avorria.com/lobby/what-a-custom-ai-agent-can-automate",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/ai-integration-without-exposing-sensitive-data",
+      "path": "/lobby/ai-integration-without-exposing-sensitive-data",
+      "category": "lobby-article",
+      "title": "How to Integrate AI Into Your Business Safely | Data Privacy | Avorria",
+      "titleLength": 70,
+      "description": "Practical engineering architecture for AI integration that protects sensitive client data, satisfies UK GDPR, and meets contractual data handling requirements. Covers API data controls, data minimisation, local model deployment, and audit logging.",
+      "descriptionLength": 247,
+      "canonicalUrl": "https://avorria.com/lobby/ai-integration-without-exposing-sensitive-data",
+      "status": "WARNING",
+      "notes": [
+        "Description snippet is 247 chars (may truncate in mobile SERPs)"
+      ]
+    },
+    {
+      "url": "https://avorria.com/lobby/how-to-evaluate-a-digital-agency",
+      "path": "/lobby/how-to-evaluate-a-digital-agency",
+      "category": "lobby-article",
+      "title": "How to Evaluate a Digital Agency Before Signing | Avorria",
+      "titleLength": 57,
+      "description": "The questions that reveal whether a digital agency has genuine engineering depth or primarily produces polished presentations. A practical evaluation framework for businesses commissioning web development, SEO, or AI work.",
+      "descriptionLength": 222,
+      "canonicalUrl": "https://avorria.com/lobby/how-to-evaluate-a-digital-agency",
+      "status": "WARNING",
+      "notes": [
+        "Description snippet is 222 chars (may truncate in mobile SERPs)"
+      ]
+    },
+    {
+      "url": "https://avorria.com/lobby/bespoke-web-application-when-to-build",
+      "path": "/lobby/bespoke-web-application-when-to-build",
+      "category": "lobby-article",
+      "title": "When Does a Business Need a Bespoke Web Application? | Avorria",
+      "titleLength": 62,
+      "description": "The commercial and technical thresholds that determine when a bespoke web application creates genuine business advantage over SaaS alternatives. Covers workflow specificity, data control, competitive differentiation, and cost at scale.",
+      "descriptionLength": 235,
+      "canonicalUrl": "https://avorria.com/lobby/bespoke-web-application-when-to-build",
+      "status": "WARNING",
+      "notes": [
+        "Description snippet is 235 chars (may truncate in mobile SERPs)"
+      ]
+    },
+    {
+      "url": "https://avorria.com/lobby/core-web-vitals-ranking-reality",
+      "path": "/lobby/core-web-vitals-ranking-reality",
+      "category": "lobby-article",
+      "title": "What Core Web Vitals Actually Do to Your Google Rankings | Avorria",
+      "titleLength": 66,
+      "description": "An engineering-grounded assessment of how Core Web Vitals affect Google search rankings. Covers LCP, INP, CLS thresholds, the tiebreaker hypothesis, mobile-first indexing, and what to prioritise for commercial pages.",
+      "descriptionLength": 216,
+      "canonicalUrl": "https://avorria.com/lobby/core-web-vitals-ranking-reality",
+      "status": "WARNING",
+      "notes": [
+        "Description snippet is 216 chars (may truncate in mobile SERPs)"
+      ]
+    },
+    {
+      "url": "https://avorria.com/lobby/category/marketing",
+      "path": "/lobby/category/marketing",
+      "category": "lobby-category",
+      "title": "Marketing Intelligence — The Lobby | Avorria",
+      "titleLength": 44,
+      "description": "Empirical marketing intelligence and growth mechanics for modern business leaders.",
+      "descriptionLength": 82,
+      "canonicalUrl": "https://avorria.com/lobby/category/marketing",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/category/google-search",
+      "path": "/lobby/category/google-search",
+      "category": "lobby-category",
+      "title": "Google & Search Engine Intelligence — The Lobby | Avorria",
+      "titleLength": 57,
+      "description": "Empirical analysis of Google algorithm updates, crawl dynamics, and technical search architecture.",
+      "descriptionLength": 98,
+      "canonicalUrl": "https://avorria.com/lobby/category/google-search",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/category/meta-social",
+      "path": "/lobby/category/meta-social",
+      "category": "lobby-category",
+      "title": "Meta & Social Platform Shifts — The Lobby | Avorria",
+      "titleLength": 51,
+      "description": "Deconstructing paid social machine-learning changes, creative infrastructure, and attribution.",
+      "descriptionLength": 94,
+      "canonicalUrl": "https://avorria.com/lobby/category/meta-social",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/category/websites",
+      "path": "/lobby/category/websites",
+      "category": "lobby-category",
+      "title": "Website Architecture & UX Intelligence — The Lobby | Avorria",
+      "titleLength": 60,
+      "description": "Technical telemetry covering interaction latency, Core Web Vitals, and sovereign web engineering.",
+      "descriptionLength": 97,
+      "canonicalUrl": "https://avorria.com/lobby/category/websites",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/category/small-business",
+      "path": "/lobby/category/small-business",
+      "category": "lobby-category",
+      "title": "Small Business Digital Guidance — The Lobby | Avorria",
+      "titleLength": 53,
+      "description": "Practical digital decision-making frameworks and commercial protection for business owners.",
+      "descriptionLength": 91,
+      "canonicalUrl": "https://avorria.com/lobby/category/small-business",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/category/technology",
+      "path": "/lobby/category/technology",
+      "category": "lobby-category",
+      "title": "Applied Technology & AI Systems — The Lobby | Avorria",
+      "titleLength": 53,
+      "description": "Deterministic AI agents, cloud architectures, and sovereign digital infrastructure.",
+      "descriptionLength": 83,
+      "canonicalUrl": "https://avorria.com/lobby/category/technology",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/category/avorria",
+      "path": "/lobby/category/avorria",
+      "category": "lobby-category",
+      "title": "Studio Dispatches & Benchmarks — The Lobby | Avorria",
+      "titleLength": 52,
+      "description": "Engineering logs, open benchmarks, and announcements from the Avorria workshop.",
+      "descriptionLength": 79,
+      "canonicalUrl": "https://avorria.com/lobby/category/avorria",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/category/teardowns",
+      "path": "/lobby/category/teardowns",
+      "category": "lobby-category",
+      "title": "Forensic Digital Teardowns — The Lobby | Avorria",
+      "titleLength": 48,
+      "description": "Observable architectural dissections of production website failures.",
+      "descriptionLength": 68,
+      "canonicalUrl": "https://avorria.com/lobby/category/teardowns",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/category/digital-strategy",
+      "path": "/lobby/category/digital-strategy",
+      "category": "lobby-category",
+      "title": "Digital Strategy & Economics — The Lobby | Avorria",
+      "titleLength": 50,
+      "description": "Fixed-scope commercial models versus agency retainers for scaling enterprises.",
+      "descriptionLength": 78,
+      "canonicalUrl": "https://avorria.com/lobby/category/digital-strategy",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/category/search-engine-intelligence",
+      "path": "/lobby/category/search-engine-intelligence",
+      "category": "lobby-category",
+      "title": "Search Engine Intelligence — The Lobby | Avorria",
+      "titleLength": 48,
+      "description": "Deep technical audits, rendering telemetry, and crawl budget engineering.",
+      "descriptionLength": 73,
+      "canonicalUrl": "https://avorria.com/lobby/category/search-engine-intelligence",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/category/platform-shifts",
+      "path": "/lobby/category/platform-shifts",
+      "category": "lobby-category",
+      "title": "Platform Shifts & Algorithmic Auctions — The Lobby | Avorria",
+      "titleLength": 60,
+      "description": "Deconstructing platform updates, ad auctions, and programmatic conversion telemetry.",
+      "descriptionLength": 84,
+      "canonicalUrl": "https://avorria.com/lobby/category/platform-shifts",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/category/applied-ai",
+      "path": "/lobby/category/applied-ai",
+      "category": "lobby-category",
+      "title": "Applied AI & Autonomous Systems — The Lobby | Avorria",
+      "titleLength": 53,
+      "description": "Building enterprise AI systems without hallucination using deterministic state machines.",
+      "descriptionLength": 88,
+      "canonicalUrl": "https://avorria.com/lobby/category/applied-ai",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/category/website-intelligence",
+      "path": "/lobby/category/website-intelligence",
+      "category": "lobby-category",
+      "title": "Website Intelligence & Architectural Audits — The Lobby | Avorria",
+      "titleLength": 65,
+      "description": "Forensic audits of CMS bloat, security debt, and sub-second edge rendering.",
+      "descriptionLength": 75,
+      "canonicalUrl": "https://avorria.com/lobby/category/website-intelligence",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/author/peter-currey",
+      "path": "/lobby/author/peter-currey",
+      "category": "lobby-author",
+      "title": "Peter Currey — Contributing Author | The Lobby — Avorria",
+      "titleLength": 56,
+      "description": "Directs digital architecture and software engineering at Avorria. Specialises in high-concurrency web systems, technical SEO engineering, and forensic UX teardowns.",
+      "descriptionLength": 164,
+      "canonicalUrl": "https://avorria.com/lobby/author/peter-currey",
+      "status": "OPTIMAL",
+      "notes": []
+    },
+    {
+      "url": "https://avorria.com/lobby/author/editorial-desk",
+      "path": "/lobby/author/editorial-desk",
+      "category": "lobby-author",
+      "title": "Avorria Editorial Desk — Contributing Author | The Lobby — Avorria",
+      "titleLength": 66,
+      "description": "The analytical research unit of Avorria, monitoring algorithmic shifts across Google, Meta, technical infrastructure, and sovereign software economics.",
+      "descriptionLength": 151,
+      "canonicalUrl": "https://avorria.com/lobby/author/editorial-desk",
+      "status": "OPTIMAL",
+      "notes": []
+    }
+  ]
+}

@@ -17,7 +17,10 @@
     "ci:full": "pnpm run ci && pnpm run test:rls",
     "seed": "npx tsx scripts/seed.ts",
     "db:migrate": "npx tsx scripts/apply-migrations.ts",
-    "capture:showcase": "npx tsx scripts/capture-showcase.ts"
+    "capture:showcase": "npx tsx scripts/capture-showcase.ts",
+    "seo:audit": "npx tsx scripts/seo-audit.ts",
+    "gsc:fetch": "npx tsx scripts/gsc-fetch.ts",
+    "crux:fetch": "npx tsx scripts/crux-fetch.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

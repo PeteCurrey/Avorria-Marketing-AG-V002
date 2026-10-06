@@ -73,27 +73,80 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: a.isFeatured ? 0.85 : 0.75,
       }))
 
-    // Only the 5 launch categories are indexed by default
-    lobbyCategoryRoutes = categories
-      .filter((c) => c.isActive)
-      .map((c) => ({
-        url: `${base}/lobby/category/${c.slug}`,
-        lastModified: now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.7,
-      }))
+    // Fallback to static content registries if database returned empty
+    if (lobbyArticleRoutes.length === 0) {
+      const { LOBBY_ARTICLES } = await import('@/content/lobby/articles')
+      lobbyArticleRoutes = LOBBY_ARTICLES
+        .filter((a) => (a.status || 'PUBLISHED') === 'PUBLISHED' && !a.seo?.noIndex)
+        .map((a) => ({
+          url: `${base}/lobby/${a.slug}`,
+          lastModified: a.updatedAt || a.publishedAt || now,
+          changeFrequency: 'monthly' as const,
+          priority: a.isFeatured ? 0.85 : 0.75,
+        }))
+    }
 
-    // Real authors only (no fabricated contributors)
-    lobbyAuthorRoutes = authors
-      .filter((a) => a.isActive)
-      .map((a) => ({
-        url: `${base}/lobby/author/${a.slug}`,
-        lastModified: now,
-        changeFrequency: 'monthly' as const,
-        priority: 0.6,
-      }))
+    if (lobbyCategoryRoutes.length === 0) {
+      const { LOBBY_CATEGORIES } = await import('@/content/lobby/categories')
+      lobbyCategoryRoutes = LOBBY_CATEGORIES
+        .filter((c) => c.isActive)
+        .map((c) => ({
+          url: `${base}/lobby/category/${c.slug}`,
+          lastModified: now,
+          changeFrequency: 'weekly' as const,
+          priority: 0.7,
+        }))
+    }
+
+    if (lobbyAuthorRoutes.length === 0) {
+      const { LOBBY_AUTHORS } = await import('@/content/lobby/authors')
+      lobbyAuthorRoutes = LOBBY_AUTHORS
+        .filter((a) => a.isActive)
+        .map((a) => ({
+          url: `${base}/lobby/author/${a.slug}`,
+          lastModified: now,
+          changeFrequency: 'monthly' as const,
+          priority: 0.6,
+        }))
+    }
   } catch {
-    // Sitemap must not break build if DB is unavailable
+    // If DB client or dynamic import failed, fall back directly to static registries
+    try {
+      const [{ LOBBY_ARTICLES }, { LOBBY_CATEGORIES }, { LOBBY_AUTHORS }] = await Promise.all([
+        import('@/content/lobby/articles'),
+        import('@/content/lobby/categories'),
+        import('@/content/lobby/authors'),
+      ])
+
+      lobbyArticleRoutes = LOBBY_ARTICLES
+        .filter((a) => (a.status || 'PUBLISHED') === 'PUBLISHED' && !a.seo?.noIndex)
+        .map((a) => ({
+          url: `${base}/lobby/${a.slug}`,
+          lastModified: a.updatedAt || a.publishedAt || now,
+          changeFrequency: 'monthly' as const,
+          priority: a.isFeatured ? 0.85 : 0.75,
+        }))
+
+      lobbyCategoryRoutes = LOBBY_CATEGORIES
+        .filter((c) => c.isActive)
+        .map((c) => ({
+          url: `${base}/lobby/category/${c.slug}`,
+          lastModified: now,
+          changeFrequency: 'weekly' as const,
+          priority: 0.7,
+        }))
+
+      lobbyAuthorRoutes = LOBBY_AUTHORS
+        .filter((a) => a.isActive)
+        .map((a) => ({
+          url: `${base}/lobby/author/${a.slug}`,
+          lastModified: now,
+          changeFrequency: 'monthly' as const,
+          priority: 0.6,
+        }))
+    } catch {
+      // Complete resilience safeguard
+    }
   }
 
   return [

@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-10-06T10:03:02.311Z",
+  "property": "sc-domain:avorria.com",
+  "connectionStatus": "NOT CONNECTED",
+  "message": "Missing GOOGLE_SEARCH_CONSOLE_CLIENT_EMAIL or GOOGLE_SEARCH_CONSOLE_PRIVATE_KEY environment variables.",
+  "prerequisites": [
+    "1. Google Search Console domain ownership verified for sc-domain:avorria.com",
+    "2. Google Cloud Service Account created with Search Console API enabled",
+    "3. Service Account email granted \"Viewer\" (Read-Only) permissions on sc-domain:avorria.com",
+    "4. GOOGLE_SEARCH_CONSOLE_CLIENT_EMAIL environment variable set",
+    "5. GOOGLE_SEARCH_CONSOLE_PRIVATE_KEY environment variable set"
+  ]
+}

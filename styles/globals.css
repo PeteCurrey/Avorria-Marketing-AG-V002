@@ -23,62 +23,72 @@
      - On Wine/Petrol: use Ivory (#F7F5F0) and Rose Light (#E8D4D6) for text
      - All pairs verified WCAG 2.2 AA (see contrast table in implementation_plan.md)
      ─────────────────────────────────────────────────────────────────────── */
-  /* Neutrals — warm ivory & stone foundation (~70% coverage) */
-  --color-ivory:          #F7F5F0;   /* canonical warm white — primary body & section bg */
+  /* Neutrals — warm ivory & stone foundation (~70% coverage per Directive 30) */
+  --color-ivory:          #F6F4EF;   /* canonical warm ivory (#F6F4EF) — primary page background */
   --color-ivory-warm:     #EDE9E3;   /* deeper warm ivory for hover / inset surfaces */
-  --color-ivory-dark:     #E8E2D8;   /* === Stone: warm neutral chapter ground */
+  --color-ivory-dark:     #E8E5DE;   /* Soft Stone: warm neutral chapter ground */
   --color-ivory-border:   #DDD8D0;
-  --color-stone:          #E8E2D8;   /* Stone chapter ground — Capabilities, Lobby Preview, TechStack */
-  --color-graphite:       #1A1916;   /* canonical Graphite — Selected Work chapter */
+  --color-stone:          #E8E5DE;   /* Soft Stone (#E8E5DE) — subtle section separation, borders, secondary */
+  --color-graphite:       #181818;   /* canonical Graphite (#181818) — primary text & dark sections */
   --color-graphite-mid:   #4A4845;
-  --color-graphite-muted: #8A8784;   /* metadata / decorative only — fails AA on small text */
-  --color-border:         #DDD8D0;   /* warm to match ivory ground */
+  --color-graphite-muted: #8A8784;   /* metadata / decorative only */
+  --color-border:         rgba(24, 24, 24, 0.12); /* 1px solid subtle border per Section 30.14 */
   --color-border-strong:  #C0BAB3;
-  --color-white:          #FFFFFF;
+  --color-white:          #FFFFFF;   /* Pure White (#FFFFFF) — contrast, card surfaces, image framing */
 
-  /* Signature accents — punctuation only, never decoratively distributed */
-  --color-accent:         #B5616A;   /* Rose: fills, hairlines, focus rings, large display text */
-  --color-accent-light:   #E8D4D6;   /* Rose Light: text on Wine/Petrol dark chapters */
-  --color-rose-text:      #9A4A53;   /* Rose Text: small italic emphasis on Ivory — 4.8:1 */
-  --color-bronze:         #A47551;   /* Bronze: fills, hairlines, large numerals — display only */
+  /* Creative accents (~5–10% events / punctuation only per Directive 30) */
+  --color-cobalt:         #3157FF;   /* Primary interactive accent (#3157FF) — CTAs, links, active states */
+  --color-coral:          #E47763;   /* Creative warmth (#E47763) — editorial moments, image treatments */
+  --color-chartreuse:     #C7D84A;   /* Muted chartreuse (#C7D84A) — rare micro-interventions / graphic lines */
+  --color-accent:         #B5616A;   /* Legacy Rose accent: preserved for existing text contrasts */
+  --color-accent-light:   #E8D4D6;   /* Rose Light: text on dark chapters */
+  --color-rose-text:      #9A4A53;   /* Rose Text: italic emphasis */
+  --color-bronze:         #A47551;   /* Bronze: numerals & displays */
 
-  /* Deep chapter grounds (~25% coverage) */
-  --color-wine:           #4A1F27;   /* Wine chapter — final CTA, Lobby CTA */
-  --color-petrol:         #17353A;   /* Petrol chapter — Systems Diagram */
+  /* Deep chapter grounds (~20–25% coverage) */
+  --color-wine:           #4A1F27;   /* Wine chapter */
+  --color-petrol:         #17353A;   /* Petrol chapter */
 
-  /* Legacy aliases retained for backward-compat (mapped to new palette) */
-  --color-ivory-tint:     #E8E2D8;   /* was cold blue-grey; now Stone — Capabilities bg */
-  --color-cobalt:         #3157FF;   /* authentic cobalt blue for client portal */
-  --color-cobalt-light:   #EBF0FF;   /* pale cobalt tint */
-  --color-coral:          #A47551;   /* DEPRECATED: replaced by Bronze accent */
+  /* Legacy aliases retained for backward-compat */
+  --color-ivory-tint:     #E8E5DE;
+  --color-cobalt-light:   #EBF0FF;
 
   /* Single canonical typeface: Work Sans (loaded via next/font, self-hosted) */
   --font-display: var(--font-work-sans), 'Work Sans', system-ui, -apple-system, sans-serif;
   --font-sans:    var(--font-work-sans), 'Work Sans', system-ui, -apple-system, sans-serif;
 
-  /* Type scale — fluid via clamp()
-     H1: ~3rem mobile → ~7.5rem desktop
-     All at weight 200 (display) or 300 (body/ui) */
-  --text-display-xl: clamp(3rem, 8vw, 7.5rem);
-  --text-display-l:  clamp(2.625rem, 5.25vw, 4.75rem);
-  --text-display-m:  clamp(2rem, 4vw, 3.25rem);
-  --text-display-s:  clamp(1.5rem, 2.5vw, 2.15rem);
-  --text-heading:    1.375rem;
-  --text-body-l:     1.125rem;    /* 18px — above 17px minimum */
-  --text-body:       1.0625rem;   /* 17px — minimum body size per Phase 2A */
-  --text-small:      0.9375rem;   /* 15px — minimum for UI elements */
-  --text-label:      0.75rem;     /* 12px — minimum for labels, uppercase + tracked */
+  /* Typographic scale per Section 30.6 (fluid clamp)
+     Work Sans Extra Light (200) for Display/H1; Light (300) for H2/H3/Body/UI */
+  --text-display:    clamp(4rem, 8vw, 9rem);      /* Directive 30 Display */
+  --text-h1:         clamp(3rem, 6vw, 6.5rem);    /* Directive 30 H1 */
+  --text-h2:         clamp(2.25rem, 4vw, 4.5rem); /* Directive 30 H2 */
+  --text-h3:         clamp(1.5rem, 2.5vw, 2.5rem);/* Directive 30 H3 */
+  --text-body-lg:    clamp(1.15rem, 1.5vw, 1.5rem);/* Directive 30 Body Large */
+  --text-body-base:  1.0625rem;                   /* Directive 30 Body (1rem-1.125rem) */
+  --text-metadata:   0.75rem;                     /* Directive 30 Metadata (0.7rem-0.8rem) */
 
-  /* Line heights */
-  --leading-display: 1.03;
-  --leading-heading: 1.2;
-  --leading-body:    1.65;
+  /* Legacy aliases mapped to fluid scale */
+  --text-display-xl: clamp(4rem, 8vw, 9rem);
+  --text-display-l:  clamp(3rem, 6vw, 6.5rem);
+  --text-display-m:  clamp(2.25rem, 4vw, 4.5rem);
+  --text-display-s:  clamp(1.5rem, 2.5vw, 2.5rem);
+  --text-heading:    1.375rem;
+  --text-body-l:     clamp(1.15rem, 1.5vw, 1.5rem);
+  --text-body:       1.0625rem;
+  --text-small:      0.9375rem;
+  --text-label:      0.75rem;
+
+  /* Line heights per Section 30.7 */
+  --leading-display: 0.95;   /* Display: ~0.9-1.0 */
+  --leading-heading: 1.05;   /* Headings: ~1.0-1.1 */
+  --leading-body:    1.6;    /* Body: ~1.5-1.7 */
+  --leading-meta:    1.3;    /* Metadata: ~1.2-1.4 */
 
   /* Letter spacing */
   --tracking-display:  -0.03em;
-  --tracking-label:     0.14em;
+  --tracking-label:     0.16em;
   --tracking-heading:  -0.015em;
-  --tracking-wide:      0.06em;
+  --tracking-wide:      0.08em;
 
   /* Spacing scale */
   --space-1:   0.25rem;
@@ -117,27 +127,32 @@
   --border-default: 1px solid var(--color-border);
   --border-strong:  1px solid var(--color-border-strong);
 
-  /* Border radius — subtle architectural softening (takes away harsh sharp corners site-wide) */
-  --radius-control: 3px;
-  --radius-sm:      3px;
+  /* Border radius per Section 30.13: restrained 0px, 2px, 4px, 6px architectural limits */
+  --radius-none:    0px;
+  --radius-xs:      2px;
+  --radius-sm:      2px;
   --radius-md:      4px;
   --radius-lg:      6px;
-  --radius-card:    3px;
-  --radius-box:     3px;
+  --radius-control: 2px;
+  --radius-card:    4px;
+  --radius-box:     4px;
 
-  /* Shadows — restrained; hairline-soft elevation for menus only */
-  --shadow-menu:   0 4px 12px 0 rgb(26 25 22 / 0.08), 0 0 0 1px rgb(26 25 22 / 0.04);
-  --shadow-subtle: 0 1px 3px 0 rgb(26 25 22 / 0.06);
+  /* Shadows — virtually none per Section 30.15; subtle elevation for dropdown menus only */
+  --shadow-menu:   0 4px 12px 0 rgb(24 24 24 / 0.08), 0 0 0 1px rgb(24 24 24 / 0.04);
+  --shadow-subtle: 0 1px 3px 0 rgb(24 24 24 / 0.05);
 
-  /* Animation — Phase 2A spec */
-  --duration-micro:  200ms;
-  --duration-fast:   200ms;
-  --duration-base:   250ms;
-  --duration-slow:   400ms;
-  --duration-reveal: 700ms;
-  --duration-image:  1100ms;
-  --ease-out:        cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out:     cubic-bezier(0.45, 0, 0.55, 1);
+  /* Animation timing per Section 30.34 */
+  --duration-micro:      180ms;   /* Micro interaction: 150-250ms */
+  --duration-fast:       200ms;
+  --duration-base:       300ms;   /* Standard interaction: 250-450ms */
+  --duration-reveal:     750ms;   /* Section reveal: 600-900ms */
+  --duration-image:      950ms;   /* Cinematic image reveal: 700-1200ms */
+  --duration-transition: 1100ms;  /* Major visual transition: 900-1400ms */
+
+  /* Easing curves per Section 30.35 */
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1); /* Primary smooth ease-out */
+  --ease-out:       cubic-bezier(0.16, 1, 0.3, 1);    /* Secondary responsive ease */
+  --ease-in-out:    cubic-bezier(0.45, 0, 0.55, 1);
 }
 
 /* ─── Base Reset & Defaults ─────────────────────────────────────────────────*/
