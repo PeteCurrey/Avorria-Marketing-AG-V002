@@ -23,6 +23,7 @@ export async function LobbyPreview() {
 
   return (
     <section
+      id="lobby-editorial"
       className="relative section-y-large border-t border-[var(--color-border)] overflow-hidden"
       style={{ backgroundColor: 'var(--color-stone)' }}
       data-chapter="stone"

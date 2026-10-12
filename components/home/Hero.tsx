@@ -1,171 +1,247 @@
+'use client'
+
+import { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
-import { HeroMedia } from './HeroMedia'
+
+interface HeroProject {
+  id: string
+  number: string
+  title: string
+  discipline: string
+  metric: string
+  image: string
+  slug: string
+  summary: string
+}
+
+const HERO_PROJECTS: HeroProject[] = [
+  {
+    id: 'alkota',
+    number: '01',
+    title: 'Alkota Bikes',
+    discipline: 'BUILD // 3D FLAGSHIP',
+    metric: '0.62S LCP',
+    image: '/images/cinematic/work-alkota.jpg',
+    slug: '/work/alkota-bikes',
+    summary: 'Titanium frame configuration engine with sub-second route transitions and zero layout shift.',
+  },
+  {
+    id: 'drawdown',
+    number: '02',
+    title: 'Drawdown Terminal',
+    discipline: 'SEARCH // RISK ENGINE',
+    metric: '5,000 TICKS/S',
+    image: '/images/cinematic/work-drawdown.jpg',
+    slug: '/work/drawdown',
+    summary: 'High-frequency macro financial risk modeling platform with real-time volatility graphs.',
+  },
+  {
+    id: 'entirefm',
+    number: '03',
+    title: 'EntireFM',
+    discipline: 'SEARCH ARCHITECTURE',
+    metric: '8 DOMAINS UNIFIED',
+    image: '/images/cinematic/work-entirefm.jpg',
+    slug: '/work/entirefm',
+    summary: 'Multi-brand enterprise search consolidation with surgical schema hierarchy and zero traffic loss.',
+  },
+  {
+    id: 'careeros',
+    number: '04',
+    title: 'CareerOS',
+    discipline: 'SYSTEMS // AGENTIC AI',
+    metric: 'ZOD STATE ENGINE',
+    image: '/images/cinematic/work-careeros.jpg',
+    slug: '/work/careeros',
+    summary: 'Autonomous talent intelligence pipeline with deterministic state-machine workflow orchestration.',
+  },
+]
 
 /**
- * Hero — Aurora Spec (Visual Elevation)
+ * Hero — Monumental Red Bull Digital Flagship Translation
  *
- * Layout:
- *   - Header overlays the hero (Navigation is fixed/absolute, z-50)
- *   - Left text column: ~44% width, inset pl-[7vw], vertically centred
- *   - Right media panel: ~56% width, full-bleed to top, right, bottom edges
- *   - The section is min-h-screen (100dvh) to fill the viewport
- *   - A 1px vertical rule on desktop separates the two columns (architectural)
- *
- * Type:
- *   - Eyebrow: cobalt dot + uppercase, tracked, Work Sans 300
- *   - H1: clamp(3rem, 6.2vw, 6.5rem), line-height 1.04, weight 200
- *   - "work." italic weight 200 in rose
- *
- * Motion (gated on .js class — content always visible without JS):
- *   - Eyebrow: fade-up 0ms
- *   - H1: line-by-line mask reveal, 80/160/240ms stagger
- *   - Paragraph: fade-up 360ms
- *   - CTAs: fade-up 440ms
- *   - Scroll cue: fade-up 800ms
- *   - Media panel: slow scale 1.04 → 1.0 over 1.4s
- *
- * LCP: H1 is LCP candidate. Never starts at opacity:0.
- *      .line-inner slides from translateY(100%) inside overflow:hidden container.
+ * Architecture:
+ * - Edge-to-edge full viewport 100dvh cinematic stage.
+ * - Dynamic photographic plate background with dark vignette scrim.
+ * - Live telemetry badge: Pulse indicator + verified performance stats.
+ * - Monumental fluid headline with surgical Work Sans typography.
+ * - Dual high-voltage CTA cluster.
+ * - Bottom 4-card interactive project preview ticker inspired by Red Bull's featured media bar.
  */
 export function Hero() {
+  const [activeProject, setActiveProject] = useState<number>(0)
+  const current = HERO_PROJECTS[activeProject]
+
   return (
     <section
-      className="-mt-16 md:-mt-20 relative flex flex-col lg:flex-row min-h-[100dvh] overflow-hidden bg-[var(--color-ivory)]"
-      data-chapter="ivory"
+      className="relative -mt-16 md:-mt-20 min-h-[100dvh] flex flex-col justify-between overflow-hidden bg-[#0A0B0E] text-white"
+      data-chapter="hero"
       aria-labelledby="hero-heading"
     >
-      {/* ── Left: Text column ───────────────────────────────────────────────── */}
-      {/* pl-[7vw] inset per Aurora spec; pr gives breathing room before media */}
-      <div
-        className={[
-          'relative z-10',
-          'flex flex-col justify-between',
-          'w-full lg:w-[46%] shrink-0 lg:min-h-[100dvh]',
-          'pl-[7vw] pr-8 lg:pr-6',
-          'pt-24 pb-12 lg:pt-28 lg:pb-10',
-        ].join(' ')}
-      >
-        <div className="my-auto">
-          {/* Eyebrow — cobalt dot + tracked label */}
-          <p
-            className={[
-              'hero-eyebrow mb-5',
-              'flex items-center gap-2.5',
-              'text-[0.6875rem] tracking-[0.18em] uppercase font-light',
-              'text-[var(--color-graphite-mid)]',
-            ].join(' ')}
-          >
-            {/* Cobalt pulse dot — small creative navigation detail */}
-            <span
-              className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse"
-              style={{ backgroundColor: 'var(--color-cobalt)' }}
-              aria-hidden="true"
-            />
-            DIGITAL PRODUCTS · SYSTEMS · INTELLIGENCE
-          </p>
-
-          {/* H1 — line-by-line mask reveal.
-              Each .line-mask is overflow:hidden; .line-inner slides up from 100%.
-              H1 element itself is never opacity:0 — safe as LCP candidate. */}
-          <h1
-            id="hero-heading"
-            className="font-extralight mb-7 text-[var(--color-graphite)]"
-            style={{
-              fontSize: 'clamp(2.5rem, 5.5vw, 6.25rem)',
-              lineHeight: 1.04,
-              letterSpacing: '-0.025em',
-            }}
-          >
-            <span className="line-mask hero-line-1">
-              <span className="line-inner block">Websites and</span>
-            </span>
-            <span className="line-mask hero-line-2">
-              <span className="line-inner block">systems built</span>
-            </span>
-            <span className="line-mask hero-line-3">
-              <span className="line-inner block">
-                to{' '}
-                <em
-                  className="not-italic italic font-extralight"
-                  style={{ color: 'var(--color-rose-text)' }}
-                >
-                  work.
-                </em>
-              </span>
-            </span>
-          </h1>
-
-          {/* Supporting paragraph — max 46ch, Graphite Mid, 18px, weight 300 */}
-          <p
-            className={[
-              'hero-para mb-8',
-              'font-light text-[var(--color-graphite-mid)]',
-              'max-w-[46ch]',
-            ].join(' ')}
-            style={{ fontSize: '1.125rem', lineHeight: 1.6 }}
-          >
-            Avorria designs and builds digital products, intelligent systems
-            and high-performance websites for ambitious businesses.
-          </p>
-
-          {/* CTAs — side by side */}
-          <div className="hero-ctas flex flex-row flex-wrap gap-4">
-            <Button as="link" href="/start-a-project" variant="cobalt" size="lg">
-              Start a project{' '}
-              <span className="btn-arrow" aria-hidden="true">↗</span>
-            </Button>
-            <Button as="link" href="/work" variant="secondary" size="lg">
-              View our work
-            </Button>
-          </div>
-        </div>
-
-        {/* ── Scroll cue — bottom-left, aligned to pl-[7vw] ─────────────── */}
-        <div
-          className="hero-scroll hidden lg:flex items-center gap-3 pt-4"
-          aria-hidden="true"
-        >
-          {/* Circular arrow — mimics Aurora's circular down-arrow button */}
+      {/* ── Background: Cinematic Stage Plate with Smooth Switcher ──────── */}
+      <div className="absolute inset-0 z-0 select-none pointer-events-none" aria-hidden="true">
+        {HERO_PROJECTS.map((project, idx) => (
           <div
+            key={project.id}
             className={[
-              'flex items-center justify-center',
-              'w-8 h-8 rounded-full',
-              'border border-[var(--color-graphite-mid)]',
-              'text-[var(--color-graphite-mid)]',
+              'absolute inset-0 transition-opacity duration-1000 ease-out',
+              idx === activeProject ? 'opacity-100 scale-100' : 'opacity-0 scale-105',
             ].join(' ')}
-            style={{ fontSize: '0.875rem' }}
           >
-            ↓
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              priority={idx === 0}
+              sizes="100vw"
+              className="object-cover object-center filter brightness-[0.65] contrast-[1.1]"
+            />
           </div>
+        ))}
+
+        {/* Ambient Dark Scrims: Multi-layer gradient ensures AAA text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-[#0A0B0E]/60 to-[#0A0B0E]/80" />
+        <div className="absolute inset-0 bg-radial-gradient pointer-events-none opacity-40 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px]" />
+      </div>
+
+      {/* ── Main Stage: Upper & Center Editorial Composition ─────────────── */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-32 sm:pt-36 lg:pt-40 pb-8 flex-1 flex flex-col justify-center">
+        {/* Live Telemetry Pill */}
+        <div className="inline-flex items-center gap-3 px-3.5 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-md w-fit mb-6 animate-fade-in">
           <span
-            className="text-[0.625rem] tracking-[0.18em] uppercase font-light text-[var(--color-graphite-muted)]"
-          >
-            Scroll to explore
+            className="w-2 h-2 rounded-full animate-ping shrink-0"
+            style={{ backgroundColor: 'var(--color-cobalt)' }}
+            aria-hidden="true"
+          />
+          <span className="w-2 h-2 rounded-full -ml-5 shrink-0" style={{ backgroundColor: 'var(--color-cobalt)' }} />
+          <span className="text-[0.6875rem] uppercase tracking-[0.2em] font-light text-white/90">
+            PRODUCTION VERIFIED // {current.metric}
+          </span>
+          <span className="text-white/30 text-[0.625rem]">|</span>
+          <span className="text-[0.6875rem] uppercase tracking-[0.16em] font-extralight text-white/70">
+            {current.discipline}
           </span>
         </div>
+
+        {/* Monumental Headline — Red Bull Scale with Work Sans 200 */}
+        <h1
+          id="hero-heading"
+          className="font-extralight uppercase text-white tracking-[-0.035em] leading-[0.95] max-w-5xl mb-6 text-balance"
+          style={{
+            fontSize: 'clamp(2.75rem, 6.8vw, 6.75rem)',
+          }}
+        >
+          Websites and <br className="hidden sm:inline" />
+          systems built to{' '}
+          <span className="italic font-extralight text-[#9A4A53] hover:text-[var(--color-cobalt)] transition-colors duration-500">
+            work.
+          </span>
+        </h1>
+
+        {/* Supporting Editorial Paragraph */}
+        <p
+          className="font-light text-white/80 max-w-2xl text-base sm:text-lg lg:text-xl leading-relaxed mb-8"
+        >
+          Avorria engineers monumental digital flagships, high-velocity search platforms,
+          and autonomous agentic systems for organisations that demand verified commercial outcomes.
+        </p>
+
+        {/* Dual High-Impact Action Cluster */}
+        <div className="flex flex-wrap items-center gap-4">
+          <Button as="link" href="/start-a-project" variant="cobalt" size="lg">
+            Start a project{' '}
+            <span className="btn-arrow ml-1" aria-hidden="true">↗</span>
+          </Button>
+
+          <Button as="link" href="/work" variant="secondary" size="lg" className="border-white/30 text-white hover:bg-white/10 hover:border-white">
+            Explore All Flagships
+          </Button>
+
+          <Link
+            href={current.slug}
+            className="group hidden md:inline-flex items-center gap-2 px-5 py-3.5 rounded-sm border border-white/15 bg-white/5 hover:border-[var(--color-cobalt)] transition-all duration-300 text-[0.6875rem] uppercase tracking-[0.14em] font-light text-white/80 hover:text-white"
+          >
+            <span>Live Case: {current.title}</span>
+            <span className="group-hover:translate-x-0.5 transition-transform text-[var(--color-cobalt)]">→</span>
+          </Link>
+        </div>
       </div>
 
-      {/* ── Thin vertical rule: architectural separator (desktop only) ────── */}
-      <div
-        className="hidden lg:block absolute top-0 bottom-0 w-px z-10 opacity-30"
-        style={{ left: '46%', backgroundColor: 'var(--color-border-strong)' }}
-        aria-hidden="true"
-      />
+      {/* ── Bottom: Red Bull-Style Interactive Featured Media Ticker ─────── */}
+      <div className="relative z-10 w-full border-t border-white/10 bg-[#0A0B0E]/80 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          {/* Label + Controls */}
+          <div className="flex items-center justify-between pt-3 pb-2 text-[0.625rem] uppercase tracking-[0.2em] font-light text-white/50">
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-cobalt)]" />
+              FEATURED PRODUCTIONS // SELECT TO PREVIEW
+            </span>
+            <span className="hidden sm:inline">04 VERIFIED CASE STUDIES</span>
+          </div>
 
-      {/* ── Mobile: media below text, 4:5 crop ─────────────────────────────── */}
-      <div className="lg:hidden w-full aspect-[4/5] relative" aria-hidden="true">
-        <HeroMedia />
-      </div>
+          {/* 4-Card Grid Ticker */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 pb-4">
+            {HERO_PROJECTS.map((project, index) => {
+              const isSelected = index === activeProject
 
-      {/* ── Right: Media panel — ~56% width, full-bleed top/right/bottom ────── */}
-      {/* On desktop: absolutely positioned to fill the right ~56% of viewport,
-          stretching from top:0 to bottom:0, flushed to the right edge. */}
-      <div
-        className="hidden lg:block absolute top-0 right-0 bottom-0"
-        style={{ left: '46%' }}
-        aria-hidden="true"
-      >
-        <HeroMedia />
+              return (
+                <button
+                  key={project.id}
+                  type="button"
+                  onClick={() => setActiveProject(index)}
+                  className={[
+                    'group relative text-left p-2.5 sm:p-3 rounded-sm border transition-all duration-300 flex items-start gap-3',
+                    isSelected
+                      ? 'border-[var(--color-cobalt)] bg-white/10 shadow-[0_0_20px_rgba(49,87,255,0.25)]'
+                      : 'border-white/10 bg-white/[0.03] hover:border-white/30 hover:bg-white/[0.06]',
+                  ].join(' ')}
+                >
+                  {/* Thumbnail */}
+                  <div className="relative w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-xs overflow-hidden bg-black/50 border border-white/10">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      sizes="56px"
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+
+                  {/* Text details */}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-1 mb-0.5">
+                      <span className="text-[0.625rem] font-extralight tracking-[0.16em] text-[var(--color-cobalt)]">
+                        {project.number}
+                      </span>
+                      <span className="text-[0.5625rem] font-light tracking-[0.1em] text-white/40 uppercase truncate">
+                        {project.metric}
+                      </span>
+                    </div>
+
+                    <p className="text-xs sm:text-sm font-light text-white truncate group-hover:text-[var(--color-cobalt)] transition-colors">
+                      {project.title}
+                    </p>
+
+                    <p className="text-[0.625rem] font-extralight tracking-[0.08em] text-white/60 uppercase truncate">
+                      {project.discipline}
+                    </p>
+                  </div>
+
+                  {/* Active Indicator Bar */}
+                  {isSelected && (
+                    <div
+                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--color-cobalt)]"
+                      aria-hidden="true"
+                    />
+                  )}
+                </button>
+              )
+            })}
+          </div>
+        </div>
       </div>
     </section>
   )

@@ -14,7 +14,7 @@ function isActiveLink(pathname: string | null | undefined, href: string): boolea
   return pathname === href || pathname.startsWith(href + '/')
 }
 
-const DARK_CHAPTERS = new Set(['graphite', 'wine', 'petrol'])
+const DARK_CHAPTERS = new Set(['graphite', 'wine', 'petrol', 'hero'])
 
 // ─── Navigation ──────────────────────────────────────────────────────────────
 
@@ -145,7 +145,7 @@ export function Navigation() {
                 className={[
                   'hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 md:px-4 md:py-2 text-[0.625rem] md:text-[0.6875rem] font-light tracking-[0.1em] uppercase transition-all duration-[var(--duration-base)] rounded-[var(--radius-sm)] border',
                   isDarkChapter && !menuOpen
-                    ? 'border-white/20 text-[var(--color-ivory)] hover:border-white hover:bg-white/10'
+                    ? 'border-[var(--color-cobalt)] bg-[var(--color-cobalt)] text-white hover:bg-white hover:text-black hover:border-white shadow-[0_0_15px_rgba(49,87,255,0.3)]'
                     : 'border-[var(--color-border-strong)] text-[var(--color-graphite)] hover:border-[var(--color-cobalt)] hover:text-[var(--color-cobalt)]',
                 ].join(' ')}
               >
