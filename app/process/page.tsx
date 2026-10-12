@@ -5,6 +5,7 @@ import { Eyebrow } from '@/components/ui/Eyebrow'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { Button } from '@/components/ui/Button'
 import { PageHero } from '@/components/ui/PageHero'
+import { CtaBanner } from '@/components/ui/CtaBanner'
 import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = generatePageMetadata({
@@ -208,33 +209,20 @@ export default function ProcessPage() {
                 </RevealOnScroll>
               ))}
             </div>
-
-            {/* Bottom Closing CTA */}
-            <div className="mt-24 border-t border-[var(--color-border)] pt-16">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                  <h2 className="text-display-s mb-4 font-extralight">Apply this methodology to your project</h2>
-                  <p className="text-secondary font-light mb-8 max-w-md">
-                    Tell us about your technical requirements and we will review how these seven stages configure around your release goals.
-                  </p>
-                  <Button as="link" href="/start-a-project" variant="primary" size="md">
-                    Initiate Stage 01 ↗
-                  </Button>
-                </div>
-                <div className="border border-[var(--color-border)] p-6 bg-[var(--color-ivory-light)]">
-                  <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)] block mb-2">
-                    GOVERNANCE STANDARD
-                  </span>
-                  <p className="text-xs font-light text-[var(--color-graphite-mid)] leading-relaxed">
-                    Every stage features an explicit binary decision gate. Capital is never committed to subsequent phases until deliverables for the active milestone pass technical review.
-                  </p>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
+
+      <CtaBanner
+        eyebrow="COMMISSIONS OPEN // SEVEN-STAGE DELIVERY"
+        headline="Apply this disciplined"
+        italicAccent="methodology to your release."
+        description="Tell us about your technical requirements and commercial objectives. All engagements are governed by strict milestones and binary decision gates."
+        primaryCta={{ label: 'Initiate Stage 01', href: '/start-a-project' }}
+        secondaryCta={{ label: 'Explore Engineering Disciplines', href: '/services' }}
+        theme="petrol"
+        watermark="DELIVERY"
+      />
     </>
   )
 }

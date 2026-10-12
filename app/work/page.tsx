@@ -5,6 +5,7 @@ import { generatePageMetadata } from '@/lib/metadata'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { Button } from '@/components/ui/Button'
 import { PageHero } from '@/components/ui/PageHero'
+import { CtaBanner } from '@/components/ui/CtaBanner'
 import { getPublishedProjects } from '@/content/projects'
 import { siteConfig } from '@/content/config/site'
 
@@ -319,6 +320,17 @@ export default function WorkPage() {
           </RevealOnScroll>
         </div>
       </div>
+
+      <CtaBanner
+        eyebrow="COMMISSIONS OPEN // SELECTED WORK"
+        headline="Ready to deploy verified"
+        italicAccent="production architecture?"
+        description="Tell us about the digital flagship or commercial platform you need to build. All projects are scoped directly with senior engineering principals."
+        primaryCta={{ label: 'Start a Project', href: '/start-a-project' }}
+        secondaryCta={{ label: 'Explore Engineering Disciplines', href: '/services' }}
+        theme="wine"
+        watermark="WORK"
+      />
     </>
   )
 }

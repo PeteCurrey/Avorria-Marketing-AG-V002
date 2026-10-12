@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { getCategoryBySlug, getAllCategories, getPublishedArticles } from '@/lib/lobby'
 import { generatePageMetadata } from '@/lib/metadata'
 import { siteConfig } from '@/content/config/site'
+import { EditorialCard } from '@/components/ui/EditorialCard'
+import { getArticleImageMeta, getArticleDiscipline } from '@/components/lobby/LobbyArticleImage'
 
 export const revalidate = 3600
 
@@ -31,17 +33,14 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   }
 
   const title = category.seoTitle || `${category.name} — The Lobby — Avorria`
-  const description = category.seoDescription || category.description || `Editorial intelligence and analysis on ${category.name}.`
+  const description =
+    category.seoDescription || category.description || `Editorial intelligence and analysis on ${category.name}.`
 
   return generatePageMetadata({
     title,
     description,
     path: `/lobby/category/${category.slug}`,
   })
-}
-
-function fmt(iso: string) {
-  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
 export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
@@ -63,7 +62,12 @@ export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
       { '@type': 'ListItem', position: 2, name: 'The Lobby', item: `${siteConfig.url}/lobby` },
-      { '@type': 'ListItem', position: 3, name: category.name, item: `${siteConfig.url}/lobby/category/${category.slug}` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: category.name,
+        item: `${siteConfig.url}/lobby/category/${category.slug}`,
+      },
     ],
   }
 
@@ -76,7 +80,6 @@ export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
 
       <div className="min-h-screen bg-[var(--color-ivory)] pt-28 pb-24">
         <div className="container-max container-content">
-
           {/* ── Breadcrumb ──────────────────────────────────────────────── */}
           <nav aria-label="Breadcrumb" className="mb-10">
             <ol className="flex items-center gap-2 text-[0.6875rem] font-light tracking-[0.12em] uppercase text-[var(--color-graphite-muted)]">
@@ -95,20 +98,20 @@ export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
           {/* ── Category Header ─────────────────────────────────────────── */}
           <header className="border-b border-[var(--color-border)] pb-10 mb-12">
             <p className="text-[0.6875rem] font-light tracking-[0.2em] uppercase text-[var(--color-graphite-muted)] mb-3">
-              Category
+              EDITORIAL DOSSIER
             </p>
-            <h1 className="text-[var(--text-display-l)] font-[200] tracking-[var(--tracking-heading)] text-[var(--color-graphite)] leading-[1.05] mb-4">
+            <h1 className="text-[clamp(2.25rem,4.5vw,4.5rem)] font-extralight tracking-tight text-[var(--color-graphite)] leading-[1.05] mb-4">
               {category.name}
             </h1>
             {category.description && (
-              <p className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] max-w-[560px] leading-relaxed mb-6">
+              <p className="text-[1.0625rem] font-light text-[var(--color-graphite-mid)] max-w-[620px] leading-relaxed mb-8">
                 {category.description}
               </p>
             )}
 
             {/* Sub-nav for categories */}
             <nav aria-label="All Lobby categories" className="overflow-x-auto pt-4 border-t border-[var(--color-border)]">
-              <ul className="flex gap-0 min-w-max">
+              <ul className="flex gap-0 min-w-max" role="list">
                 <li>
                   <Link
                     href="/lobby"
@@ -138,43 +141,45 @@ export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
             </nav>
           </header>
 
-          {/* ── Dispatches List ─────────────────────────────────────────── */}
+          {/* ── Dispatches Grid ─────────────────────────────────────────── */}
           {articles.length > 0 ? (
-            <section aria-labelledby="category-articles-heading" className="space-y-0">
-              <p id="category-articles-heading" className="sr-only">
-                Articles in {category.name}
-              </p>
-              <ul role="list">
-                {articles.map((article) => (
-                  <li key={article.slug} className="border-t border-[var(--color-border)]">
-                    <Link
+            <section aria-labelledby="category-articles-heading">
+              <div className="flex items-center justify-between pb-4 mb-8 border-b border-[var(--color-border)] text-[0.6875rem] font-light tracking-[0.16em] uppercase text-[var(--color-graphite-muted)]">
+                <span id="category-articles-heading">{articles.length} DISPATCHES PUBLISHED</span>
+                <span>VERIFIED INTELLIGENCE</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {articles.map((article) => {
+                  const imgMeta = getArticleImageMeta(article)
+                  const discipline = getArticleDiscipline(article)
+                  return (
+                    <EditorialCard
+                      key={article.slug}
                       href={`/lobby/${article.slug}`}
-                      className="group flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 py-6 hover:border-[var(--color-border-strong)] transition-colors duration-200"
-                    >
-                      <div className="max-w-[680px]">
-                        <h2 className="text-[var(--text-heading)] font-light text-[var(--color-graphite)] group-hover:text-[var(--color-accent)] transition-colors duration-200 mb-2">
-                          {article.title}
-                        </h2>
-                        <p className="text-[var(--text-small)] font-light text-[var(--color-graphite-mid)] line-clamp-2 leading-relaxed">
-                          {article.excerpt ?? article.dek}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-4 shrink-0 text-[0.6875rem] font-light tracking-[0.1em] uppercase text-[var(--color-graphite-muted)]">
-                        <span>{fmt(article.publishedAt)}</span>
-                        <span aria-hidden="true">·</span>
-                        <span>{article.readingTimeMinutes ?? article.readTimeMinutes ?? 5} min read</span>
-                        <span
-                          className="text-[var(--color-graphite-muted)] group-hover:text-[var(--color-accent)] group-hover:translate-x-1 transition-all duration-200"
-                          aria-hidden="true"
-                        >
-                          →
-                        </span>
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-                <li className="border-t border-[var(--color-border)]" aria-hidden="true" />
-              </ul>
+                      title={article.title}
+                      excerpt={article.excerpt ?? article.dek}
+                      category={`${discipline.label} · ${category.name}`}
+                      categoryHref={`/lobby/category/${category.slug}`}
+                      readTime={article.readingTimeMinutes ?? article.readTimeMinutes ?? 5}
+                      date={
+                        article.publishedAt
+                          ? new Date(article.publishedAt)
+                              .toLocaleDateString('en-GB', {
+                                month: 'short',
+                                year: 'numeric',
+                              })
+                              .toUpperCase()
+                          : undefined
+                      }
+                      image={imgMeta.src}
+                      imageAlt={article.title}
+                      metric={discipline.badgeText}
+                      size="standard"
+                    />
+                  )
+                })}
+              </div>
             </section>
           ) : (
             <div className="py-20 border-t border-[var(--color-border)] text-center">
@@ -192,7 +197,6 @@ export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
               </Link>
             </div>
           )}
-
         </div>
       </div>
     </>

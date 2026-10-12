@@ -7,6 +7,7 @@ import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { Eyebrow } from '@/components/ui/Eyebrow'
 import { PageHero } from '@/components/ui/PageHero'
 import { Button } from '@/components/ui/Button'
+import { CtaBanner } from '@/components/ui/CtaBanner'
 import { getPublishedServices } from '@/content/services'
 import { siteConfig } from '@/content/config/site'
 
@@ -184,33 +185,20 @@ export default function ServicesPage() {
                 )
               })}
             </div>
-
-            {/* Bottom Closing CTA */}
-            <div className="mt-24 border-t border-[var(--color-border)] pt-16">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                  <h2 className="text-display-s mb-4 font-extralight">Ready to initiate an engagement?</h2>
-                  <p className="text-secondary font-light mb-8 max-w-md">
-                    Tell us about your digital infrastructure requirements and we will review feasibility within one business day.
-                  </p>
-                  <Button as="link" href="/start-a-project" variant="primary" size="md">
-                    Start a project ↗
-                  </Button>
-                </div>
-                <div className="border border-[var(--color-border)] p-6 bg-[var(--color-ivory-light)]">
-                  <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)] block mb-2">
-                    DEPLOYMENT GUARANTEE
-                  </span>
-                  <p className="text-xs font-light text-[var(--color-graphite-mid)] leading-relaxed">
-                    We never deploy untested templates or offshore code. All architecture is authored in-house under strict TypeScript and validated against Core Web Vitals standards.
-                  </p>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
+
+      <CtaBanner
+        eyebrow="COMMISSIONS OPEN // ENGINEERING DISCIPLINES"
+        headline="Ready to initiate a"
+        italicAccent="disciplined engagement?"
+        description="Tell us about your digital infrastructure requirements and we will review feasibility and technical scope within one business day."
+        primaryCta={{ label: 'Start a Project', href: '/start-a-project' }}
+        secondaryCta={{ label: 'View Verified Work', href: '/work' }}
+        theme="wine"
+        watermark="SERVICES"
+      />
     </>
   )
 }

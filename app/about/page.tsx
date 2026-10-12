@@ -3,6 +3,8 @@ import { generatePageMetadata } from '@/lib/metadata'
 import { Button } from '@/components/ui/Button'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { PageHero } from '@/components/ui/PageHero'
+import { SectionHeading } from '@/components/ui/SectionHeading'
+import { CtaBanner } from '@/components/ui/CtaBanner'
 import { FounderSection } from '@/components/about/FounderSection'
 import { TeamSection } from '@/components/about/TeamSection'
 import { siteConfig } from '@/content/config/site'
@@ -121,53 +123,61 @@ export default function AboutPage() {
           <div className="container-content">
 
             {/* 02 // Philosophy / Belief: Two-Column Editorial Thesis */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24">
-              <RevealOnScroll>
-                <div className="space-y-6 text-secondary leading-relaxed font-light">
-                  <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)] block mb-2">
-                    01 // PURPOSE & POSITIONING
-                  </span>
-                  <p className="text-xl text-[var(--color-graphite)] font-light leading-relaxed">
-                    Most digital agencies design to win portfolio awards rather than solve commercial problems. We take a different position: technology is only valuable when it improves a process, eliminates friction, or creates durable commercial leverage.
-                  </p>
-                  <p>
-                    We operate without account managers, offshore handoffs, or junior delivery queues. When you partner with Avorria, you collaborate directly with senior practitioners who author both the architectural specification and the production code.
-                  </p>
-                  <p>
-                    We build digital flagships, high-frequency trading terminals, geospatial intelligence platforms, and automated workflow engines. The common thread is technical precision and operational reliability.
-                  </p>
-                </div>
-              </RevealOnScroll>
+            <section className="mb-24 border-b border-[var(--color-border)] pb-20" aria-label="Studio philosophy">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+                <RevealOnScroll>
+                  <SectionHeading
+                    number="01"
+                    eyebrow="PURPOSE & POSITIONING"
+                    title="Technology must earn its place."
+                    align="left"
+                    className="mb-6"
+                  />
+                  <div className="space-y-6 text-secondary leading-relaxed font-light">
+                    <p className="text-xl text-[var(--color-graphite)] font-light leading-relaxed">
+                      Most digital agencies design to win portfolio awards rather than solve commercial problems. We take a different position: technology is only valuable when it improves a process, eliminates friction, or creates durable commercial leverage.
+                    </p>
+                    <p>
+                      We operate without account managers, offshore handoffs, or junior delivery queues. When you partner with Avorria, you collaborate directly with senior practitioners who author both the architectural specification and the production code.
+                    </p>
+                    <p>
+                      We build digital flagships, high-frequency trading terminals, geospatial intelligence platforms, and automated workflow engines. The common thread is technical precision and operational reliability.
+                    </p>
+                  </div>
+                </RevealOnScroll>
 
-              <RevealOnScroll delay={120}>
-                <div className="space-y-6 text-secondary leading-relaxed font-light">
-                  <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)] block mb-2">
-                    02 // ARCHITECTURAL CONVERGENCE
-                  </span>
-                  <p className="text-xl text-[var(--color-graphite)] font-light leading-relaxed">
-                    The boundaries between website, application, data, and AI have dissolved. Modern commercial success requires them to function as a singular, coherent digital apparatus.
-                  </p>
-                  <p>
-                    A beautiful marketing website that fails to synchronize with back-office databases is an expensive brochure. An intelligent AI agent without strict deterministic boundaries is a liability.
-                  </p>
-                  <p>
-                    By maintaining deep in-house mastery across front-end rendering engines (Next.js 16, Three.js), spatial relational databases (PostgreSQL/PostGIS), and deterministic AI models, we deliver systems that compound in value over time.
-                  </p>
-                </div>
-              </RevealOnScroll>
-            </div>
+                <RevealOnScroll delay={120}>
+                  <SectionHeading
+                    number="02"
+                    eyebrow="ARCHITECTURAL CONVERGENCE"
+                    title="One coherent digital apparatus."
+                    align="left"
+                    className="mb-6"
+                  />
+                  <div className="space-y-6 text-secondary leading-relaxed font-light">
+                    <p className="text-xl text-[var(--color-graphite)] font-light leading-relaxed">
+                      The boundaries between website, application, data, and AI have dissolved. Modern commercial success requires them to function as a singular, coherent digital apparatus.
+                    </p>
+                    <p>
+                      A beautiful marketing website that fails to synchronize with back-office databases is an expensive brochure. An intelligent AI agent without strict deterministic boundaries is a liability.
+                    </p>
+                    <p>
+                      By maintaining deep in-house mastery across front-end rendering engines (Next.js 16, Three.js), spatial relational databases (PostgreSQL/PostGIS), and deterministic AI models, we deliver systems that compound in value over time.
+                    </p>
+                  </div>
+                </RevealOnScroll>
+              </div>
+            </section>
 
             {/* 03 // What We Build: Core Technical Disciplines */}
-            <div>
-              <div className="flex items-center gap-4 mb-4">
-                <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)]">
-                  03 // WHAT WE BUILD
-                </span>
-                <span className="h-px w-10 bg-[var(--color-border-strong)]" aria-hidden="true" />
-              </div>
-              <h2 className="text-display-s font-extralight text-[var(--color-graphite)] tracking-tight mb-8">
-                Three compounding disciplines.
-              </h2>
+            <section className="mb-24" aria-label="Core technical disciplines">
+              <SectionHeading
+                number="03"
+                eyebrow="WHAT WE BUILD"
+                title="Three compounding disciplines."
+                align="left"
+                className="mb-8"
+              />
               <div className="space-y-0">
                 {DISCIPLINES.map((d, i) => (
                   <RevealOnScroll key={d.title} delay={i * 60}>
@@ -182,7 +192,7 @@ export default function AboutPage() {
                 ))}
                 <div className="border-t border-[var(--color-border)]" aria-hidden="true" />
               </div>
-            </div>
+            </section>
 
           </div>
         </div>
@@ -194,63 +204,55 @@ export default function AboutPage() {
       {/* ── 05 // Meet The Team: The People Behind The Work ─────────────────── */}
       <TeamSection />
 
-      {/* ── 06 // Approach & 07 Final CTA ───────────────────────────────────── */}
+      {/* ── 06 // What We Refuse ─────────────────────────────────────────────── */}
       <div className="section-y-large border-t border-[var(--color-border)] bg-[var(--color-ivory)]">
         <div className="container-max">
           <div className="container-content">
 
-            {/* 06 // What Avorria Refuses To Do (Operational Boundaries) */}
-            <div className="border border-[var(--color-border)] bg-[var(--color-ivory-light)] p-8 md:p-12 mb-24">
-              <div className="flex items-center justify-between pb-6 mb-8 border-b border-[var(--color-border)] text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)]">
-                <span className="text-[var(--color-rose-text)]">06 // OPERATIONAL BOUNDARIES</span>
-                <span>WHAT WE DELIBERATELY REFUSE</span>
-              </div>
+            <section aria-label="Operational boundaries">
+              <SectionHeading
+                number="06"
+                eyebrow="OPERATIONAL BOUNDARIES"
+                accentEyebrow="rose"
+                title="What we deliberately"
+                italicAccent="refuse."
+                align="left"
+                className="mb-10"
+              />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {WHAT_WE_REFUSE.map((item, idx) => (
-                  <div key={idx} className="border-l border-[var(--color-border-strong)] pl-4 space-y-2">
-                    <span className="text-xs font-light text-[var(--color-graphite)] uppercase tracking-wider block">
-                      {item.principle}
-                    </span>
-                    <p className="text-xs font-light text-[var(--color-graphite-mid)] leading-relaxed">
-                      {item.explanation}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 07 // Final CTA: Initiate an exploratory discussion */}
-            <div className="border-t border-[var(--color-border)] pt-16">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                  <h2 className="text-display-s mb-4 font-extralight">Initiate an exploratory discussion</h2>
-                  <p className="text-secondary font-light mb-8 max-w-md">
-                    Tell us about the digital system or platform you need to build.
-                  </p>
-                  <div className="flex flex-wrap gap-4">
-                    <Button as="link" href="/start-a-project" variant="primary" size="md">
-                      Start a project ↗
-                    </Button>
-                    <Button as="link" href="/contact" variant="secondary" size="md">
-                      Contact Studio
-                    </Button>
-                  </div>
-                </div>
-                <div className="border border-[var(--color-border)] p-6 bg-[var(--color-ivory-light)]">
-                  <span className="text-[10px] tracking-[0.2em] uppercase font-light text-[var(--color-graphite-muted)] block mb-2">
-                    INSTITUTIONAL INTEGRITY
-                  </span>
-                  <p className="text-xs font-light text-[var(--color-graphite-mid)] leading-relaxed">
-                    Avorria operates as an owner-led studio based in the United Kingdom. We do not participate in competitive unpaid multi-agency spec pitches. Engagements are accepted based on technical feasibility and commercial alignment.
-                  </p>
+              <div className="border border-[var(--color-border)] bg-[var(--color-ivory-light)] p-8 md:p-12 mb-24">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {WHAT_WE_REFUSE.map((item, idx) => (
+                    <RevealOnScroll key={idx} delay={idx * 60}>
+                      <div className="border-l border-[var(--color-border-strong)] pl-4 space-y-2">
+                        <span className="text-xs font-light text-[var(--color-graphite)] uppercase tracking-wider block">
+                          {item.principle}
+                        </span>
+                        <p className="text-xs font-light text-[var(--color-graphite-mid)] leading-relaxed">
+                          {item.explanation}
+                        </p>
+                      </div>
+                    </RevealOnScroll>
+                  ))}
                 </div>
               </div>
-            </div>
+            </section>
 
           </div>
         </div>
       </div>
+
+      {/* ── 07 // Final CTA — CtaBanner wine ─────────────────────────────────── */}
+      <CtaBanner
+        eyebrow="COMMISSIONS OPEN // ABOUT"
+        headline="Initiate an exploratory"
+        italicAccent="discussion."
+        description="Tell us about the digital system or platform you need to build. Avorria operates as an owner-led studio — no account managers, no offshore handoffs."
+        primaryCta={{ label: 'Start a project', href: '/start-a-project' }}
+        secondaryCta={{ label: 'Contact Studio', href: '/contact' }}
+        theme="wine"
+        watermark="STUDIO"
+      />
     </>
   )
 }

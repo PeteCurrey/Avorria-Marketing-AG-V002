@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { generatePageMetadata } from '@/lib/metadata'
 import { Button } from '@/components/ui/Button'
+import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { PageHero } from '@/components/ui/PageHero'
+import { SectionHeading } from '@/components/ui/SectionHeading'
 import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = generatePageMetadata({
@@ -118,17 +120,16 @@ export default function ContactPage() {
         <div className="container-max">
           <div className="container-content">
 
-            {/* ── What we are for ──────────────────────────────────── */}
+            {/* ── 01 // What we are for ──────────────────────────────────── */}
             <section className="py-20 md:py-24 border-b border-[var(--color-border)]" aria-label="Enquiry types">
+              <SectionHeading
+                number="01"
+                eyebrow="WE CAN HELP WITH"
+                title="What we build."
+                align="left"
+                className="mb-10"
+              />
               <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-16">
-                <div>
-                  <p className="text-label-upper text-[var(--color-graphite-mid)] mb-4 font-light">
-                    WE CAN HELP WITH
-                  </p>
-                  <h2 className="text-display-s font-extralight tracking-tight text-[var(--color-graphite)] uppercase max-w-[280px]">
-                    What we build.
-                  </h2>
-                </div>
                 <div className="border border-[var(--color-border)] divide-y divide-[var(--color-border)]">
                   {ENQUIRY_TYPES.map((type) => (
                     <a
@@ -145,50 +146,67 @@ export default function ContactPage() {
                     </a>
                   ))}
                 </div>
+                <div className="space-y-6 text-secondary font-light leading-relaxed text-sm">
+                  <p>
+                    Avorria is not a generalist digital agency. We work across three technical disciplines — Build, Search, and Systems — each requiring specialist engineering depth rather than broad account management.
+                  </p>
+                  <p>
+                    Select the most relevant category above to begin. Every path leads to the same outcome: a direct conversation with a senior practitioner who understands the technical problem you are describing.
+                  </p>
+                </div>
               </div>
             </section>
 
-            {/* ── Qualification process ────────────────────────────── */}
+            {/* ── 02 // Qualification process ────────────────────────────── */}
             <section className="py-20 md:py-28 border-b border-[var(--color-border)]" aria-label="Our process">
-              <div className="mb-16">
-                <p className="text-label-upper text-[var(--color-graphite-mid)] mb-3 font-light">
-                  HOW WE ENGAGE // PROCESS
-                </p>
-                <h2 className="text-display-s font-extralight tracking-tight text-[var(--color-graphite)] uppercase max-w-[500px]">
-                  What happens after you enquire.
-                </h2>
-              </div>
+              <SectionHeading
+                number="02"
+                eyebrow="HOW WE ENGAGE"
+                title="What happens after"
+                italicAccent="you enquire."
+                align="left"
+                className="mb-10"
+              />
 
               <div className="space-y-0 divide-y divide-[var(--color-border)] border border-[var(--color-border)]">
                 {INTAKE_STEPS.map((step) => (
-                  <div
-                    key={step.number}
-                    className="grid grid-cols-1 md:grid-cols-[80px_1fr] gap-0"
-                  >
-                    <div className="border-r-0 md:border-r border-[var(--color-border)] p-6 md:p-8 flex items-start justify-start md:justify-center pt-8">
-                      <span className="text-[var(--color-graphite-mid)] font-extralight text-[1.5rem] tracking-tight">
-                        {step.number}
-                      </span>
+                  <RevealOnScroll key={step.number}>
+                    <div
+                      className="grid grid-cols-1 md:grid-cols-[80px_1fr] gap-0"
+                    >
+                      <div className="border-r-0 md:border-r border-[var(--color-border)] p-6 md:p-8 flex items-start justify-start md:justify-center pt-8">
+                        <span className="text-[var(--color-graphite-mid)] font-extralight text-[1.5rem] tracking-tight">
+                          {step.number}
+                        </span>
+                      </div>
+                      <div className="p-6 md:p-8">
+                        <h3 className="text-[var(--text-body)] font-light text-[var(--color-graphite)] mb-3 uppercase tracking-[0.06em]">
+                          {step.title}
+                        </h3>
+                        <p className="text-[var(--text-small)] font-light text-secondary leading-relaxed">
+                          {step.body}
+                        </p>
+                      </div>
                     </div>
-                    <div className="p-6 md:p-8">
-                      <h3 className="text-[var(--text-body)] font-light text-[var(--color-graphite)] mb-3 uppercase tracking-[0.06em]">
-                        {step.title}
-                      </h3>
-                      <p className="text-[var(--text-small)] font-light text-secondary leading-relaxed">
-                        {step.body}
-                      </p>
-                    </div>
-                  </div>
+                  </RevealOnScroll>
                 ))}
               </div>
             </section>
 
-            {/* ── Direct contact ───────────────────────────────────── */}
+            {/* ── 03 // Direct contact ───────────────────────────────────── */}
             <section className="py-20 md:py-28" aria-label="Direct contact">
+              <SectionHeading
+                number="03"
+                eyebrow="DIRECT CONTACT"
+                title="Get in touch."
+                align="left"
+                className="mb-10"
+              />
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
                 <div>
                   <p className="text-label-upper text-[var(--color-graphite-mid)] mb-6 font-light">
-                    DIRECT CONTACT // GENERAL ENQUIRIES
+                    GENERAL ENQUIRIES
                   </p>
                   <a
                     href={`mailto:${siteConfig.email.hello}`}

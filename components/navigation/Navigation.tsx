@@ -103,26 +103,54 @@ export function Navigation() {
               <AvorriaMark inverted={isDarkChapter && !menuOpen} />
             </Link>
 
-            {/* Right cluster: The Lobby link + hamburger */}
-            <div className="flex items-center gap-5">
+            {/* Center: Persistent Desktop Navigation Links */}
+            <div className="hidden lg:flex items-center gap-8">
+              {[
+                { label: 'Work', href: '/work' },
+                { label: 'Services', href: '/services' },
+                { label: 'Process', href: '/process' },
+                { label: 'The Lobby', href: '/lobby' },
+              ].map(({ label, href }) => {
+                const active = isActiveLink(pathname, href)
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={closeMenu}
+                    className={[
+                      'text-[0.6875rem] font-light tracking-[0.06em] uppercase',
+                      'transition-colors duration-[var(--duration-base)] link-hover',
+                      'focus-visible:outline-2 focus-visible:outline-offset-4',
+                      isDarkChapter && !menuOpen
+                        ? active
+                          ? 'text-[var(--color-ivory)]'
+                          : 'text-[var(--color-accent-light)] hover:text-[var(--color-ivory)]'
+                        : active
+                          ? 'text-[var(--color-graphite)]'
+                          : 'text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)]',
+                    ].join(' ')}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {label}
+                  </Link>
+                )
+              })}
+            </div>
+
+            {/* Right cluster: Persistent Ghost CTA + hamburger */}
+            <div className="flex items-center gap-4 md:gap-5">
               <Link
-                href="/lobby"
+                href="/start-a-project"
                 onClick={closeMenu}
                 className={[
-                  'hidden lg:block text-[0.6875rem] font-light tracking-[0.04em]',
-                  'transition-colors duration-[var(--duration-base)] link-hover',
-                  'focus-visible:outline-2 focus-visible:outline-offset-4',
+                  'hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 md:px-4 md:py-2 text-[0.625rem] md:text-[0.6875rem] font-light tracking-[0.1em] uppercase transition-all duration-[var(--duration-base)] rounded-[var(--radius-sm)] border',
                   isDarkChapter && !menuOpen
-                    ? isActiveLink(pathname, '/lobby')
-                      ? 'text-[var(--color-ivory)]'
-                      : 'text-[var(--color-accent-light)] hover:text-[var(--color-ivory)]'
-                    : isActiveLink(pathname, '/lobby')
-                      ? 'text-[var(--color-graphite)]'
-                      : 'text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)]',
+                    ? 'border-white/20 text-[var(--color-ivory)] hover:border-white hover:bg-white/10'
+                    : 'border-[var(--color-border-strong)] text-[var(--color-graphite)] hover:border-[var(--color-cobalt)] hover:text-[var(--color-cobalt)]',
                 ].join(' ')}
-                aria-current={isActiveLink(pathname, '/lobby') ? 'page' : undefined}
               >
-                The Lobby
+                <span>Start a Project</span>
+                <span className="text-[0.75rem]" aria-hidden="true">↗</span>
               </Link>
 
               {/* Hamburger — precise, no pill, no background */}

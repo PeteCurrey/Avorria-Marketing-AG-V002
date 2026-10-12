@@ -37,11 +37,14 @@ export const metadata: Metadata = {
  * 7. Lobby: stone
  * 8. Final CTA: wine
  */
+import { ProofRail } from '@/components/home/ProofRail'
+
 export default function HomePage() {
   return (
     <>
       <Hero />
       <Positioning />
+      <ProofRail />
       <Capabilities />
       <SelectedWork />
       <SystemsDiagram />

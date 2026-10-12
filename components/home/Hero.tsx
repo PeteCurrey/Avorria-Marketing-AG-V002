@@ -58,7 +58,7 @@ export function Hero() {
             {/* Cobalt pulse dot — small creative navigation detail */}
             <span
               className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse"
-              style={{ backgroundColor: 'var(--color-accent)' }}
+              style={{ backgroundColor: 'var(--color-cobalt)' }}
               aria-hidden="true"
             />
             DIGITAL PRODUCTS · SYSTEMS · INTELLIGENCE
@@ -108,9 +108,9 @@ export function Hero() {
             and high-performance websites for ambitious businesses.
           </p>
 
-          {/* CTAs — side by side per Aurora */}
+          {/* CTAs — side by side */}
           <div className="hero-ctas flex flex-row flex-wrap gap-4">
-            <Button as="link" href="/start-a-project" variant="primary" size="lg">
+            <Button as="link" href="/start-a-project" variant="cobalt" size="lg">
               Start a project{' '}
               <span className="btn-arrow" aria-hidden="true">↗</span>
             </Button>

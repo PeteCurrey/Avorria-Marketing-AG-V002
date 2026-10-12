@@ -4,6 +4,7 @@ import { generatePageMetadata } from '@/lib/metadata'
 import { PRICING_MODELS, COST_DRIVERS } from '@/content/pricing'
 import { Button } from '@/components/ui/Button'
 import { PageHero } from '@/components/ui/PageHero'
+import { CtaBanner } from '@/components/ui/CtaBanner'
 import { siteConfig } from '@/content/config/site'
 
 export const metadata: Metadata = generatePageMetadata({
@@ -310,36 +311,20 @@ export default function PricingPage() {
               </div>
             </section>
 
-            {/* ── CTA ─────────────────────────────────────────────── */}
-            <section className="border-t border-[var(--color-border)] py-20 md:py-28" aria-label="Next step">
-              <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 items-end">
-                <div>
-                  <p className="text-label-upper text-[var(--color-graphite-mid)] mb-6 font-light">
-                    NEXT STEP // SCOPE YOUR PROJECT
-                  </p>
-                  <h2 className="text-display-s font-extralight tracking-tight text-[var(--color-graphite)] uppercase max-w-[600px] mb-6">
-                    Ready to scope an engagement?
-                  </h2>
-                  <p className="text-[var(--text-body)] font-light text-secondary leading-relaxed max-w-[560px]">
-                    The best starting point is our project intake form — it takes 4
-                    minutes and gives us the context to respond meaningfully. No
-                    sales calls before we understand your project.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-4 shrink-0">
-                  <Button as="link" href="/start-a-project" variant="primary" size="lg">
-                    Scope a project ↗
-                  </Button>
-                  <Button as="link" href="/contact" variant="ghost" size="md">
-                    Ask a question first
-                  </Button>
-                </div>
-              </div>
-            </section>
-
           </div>
         </div>
       </div>
+
+      <CtaBanner
+        eyebrow="COMMISSIONS OPEN // FIXED-SCOPE ECONOMICS"
+        headline="Ready to scope an"
+        italicAccent="engagement with Avorria?"
+        description="Our project intake form takes 4 minutes and gives us the engineering context to respond meaningfully. No sales calls before we understand your architecture."
+        primaryCta={{ label: 'Scope a Project', href: '/start-a-project' }}
+        secondaryCta={{ label: 'Ask a Question First', href: '/contact' }}
+        theme="wine"
+        watermark="PRICING"
+      />
     </>
   )
 }

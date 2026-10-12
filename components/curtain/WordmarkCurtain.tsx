@@ -79,9 +79,12 @@ export function WordmarkCurtain() {
 
       {/* Centered Wordmark */}
       <div className="my-auto text-center">
-        <h1 className="text-3xl md:text-5xl font-extralight tracking-[0.25em] text-[var(--color-graphite)] uppercase select-none">
+        <div
+          role="presentation"
+          className="text-3xl md:text-5xl font-extralight tracking-[0.25em] text-[var(--color-graphite)] uppercase select-none"
+        >
           AVORRIA
-        </h1>
+        </div>
         <div className="flex items-center justify-center gap-3 mt-4 text-[10px] tracking-[0.22em] text-[var(--color-graphite-mid)] uppercase">
           <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] animate-pulse" />
           <span>DIGITAL PRODUCTS · SYSTEMS · INTELLIGENCE</span>
