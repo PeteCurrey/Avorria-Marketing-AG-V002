@@ -4,18 +4,19 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 /**
- * Hero — Red Bull "Panoptikum" Flagship Carousel Duplicate
+ * Hero — Red Bull "Panoptikum" Flagship Stage: Avorria Marketing & AI
  *
- * Exact Red Bull architecture from redbull.com/gb-en:
+ * Rebuilt to focus on Avorria Marketing & Technology Studio:
  * - Edge-to-edge 100dvh media stage
- * - Ambient Ken Burns zoom animation (`panoptikum-carousel__image-zoom`)
+ * - Ambient Ken Burns zoom animation (`hero-kb-image`)
  * - Deep multi-layer dark gradient scrim (transparent -> #000F1E)
  * - Bottom-left anchored editorial layout:
- *   - Category Pill Tag: "01 // BUILD · 3D FLAGSHIP"
+ *   - Category Pill Tag: "AVORRIA MARKETING · DIGITAL PRODUCTS · AI SYSTEMS"
  *   - Display Title: Work Sans 200 uppercase monumental clamp
- *   - Standfirst Summary: High scannability text clamp
- *   - Red Bull Pill CTA Button: Shape pill with right arrow
- * - Bottom slide indicator / progress bar track
+ *     "Websites & AI Systems // Built for Market Growth."
+ *   - Standfirst Summary: Direct commercial agency positioning
+ *   - Red Bull Pill CTA Buttons: "Start a Project →" and "Explore Disciplines"
+ * - Bottom slide / discipline progress bar
  */
 export function Hero() {
   return (
@@ -34,13 +35,13 @@ export function Hero() {
         aria-hidden="true"
       >
         <Image
-          src="/images/cinematic/work-alkota.jpg"
-          alt="Alkota Bikes — sub-second titanium geometry platform"
+          src="/images/hero/avorria-marketing-ai.jpg"
+          alt="Avorria Marketing & AI — Digital Flagships and Intelligent Web Systems"
           fill
           priority
           sizes="100vw"
           className="object-cover object-center"
-          style={{ filter: 'brightness(0.68) contrast(1.1)' }}
+          style={{ filter: 'brightness(0.65) contrast(1.12)' }}
         />
       </div>
 
@@ -50,7 +51,7 @@ export function Hero() {
         aria-hidden="true"
         style={{
           background:
-            'radial-gradient(circle at 70% 30%, rgba(0, 15, 30, 0.1) 0%, rgba(0, 15, 30, 0.6) 70%, #000F1E 100%)',
+            'radial-gradient(circle at 70% 30%, rgba(0, 15, 30, 0.1) 0%, rgba(0, 15, 30, 0.65) 70%, #000F1E 100%)',
         }}
       />
       <div
@@ -58,7 +59,7 @@ export function Hero() {
         aria-hidden="true"
         style={{
           background:
-            'linear-gradient(to top, #000F1E 0%, rgba(0, 15, 30, 0.85) 25%, rgba(0, 15, 30, 0.4) 60%, transparent 100%)',
+            'linear-gradient(to top, #000F1E 0%, rgba(0, 15, 30, 0.88) 30%, rgba(0, 15, 30, 0.45) 65%, transparent 100%)',
         }}
       />
       <div
@@ -66,7 +67,7 @@ export function Hero() {
         aria-hidden="true"
         style={{
           background:
-            'linear-gradient(to right, rgba(0, 15, 30, 0.8) 0%, rgba(0, 15, 30, 0.3) 50%, transparent 100%)',
+            'linear-gradient(to right, rgba(0, 15, 30, 0.85) 0%, rgba(0, 15, 30, 0.4) 55%, transparent 100%)',
         }}
       />
 
@@ -89,7 +90,7 @@ export function Hero() {
                 className="w-1.5 h-1.5 rounded-full bg-white/90 shrink-0"
                 aria-hidden="true"
               />
-              01 // BUILD · 3D FLAGSHIP
+              AVORRIA MARKETING · DIGITAL PRODUCTS · AI SYSTEMS
             </span>
           </div>
 
@@ -104,32 +105,32 @@ export function Hero() {
           >
             <span className="hero-line-mask block overflow-hidden pb-[0.06em]">
               <span className="hero-line-inner-1 block">
-                Alkota Bikes:
+                Websites &amp; AI Systems
               </span>
             </span>
             <span className="hero-line-mask block overflow-hidden pb-[0.06em]">
               <span className="hero-line-inner-2 block text-white/90">
-                Titanium Frame Engineering.
+                Built for Market Growth.
               </span>
             </span>
           </h1>
 
-          {/* Standfirst Summary Clamped */}
+          {/* Standfirst Summary Clamped — Avorria Marketing Core Mission */}
           <p
             className="font-light text-white/75 text-base sm:text-lg max-w-2xl mb-6 sm:mb-8 leading-relaxed"
             style={{ fontSize: 'clamp(0.95rem, 1.4vw, 1.25rem)' }}
           >
-            Avorria engineered a sub-second WebGL configuration engine replacing bloated 38-script off-the-shelf platforms with zero layout shift and 0.62s verified LCP.
+            Avorria is a bespoke digital marketing and technology studio. We engineer high-converting digital flagships, technical search architecture, and autonomous AI systems for companies operating across borders.
           </p>
 
-          {/* Red Bull Pill Button CTA */}
-          <div className="hero-cta-link flex items-center gap-4">
+          {/* Red Bull Pill Button CTAs */}
+          <div className="hero-cta-link flex flex-wrap items-center gap-4">
             <Link
-              href="/work/alkota-bikes"
+              href="/start-a-project"
               className="rb-pill-btn rb-pill-btn-primary group"
               style={{ padding: '0.65rem 1.6rem', fontSize: '0.875rem' }}
             >
-              Read Case Study
+              Start a Project
               <span
                 className="transition-transform duration-200 group-hover:translate-x-1"
                 aria-hidden="true"
@@ -139,23 +140,27 @@ export function Hero() {
             </Link>
 
             <Link
-              href="/work"
+              href="/services"
               className="rb-pill-btn rb-pill-btn-tertiary"
               style={{ padding: '0.65rem 1.4rem', fontSize: '0.875rem' }}
             >
-              All Projects
+              Explore Disciplines
             </Link>
           </div>
         </div>
 
-        {/* ── Red Bull Bottom Scroll / Slide Indicator ─────────────── */}
-        <div className="mt-10 sm:mt-12 flex items-center gap-4 max-w-xs">
+        {/* ── Red Bull Bottom Scroll / Discipline Indicator ─────────── */}
+        <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row sm:items-center gap-4 max-w-md">
           <div className="rb-scroll-indicator flex-1">
             <div className="rb-scroll-indicator__bar" style={{ width: '33%' }} />
           </div>
-          <span className="text-[0.6875rem] font-light text-white/40 tracking-[0.1em] uppercase">
-            01 / 03
-          </span>
+          <div className="flex items-center gap-3 text-[0.6875rem] font-light text-white/40 tracking-[0.1em] uppercase">
+            <span className="text-white/80">01 // BUILD</span>
+            <span>·</span>
+            <span>02 // SEARCH</span>
+            <span>·</span>
+            <span>03 // SYSTEMS</span>
+          </div>
         </div>
       </div>
     </section>
