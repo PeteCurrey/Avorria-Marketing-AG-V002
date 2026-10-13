@@ -19,8 +19,8 @@ export function Eyebrow({
   withDot = false,
 }: EyebrowProps) {
   const dotColorMap: Record<string, string> = {
-    default: 'var(--color-accent)',
-    cobalt: 'var(--color-cobalt)',
+    default: 'var(--color-cobalt, #3157FF)',
+    cobalt: 'var(--color-cobalt, #3157FF)',
     coral: 'var(--color-coral)',
     chartreuse: 'var(--color-chartreuse)',
     rose: 'var(--color-rose-text)',

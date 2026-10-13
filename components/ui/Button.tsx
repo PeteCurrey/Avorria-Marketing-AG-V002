@@ -97,7 +97,7 @@ export function Button(props: ButtonProps) {
   const classes = [
     variantStyles[variant],
     variant !== 'text' ? sizeStyles[size] : '',
-    'rounded-[var(--radius-sm)]',
+    'rounded-full',
     disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer',
     className,
   ]

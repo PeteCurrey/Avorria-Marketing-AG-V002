@@ -23,18 +23,18 @@
      - On Wine/Petrol: use Ivory (#F7F5F0) and Rose Light (#E8D4D6) for text
      - All pairs verified WCAG 2.2 AA (see contrast table in implementation_plan.md)
      ─────────────────────────────────────────────────────────────────────── */
-  /* Neutrals — warm ivory & stone foundation (~70% coverage per Directive 30) */
-  --color-ivory:          #F6F4EF;   /* canonical warm ivory (#F6F4EF) — primary page background */
-  --color-ivory-warm:     #EDE9E3;   /* deeper warm ivory for hover / inset surfaces */
-  --color-ivory-dark:     #E8E5DE;   /* Soft Stone: warm neutral chapter ground */
-  --color-ivory-border:   #DDD8D0;
-  --color-stone:          #E8E5DE;   /* Soft Stone (#E8E5DE) — subtle section separation, borders, secondary */
-  --color-graphite:       #181818;   /* canonical Graphite (#181818) — primary text & dark sections */
-  --color-graphite-mid:   #4A4845;
-  --color-graphite-muted: #8A8784;   /* metadata / decorative only */
-  --color-border:         rgba(24, 24, 24, 0.12); /* 1px solid subtle border per Section 30.14 */
-  --color-border-strong:  #C0BAB3;
-  --color-white:          #FFFFFF;   /* Pure White (#FFFFFF) — contrast, card surfaces, image framing */
+  /* Neutrals — Red Bull Midnight foundation */
+  --color-ivory:          #000F1E;   /* Red Bull Dark Obsidian (#000F1E) — primary page background */
+  --color-ivory-warm:     #00162B;   /* Deep Navy */
+  --color-ivory-dark:     #001C39;   /* Navy Slate */
+  --color-ivory-border:   rgba(255, 255, 255, 0.1);
+  --color-stone:          #00162B;   /* Deep Navy card surface */
+  --color-graphite:       #FFFFFF;   /* Primary text: Crisp Pure White */
+  --color-graphite-mid:   #94A3B8;   /* Secondary text: Crisp Slate */
+  --color-graphite-muted: rgba(255, 255, 255, 0.45); /* Metadata / subtle */
+  --color-border:         rgba(255, 255, 255, 0.1);  /* 1px glass border */
+  --color-border-strong:  rgba(255, 255, 255, 0.22);
+  --color-white:          #FFFFFF;   /* Pure White */
 
   /* Creative accents (~5–10% events / punctuation only per Directive 30) */
   --color-cobalt:         #3157FF;   /* Primary interactive accent (#3157FF) — CTAs, links, active states */
@@ -755,24 +755,24 @@
     transform: scaleX(1);
   }
 
-  /* ── Section chapter backgrounds ── */
-  .section-ivory      { background-color: var(--color-ivory); }
-  .section-stone      { background-color: var(--color-stone); }
-  .section-white      { background-color: var(--color-white); }
-  .section-ivory-tint { background-color: var(--color-stone); }
-  .section-graphite   { background-color: var(--color-graphite); color: var(--color-ivory); }
-  .section-wine       { background-color: var(--color-wine); color: var(--color-ivory); }
-  .section-petrol     { background-color: var(--color-petrol); color: var(--color-ivory); }
+  /* ── Section chapter backgrounds — Red Bull Dark Foundation ── */
+  .section-ivory      { background-color: #000F1E; color: #FFFFFF; }
+  .section-stone      { background-color: #00162B; color: #FFFFFF; }
+  .section-white      { background-color: #00162B; color: #FFFFFF; }
+  .section-ivory-tint { background-color: #001C39; color: #FFFFFF; }
+  .section-graphite   { background-color: #000F1E; color: #FFFFFF; }
+  .section-wine       { background-color: #001C39; color: #FFFFFF; }
+  .section-petrol     { background-color: #002447; color: #FFFFFF; }
 
   /* ── Chapter system — art-direction layer ────────────────────────────────
      data-chapter attribute drives background, typography palette, and automatic header inversion.
      Usage: <section data-chapter="ivory"> etc.
      ─────────────────────────────────────────────────────────────────────── */
-  [data-chapter="ivory"]        { background-color: var(--color-ivory); color: var(--color-graphite); }
-  [data-chapter="stone"]        { background-color: var(--color-stone); color: var(--color-graphite); }
-  [data-chapter="graphite"]     { background-color: var(--color-graphite); color: var(--color-ivory); }
-  [data-chapter="wine"]         { background-color: var(--color-wine); color: var(--color-ivory); }
-  [data-chapter="petrol"]       { background-color: var(--color-petrol); color: var(--color-ivory); }
+  [data-chapter="ivory"]        { background-color: #000F1E; color: #FFFFFF; }
+  [data-chapter="stone"]        { background-color: #00162B; color: #FFFFFF; }
+  [data-chapter="graphite"]     { background-color: #000F1E; color: #FFFFFF; }
+  [data-chapter="wine"]         { background-color: #001C39; color: #FFFFFF; }
+  [data-chapter="petrol"]       { background-color: #002447; color: #FFFFFF; }
   [data-chapter="photographic"] { position: relative; }
 
   /* Tone-on-tone sculptural section numerals (never bold, weight 200) */

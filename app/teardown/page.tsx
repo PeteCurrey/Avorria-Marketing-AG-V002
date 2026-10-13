@@ -141,9 +141,9 @@ export default function TeardownPage() {
               <div className="pt-2">
                 <Link
                   href="/start-a-project?track=teardown"
-                  className="inline-flex px-8 py-4 bg-white text-black text-xs uppercase tracking-[0.2em] font-light hover:bg-white/90 transition-colors"
+                  className="rb-pill-btn rb-pill-btn-primary"
                 >
-                  Initiate Confidential Teardown
+                  Initiate Confidential Teardown →
                 </Link>
               </div>
             </div>

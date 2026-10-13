@@ -100,7 +100,7 @@ export default async function LobbyIndexPage() {
       <LobbyHero article={featured} />
 
       {/* ── 02. Sticky Publication Section Navigation ────────────────────────── */}
-      <div className="sticky top-16 md:top-20 z-30 bg-white/95 backdrop-blur-md px-6 md:px-10 lg:px-[7vw] border-b border-[var(--color-border)]">
+      <div className="sticky top-14 md:top-16 z-30 bg-[#000F1E]/90 backdrop-blur-xl px-6 md:px-10 lg:px-[7vw] border-b border-white/10">
         <LobbyCategoryNav categories={categories} activeSlug="all" />
       </div>
 

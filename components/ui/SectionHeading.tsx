@@ -63,27 +63,20 @@ export function SectionHeading({
         >
           <div className="max-w-3xl">
             <h2
-              className={`font-extralight leading-[1.04] tracking-[-0.025em] text-[clamp(2.25rem,5vw,5.5rem)] ${
-                isDark ? 'text-[var(--color-ivory)]' : 'text-[var(--color-graphite)]'
-              }`}
+              className="font-extralight leading-[1.04] tracking-[-0.025em] text-[clamp(2.25rem,5vw,5.5rem)] text-white"
             >
               {title}{' '}
               {italicAccent && (
-                <em
-                  className="not-italic italic font-extralight"
-                  style={{
-                    color: isDark ? 'var(--color-accent-light)' : 'var(--color-rose-text)',
-                  }}
+                <span
+                  className="text-[var(--color-cobalt, #3157FF)]"
                 >
                   {italicAccent}
-                </em>
+                </span>
               )}
             </h2>
             {description && (
               <p
-                className={`mt-4 text-base lg:text-lg font-light leading-relaxed max-w-2xl ${
-                  isDark ? 'text-white/70' : 'text-[var(--color-graphite-mid)]'
-                }`}
+                className="mt-4 text-base lg:text-lg font-light leading-relaxed max-w-2xl text-white/70"
               >
                 {description}
               </p>

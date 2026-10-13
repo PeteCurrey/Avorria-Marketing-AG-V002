@@ -7,6 +7,12 @@ interface LobbyHeroProps {
   article?: LobbyArticle | null
 }
 
+/**
+ * LobbyHero — Red Bull Digital Platform Lead Story Stage
+ *
+ * Full-screen media plate for The Lobby with Ken Burns zoom,
+ * pill category tags, and Red Bull pill CTAs.
+ */
 export function LobbyHero({ article }: LobbyHeroProps) {
   const imageMeta = article
     ? getArticleImageMeta(article)
@@ -20,50 +26,66 @@ export function LobbyHero({ article }: LobbyHeroProps) {
 
   return (
     <section
-      className="-mt-16 md:-mt-20 relative flex flex-col justify-end min-h-[92svh] lg:min-h-[95svh] w-full overflow-hidden"
-      data-chapter="photographic"
+      className="relative flex flex-col justify-end min-h-[92svh] lg:min-h-[95svh] w-full overflow-hidden bg-[#000F1E] text-white"
+      style={{
+        marginTop: 'calc(-1 * var(--nav-height, 68px))',
+      }}
+      data-chapter="hero"
       aria-labelledby="lobby-hero-heading"
     >
-      {/* ── Full-Bleed Editorial Plate — confident, image-first art direction ── */}
-      <div className="absolute inset-0 z-0 select-none pointer-events-none" aria-hidden="true">
+      {/* ── Background Media: Ken Burns Ambient Zoom ─────────────── */}
+      <div className="absolute inset-0 z-0 hero-kb-image overflow-hidden" aria-hidden="true">
         <Image
           src={imageMeta.src}
           alt={imageMeta.alt}
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center filter contrast-[1.03]"
+          className="object-cover object-center filter contrast-[1.08] brightness-[0.7]"
         />
-        {/* Deep architectural grounding gradient — guarantees WCAG AAA on Ivory text */}
+        {/* Multi-layer Gradient Scrim for AAA contrast */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(to top, rgba(26,25,22,0.94) 0%, rgba(26,25,22,0.65) 45%, rgba(26,25,22,0.2) 80%, rgba(26,25,22,0.45) 100%)',
+              'linear-gradient(to top, #000F1E 0%, rgba(0,15,30,0.85) 40%, rgba(0,15,30,0.3) 75%, transparent 100%)',
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to right, rgba(0,15,30,0.85) 0%, rgba(0,15,30,0.4) 60%, transparent 100%)',
           }}
         />
       </div>
 
-      {/* ── Content: Overlaid on featured story plate ── */}
-      <div className="relative z-10 w-full px-6 md:px-10 lg:px-[7vw] pt-28 pb-14 md:pb-18">
+      {/* ── Content: Overlaid on featured story plate ─────────────── */}
+      <div
+        className="relative z-10 w-full mx-auto max-w-[1920px] pb-14 md:pb-20"
+        style={{
+          paddingInline: 'clamp(1.25rem, 5vw, 5rem)',
+          paddingTop: 'clamp(7rem, 15vh, 10rem)',
+        }}
+      >
         <div className="max-w-[960px]">
-          {/* Eyebrow & Discipline Pill */}
+          {/* Eyebrow & Category Pill */}
           <div className="flex flex-wrap items-center gap-3 mb-5">
             <span
-              className="w-1.5 h-1.5 rounded-full"
-              style={{ backgroundColor: discipline?.accentColor ?? 'var(--color-accent)' }}
-              aria-hidden="true"
-            />
-            <p className="text-[0.6875rem] font-light tracking-[0.2em] uppercase text-[var(--color-accent-light)] opacity-90">
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[0.6875rem] uppercase tracking-[0.16em] font-light text-white bg-white/10 backdrop-blur-md border border-white/15"
+            >
+              <span
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: discipline?.accentColor ?? 'var(--color-cobalt, #3157FF)' }}
+                aria-hidden="true"
+              />
               THE LOBBY · LEAD STORY · {category}
-            </p>
+            </span>
+
             {discipline && (
-              <>
-                <span className="text-white/30" aria-hidden="true">/</span>
-                <span className="text-[0.625rem] font-light tracking-[0.16em] uppercase text-white/70 border border-white/20 px-2 py-0.5">
-                  {discipline.badgeText}
-                </span>
-              </>
+              <span className="text-[0.625rem] font-light tracking-[0.14em] uppercase text-white/60 border border-white/10 px-2.5 py-0.5 rounded-full">
+                {discipline.badgeText}
+              </span>
             )}
           </div>
 
@@ -71,8 +93,7 @@ export function LobbyHero({ article }: LobbyHeroProps) {
           <Link href={articleHref} className="group block mb-6">
             <h1
               id="lobby-hero-heading"
-              className="text-[clamp(2.5rem,6vw,6rem)] font-extralight tracking-[-0.03em] leading-[1.02] group-hover:text-[var(--color-accent-light)] transition-colors duration-200"
-              style={{ color: 'var(--color-ivory)' }}
+              className="text-[clamp(2.5rem,6vw,5.5rem)] font-extralight tracking-[-0.03em] uppercase leading-[0.98] text-white group-hover:text-[var(--color-cobalt, #3157FF)] transition-colors duration-200"
             >
               {title}
             </h1>
@@ -80,18 +101,18 @@ export function LobbyHero({ article }: LobbyHeroProps) {
 
           {/* Supporting Excerpt */}
           <p
-            className="text-[1.125rem] sm:text-[1.25rem] font-light leading-relaxed max-w-[62ch] mb-8"
-            style={{ color: 'var(--color-ivory)', opacity: 0.85 }}
+            className="text-base sm:text-lg font-light leading-relaxed max-w-[62ch] mb-8 text-white/75"
           >
             {excerpt}
           </p>
 
-          {/* Actions Cluster */}
+          {/* Red Bull Pill Button CTAs */}
           <div className="flex flex-wrap items-center gap-4">
             {article && (
               <Link
                 href={articleHref}
-                className="inline-flex items-center gap-2 text-xs font-light tracking-[0.12em] uppercase px-5 py-3 transition-colors duration-200 !bg-[var(--color-ivory)] !text-[var(--color-graphite)] hover:!bg-white"
+                className="rb-pill-btn rb-pill-btn-primary"
+                style={{ padding: '0.65rem 1.6rem', fontSize: '0.875rem' }}
               >
                 <span>Read Story ({readTime} Min)</span>
                 <span aria-hidden="true">→</span>
@@ -100,11 +121,8 @@ export function LobbyHero({ article }: LobbyHeroProps) {
 
             <Link
               href="/lobby/search"
-              className="text-xs font-light tracking-[0.12em] uppercase px-4 py-3 transition-colors duration-200"
-              style={{
-                color: 'var(--color-ivory)',
-                border: '1px solid rgba(247,245,240,0.3)',
-              }}
+              className="rb-pill-btn rb-pill-btn-tertiary"
+              style={{ padding: '0.65rem 1.4rem', fontSize: '0.875rem' }}
               aria-label="Search The Lobby articles"
             >
               Search Archive
@@ -112,12 +130,8 @@ export function LobbyHero({ article }: LobbyHeroProps) {
 
             <Link
               href="/lobby/rss.xml"
-              className="text-xs font-light tracking-[0.12em] uppercase px-4 py-3 transition-colors duration-200"
-              style={{
-                color: 'var(--color-ivory)',
-                opacity: 0.6,
-                border: '1px solid rgba(247,245,240,0.15)',
-              }}
+              className="rb-pill-btn rb-pill-btn-tertiary"
+              style={{ padding: '0.65rem 1.2rem', fontSize: '0.875rem', opacity: 0.7 }}
               aria-label="RSS feed for The Lobby"
             >
               RSS Feed
@@ -126,20 +140,17 @@ export function LobbyHero({ article }: LobbyHeroProps) {
         </div>
 
         {/* Scroll cue */}
-        <div className="mt-14 pt-6 flex items-center justify-between" style={{ borderTop: '1px solid rgba(247,245,240,0.15)' }}>
+        <div className="mt-14 pt-6 flex items-center justify-between border-t border-white/10 text-white/40">
           <div className="flex items-center gap-3">
-            <div
-              className="w-6 h-6 rounded-full flex items-center justify-center text-xs"
-              style={{ border: '1px solid rgba(247,245,240,0.3)', color: 'var(--color-ivory)' }}
-            >
+            <div className="w-6 h-6 rounded-full border border-white/20 flex items-center justify-center text-xs text-white/60">
               ↓
             </div>
-            <span className="text-[0.625rem] tracking-[0.2em] uppercase font-light text-[var(--color-ivory)] opacity-60">
+            <span className="text-[0.625rem] tracking-[0.2em] uppercase font-light text-white/50">
               EXPLORE ALL DISPATCHES
             </span>
           </div>
 
-          <div className="hidden sm:flex items-center gap-4 text-[0.625rem] tracking-[0.2em] uppercase font-light text-[var(--color-ivory)] opacity-40">
+          <div className="hidden sm:flex items-center gap-4 text-[0.625rem] tracking-[0.2em] uppercase font-light text-white/40">
             <span>AVORRIA EDITORIAL</span>
             <span>·</span>
             <span>ZERO VENDOR SPONSORSHIP</span>

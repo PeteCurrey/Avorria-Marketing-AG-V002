@@ -25,7 +25,7 @@ export function LobbyCategoryNav({ categories, activeSlug = 'all' }: LobbyCatego
   return (
     <nav
       aria-label="Publication sections"
-      className="w-full border-b border-[var(--color-border)] py-4 overflow-x-auto no-scrollbar"
+      className="w-full border-b border-white/10 py-4 overflow-x-auto no-scrollbar"
     >
       <div className="flex items-center justify-between gap-8 min-w-max">
         {/* Editorial Section Tabs */}
@@ -39,14 +39,14 @@ export function LobbyCategoryNav({ categories, activeSlug = 'all' }: LobbyCatego
                   className={[
                     'relative px-3 sm:px-4 py-2 block text-[0.6875rem] font-light tracking-[0.16em] uppercase transition-colors duration-200',
                     isActive
-                      ? 'text-[var(--color-graphite)]'
-                      : 'text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)]',
+                      ? 'text-white'
+                      : 'text-white/60 hover:text-white',
                   ].join(' ')}
                 >
                   {item.label}
                   {isActive && (
                     <span
-                      className="absolute bottom-0 left-3 right-3 sm:left-4 sm:right-4 h-[1.5px] bg-[var(--color-graphite)]"
+                      className="absolute bottom-0 left-3 right-3 sm:left-4 sm:right-4 h-[2px] bg-[var(--color-cobalt, #3157FF)] rounded-full"
                       aria-hidden="true"
                     />
                   )}

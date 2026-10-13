@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
-import { Button } from '@/components/ui/Button'
 
 export interface CtaBannerProps {
   eyebrow?: string
@@ -14,10 +13,10 @@ export interface CtaBannerProps {
 }
 
 /**
- * CtaBanner — Phase 2 Reusable Conversion Banner
+ * CtaBanner — Red Bull Dark Conversion Banner
  *
- * Implements monumental architectural statement typography, watermarking,
- * and high-contrast dual CTA clusters across any chapter color theme.
+ * Implements monumental statement typography, watermarking,
+ * and Red Bull pill CTAs across all inner pages.
  */
 export function CtaBanner({
   eyebrow = 'COMMISSIONS OPEN',
@@ -26,121 +25,77 @@ export function CtaBanner({
   description,
   primaryCta,
   secondaryCta,
-  theme = 'wine',
   watermark = 'AVORRIA',
 }: CtaBannerProps) {
-  const isLight = theme === 'ivory'
-
-  const themeStyles: Record<string, { bg: string; text: string; subtext: string; border: string }> = {
-    wine: {
-      bg: 'var(--color-wine)',
-      text: 'var(--color-ivory)',
-      subtext: 'rgba(247,245,240,0.75)',
-      border: 'rgba(247,245,240,0.15)',
-    },
-    petrol: {
-      bg: 'var(--color-petrol)',
-      text: 'var(--color-ivory)',
-      subtext: 'rgba(247,245,240,0.75)',
-      border: 'rgba(247,245,240,0.15)',
-    },
-    graphite: {
-      bg: 'var(--color-graphite)',
-      text: 'var(--color-ivory)',
-      subtext: 'rgba(247,245,240,0.75)',
-      border: 'rgba(247,245,240,0.15)',
-    },
-    ivory: {
-      bg: 'var(--color-ivory)',
-      text: 'var(--color-graphite)',
-      subtext: 'var(--color-graphite-mid)',
-      border: 'var(--color-border)',
-    },
-  }
-
-  const currentTheme = themeStyles[theme]
-
   return (
     <section
-      className="relative overflow-hidden py-20 lg:py-28"
-      style={{ backgroundColor: currentTheme.bg, color: currentTheme.text }}
-      data-chapter={theme}
+      className="relative overflow-hidden py-20 lg:py-28 bg-[#000F1E] border-t border-white/10 text-white"
+      data-chapter="hero"
       aria-label="Conversion banner"
     >
       {/* Background Watermark */}
       {watermark && (
         <div
-          className="absolute bottom-2 right-[4vw] pointer-events-none select-none text-[clamp(6rem,18vw,16rem)] font-extralight italic opacity-[0.03] leading-none tracking-tight"
+          className="absolute bottom-2 right-[4vw] pointer-events-none select-none text-[clamp(6rem,18vw,16rem)] font-extralight uppercase opacity-[0.03] leading-none tracking-tight"
           aria-hidden="true"
         >
           {watermark}
         </div>
       )}
 
-      <div className="relative z-10 w-full px-6 md:px-10 lg:px-[7vw]">
+      <div className="relative z-10 w-full mx-auto max-w-[1920px]" style={{ paddingInline: 'clamp(1.25rem, 5vw, 5rem)' }}>
         <RevealOnScroll>
           <div className="max-w-4xl">
-            {/* Eyebrow */}
+            {/* Eyebrow Pill */}
             <div className="flex items-center gap-3 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-cobalt)]" aria-hidden="true" />
-              <p className="text-[0.6875rem] tracking-[0.2em] uppercase font-light opacity-80">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-cobalt, #3157FF)]" aria-hidden="true" />
+              <p className="text-[0.6875rem] tracking-[0.2em] uppercase font-light text-white/60">
                 {eyebrow}
               </p>
             </div>
 
             {/* Headline */}
-            <h2 className="font-extralight leading-[1.04] tracking-[-0.025em] text-[clamp(2.5rem,5.5vw,5.5rem)] mb-6">
+            <h2 className="font-extralight uppercase leading-[1.0] tracking-[-0.03em] text-[clamp(2.5rem,5.5vw,5.5rem)] mb-6">
               {headline}{' '}
               {italicAccent && (
-                <em
-                  className="not-italic italic font-extralight"
-                  style={{
-                    color: isLight ? 'var(--color-rose-text)' : 'var(--color-accent-light)',
-                  }}
-                >
+                <span className="text-[var(--color-cobalt, #3157FF)]">
                   {italicAccent}
-                </em>
+                </span>
               )}
             </h2>
 
             {/* Description */}
-            <p
-              className="text-base sm:text-lg font-light max-w-2xl mb-10 leading-relaxed"
-              style={{ color: currentTheme.subtext }}
-            >
+            <p className="text-base sm:text-lg font-light text-white/70 max-w-2xl mb-10 leading-relaxed">
               {description}
             </p>
 
-            {/* CTAs */}
+            {/* Red Bull Pill CTAs */}
             <div className="flex flex-wrap gap-4 items-center">
-              <Button
-                as="link"
+              <Link
                 href={primaryCta.href}
-                variant={isLight ? 'primary' : 'cobalt'}
-                size="lg"
+                className="rb-pill-btn rb-pill-btn-primary"
+                style={{ padding: '0.65rem 1.6rem', fontSize: '0.875rem' }}
               >
-                {primaryCta.label} <span aria-hidden="true">↗</span>
-              </Button>
+                {primaryCta.label}
+                <span aria-hidden="true">→</span>
+              </Link>
               {secondaryCta && (
-                <Button
-                  as="link"
+                <Link
                   href={secondaryCta.href}
-                  variant="secondary"
-                  size="lg"
-                  className={!isLight ? 'btn-dark-outline' : ''}
+                  className="rb-pill-btn rb-pill-btn-tertiary"
+                  style={{ padding: '0.65rem 1.4rem', fontSize: '0.875rem' }}
                 >
                   {secondaryCta.label}
-                </Button>
+                </Link>
               )}
             </div>
 
             {/* Verification Line */}
             <div
-              className="mt-16 pt-6 flex flex-wrap items-center justify-between gap-4 text-[10px] tracking-[0.2em] uppercase font-light opacity-60"
-              style={{ borderTop: `1px solid ${currentTheme.border}` }}
+              className="mt-16 pt-6 flex flex-wrap items-center justify-between gap-4 text-[0.6875rem] tracking-[0.16em] uppercase font-light text-white/40 border-t border-white/10"
             >
-              <span>AVORRIA DIGITAL STUDIO</span>
-              <span>ZERO SPECULATIVE PITCHING · DIRECT PRINCIPAL DELIVERY</span>
+              <span>AVORRIA DIGITAL PLATFORM</span>
+              <span>DIRECT PRINCIPAL ENGAGEMENT · ZERO PITCH THEATRE</span>
             </div>
           </div>
         </RevealOnScroll>
