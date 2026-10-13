@@ -32,7 +32,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <SmoothScrollProvider>
       <ScrollProgress />
       <Navigation />
-      <main id="main-content" className="pt-16 md:pt-20">
+      <main id="main-content" style={{ paddingTop: 'var(--nav-height, 0px)' }}>
         {children}
       </main>
       <Footer />

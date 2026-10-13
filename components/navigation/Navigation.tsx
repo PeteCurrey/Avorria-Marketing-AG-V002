@@ -6,7 +6,24 @@ import { useEffect, useRef, useState } from 'react'
 import { track } from '@/lib/analytics'
 import { FullScreenMenu } from './FullScreenMenu'
 
-// ─── Helper ──────────────────────────────────────────────────────────────────
+/**
+ * Navigation — Red Bull Faithful Duplication
+ *
+ * Exact Red Bull layout from redbull.com/gb-en:
+ * - THREE-ZONE: Logo left · Category links center · Search right
+ * - Fully transparent over hero (no background)
+ * - On scroll > 10px: rgba(0,0,0,0.75) + backdrop-blur(12px) 
+ * - Always white text (hero is always dark)
+ * - Nav links: underline draws from left on hover (scaleX 0→1)
+ * - On non-hero light pages: switches to dark text on ivory bg
+ *
+ * Animations:
+ * - Logo: opacity:0 → 1, delay 100ms, 400ms ease
+ * - Links: staggered opacity:0 → 1, 50ms per item from 200ms
+ * - Link hover: ::after underline scaleX(0→1), 300ms cubic-bezier(0.25,1,0.5,1)
+ * - Scroll bg: transition background 300ms ease
+ * - Mobile menu: slide-in from top, 350ms ease-out
+ */
 
 function isActiveLink(pathname: string | null | undefined, href: string): boolean {
   if (!pathname) return false
@@ -14,9 +31,18 @@ function isActiveLink(pathname: string | null | undefined, href: string): boolea
   return pathname === href || pathname.startsWith(href + '/')
 }
 
+// Pages where the hero is dark (nav always white)
+const ALWAYS_WHITE_PATHS = new Set(['/'])
+// Chapters that are dark-bg (nav text inverts to white)
 const DARK_CHAPTERS = new Set(['graphite', 'wine', 'petrol', 'hero'])
 
-// ─── Navigation ──────────────────────────────────────────────────────────────
+const NAV_LINKS = [
+  { label: 'Work', href: '/work' },
+  { label: 'Build', href: '/services/build' },
+  { label: 'Search', href: '/services/search' },
+  { label: 'Systems', href: '/services/systems' },
+  { label: 'The Lobby', href: '/lobby' },
+]
 
 export function Navigation() {
   const pathname = usePathname()
@@ -25,17 +51,21 @@ export function Navigation() {
   const [isDarkChapter, setIsDarkChapter] = useState(false)
   const hamburgerRef = useRef<HTMLButtonElement>(null)
 
-  // Header scroll & dark-chapter inversion detection
+  // Always white on homepage (hero is always dark)
+  const isHomepage = pathname === '/'
+  const useWhiteText = isHomepage || isDarkChapter
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY
-      setScrolled(scrollY > 20)
+      setScrolled(scrollY > 10)
 
-      // Find section currently beneath the header (around y = 50px)
+      if (isHomepage) return // homepage always white
+
+      // Dark chapter detection for other pages
       const headerY = 50
       const chapterSections = document.querySelectorAll<HTMLElement>('[data-chapter]')
       let currentDark = false
-
       for (const section of chapterSections) {
         const rect = section.getBoundingClientRect()
         if (rect.top <= headerY && rect.bottom >= headerY) {
@@ -46,16 +76,14 @@ export function Navigation() {
           break
         }
       }
-
       setIsDarkChapter(currentDark)
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll() // Initial check on mount
+    handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [pathname])
+  }, [pathname, isHomepage])
 
-  // Close on route change
   useEffect(() => {
     setMenuOpen(false)
   }, [pathname])
@@ -64,159 +92,183 @@ export function Navigation() {
     setMenuOpen(true)
     track('nav_menu_open', {})
   }
-
   function closeMenu() {
     setMenuOpen(false)
   }
 
+  // Background: transparent on unscrolled hero, dark glass on scroll
+  const navBg = menuOpen
+    ? 'bg-transparent'
+    : scrolled
+      ? useWhiteText
+        ? 'bg-black/75 backdrop-blur-xl'
+        : 'bg-white/90 backdrop-blur-xl border-b border-black/5'
+      : 'bg-transparent'
+
+  const textColor = useWhiteText && !menuOpen
+    ? 'text-white'
+    : 'text-[var(--color-graphite)]'
+
   return (
     <>
-      {/* ── Fixed Header Bar ── */}
+      {/* ── Fixed Header ──────────────────────────────────────────────── */}
       <header
         className={[
           'fixed top-0 left-0 right-0 z-50',
-          menuOpen
-            ? 'bg-transparent'
-            : scrolled
-              ? isDarkChapter
-                // Dark chapters: thin graphite veil — petrol/wine/graphite bleeds through
-                ? 'bg-[#1A1916]/30 backdrop-blur-2xl'
-                // Light chapters: thin ivory veil — stone/ivory warmth bleeds through
-                : 'bg-[#F7F5F0]/40 backdrop-blur-2xl'
-              : 'bg-transparent',
-          'transition-all duration-[var(--duration-base)]',
+          'transition-all duration-300 ease-out',
+          navBg,
         ].join(' ')}
         role="banner"
       >
-        <div className="w-full px-6 md:px-10 lg:px-[7vw]">
+        {/* 3-zone layout: logo · links · actions */}
+        <div
+          className="flex items-center justify-between"
+          style={{
+            height: 'clamp(52px, 5vw, 68px)',
+            padding: '0 clamp(1.25rem, 4vw, 3rem)',
+          }}
+        >
+          {/* ── Left: Wordmark ──────────────────────────────────────── */}
+          <Link
+            href="/"
+            onClick={closeMenu}
+            className={['shrink-0 nav-wordmark', textColor].join(' ')}
+            aria-label="Avorria — Home"
+          >
+            <span
+              className="font-extralight tracking-[0.22em] uppercase leading-none"
+              style={{ fontSize: 'clamp(0.875rem, 1.2vw, 1rem)' }}
+            >
+              AVORRIA
+            </span>
+          </Link>
+
+          {/* ── Center: Primary Category Links ─────────────────────── */}
           <nav
-            className="flex items-center justify-between h-16 md:h-20"
+            className="hidden lg:flex items-center"
+            style={{ gap: 'clamp(1.5rem, 3vw, 2.5rem)' }}
             aria-label="Primary navigation"
           >
-            {/* Wordmark */}
+            {NAV_LINKS.map(({ label, href }, i) => {
+              const active = isActiveLink(pathname, href)
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={closeMenu}
+                  className={[
+                    'rb-nav-link relative font-light uppercase',
+                    'transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4',
+                    active
+                      ? useWhiteText ? 'text-white' : 'text-[var(--color-graphite)]'
+                      : useWhiteText
+                        ? 'text-white/80 hover:text-white'
+                        : 'text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)]',
+                  ].join(' ')}
+                  style={{
+                    fontSize: '0.8125rem',
+                    letterSpacing: '0.05em',
+                    animationDelay: `${200 + i * 50}ms`,
+                  }}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {label}
+                  {/* Underline draw from left on hover */}
+                  <span
+                    className={[
+                      'rb-nav-underline',
+                      active ? 'opacity-100 scale-x-100' : '',
+                    ].join(' ')}
+                    aria-hidden="true"
+                  />
+                </Link>
+              )
+            })}
+          </nav>
+
+          {/* ── Right: Search + Hamburger ───────────────────────────── */}
+          <div className="flex items-center gap-4 sm:gap-5">
+            {/* Search icon — Red Bull pattern */}
             <Link
-              href="/"
-              className="shrink-0 link-hover"
-              aria-label="Avorria — Home"
-              onClick={closeMenu}
+              href="/lobby?q="
+              aria-label="Search"
+              className={[
+                'hidden sm:flex items-center justify-center w-8 h-8',
+                'transition-opacity duration-200 hover:opacity-70',
+                textColor,
+              ].join(' ')}
             >
-              <AvorriaMark inverted={isDarkChapter && !menuOpen} />
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="11" cy="11" r="7" />
+                <path d="M21 21l-4.35-4.35" />
+              </svg>
             </Link>
 
-            {/* Center: Persistent Desktop Navigation Links */}
-            <div className="hidden lg:flex items-center gap-8">
-              {[
-                { label: 'Work', href: '/work' },
-                { label: 'Services', href: '/services' },
-                { label: 'Process', href: '/process' },
-                { label: 'The Lobby', href: '/lobby' },
-              ].map(({ label, href }) => {
-                const active = isActiveLink(pathname, href)
-                return (
-                  <Link
-                    key={href}
-                    href={href}
-                    onClick={closeMenu}
-                    className={[
-                      'text-[0.6875rem] font-light tracking-[0.06em] uppercase',
-                      'transition-colors duration-[var(--duration-base)] link-hover',
-                      'focus-visible:outline-2 focus-visible:outline-offset-4',
-                      isDarkChapter && !menuOpen
-                        ? active
-                          ? 'text-[var(--color-ivory)]'
-                          : 'text-[var(--color-accent-light)] hover:text-[var(--color-ivory)]'
-                        : active
-                          ? 'text-[var(--color-graphite)]'
-                          : 'text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)]',
-                    ].join(' ')}
-                    aria-current={active ? 'page' : undefined}
-                  >
-                    {label}
-                  </Link>
-                )
-              })}
-            </div>
+            {/* Start a project — subtle text link (not a pill) */}
+            <Link
+              href="/start-a-project"
+              onClick={closeMenu}
+              className={[
+                'hidden md:inline-flex items-center gap-1.5 font-light uppercase tracking-[0.1em] transition-colors duration-200',
+                useWhiteText && !menuOpen
+                  ? 'text-white/80 hover:text-white border border-white/30 hover:border-white/70'
+                  : 'text-[var(--color-graphite-mid)] hover:text-[var(--color-graphite)] border border-[var(--color-border-strong)]',
+              ].join(' ')}
+              style={{
+                fontSize: '0.75rem',
+                padding: '0.5rem 1rem',
+                borderRadius: '2px',
+              }}
+            >
+              Start a Project
+              <span aria-hidden="true">↗</span>
+            </Link>
 
-            {/* Right cluster: Persistent Ghost CTA + hamburger */}
-            <div className="flex items-center gap-4 md:gap-5">
-              <Link
-                href="/start-a-project"
-                onClick={closeMenu}
-                className={[
-                  'hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 md:px-4 md:py-2 text-[0.625rem] md:text-[0.6875rem] font-light tracking-[0.1em] uppercase transition-all duration-[var(--duration-base)] rounded-[var(--radius-sm)] border',
-                  isDarkChapter && !menuOpen
-                    ? 'border-[var(--color-cobalt)] bg-[var(--color-cobalt)] text-white hover:bg-white hover:text-black hover:border-white shadow-[0_0_15px_rgba(49,87,255,0.3)]'
-                    : 'border-[var(--color-border-strong)] text-[var(--color-graphite)] hover:border-[var(--color-cobalt)] hover:text-[var(--color-cobalt)]',
-                ].join(' ')}
-              >
-                <span>Start a Project</span>
-                <span className="text-[0.75rem]" aria-hidden="true">↗</span>
-              </Link>
-
-              {/* Hamburger — precise, no pill, no background */}
-              <button
-                ref={hamburgerRef}
-                type="button"
-                onClick={menuOpen ? closeMenu : openMenu}
-                aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
-                aria-expanded={menuOpen}
-                aria-controls="full-screen-menu"
-                className={[
-                  'text-[1.375rem] font-extralight leading-none',
-                  'transition-colors duration-[var(--duration-base)]',
-                  'w-8 h-8 flex items-center justify-center',
-                  'focus-visible:outline-2 focus-visible:outline-offset-4',
-                  menuOpen
-                    ? 'text-[var(--color-graphite)] opacity-0 pointer-events-none'
-                    : isDarkChapter
-                      ? 'text-[var(--color-ivory)] hover:text-[var(--color-accent-light)]'
-                      : 'text-[var(--color-graphite)] hover:text-[var(--color-rose-text)]',
-                ].join(' ')}
-              >
-                {/* Three-line icon — CSS animated */}
-                <span className="flex flex-col gap-[5px]" aria-hidden="true">
-                  <span className="block w-5 h-px bg-current" />
-                  <span className="block w-5 h-px bg-current" />
-                  <span className="block w-3.5 h-px bg-current self-end" />
-                </span>
-              </button>
-            </div>
-          </nav>
+            {/* Hamburger */}
+            <button
+              ref={hamburgerRef}
+              type="button"
+              onClick={menuOpen ? closeMenu : openMenu}
+              aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
+              aria-expanded={menuOpen}
+              aria-controls="full-screen-menu"
+              className={[
+                'flex flex-col justify-center items-end gap-[5px] w-8 h-8',
+                'transition-colors duration-200 cursor-pointer',
+                menuOpen
+                  ? 'text-[var(--color-graphite)]'
+                  : useWhiteText
+                    ? 'text-white'
+                    : 'text-[var(--color-graphite)]',
+              ].join(' ')}
+            >
+              <span className="block w-5 h-[1.5px] bg-current transition-all duration-300" />
+              <span className="block w-5 h-[1.5px] bg-current transition-all duration-300" />
+              <span
+                className="block h-[1.5px] bg-current transition-all duration-300"
+                style={{ width: menuOpen ? '1.25rem' : '0.875rem' }}
+              />
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* ── Full-Screen Editorial Menu ── */}
+      {/* ── Full-Screen Menu ──────────────────────────────────────────── */}
       <FullScreenMenu
         isOpen={menuOpen}
         onClose={closeMenu}
         triggerRef={hamburgerRef}
       />
     </>
-  )
-}
-
-// ─── SVG Wordmark ─────────────────────────────────────────────────────────────
-function AvorriaMark({ inverted = false }: { inverted?: boolean }) {
-  return (
-    <span className="block">
-      <span
-        className={[
-          'font-display text-[1.0625rem] tracking-[0.2em] font-extralight uppercase leading-none transition-colors duration-200',
-          inverted ? 'text-[var(--color-ivory)]' : 'text-[var(--color-graphite)]',
-        ].join(' ')}
-        aria-label="Avorria"
-      >
-        AVORRIA
-      </span>
-      <span
-        className={[
-          'hidden md:block text-[0.5625rem] tracking-[0.2em] font-light uppercase leading-none mt-0.5 transition-colors duration-200',
-          inverted ? 'text-[var(--color-accent-light)] opacity-70' : 'text-[var(--color-graphite-mid)]',
-        ].join(' ')}
-        aria-hidden="true"
-      >
-        DIGITAL STUDIO
-      </span>
-    </span>
   )
 }
