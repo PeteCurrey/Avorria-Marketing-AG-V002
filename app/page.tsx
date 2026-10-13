@@ -3,6 +3,7 @@ import { Hero } from '@/components/home/Hero'
 import { DisciplineRail } from '@/components/home/DisciplineRail'
 import { StoriesCarousel } from '@/components/home/StoriesCarousel'
 import { DeploymentsList } from '@/components/home/DeploymentsList'
+import { EditorialGrid } from '@/components/home/EditorialGrid'
 import { FinalCta } from '@/components/home/FinalCta'
 import { siteConfig } from '@/content/config/site'
 
@@ -22,31 +23,35 @@ export const metadata: Metadata = {
 }
 
 /**
- * HomePage — Red Bull Faithful Structural Duplication
+ * HomePage — Red Bull Digital Platform Exact Structural & Animated Duplicate
  *
- * Exact Red Bull homepage section order (confirmed from redbull.com/gb-en, 12 Oct 2026):
- *   1. Hero          → ONE full-bleed story, bottom-anchored content, Ken Burns
- *   2. Disciplines   → Horizontal snap rail (Red Bull "Energy Drinks" section)
- *   3. Stories       → Horizontal card carousel + circular arrows (Red Bull "Stories")
- *   4. Deployments   → Row list + status badges (Red Bull "Events" section)
- *   5. Final CTA     → Dark commission chapter (Red Bull-style dark footer module)
+ * Sequence:
+ * 1. Panoptikum Hero Stage (100vh Full-Bleed Media, Ken Burns Zoom, Pill CTA, Progress Indicator)
+ * 2. Discipline / Product Rail (Feed Cards Rail Scroller, Edition Numeral, Dynamic Scroll Track)
+ * 3. Stories Feed Carousel (Cosmos Story Cards, Circular Arrow Navigation, Reading Time Badges)
+ * 4. Events & Deployments Shelf (Calendar Layout, Filter Tabs, Live Radar Pulsing Badges)
+ * 5. Red Bulletin Editorial Bento Grid (1 Major Lead + 2 Stacked Companion Cards)
+ * 6. Monumental Closing Intake Chapter (High-Contrast Cobalt & Pure White CTAs)
  */
 export default function HomePage() {
   return (
     <>
-      {/* 1. Single full-bleed hero story — ONE story, bottom-left content */}
+      {/* 1. Panoptikum Flagship Hero Stage */}
       <Hero />
 
-      {/* 2. Disciplines horizontal snap rail — Red Bull "Energy Drinks" pattern */}
+      {/* 2. Product / Discipline Rail (Red Bull Energy Drinks Shelf) */}
       <DisciplineRail />
 
-      {/* 3. Stories horizontal card carousel — Red Bull "Stories" pattern */}
+      {/* 3. Stories Carousel (Red Bull Stories Shelf with Arrow Nav) */}
       <StoriesCarousel />
 
-      {/* 4. Recent deployments row list — Red Bull "Events" pattern */}
+      {/* 4. Events & Deployments Shelf (Red Bull Events Calendar Layout) */}
       <DeploymentsList />
 
-      {/* 5. Final commission chapter */}
+      {/* 5. Editorial Bento Grid (Red Bull Bulletin Magazine Feed) */}
+      <EditorialGrid />
+
+      {/* 6. Commission Intake Chapter */}
       <FinalCta />
     </>
   )

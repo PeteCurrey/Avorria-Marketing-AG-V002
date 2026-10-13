@@ -49,6 +49,13 @@
   --color-wine:           #4A1F27;   /* Wine chapter */
   --color-petrol:         #17353A;   /* Petrol chapter */
 
+  /* Red Bull Midnight Foundation */
+  --color-rb-bg:          #000F1E;   /* Red Bull Dark Midnight Obsidian */
+  --color-rb-navy:        #00162B;   /* Deep Navy Card Surface */
+  --color-rb-slate:       #001C39;   /* Navy Slate Elevated Card Surface */
+  --color-rb-panel:       #002447;   /* Panel Slate / Border Highlight */
+  --color-rb-red:         #DB0A40;   /* Red Bull Crimson Highlight */
+
   /* Legacy aliases retained for backward-compat */
   --color-ivory-tint:     #E8E5DE;
   --color-cobalt-light:   #EBF0FF;
@@ -214,8 +221,8 @@
   }
 
   body {
-    background-color: var(--color-ivory);   /* warm #F6F4EF — not pure white */
-    color: var(--color-graphite);
+    background-color: var(--color-rb-bg, #000F1E);
+    color: #FFFFFF;
     font-family: var(--font-sans);
     font-weight: 300;
     font-size: var(--text-body);
@@ -495,12 +502,13 @@
     position: fixed;
     top: 0;
     left: 0;
-    height: 2px;
+    height: 3px;
     width: 100%;
-    z-index: 50;
+    z-index: 100;
     transform-origin: 0 50%;
     transform: scaleX(0);
-    background-color: var(--rose);
+    background-color: var(--color-cobalt, #3157FF);
+    box-shadow: 0 0 12px rgba(49, 87, 255, 0.6);
     pointer-events: none;
   }
 
@@ -1464,9 +1472,9 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 1.5px solid var(--color-border-strong);
-    background-color: transparent;
-    color: var(--color-graphite);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #FFFFFF;
     font-size: 1rem;
     cursor: pointer;
     transition:
@@ -1477,14 +1485,14 @@
   }
 
   .rb-arrow-btn:hover {
-    background-color: var(--color-graphite);
-    color: var(--color-ivory);
-    border-color: var(--color-graphite);
+    background-color: var(--color-cobalt, #3157FF);
+    color: #FFFFFF;
+    border-color: var(--color-cobalt, #3157FF);
     transform: scale(1.08);
   }
 
   .rb-arrow-btn:disabled {
-    opacity: 0.3;
+    opacity: 0.25;
     cursor: not-allowed;
     transform: none;
   }
@@ -1492,21 +1500,162 @@
   /* ── Deployment row left-padding slide on hover ── */
   .rb-deployment-row {
     padding-left: 0;
-    transition: padding-left 350ms cubic-bezier(0.25, 1, 0.5, 1);
+    transition: padding-left 350ms cubic-bezier(0.25, 1, 0.5, 1),
+                background-color 250ms ease;
   }
 
   .rb-deployment-row:hover {
     padding-left: 1rem;
+    background-color: rgba(255, 255, 255, 0.02);
   }
 
-  /* ── LIVE badge pulsing dot ── */
-  .rb-live-dot {
-    animation: livePulse 2s ease-in-out infinite;
+  /* ── LIVE badge pulsing radar dot ── */
+  .cosmos-live-icon-animated {
+    display: inline-block;
+    position: relative;
+    width: 8px;
+    height: 8px;
   }
 
-  @keyframes livePulse {
-    0%, 100% { opacity: 0.8; transform: scale(1); }
-    50%       { opacity: 0.4; transform: scale(0.75); }
+  .cosmos-live-icon-animated__dot {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-color: currentColor;
+  }
+
+  .cosmos-live-icon-animated::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background-color: currentColor;
+    opacity: 0.4;
+    animation: livePulseRadar 1.5s infinite cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  @keyframes livePulseRadar {
+    0% { transform: scale(0.6); opacity: 0.8; }
+    100% { transform: scale(2); opacity: 0; }
+  }
+
+  /* ── Red Bull Floating Capsule Pill Navigation ── */
+  .header-navigation-links {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background-color: rgba(0, 15, 30, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    padding: 4px;
+    gap: 2px;
+  }
+
+  .header-navigation-links__item {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.8125rem;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 9999px;
+    position: relative;
+    transition: color 200ms ease, background-color 250ms cubic-bezier(0.35, 0, 0, 1);
+  }
+
+  .header-navigation-links__item:hover {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .header-navigation-links__item--active {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .header-navigation-links__item--active::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 18px;
+    right: 18px;
+    height: 2px;
+    background-color: var(--color-cobalt, #3157FF);
+    border-radius: 9999px;
+  }
+
+  /* ── Red Bull Pill Buttons ── */
+  .rb-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 250ms cubic-bezier(0.35, 0, 0, 1);
+  }
+
+  .rb-pill-btn-primary {
+    background-color: #FFFFFF;
+    color: #000F1E;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  }
+
+  .rb-pill-btn-primary:hover {
+    background-color: var(--color-cobalt, #3157FF);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(49, 87, 255, 0.4);
+  }
+
+  .rb-pill-btn-tertiary {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .rb-pill-btn-tertiary:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+    color: #FFFFFF;
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  /* ── Red Bull Panel Caption Header ── */
+  .panel-caption-rbx {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .panel-caption-rbx__title {
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+  }
+
+  /* ── Red Bull Scroll Indicators ── */
+  .rb-scroll-indicator {
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 9999px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .rb-scroll-indicator__bar {
+    height: 100%;
+    background-color: var(--color-cobalt, #3157FF);
+    border-radius: 9999px;
+    transition: width 150ms ease-out;
   }
 
   /* ── Reduced motion: strip all Red Bull animations ── */
@@ -1526,12 +1675,10 @@
     .rb-story-card,
     .rb-arrow-btn,
     .rb-deployment-row,
-    .rb-nav-underline {
+    .rb-nav-underline,
+    .cosmos-live-icon-animated::before {
       transition: none !important;
       transform: none !important;
-    }
-
-    .rb-live-dot {
       animation: none !important;
     }
   }

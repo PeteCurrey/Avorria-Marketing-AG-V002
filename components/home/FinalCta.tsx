@@ -1,94 +1,85 @@
 'use client'
 
-/**
- * FinalCta — Chapter 08: Wine Chapter (#4A1F27)
- *
- * Immersive deep Wine chapter grounding the homepage with quiet confidence.
- * Monumental typography in Ivory, Rose Light emphasis, Rose architectural hairline.
- */
-
-import { Button } from '@/components/ui/Button'
+import Link from 'next/link'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 
+/**
+ * FinalCta — Red Bull Dark Platform Commission Chapter
+ *
+ * Immersive deep navy/obsidian closing chapter with monumental typography,
+ * pill action triggers, and verified performance guarantees.
+ */
 export function FinalCta() {
   return (
     <section
-      className="relative min-h-[85vh] flex items-center overflow-hidden"
-      style={{ backgroundColor: 'var(--color-wine)', color: 'var(--color-ivory)' }}
-      data-chapter="wine"
+      className="relative min-h-[85vh] flex items-center overflow-hidden bg-[#000F1E] border-t border-white/10 text-white"
+      data-chapter="hero"
       aria-labelledby="final-cta-heading"
     >
-      {/* ── Monumental Editorial Typography: "BUILD" watermark ── */}
+      {/* ── Monumental Watermark Typography: "AVORRIA" ── */}
       <div
-        className="absolute bottom-4 right-[4vw] pointer-events-none select-none text-[clamp(9rem,24vw,22rem)] font-extralight italic text-white/[0.04] leading-none tracking-tight"
+        className="absolute bottom-4 right-[4vw] pointer-events-none select-none text-[clamp(8rem,22vw,20rem)] font-extralight uppercase text-white/[0.03] leading-none tracking-tight"
         aria-hidden="true"
       >
-        BUILD
+        AVORRIA
       </div>
 
-      <div className="relative z-10 w-full px-6 md:px-10 lg:px-[7vw] py-24 lg:py-32">
+      <div
+        className="relative z-10 w-full mx-auto max-w-[1920px] py-24 lg:py-32"
+        style={{ paddingInline: 'clamp(1.25rem, 5vw, 5rem)' }}
+      >
         <RevealOnScroll>
           <div className="max-w-4xl">
-            {/* Eyebrow */}
+            {/* Eyebrow with Cobalt Pill */}
             <div className="flex items-center gap-3 mb-6">
-              <span
-                className="w-1.5 h-1.5 rounded-full"
-                style={{ backgroundColor: 'var(--color-accent)' }}
-                aria-hidden="true"
-              />
-              <p className="text-[0.6875rem] tracking-[0.22em] uppercase font-light text-[var(--color-accent-light)] opacity-80">
-                AVORRIA COMMISSIONS · INTAKE OPEN
+              <span className="w-2 h-2 rounded-full bg-[var(--color-cobalt, #3157FF)]" aria-hidden="true" />
+              <p className="text-[0.6875rem] tracking-[0.2em] uppercase font-light text-white/60">
+                AVORRIA COMMISSIONS · ACTIVE INTAKE
               </p>
             </div>
-
-            {/* Rose architectural accent rule */}
-            <div
-              className="w-20 h-[2px] mb-8"
-              style={{ backgroundColor: 'var(--color-accent)' }}
-              aria-hidden="true"
-            />
 
             {/* Monumental Headline */}
             <h2
               id="final-cta-heading"
-              className="font-extralight leading-[1.02] tracking-[-0.03em] text-[clamp(2.75rem,7vw,7.5rem)] mb-8"
-              style={{ color: 'var(--color-ivory)' }}
+              className="font-extralight leading-[1.0] tracking-[-0.035em] text-[clamp(2.75rem,7vw,7rem)] uppercase mb-6"
             >
               Have something worth{' '}
-              <em className="not-italic italic font-extralight" style={{ color: 'var(--color-accent-light)' }}>
+              <span className="text-[var(--color-cobalt, #3157FF)]">
                 building?
-              </em>
+              </span>
             </h2>
 
             {/* Supporting Copy */}
-            <p className="text-lg md:text-xl font-light max-w-2xl mb-12 leading-relaxed" style={{ color: 'var(--color-ivory)', opacity: 0.8 }}>
-              We partner with ambitious enterprises and founders who require bespoke digital flagships,
-              low-latency web systems, and server-side intelligence engineered to exacting tolerances.
+            <p className="text-base sm:text-xl font-light text-white/70 max-w-2xl mb-10 leading-relaxed">
+              We partner with forward-looking enterprises and founders who require custom digital flagships, high-frequency web systems, and autonomous AI pipelines engineered to exacting tolerances.
             </p>
 
-            {/* CTAs */}
+            {/* Red Bull Pill CTAs */}
             <div className="flex flex-wrap gap-4 items-center">
-              <Button as="link" href="/start-a-project" variant="primary" size="lg" className="!bg-[var(--color-ivory)] !text-[var(--color-graphite)] hover:!bg-white">
-                Start a project <span className="btn-arrow" aria-hidden="true">↗</span>
-              </Button>
-              <Button
-                as="link"
-                href="/contact"
-                variant="secondary"
-                size="lg"
-                className="btn-dark-outline"
+              <Link
+                href="/start-a-project"
+                className="rb-pill-btn rb-pill-btn-primary"
+                style={{ padding: '0.75rem 1.8rem', fontSize: '0.875rem' }}
               >
-                Direct studio channel
-              </Button>
+                Start a Project
+                <span aria-hidden="true">→</span>
+              </Link>
+
+              <Link
+                href="/contact"
+                className="rb-pill-btn rb-pill-btn-tertiary"
+                style={{ padding: '0.75rem 1.6rem', fontSize: '0.875rem' }}
+              >
+                Contact Studio
+              </Link>
             </div>
 
-            {/* Architectural Footer Bar */}
+            {/* Bottom Proof Band */}
             <div
-              className="mt-20 pt-8 flex flex-wrap items-center justify-between gap-6 text-[10px] tracking-[0.2em] uppercase font-light"
-              style={{ borderTop: '1px solid rgba(247,245,240,0.15)', color: 'var(--color-ivory)', opacity: 0.6 }}
+              className="mt-16 pt-8 flex flex-wrap items-center justify-between gap-6 text-[0.6875rem] tracking-[0.16em] uppercase font-light text-white/40 border-t border-white/10"
             >
               <div className="flex items-center gap-4">
-                <span>AVORRIA DIGITAL STUDIO</span>
+                <span>AVORRIA DIGITAL PLATFORM</span>
                 <span>·</span>
                 <span>LONDON &amp; GLOBAL</span>
               </div>
